@@ -115,8 +115,6 @@ UBYTE Save_TIFF_file(char *filename)
 
 	fclose(fp);
 	free(rgbScreen);
-	[tiffRep release];
-	[bitmapRep release];
 	
 	return TRUE;
 }

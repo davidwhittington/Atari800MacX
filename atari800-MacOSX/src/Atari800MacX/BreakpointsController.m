@@ -31,14 +31,13 @@ static BreakpointsController *sharedInstance = nil;
 
 - (id)init {
     if (sharedInstance) {
-		[self dealloc];
-    } else {
-        [super init];
-        sharedInstance = self;
-	}
-	dirty = YES;
-	breakpoints = nil;
-	
+        return sharedInstance;
+    }
+    self = [super init];
+    if (!self) return nil;
+    sharedInstance = self;
+    dirty = YES;
+    breakpoints = nil;
     return sharedInstance;
 }
 
@@ -85,10 +84,7 @@ static BreakpointsController *sharedInstance = nil;
 		return;
 	}
 	
-	if (breakpoints != nil)
-		[breakpoints release];
 	breakpoints = [NSMutableArray arrayWithCapacity:40];
-	[breakpoints retain];
 	if (MONITOR_breakpoint_table_size == 0) {
 		dirty = NO;
 		[disDataSource updateBreakpoints];

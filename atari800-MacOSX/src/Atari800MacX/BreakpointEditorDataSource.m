@@ -52,7 +52,6 @@ static MONITOR_breakpoint_cond newCond =
 {
 	myBreakpoint = nil;
 	newCondition = [[BreakpointCondition alloc] initWithBreakpointCondition:&newCond];
-	[newCondition retain];
 	
 	return self;
 }
@@ -473,10 +472,7 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 {
 	MONITOR_breakpoint_cond *cond;
 	
-	if (myBreakpoint != nil)
-		[myBreakpoint release];
 	myBreakpoint = [theBreakpoint copy];
-	[myBreakpoint retain];
 	
 	// Get the last condition
 	cond = [[myBreakpoint conditionAtIndex:([myBreakpoint conditionCount]-1)] getCondition];
@@ -490,7 +486,6 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 -(void) addCondition
 {
     BreakpointCondition *addedCondition = [newCondition copy];
-    [newCondition retain];
 	[myBreakpoint addCondition:addedCondition atIndex:editableConditionCount];
 	editableConditionCount++;
 	[(ControlManager *)owner reloadBreakpointEditor];	

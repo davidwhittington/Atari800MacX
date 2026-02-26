@@ -14,7 +14,6 @@
 	BreakpointCondition *theBreakpoint;
 	
 	theBreakpoint = [[self alloc] initWithConditionIndex:index];
-	[theBreakpoint autorelease];
 	return(theBreakpoint);
 }
 
@@ -37,9 +36,9 @@
 	return(&cond);
 }
 
--(id) copyWithZone:(NSZone *)zone 
+-(id) copyWithZone:(NSZone *)zone
 {
-	BreakpointCondition *copyCond = [[[self class] allocWithZone:zone] initWithBreakpointCondition:[self getCondition]];
+	BreakpointCondition *copyCond = [[BreakpointCondition alloc] initWithBreakpointCondition:[self getCondition]];
 	return copyCond;
 }
 

@@ -9,6 +9,7 @@
 */
 #import <Cocoa/Cocoa.h>
 #import <SDL.h>
+#import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 #import "Preferences.h"
 #import "MediaManager.h"
 #import "ControlManager.h"
@@ -692,34 +693,30 @@ static Preferences *sharedInstance = nil;
 *-----------------------------------------------------------------------------*/
 - (id)init {
     if (sharedInstance) {
-	[self dealloc];
-    } else {
-        [super init];
-        curValues = [[[self class] preferencesFromDefaults] copyWithZone:[self zone]];
-        origValues = [curValues retain];
-        [self transferValuesToEmulator];
-        [self transferValuesToAtari825];
-        [self transferValuesToAtari1020];
-        [self transferValuesToAtascii];
-        [self transferValuesToEpson];
-        commitPrefs();
-        [self discardDisplayedValues];
-        sharedInstance = self;
-		modems = [NSMutableArray array];
-		[modems retain];
-        [[PasteManager sharedInstance] setEscapeCopy:[[curValues objectForKey:EscapeCopy] boolValue]];
-        [[PasteManager sharedInstance] setStartupPasteEnabled:[[curValues objectForKey:StartupPasteEnable] boolValue]];
-        [[PasteManager sharedInstance] setStartupPasteString:[curValues objectForKey:StartupPasteString]];
+        return sharedInstance;
     }
+    self = [super init];
+    if (!self) return nil;
+    curValues = [[[self class] preferencesFromDefaults] copy];
+    origValues = curValues;
+    [self transferValuesToEmulator];
+    [self transferValuesToAtari825];
+    [self transferValuesToAtari1020];
+    [self transferValuesToAtascii];
+    [self transferValuesToEpson];
+    commitPrefs();
+    [self discardDisplayedValues];
+    sharedInstance = self;
+    modems = [NSMutableArray array];
+    [[PasteManager sharedInstance] setEscapeCopy:[[curValues objectForKey:EscapeCopy] boolValue]];
+    [[PasteManager sharedInstance] setStartupPasteEnabled:[[curValues objectForKey:StartupPasteEnable] boolValue]];
+    [[PasteManager sharedInstance] setStartupPasteString:[curValues objectForKey:StartupPasteString]];
     return sharedInstance;
 }
 
 /*------------------------------------------------------------------------------
 *  Destructor
 *-----------------------------------------------------------------------------*/
-- (void)dealloc {
-	[super dealloc];
-}
 
 /*------------------------------------------------------------------------------
 * preferences - Method to return pointer to current preferences.
@@ -772,7 +769,6 @@ static Preferences *sharedInstance = nil;
         [atasciiFontDropdown removeAllItems];
         [atasciiFontDropdown addItemsWithTitles:filteredFonts];
         }
-    [top retain];
 	[[prefTabView window] setExcludedFromWindowsMenu:YES];
 	[[prefTabView window] setMenu:nil];
 	[[gamepadButton1 window] setExcludedFromWindowsMenu:YES];
@@ -3114,7 +3110,8 @@ static Preferences *sharedInstance = nil;
     
     savePanel = [NSSavePanel savePanel];
     
-    [savePanel setAllowedFileTypes:[NSArray arrayWithObject:type]];
+    UTType *utType = [UTType typeWithFilenameExtension:type];
+    if (utType) savePanel.allowedContentTypes = @[utType];
     [savePanel setDirectoryURL:[NSURL fileURLWithPath:directory]];
     if ([savePanel runModal] == NSModalResponseOK)
         return([[savePanel URL] path]);
@@ -3148,7 +3145,6 @@ static Preferences *sharedInstance = nil;
         [paletteField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
     }
 
 - (void)browseImage:(id)sender {
@@ -3270,7 +3266,6 @@ static Preferences *sharedInstance = nil;
         [af80RomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
     }
 
 - (IBAction)browseAF80CharsetRom:(id)sender {
@@ -3282,7 +3277,6 @@ static Preferences *sharedInstance = nil;
         [af80CharsetRomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
 }
 
 - (IBAction)browseBit3Rom:(id)sender {
@@ -3294,7 +3288,6 @@ static Preferences *sharedInstance = nil;
         [bit3RomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
     }
 
 - (IBAction)browseBit3CharsetRom:(id)sender {
@@ -3306,7 +3299,6 @@ static Preferences *sharedInstance = nil;
         [bit3CharsetRomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
 }
 
 - (IBAction)identifyRom:(id)sender {
@@ -3383,7 +3375,6 @@ static Preferences *sharedInstance = nil;
         [osBRomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
     }
     
 - (void)browseXlRom:(id)sender {
@@ -3395,7 +3386,6 @@ static Preferences *sharedInstance = nil;
         [xlRomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
     }
     
 - (void)browse1200XLRom:(id)sender {
@@ -3407,7 +3397,6 @@ static Preferences *sharedInstance = nil;
         [a1200xlRomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
     }
 
 - (void)browseXEGSRom:(id)sender {
@@ -3419,7 +3408,6 @@ static Preferences *sharedInstance = nil;
         [xegsRomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
     }
 
 - (void)browseXEGSGameRom:(id)sender {
@@ -3431,7 +3419,6 @@ static Preferences *sharedInstance = nil;
         [xegsGameRomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
     }
 
 - (void)browseBasicRom:(id)sender {
@@ -3443,7 +3430,6 @@ static Preferences *sharedInstance = nil;
         [basicRomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
     }
     
 - (void)browse5200Rom:(id)sender {
@@ -3455,7 +3441,6 @@ static Preferences *sharedInstance = nil;
         [a5200RomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
     }
 
 - (void)browseMioRom:(id)sender {
@@ -3467,7 +3452,6 @@ static Preferences *sharedInstance = nil;
         [mioRomFileField setStringValue:filename];
         [self miscChanged:self];
     }
-    [dir release];
 }
 
 - (void)browseUltimate1MBFlash:(id)sender {
@@ -3479,7 +3463,6 @@ static Preferences *sharedInstance = nil;
         [ultimate1MBFlashFileField setStringValue:filename];
         [self miscChanged:self];
     }
-    [dir release];
 }
 
 - (void)browseSide2Flash:(id)sender {
@@ -3491,7 +3474,6 @@ static Preferences *sharedInstance = nil;
         [side2FlashFileField setStringValue:filename];
         [self miscChanged:self];
     }
-    [dir release];
 }
 
 - (void)browseSide2CF:(id)sender {
@@ -3503,7 +3485,6 @@ static Preferences *sharedInstance = nil;
         [side2CFFileField setStringValue:filename];
         [self miscChanged:self];
     }
-    [dir release];
 }
 
 - (void)browseBlackBoxRom:(id)sender {
@@ -3515,7 +3496,6 @@ static Preferences *sharedInstance = nil;
         [blackBoxRomFileField setStringValue:filename];
         [self miscChanged:self];
 	}
-    [dir release];
 }
 
 - (void)browseBlackBoxScsiDiskFile:(id)sender {
@@ -3527,7 +3507,6 @@ static Preferences *sharedInstance = nil;
         [blackBoxScsiDiskFileField setStringValue:filename];
         [self miscChanged:self];
 	}
-    [dir release];
 }
 
 - (void)browseMioScsiDiskFile:(id)sender {
@@ -3539,7 +3518,6 @@ static Preferences *sharedInstance = nil;
         [mioScsiDiskFileField setStringValue:filename];
         [self miscChanged:self];
 	}
-    [dir release];
 }
 /* The following methods allow the user to choose the default directories
     for files */
@@ -3754,15 +3732,13 @@ static Preferences *sharedInstance = nil;
 
 - (void)commitDisplayedValues {
     if (curValues != displayedValues) {
-        [curValues release];
-        curValues = [displayedValues copyWithZone:[self zone]];
+        curValues = [displayedValues copy];
     }
 }
 
 - (void)discardDisplayedValues {
     if (curValues != displayedValues) {
-        [displayedValues release];
-        displayedValues = [curValues mutableCopyWithZone:[self zone]];
+        displayedValues = [curValues mutableCopy];
         [self updateUI];
     }
 }
@@ -4543,8 +4519,8 @@ static Preferences *sharedInstance = nil;
 - (void)revertToDefault:(id)sender {
     NSMutableArray *configArray;
     
-    configArray = [[curValues objectForKey:GamepadConfigArray] mutableCopyWithZone:[self zone]];
-    curValues = [defaultValues() mutableCopyWithZone:[self zone]];
+    configArray = [[curValues objectForKey:GamepadConfigArray] mutableCopy];
+    curValues = [defaultValues() mutableCopy];
     [curValues setObject:configArray forKey:GamepadConfigArray];
     
     [self discardDisplayedValues];
@@ -4738,9 +4714,9 @@ static Preferences *sharedInstance = nil;
             button5200Key = [Button5200AssignmentPrefix stringByAppendingString:
                 [displayedValues objectForKey:GamepadConfigCurrent]];
             [displayedValues setObject:[[[NSUserDefaults standardUserDefaults] objectForKey:buttonKey] 
-                mutableCopyWithZone:[self zone]] forKey:ButtonAssignment];
+                mutableCopy] forKey:ButtonAssignment];
             [displayedValues setObject:[[[NSUserDefaults standardUserDefaults] objectForKey:button5200Key]
-                mutableCopyWithZone:[self zone]] forKey:Button5200Assignment];
+                mutableCopy] forKey:Button5200Assignment];
             }
         }
     else {
@@ -4751,9 +4727,9 @@ static Preferences *sharedInstance = nil;
         buttonKey = [ButtonAssignmentPrefix stringByAppendingString:[gamepadConfigPulldown itemTitleAtIndex:action]];
         button5200Key = [Button5200AssignmentPrefix stringByAppendingString:[gamepadConfigPulldown itemTitleAtIndex:action]];
         [displayedValues setObject:[[[NSUserDefaults standardUserDefaults] objectForKey:buttonKey] 
-            mutableCopyWithZone:[self zone]] forKey:ButtonAssignment];
+            mutableCopy] forKey:ButtonAssignment];
         [displayedValues setObject:[[[NSUserDefaults standardUserDefaults] objectForKey:button5200Key]
-            mutableCopyWithZone:[self zone]] forKey:Button5200Assignment];
+            mutableCopy] forKey:Button5200Assignment];
         }
     
     /* Set the menu to the selected configuration */
@@ -4844,7 +4820,6 @@ static Preferences *sharedInstance = nil;
                 NSBeep();
                 return;
         }
-        [top retain];
     }
 
     gamepadButtons[0] = gamepadButton1;
@@ -5298,7 +5273,7 @@ static Preferences *sharedInstance = nil;
       
 #define getArrayDefault(name) \
   {id obj = [defaults objectForKey:name]; \
-      [dict setObject:obj ? [NSMutableArray arrayWithArray:[defaults arrayForKey:name]] : [[defaultValues() objectForKey:name] mutableCopyWithZone:[self zone]] forKey:name];}
+      [dict setObject:obj ? [NSMutableArray arrayWithArray:[defaults arrayForKey:name]] : [[defaultValues() objectForKey:name] mutableCopy] forKey:name];}
       
 /* Read prefs from system defaults */
 + (NSDictionary *)preferencesFromDefaults {
@@ -6193,14 +6168,12 @@ static Preferences *sharedInstance = nil;
     xmlData = [NSPropertyListSerialization dataWithPropertyList:dict
         format:NSPropertyListXMLFormat_v1_0 options:0
                                            error:&error];
-	[dict release];
 	
 	if(xmlData) {
 		[xmlData writeToFile:filename atomically:YES];
 	}
 	else {
 		NSLog(@"%@",error);
-		[error release];
 	}
 }
 
@@ -6239,7 +6212,9 @@ static Preferences *sharedInstance = nil;
 	[openPanel setCanChooseDirectories:NO];
 	[openPanel setCanChooseFiles:YES];
     [openPanel setDirectoryURL:[NSURL fileURLWithPath:[NSString stringWithCString:atari_config_dir encoding:NSUTF8StringEncoding]]];
-    [openPanel setAllowedFileTypes:[NSArray arrayWithObjects:@"a8c",@"A8C",nil]];
+    // .a8c is a custom Atari 800 config type; UTType resolves it by extension (case-insensitive).
+    UTType *a8cType = [UTType typeWithFilenameExtension:@"a8c"];
+    if (a8cType) openPanel.allowedContentTypes = @[a8cType];
 
 	if ([openPanel runModal] != NSModalResponseOK) { 
 		[[KeyMapper sharedInstance] releaseCmdKeys:@"l"];
@@ -6304,7 +6279,6 @@ static Preferences *sharedInstance = nil;
         error:&error];
 	if(!configDict){
 		NSLog(@"%@",error);
-		[error release];
 		return;
 	}
 
@@ -6592,9 +6566,7 @@ static Preferences *sharedInstance = nil;
     getConfig(FunctionKeysY);
     getConfig(ApplicationWindowX);
     getConfig(ApplicationWindowY);
-
-	[curValues release];
-	curValues = [dict mutableCopyWithZone:[self zone]];
+	curValues = [dict mutableCopy];
 	[self discardDisplayedValues];
 }
 

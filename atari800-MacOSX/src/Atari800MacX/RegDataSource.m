@@ -24,17 +24,13 @@
 	blackDict =[NSDictionary dictionaryWithObjectsAndKeys:
 				black, NSForegroundColorAttributeName,
 				nil];
-	[blackDict retain];
 	redDict =[NSDictionary dictionaryWithObjectsAndKeys:
 			  red, NSForegroundColorAttributeName,
               white, NSBackgroundColorAttributeName,
 			  nil];
-	[redDict retain];
-	
+
 	nameStrings = [NSMutableArray arrayWithCapacity:regCount];
-	[nameStrings retain];
 	regStrings = [NSMutableArray arrayWithCapacity:regCount];
-	[regStrings retain];
 	for (i=0;i<regCount;i++) {
 		// Note, because this uses regDefs to populate the data, it is
 		//  a "virtual" class, and must be subclassed.

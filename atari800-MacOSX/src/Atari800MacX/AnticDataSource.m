@@ -65,9 +65,7 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 		}
 		
 		theAttributeString = [[NSAttributedString alloc] initWithString:theString attributes:theDict];
-		[theAttributeString autorelease];
-		
-		if (callCount % 2 == 1) {
+			if (callCount % 2 == 1) {
 			oldYpos = ANTIC_ypos;
 		}
 		callCount++;
@@ -80,9 +78,8 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 		} else {
 			theDict = redDict;
 		}
-		
+
 		theAttributeString = [[NSAttributedString alloc] initWithString:theString attributes:theDict];
-		[theAttributeString autorelease];
 		
 		if (callCount % 2 == 1) {
 			oldYpos = ANTIC_ypos;

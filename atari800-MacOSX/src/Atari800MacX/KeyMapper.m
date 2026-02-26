@@ -23,15 +23,22 @@ static KeyMapper *sharedInstance = nil;
     int world = 128; // TBD SDLK_WORLD_0;
 
     if (sharedInstance) {
-	    [self dealloc];
-    } else {
-        [super init];
-        sharedInstance = self;
+        return sharedInstance;
+    }
+    self = [super init];
+    if (!self) return nil;
+    sharedInstance = self;
+    {
 		
 		for ( i=0; i<128; ++i )
 			keymap[i] = SDLK_UNKNOWN;
 		
-        TISInputSourceRef src = TISCopyCurrentKeyboardLayoutInputSource();
+        // Guard against macOS 15+ where Carbon.framework (and HIToolbox TIS APIs)
+        // may be absent. If the symbol is NULL the keymap stays all SDLK_UNKNOWN.
+        TISInputSourceRef src =
+            (TISCopyCurrentKeyboardLayoutInputSource != NULL)
+            ? TISCopyCurrentKeyboardLayoutInputSource()
+            : NULL;
         if (src != NULL) {
             CFDataRef data = (CFDataRef)
                 TISGetInputSourceProperty(src,

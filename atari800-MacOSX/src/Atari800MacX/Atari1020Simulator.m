@@ -200,15 +200,13 @@ static int interFontTemplates[26][25][3] =
 
 - (id)init {
     if (sharedInstance) {
-		[self dealloc];
-    } else {
-        [super init];
-	}
-	
+        return sharedInstance;
+    }
+    self = [super init];
+    if (!self) return nil;
     sharedInstance = self;
-	
-	printPath = [[PrintablePath alloc] init];
-    [printPath retain];
+
+    printPath = [[PrintablePath alloc] init];
 			
     return sharedInstance;
 }
@@ -332,9 +330,6 @@ static int interFontTemplates[26][25][3] =
 	[printableChar setColor:colors[color]];
 	
 	[[PrintOutputController sharedInstance] addToPrintArray:printableChar];
-	[printableChar release];
-	[newChar release];
-	[transform release];
 	
 	if (state == ATARI1020_TEXT_IDLE)
 		horizPosition += 6*(charSize+1)*POINTS_PER_STEP;
@@ -1169,10 +1164,6 @@ static int interFontTemplates[26][25][3] =
 	leftMargin = 0.0 + ATARI1020_LEFT_PRINT_EDGE;
 	horizPosition = leftMargin;
 	
-	for (i=0;i<4;i++)
-		if (colors[i] != nil)
-			[colors[i] release];
-		
 	colors[0] = [NSColor colorWithCalibratedRed:prefs1020.pen1Red
 						 green:prefs1020.pen1Green
 						 blue:prefs1020.pen1Blue
@@ -1190,9 +1181,6 @@ static int interFontTemplates[26][25][3] =
 						 blue:prefs1020.pen4Blue
 						 alpha:prefs1020.pen4Alpha];
 
-	for (i=0;i<4;i++)
-		[colors[i] retain];
-						 
 	for (i=0;i<16;i++)
 		{
 		lineTypes[i][0] = i * POINTS_PER_STEP;
@@ -1206,8 +1194,6 @@ static int interFontTemplates[26][25][3] =
 	
 	for (i=0;i<96;i++)
 		{
-		if (fontPaths[i] != nil)
-			[fontPaths[i] release];
 		fontPaths[i] = [[PrintablePath alloc] init];
 		numStrokes = fontTemplates[i][0][0];
 		strokePoint = NSMakePoint(0,0);
@@ -1230,8 +1216,6 @@ static int interFontTemplates[26][25][3] =
 
 	for (i=0;i<26;i++)
 		{
-		if (interFontPaths[i] != nil)
-			[interFontPaths[i] release];
 		interFontPaths[i] = [[PrintablePath alloc] init];
 		numStrokes = interFontTemplates[i][0][0];
 		strokePoint = NSMakePoint(0,0);
@@ -1278,13 +1262,11 @@ static int interFontTemplates[26][25][3] =
 		[printPath setLineDash:lineTypes[lineType] count:2 phase:0.0];
 	[printPath setColor:colors[color]];
 	[[PrintOutputController sharedInstance] addToPrintArray:printPath];
-	[printPath release];
 	printPath = [[PrintablePath alloc] init];
 }
 
 -(void)clearPrintPath
 {
-	[printPath release];
 	printPath = [[PrintablePath alloc] init];
 }
 

@@ -10,6 +10,7 @@
 
 */
 #import <Cocoa/Cocoa.h>
+#import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 #import "afile.h"
 #import "atari.h"
 #import "atrUtil.h"
@@ -233,20 +234,21 @@ NSImage *disketteImage;
 - (id)init {
     NSArray *top;
     if (sharedInstance) {
-	[self dealloc];
-    } else {
-        [super init];
-		[Preferences sharedInstance];
-        sharedInstance = self;
+        return sharedInstance;
+    }
+    self = [super init];
+    if (!self) return nil;
+    [Preferences sharedInstance];
+    sharedInstance = self;
+    {
         /* load the nib and all the windows */
         if (!d1DiskField) {
-				if (![[NSBundle mainBundle] loadNibNamed:@"MediaManager" owner:self topLevelObjects:&top])  {
-					NSLog(@"Failed to load MediaManager.nib");
-					NSBeep();
-					return nil;
- 			}
-            [top retain];
+            if (![[NSBundle mainBundle] loadNibNamed:@"MediaManager" owner:self topLevelObjects:&top])  {
+                NSLog(@"Failed to load MediaManager.nib");
+                NSBeep();
+                return nil;
             }
+        }
     [[diskFmtMatrix window] setExcludedFromWindowsMenu:YES];
     [[diskFmtMatrix window] setMenu:nil];
     [[hardDiskFmtMatrix window] setExcludedFromWindowsMenu:YES];
@@ -315,9 +317,6 @@ NSImage *disketteImage;
     return sharedInstance;
 }
 
-- (void)dealloc {
-	[super dealloc];
-}
 
 /*------------------------------------------------------------------------------
 *  mediaStatusWindowShow - This method makes the media status window visable
@@ -600,8 +599,14 @@ NSImage *disketteImage;
     openPanel = [NSOpenPanel openPanel];
     [openPanel setCanChooseDirectories:NO];
     [openPanel setCanChooseFiles:YES];
-    [openPanel setAllowedFileTypes:filetypes];
-    
+    // Convert extension strings to UTType objects (macOS 11+ / deployment target 13).
+    NSMutableArray<UTType *> *utTypes = [NSMutableArray array];
+    for (NSString *ext in filetypes) {
+        UTType *t = [UTType typeWithFilenameExtension:ext];
+        if (t) [utTypes addObject:t];
+    }
+    if (utTypes.count > 0) openPanel.allowedContentTypes = utTypes;
+
     if ([openPanel runModal] == NSModalResponseOK)
         return([[[openPanel URLs] objectAtIndex:0] path]);
     else
@@ -617,7 +622,8 @@ NSImage *disketteImage;
     
     savePanel = [NSSavePanel savePanel];
     
-    [savePanel setAllowedFileTypes:[NSArray arrayWithObject:type]];
+    UTType *utType = [UTType typeWithFilenameExtension:type];
+    if (utType) savePanel.allowedContentTypes = @[utType];
     [savePanel setDirectoryURL:[NSURL fileURLWithPath:directory]];
 
     if ([savePanel runModal] == NSModalResponseOK)

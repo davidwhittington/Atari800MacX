@@ -12,6 +12,12 @@ SWIFT_VERSION = 5.9
 // --- Security (required for notarization) ---
 ENABLE_HARDENED_RUNTIME = YES
 
+// --- ARC ---
+// Enable Automatic Reference Counting for all Objective-C files.
+// Per-file -fno-objc-arc flags are set via the Xcode "Compile Sources" phase
+// for any C files that are compiled as ObjC (none currently).
+CLANG_ENABLE_OBJC_ARC = YES
+
 // --- Compiler warnings (additive — tighten over time) ---
 GCC_WARN_UNUSED_VARIABLE = YES
 GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE
@@ -20,3 +26,11 @@ CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES
 
 // --- Linker ---
 DEAD_CODE_STRIPPING = YES
+
+// Carbon.framework is weakly linked so the app can launch on macOS 15+ where
+// Carbon is removed. The only Carbon API still in use is the Text Input Sources
+// Manager (TISCopyCurrentKeyboardLayoutInputSource / UCKeyTranslate) in KeyMapper.
+// Those calls are guarded by null checks and will gracefully fall back to no keymap
+// when Carbon is unavailable. Remove this setting once KeyMapper is ported to
+// the IOKit HID keyboard layout API (Phase 6/8 work).
+WEAK_FRAMEWORKS = $(inherited) Carbon

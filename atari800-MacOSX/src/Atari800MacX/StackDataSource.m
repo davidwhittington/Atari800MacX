@@ -59,10 +59,7 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 	unsigned short ts,ta;
 	NSString *stack;
 
-	if (stackStrings != nil)
-		[stackStrings release];
 	stackStrings = [NSMutableArray arrayWithCapacity:20];
-	[stackStrings retain];
 	
 	for( ts = 0x101+CPU_regS; ts<0x200; ) {
 		if( ts<0x1ff ) {

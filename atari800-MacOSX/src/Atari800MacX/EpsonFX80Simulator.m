@@ -252,86 +252,84 @@ static EpsonFX80Simulator *sharedInstance = nil;
 	double aFontMatrix [6];
 	
     if (sharedInstance) {
-		[self dealloc];
-    } else {
-        [super init];
-	}
-	
+        return sharedInstance;
+    }
+    self = [super init];
+    if (!self) return nil;
     sharedInstance = self;
 	
 	aFontMatrix [1] = aFontMatrix [2] = aFontMatrix [4] = aFontMatrix [5] = 0.0;  // Always
 	aFontMatrix [3] = 12.0;
 	
 	aFontMatrix [0] = 12.001;
-	styles[STYLE_PICA] = [[NSFont fontWithName : @"Courier" matrix : aFontMatrix] retain];
+	styles[STYLE_PICA] = [NSFont fontWithName : @"Courier" matrix : aFontMatrix];
 	
 	aFontMatrix [0] = 10.0;
-	styles[STYLE_ELITE] = [[NSFont fontWithName : @"Courier" matrix : aFontMatrix] retain];
+	styles[STYLE_ELITE] = [NSFont fontWithName : @"Courier" matrix : aFontMatrix];
 
 	aFontMatrix [0] = 120/17.16;
-	styles[STYLE_COMPRESSED] = [[NSFont fontWithName : @"Courier" matrix : aFontMatrix] retain];
+	styles[STYLE_COMPRESSED] = [NSFont fontWithName : @"Courier" matrix : aFontMatrix];
 	
 	styles[STYLE_PROPORTIONAL] = styles[STYLE_PICA];
 	
 	aFontMatrix [0] = 24.0;
 	aFontMatrix [3] = 12.0;
-	styles[STYLE_EXPANDED_PICA] = [[NSFont fontWithName : @"Courier" matrix : aFontMatrix] retain];
+	styles[STYLE_EXPANDED_PICA] = [NSFont fontWithName : @"Courier" matrix : aFontMatrix];
 	
 	aFontMatrix [0] = 20.0;
-	styles[STYLE_EXPANDED_ELITE] = [[NSFont fontWithName : @"Courier" matrix : aFontMatrix] retain];
+	styles[STYLE_EXPANDED_ELITE] = [NSFont fontWithName : @"Courier" matrix : aFontMatrix];
 	
 	aFontMatrix [0] = 240.0/17.16;
-	styles[STYLE_EXPANDED_COMPRESSED] = [[NSFont fontWithName : @"Courier" matrix : aFontMatrix] retain];
+	styles[STYLE_EXPANDED_COMPRESSED] = [NSFont fontWithName : @"Courier" matrix : aFontMatrix];
 	
 	styles[STYLE_EXPANDED_PROPORTIONAL] = styles[STYLE_EXPANDED_PICA];
 	
 	aFontMatrix [3] = 6.0;
 	
 	aFontMatrix [0] = 12.0;
-	styles[STYLE_PICA_SCRIPT] = [[NSFont fontWithName : @"Courier" matrix : aFontMatrix] retain];
+	styles[STYLE_PICA_SCRIPT] = [NSFont fontWithName : @"Courier" matrix : aFontMatrix];
 	
 	aFontMatrix [0] = 10.0;
-	styles[STYLE_ELITE_SCRIPT] = [[NSFont fontWithName : @"Courier" matrix : aFontMatrix] retain];
+	styles[STYLE_ELITE_SCRIPT] = [NSFont fontWithName : @"Courier" matrix : aFontMatrix];
 	
 	aFontMatrix [0] = 120/17.16;
-	styles[STYLE_COMPRESSED_SCRIPT] = [[NSFont fontWithName : @"Courier" matrix : aFontMatrix] retain];
+	styles[STYLE_COMPRESSED_SCRIPT] = [NSFont fontWithName : @"Courier" matrix : aFontMatrix];
 	
 	aFontMatrix [0] = 24.0;
-	styles[STYLE_EXPANDED_PICA_SCRIPT] = [[NSFont fontWithName : @"Courier" matrix : aFontMatrix] retain];
+	styles[STYLE_EXPANDED_PICA_SCRIPT] = [NSFont fontWithName : @"Courier" matrix : aFontMatrix];
 	
 	aFontMatrix [0] = 20.0;
-	styles[STYLE_EXPANDED_ELITE_SCRIPT] = [[NSFont fontWithName : @"Courier" matrix : aFontMatrix] retain];
+	styles[STYLE_EXPANDED_ELITE_SCRIPT] = [NSFont fontWithName : @"Courier" matrix : aFontMatrix];
 	
 	aFontMatrix [0] = 240/17.16;
-	styles[STYLE_EXPANDED_COMPRESSED_SCRIPT] = [[NSFont fontWithName : @"Courier" matrix : aFontMatrix] retain];
+	styles[STYLE_EXPANDED_COMPRESSED_SCRIPT] = [NSFont fontWithName : @"Courier" matrix : aFontMatrix];
 	
-	styles[STYLE_PICA_ITALIC] = [[[NSFontManager sharedFontManager] convertFont : styles[STYLE_PICA] toHaveTrait : NSItalicFontMask] retain];
-	styles[STYLE_ELITE_ITALIC] = [[[NSFontManager sharedFontManager] convertFont : styles[STYLE_ELITE] toHaveTrait : NSItalicFontMask] retain];
-	styles[STYLE_COMPRESSED_ITALIC] = [[[NSFontManager sharedFontManager] convertFont : styles[STYLE_COMPRESSED] toHaveTrait : NSItalicFontMask] retain];
+	styles[STYLE_PICA_ITALIC] = [[NSFontManager sharedFontManager] convertFont : styles[STYLE_PICA] toHaveTrait : NSItalicFontMask];
+	styles[STYLE_ELITE_ITALIC] = [[NSFontManager sharedFontManager] convertFont : styles[STYLE_ELITE] toHaveTrait : NSItalicFontMask];
+	styles[STYLE_COMPRESSED_ITALIC] = [[NSFontManager sharedFontManager] convertFont : styles[STYLE_COMPRESSED] toHaveTrait : NSItalicFontMask];
 	styles[STYLE_PROPORTIONAL_ITALIC] = styles[STYLE_PICA_ITALIC];
-	styles[STYLE_EXPANDED_PICA_ITALIC] = [[[NSFontManager sharedFontManager] convertFont : styles[STYLE_EXPANDED_PICA] toHaveTrait : NSItalicFontMask] retain];
-	styles[STYLE_EXPANDED_ELITE_ITALIC] = [[[NSFontManager sharedFontManager] convertFont : styles[STYLE_EXPANDED_ELITE] toHaveTrait : NSItalicFontMask] retain];
-	styles[STYLE_EXPANDED_COMPRESSED_ITALIC] = [[[NSFontManager sharedFontManager] convertFont : styles[STYLE_EXPANDED_COMPRESSED] toHaveTrait : NSItalicFontMask] retain];
+	styles[STYLE_EXPANDED_PICA_ITALIC] = [[NSFontManager sharedFontManager] convertFont : styles[STYLE_EXPANDED_PICA] toHaveTrait : NSItalicFontMask];
+	styles[STYLE_EXPANDED_ELITE_ITALIC] = [[NSFontManager sharedFontManager] convertFont : styles[STYLE_EXPANDED_ELITE] toHaveTrait : NSItalicFontMask];
+	styles[STYLE_EXPANDED_COMPRESSED_ITALIC] = [[NSFontManager sharedFontManager] convertFont : styles[STYLE_EXPANDED_COMPRESSED] toHaveTrait : NSItalicFontMask];
 	styles[STYLE_EXPANDED_PROPORTIONAL_ITALIC] = styles[STYLE_EXPANDED_PICA_ITALIC];
-	styles[STYLE_PICA_SCRIPT_ITALIC] = [[[NSFontManager sharedFontManager] convertFont : styles[STYLE_PICA_SCRIPT] toHaveTrait : NSItalicFontMask] retain];
-	styles[STYLE_ELITE_SCRIPT_ITALIC] = [[[NSFontManager sharedFontManager] convertFont : styles[STYLE_ELITE_SCRIPT] toHaveTrait : NSItalicFontMask] retain];
-	styles[STYLE_COMPRESSED_SCRIPT_ITALIC] = [[[NSFontManager sharedFontManager] convertFont : styles[STYLE_COMPRESSED_SCRIPT] toHaveTrait : NSItalicFontMask] retain];
-	styles[STYLE_EXPANDED_PICA_SCRIPT_ITALIC] = [[[NSFontManager sharedFontManager] convertFont : styles[STYLE_EXPANDED_PICA_SCRIPT] toHaveTrait : NSItalicFontMask] retain];
-	styles[STYLE_EXPANDED_ELITE_SCRIPT_ITALIC] = [[[NSFontManager sharedFontManager] convertFont : styles[STYLE_EXPANDED_ELITE_SCRIPT] toHaveTrait : NSItalicFontMask] retain];
-	styles[STYLE_EXPANDED_COMPRESSED_SCRIPT_ITALIC] = [[[NSFontManager sharedFontManager] convertFont : styles[STYLE_EXPANDED_COMPRESSED_SCRIPT] toHaveTrait : NSItalicFontMask] retain];
+	styles[STYLE_PICA_SCRIPT_ITALIC] = [[NSFontManager sharedFontManager] convertFont : styles[STYLE_PICA_SCRIPT] toHaveTrait : NSItalicFontMask];
+	styles[STYLE_ELITE_SCRIPT_ITALIC] = [[NSFontManager sharedFontManager] convertFont : styles[STYLE_ELITE_SCRIPT] toHaveTrait : NSItalicFontMask];
+	styles[STYLE_COMPRESSED_SCRIPT_ITALIC] = [[NSFontManager sharedFontManager] convertFont : styles[STYLE_COMPRESSED_SCRIPT] toHaveTrait : NSItalicFontMask];
+	styles[STYLE_EXPANDED_PICA_SCRIPT_ITALIC] = [[NSFontManager sharedFontManager] convertFont : styles[STYLE_EXPANDED_PICA_SCRIPT] toHaveTrait : NSItalicFontMask];
+	styles[STYLE_EXPANDED_ELITE_SCRIPT_ITALIC] = [[NSFontManager sharedFontManager] convertFont : styles[STYLE_EXPANDED_ELITE_SCRIPT] toHaveTrait : NSItalicFontMask];
+	styles[STYLE_EXPANDED_COMPRESSED_SCRIPT_ITALIC] = [[NSFontManager sharedFontManager] convertFont : styles[STYLE_EXPANDED_COMPRESSED_SCRIPT] toHaveTrait : NSItalicFontMask];
 	
-	styles[STYLE_PICA_EMPHASIZED] = [[[NSFontManager sharedFontManager] convertFont : styles[STYLE_PICA] toHaveTrait : NSBoldFontMask] retain];
-	styles[STYLE_EXPANDED_PICA_EMPHASIZED] = [[[NSFontManager sharedFontManager] convertFont : styles[STYLE_EXPANDED_PICA] toHaveTrait : NSBoldFontMask] retain];
-	styles[STYLE_PICA_SCRIPT_EMPHASIZED] = [[[NSFontManager sharedFontManager] convertFont : styles[STYLE_PICA_SCRIPT] toHaveTrait : NSBoldFontMask] retain];
-	styles[STYLE_EXPANDED_PICA_SCRIPT_EMPHASIZED] = [[[NSFontManager sharedFontManager] convertFont : styles[STYLE_EXPANDED_PICA_SCRIPT] toHaveTrait : NSBoldFontMask] retain];
-	styles[STYLE_PICA_ITALIC_EMPHASIZED] = [[[NSFontManager sharedFontManager] convertFont : styles[STYLE_PICA_ITALIC] toHaveTrait : NSBoldFontMask] retain];
-	styles[STYLE_EXPANDED_PICA_ITALIC_EMPHASIZED] = [[[NSFontManager sharedFontManager] convertFont : styles[STYLE_EXPANDED_PICA_ITALIC] toHaveTrait : NSBoldFontMask] retain];
-	styles[STYLE_PICA_SCRIPT_ITALIC_EMPHASIZED] = [[[NSFontManager sharedFontManager] convertFont : styles[STYLE_PICA_SCRIPT_ITALIC] toHaveTrait : NSBoldFontMask] retain];
-    styles[STYLE_EXPANDED_PICA_SCRIPT_ITALIC_EMPHASIZED] = [[[NSFontManager sharedFontManager] convertFont : styles[STYLE_EXPANDED_PICA_SCRIPT_ITALIC] toHaveTrait : NSBoldFontMask] retain];
+	styles[STYLE_PICA_EMPHASIZED] = [[NSFontManager sharedFontManager] convertFont : styles[STYLE_PICA] toHaveTrait : NSBoldFontMask];
+	styles[STYLE_EXPANDED_PICA_EMPHASIZED] = [[NSFontManager sharedFontManager] convertFont : styles[STYLE_EXPANDED_PICA] toHaveTrait : NSBoldFontMask];
+	styles[STYLE_PICA_SCRIPT_EMPHASIZED] = [[NSFontManager sharedFontManager] convertFont : styles[STYLE_PICA_SCRIPT] toHaveTrait : NSBoldFontMask];
+	styles[STYLE_EXPANDED_PICA_SCRIPT_EMPHASIZED] = [[NSFontManager sharedFontManager] convertFont : styles[STYLE_EXPANDED_PICA_SCRIPT] toHaveTrait : NSBoldFontMask];
+	styles[STYLE_PICA_ITALIC_EMPHASIZED] = [[NSFontManager sharedFontManager] convertFont : styles[STYLE_PICA_ITALIC] toHaveTrait : NSBoldFontMask];
+	styles[STYLE_EXPANDED_PICA_ITALIC_EMPHASIZED] = [[NSFontManager sharedFontManager] convertFont : styles[STYLE_EXPANDED_PICA_ITALIC] toHaveTrait : NSBoldFontMask];
+	styles[STYLE_PICA_SCRIPT_ITALIC_EMPHASIZED] = [[NSFontManager sharedFontManager] convertFont : styles[STYLE_PICA_SCRIPT_ITALIC] toHaveTrait : NSBoldFontMask];
+    styles[STYLE_EXPANDED_PICA_SCRIPT_ITALIC_EMPHASIZED] = [[NSFontManager sharedFontManager] convertFont : styles[STYLE_EXPANDED_PICA_SCRIPT_ITALIC] toHaveTrait : NSBoldFontMask];
 			
 	printBuffer = [[PrintableString alloc] init];
-	[printBuffer retain];
-	
+
 	[self reset];
 
     return sharedInstance;
@@ -518,8 +516,6 @@ static EpsonFX80Simulator *sharedInstance = nil;
 		nextHorizPosition += horizWidth;
 		}
 
-	[newString release];
-	
 	if (pitch == PITCH_COMPRESSED)
 		currRightMargin = compressedRightMargin;
 	else
@@ -1148,7 +1144,6 @@ static EpsonFX80Simulator *sharedInstance = nil;
 		         length:length width:graphWidth[graphMode] height:1.0 bits:bits];
 		[graph setLocation:location];
 		[[PrintOutputController sharedInstance] addToPrintArray:graph];
-		[graph release];
 
 		startHorizPosition += length * graphWidth[graphMode];
 		state = FX_IDLE;
@@ -1678,7 +1673,6 @@ static EpsonFX80Simulator *sharedInstance = nil;
 	[[PrintOutputController sharedInstance] addToPrintArray:printBuffer];
 	if (doubleStrike == YES)
 		[[PrintOutputController sharedInstance] addToPrintArray:printBuffer];
-	[printBuffer release];
 	printBuffer = [[PrintableString alloc] init];
 	
 	startHorizPosition = nextHorizPosition;
@@ -1686,7 +1680,6 @@ static EpsonFX80Simulator *sharedInstance = nil;
 
 -(void)clearPrintBuffer
 {
-	[printBuffer release];
 	printBuffer = [[PrintableString alloc] init];
 	
 	nextHorizPosition = startHorizPosition;

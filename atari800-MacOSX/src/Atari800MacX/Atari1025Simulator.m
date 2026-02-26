@@ -115,11 +115,10 @@ static Atari825Simulator *sharedInstance = nil;
 	float aFontMatrix [6];
 	
     if (sharedInstance) {
-		[self dealloc];
-    } else {
-        [super init];
-	}
-	
+        return sharedInstance;
+    }
+    self = [super init];
+    if (!self) return nil;
     sharedInstance = self;
 	
 	aFontMatrix [1] = aFontMatrix [2] = aFontMatrix [4] = aFontMatrix [5] = 0.0;  // Always
@@ -159,8 +158,7 @@ static Atari825Simulator *sharedInstance = nil;
 	styles[STYLE_EXPANDED_PROPORTIONAL] = [NSFont fontWithName : @"Helvetica" matrix : aFontMatrix];
 			
 	printBuffer = [[PrintableString alloc] init];
-	[printBuffer retain];
-	
+
 	[self reset];
 
 	[[PrintOutputController sharedInstance] setPrinter:self];
@@ -218,8 +216,6 @@ static Atari825Simulator *sharedInstance = nil;
 	else
 		nextHorizPosition += horizWidth;
 
-	[newString release];
-	
 	if (pitch == PITCH_PICA)  
 		currRightMargin = rightMargin;
 	else
@@ -427,9 +423,8 @@ static Atari825Simulator *sharedInstance = nil;
 		
 	[printBuffer setLocation:location];
 	[[PrintOutputController sharedInstance] addToPrintArray:printBuffer];
-	[printBuffer release];
 	printBuffer = [[PrintableString alloc] init];
-	
+
 	startHorizPosition = nextHorizPosition;
 }
 

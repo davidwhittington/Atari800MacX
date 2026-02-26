@@ -28,7 +28,6 @@
 	memMin = -1;
 	memMax = -1;
 	conditions = [NSMutableArray arrayWithCapacity:10];
-	[conditions retain];
 	for (i=start;i<=end;i++) {
 		newCondition = [BreakpointCondition conditionWithIndex:i];
 		[conditions addObject:newCondition];
@@ -109,11 +108,6 @@
 	return(self);
 }
 
--(void) dealloc
-{
-	[conditions release];
-	[super dealloc];
-}
 
 -(void) getStartIndex:(int *) start endIndex:(int *) end
 {
@@ -267,12 +261,11 @@
 	NSMutableArray *conds;
 	int i;
 	
-	Breakpoint *copyBreak = [[[self class] allocWithZone:zone] init];
+	Breakpoint *copyBreak = [[Breakpoint alloc] init];
 	[self getStartIndex:&start endIndex:&end];
 	[copyBreak setStartIndex:start];
 	[copyBreak setEndIndex:start];
 	conds = [NSMutableArray arrayWithCapacity:10];
-    [conds retain];
 	count = [self conditionCount];
 	for (i=0;i<count;i++)
 		[conds addObject:[[self conditionAtIndex:i] copy]];

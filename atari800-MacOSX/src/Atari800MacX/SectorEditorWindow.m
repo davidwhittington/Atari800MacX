@@ -25,20 +25,21 @@ static SectorEditorWindow *sharedInstance = nil;
     NSArray *top;
 	
     if (sharedInstance) {
-	[self dealloc];
-    } else {
-        [super init];
-		[Preferences sharedInstance];
-        sharedInstance = self;
+        return sharedInstance;
+    }
+    self = [super init];
+    if (!self) return nil;
+    [Preferences sharedInstance];
+    sharedInstance = self;
+    {
         /* load the nib and all the windows */
         if (!sectorTableView) {
-				if (![[NSBundle mainBundle] loadNibNamed:@"SectorEditorWindow" owner:self topLevelObjects:&top])  {
-					NSLog(@"Failed to load SectorEditorWindow.nib");
-					NSBeep();
-					return nil;
-			}
-            [top retain];
+            if (![[NSBundle mainBundle] loadNibNamed:@"SectorEditorWindow" owner:self topLevelObjects:&top])  {
+                NSLog(@"Failed to load SectorEditorWindow.nib");
+                NSBeep();
+                return nil;
             }
+        }
 	[[sectorTableView window] setExcludedFromWindowsMenu:YES];
 	[[sectorTableView window] setMenu:nil];
 	
@@ -91,9 +92,6 @@ static SectorEditorWindow *sharedInstance = nil;
     return sharedInstance;
 }
 
-- (void)dealloc {
-	[super dealloc];
-}
 
 /*------------------------------------------------------------------------------
 *  showSectorPanel - This method displays the sector editor window.

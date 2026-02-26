@@ -33,40 +33,27 @@ extern unsigned short show_instruction_string(char*buff, unsigned short  pc, int
 	blackDataDict =[NSDictionary dictionaryWithObjectsAndKeys:
 					black, NSForegroundColorAttributeName,
 					nil];
-	[blackDataDict retain];
 	redDataDict =[NSDictionary dictionaryWithObjectsAndKeys:
 				  red, NSForegroundColorAttributeName,
-				  nil];	
-	[redDataDict retain];
+				  nil];
 	pcColorBackgroundDict =[NSDictionary dictionaryWithObjectsAndKeys:
 				  pcColor, NSBackgroundColorAttributeName,
-				  nil];	
-	[pcColorBackgroundDict retain];
-	
-	breakpointImage = [NSImage alloc];
-    strcpy(filename, "Contents/Resources/Breakpoint.png");    
-	[breakpointImage initWithContentsOfFile:[NSString stringWithCString:filename encoding:NSUTF8StringEncoding]];
-	[breakpointImage retain];
-	
-	breakpointCurrentLineImage = [NSImage alloc];
-    strcpy(filename, "Contents/Resources/BreakpointCurrentLine.png");    
-	[breakpointCurrentLineImage initWithContentsOfFile:[NSString stringWithCString:filename encoding:NSUTF8StringEncoding]];
-	[breakpointCurrentLineImage retain];
-	
-	currentLineImage = [NSImage alloc];
-    strcpy(filename, "Contents/Resources/CurrentLine.png");    
-	[currentLineImage initWithContentsOfFile:[NSString stringWithCString:filename encoding:NSUTF8StringEncoding]];
-	[currentLineImage retain];
-	
-	disabledBreakpointImage = [NSImage alloc];
-    strcpy(filename, "Contents/Resources/DisabledBreakpoint.png");    
-	[disabledBreakpointImage initWithContentsOfFile:[NSString stringWithCString:filename encoding:NSUTF8StringEncoding]];
-	[disabledBreakpointImage retain];
-	
-	disabledBreakpointCurrentLineImage = [NSImage alloc];
-    strcpy(filename, "Contents/Resources/DisabledBreakpointCurrentLine.png");    
-	[disabledBreakpointCurrentLineImage initWithContentsOfFile:[NSString stringWithCString:filename encoding:NSUTF8StringEncoding]];
-	[disabledBreakpointCurrentLineImage retain];
+				  nil];
+
+	breakpointImage = [[NSImage alloc] initWithContentsOfFile:
+		[NSString stringWithCString:"Contents/Resources/Breakpoint.png" encoding:NSUTF8StringEncoding]];
+
+	breakpointCurrentLineImage = [[NSImage alloc] initWithContentsOfFile:
+		[NSString stringWithCString:"Contents/Resources/BreakpointCurrentLine.png" encoding:NSUTF8StringEncoding]];
+
+	currentLineImage = [[NSImage alloc] initWithContentsOfFile:
+		[NSString stringWithCString:"Contents/Resources/CurrentLine.png" encoding:NSUTF8StringEncoding]];
+
+	disabledBreakpointImage = [[NSImage alloc] initWithContentsOfFile:
+		[NSString stringWithCString:"Contents/Resources/DisabledBreakpoint.png" encoding:NSUTF8StringEncoding]];
+
+	disabledBreakpointCurrentLineImage = [[NSImage alloc] initWithContentsOfFile:
+		[NSString stringWithCString:"Contents/Resources/DisabledBreakpointCurrentLine.png" encoding:NSUTF8StringEncoding]];
 	
 	instructions = nil;
 	flags = nil;
@@ -146,18 +133,9 @@ extern unsigned short show_instruction_string(char*buff, unsigned short  pc, int
 	
 	pcAddr = pc;
 	pcRow = 0;
-	if (instructions != nil)
-		[instructions release];
 	instructions = [NSMutableArray arrayWithCapacity:100];
-	[instructions retain];
-	if (flags != nil)
-		[flags release];
 	flags = [NSMutableArray arrayWithCapacity:100];
-	[flags retain];
-	if (addrs != nil)
-		[addrs release];
 	addrs = [NSMutableArray arrayWithCapacity:100];
-	[addrs retain];
 	address = currentAddress;
 	while(currentAddress <= end) {
 		[addrs addObject:[NSNumber numberWithInt:currentAddress]];

@@ -29,35 +29,23 @@
 	[super init];
 
 	expressions = [NSMutableArray arrayWithCapacity:20];
-	[expressions retain];
 	numbers = [NSMutableArray arrayWithCapacity:20];
-	[numbers retain];
 	valTypes = [NSMutableArray arrayWithCapacity:20];
-	[valTypes retain];
 	lastVal = [NSMutableArray arrayWithCapacity:20];
-	[lastVal retain];
 
-	breakpointImage = [NSImage alloc];
-    strcpy(filename, "Contents/Resources/Breakpoint.png");    
-	[breakpointImage initWithContentsOfFile:[NSString stringWithCString:filename encoding:NSUTF8StringEncoding]];
-	[breakpointImage retain];
-	
-	disabledBreakpointImage = [NSImage alloc];
-    strcpy(filename, "Contents/Resources/DisabledBreakpoint.png");    
-	[disabledBreakpointImage initWithContentsOfFile:[NSString stringWithCString:filename encoding:NSUTF8StringEncoding]];
-	[disabledBreakpointImage retain];
-	
+	breakpointImage = [[NSImage alloc] initWithContentsOfFile:[NSString stringWithCString:"Contents/Resources/Breakpoint.png" encoding:NSUTF8StringEncoding]];
+
+	disabledBreakpointImage = [[NSImage alloc] initWithContentsOfFile:[NSString stringWithCString:"Contents/Resources/DisabledBreakpoint.png" encoding:NSUTF8StringEncoding]];
+
 	// init colors
 	black = [NSColor labelColor];
 	red = [NSColor redColor];
 	blackDict =[NSDictionary dictionaryWithObjectsAndKeys:
 				black, NSForegroundColorAttributeName,
 				nil];
-	[blackDict retain];
 	redDict =[NSDictionary dictionaryWithObjectsAndKeys:
 			  red, NSForegroundColorAttributeName,
-			  nil];	
-	[redDict retain];
+			  nil];
 	
 	return self;
 }
@@ -157,7 +145,6 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 				return nil;
 		}
 		theAttributedString = [[NSAttributedString alloc] initWithString:theString attributes:theDict];
-		[theAttributedString autorelease];
 		return theAttributedString;
 	}
 	else

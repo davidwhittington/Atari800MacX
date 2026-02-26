@@ -19,17 +19,14 @@
 	blackDataDict =[NSDictionary dictionaryWithObjectsAndKeys:
 					black, NSForegroundColorAttributeName,
 					nil];
-	[blackDataDict retain];
 	inverseDataDict =[NSDictionary dictionaryWithObjectsAndKeys:
 					  black, NSBackgroundColorAttributeName,
 					  white, NSForegroundColorAttributeName,
 					nil];
-	[inverseDataDict retain];
 	redDataDict =[NSDictionary dictionaryWithObjectsAndKeys:
 				  red, NSForegroundColorAttributeName,
                   [NSColor whiteColor], NSBackgroundColorAttributeName,
-				  nil];	
-	[redDataDict retain];
+				  nil];
 	memset(backgroudBuffer,0,128);
 	return self;
 }

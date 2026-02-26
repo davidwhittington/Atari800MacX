@@ -14,7 +14,7 @@
 {
 	labels = nil;
 	sortedLabels = nil;
-	currentColumnId = [@"L" retain];
+	currentColumnId = @"L";
 	currentOrderAscending = YES;
 	dirty = YES;
 
@@ -129,10 +129,7 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 	if (!dirty)
 		return;
 	
-	if (labels != nil)
-		[labels release];
 	labels = [NSMutableArray arrayWithCapacity:20];
-	[labels retain];
 	
 	for (i = 0; i < symtable_user_size; i++) {
 		p = &symtable_user[i];
@@ -161,8 +158,6 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 
 -(void) sortByCurrentColumn
 {
-	if (sortedLabels != nil)
-		[sortedLabels release];
 	if ([currentColumnId isEqual:@"L"]) {
 		sortedLabels = [labels sortedArrayUsingSelector:@selector(compareLabels:)];
 	} else if ([currentColumnId isEqual:@"V"]) {
@@ -172,7 +167,6 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 	} else if ([currentColumnId isEqual:@"R"]) {
 		sortedLabels = [labels sortedArrayUsingSelector:@selector(compareReadWrites:)];
 	}
-	[sortedLabels retain];
 }
 
 @end
