@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -1356,7 +1356,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1140;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					2DAEDAE909B69AED005FF181 = {
 						DevelopmentTeam = X49M46V9N7;
@@ -1365,7 +1365,7 @@
 				};
 			};
 			buildConfigurationList = 2DD86A1809B559B00088C6D3 /* Build configuration list for PBXProject "Atari800MacX" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -1612,6 +1612,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = X49M46V9N7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				SWIFT_VERSION = 5.9;
 				FRAMEWORK_SEARCH_PATHS = (
 					.,
 					"$(HOME)/Library/Frameworks",
@@ -1626,14 +1628,13 @@
 				GCC_WARN_UNDECLARED_SELECTOR = NO;
 				HEADER_SEARCH_PATHS = (
 					..,
-					"GUIlib-1.1.1",
 					./SDL2.framework/Versions/A/Headers,
 				);
 				INFOPLIST_FILE = "Info-Atari800MacX.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -1645,7 +1646,6 @@
 				PRODUCT_NAME = Atari800MacX;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
-				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -1653,7 +1653,6 @@
 					"-Wno-missing-selector-name",
 				);
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = YES;
 			};
 			name = Development;
 		};
@@ -1666,6 +1665,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
 				DEVELOPMENT_TEAM = X49M46V9N7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				SWIFT_VERSION = 5.9;
 				FRAMEWORK_SEARCH_PATHS = (
 					.,
 					"$(HOME)/Library/Frameworks",
@@ -1677,14 +1678,13 @@
 				GCC_WARN_UNDECLARED_SELECTOR = NO;
 				HEADER_SEARCH_PATHS = (
 					..,
-					"GUIlib-1.1.1",
 					./SDL2.framework/Versions/A/Headers,
 				);
 				INFOPLIST_FILE = "Info-Atari800MacX.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -1696,7 +1696,6 @@
 				PRODUCT_NAME = Atari800MacX;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
-				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -1704,7 +1703,6 @@
 					"-Wno-missing-selector-name",
 				);
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = NO;
 			};
 			name = Deployment;
 		};
@@ -1716,19 +1714,11 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = X49M46V9N7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				SWIFT_VERSION = 5.9;
 				FRAMEWORK_SEARCH_PATHS = (
 					.,
 					"$(HOME)/Library/Frameworks",
-					"/Users/markg/Atari800MacX/atari800-MacOSX-3.0/src/Atari800MacX",
-					"/Users/markg/Atari800MacX/atari800-MacOSX-3.0/SDL-1.2.9/Xcode/SDL/build",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
-					"$(PROJECT_DIR)",
-				);
-				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
-					.,
-					"$(HOME)/Library/Frameworks",
-					"/Users/markg/Atari800MacX/atari800-MacOSX-3.0/src/Atari800MacX",
-					"/Users/markg/Atari800MacX/atari800-MacOSX-3.0/SDL-1.2.9/Xcode/SDL/build",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
 					"$(PROJECT_DIR)",
 				);
@@ -1737,14 +1727,13 @@
 				GCC_WARN_UNDECLARED_SELECTOR = NO;
 				HEADER_SEARCH_PATHS = (
 					..,
-					"GUIlib-1.1.1",
 					./SDL2.framework/Versions/A/Headers,
 				);
-				INFOPLIST_FILE = "Info-Atari800MacX__Upgraded_-1.plist";
+				INFOPLIST_FILE = "Info-Atari800MacX.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -1756,7 +1745,6 @@
 				PRODUCT_NAME = Atari800MacX;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
-				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -1776,11 +1764,10 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				ZERO_LINK = NO;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
 			};
 			name = Development;
 		};
@@ -1791,8 +1778,9 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
 			};
 			name = Deployment;
 		};
@@ -1801,8 +1789,9 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
 			};
 			name = Default;
 		};
