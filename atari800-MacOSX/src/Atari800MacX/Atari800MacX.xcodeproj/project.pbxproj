@@ -343,6 +343,7 @@
 		77A5A9D521EC3B440098C3A5 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 77A5A9D421EC3B430098C3A5 /* lock.png */; };
 		A8000000CAFE000100000001 /* Atari800Core.h in Headers */ = {isa = PBXBuildFile; fileRef = A8000000DEAD000100000001 /* Atari800Core.h */; };
 		A8000000CAFE000200000002 /* Atari800Engine.h in Headers */ = {isa = PBXBuildFile; fileRef = A8000000DEAD000200000002 /* Atari800Engine.h */; };
+		A8000000CAFE000600000006 /* Atari800Core.c in Sources */ = {isa = PBXBuildFile; fileRef = A8000000DEAD000600000006 /* Atari800Core.c */; };
 		A8000000CAFE000300000003 /* Atari800Engine.m in Sources */ = {isa = PBXBuildFile; fileRef = A8000000DEAD000300000003 /* Atari800Engine.m */; };
 		A8000000CAFE000400000004 /* PreferenceKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = A8000000DEAD000400000004 /* PreferenceKeys.h */; };
 		A8000000CAFE000500000005 /* PreferenceKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = A8000000DEAD000500000005 /* PreferenceKeys.m */; };
@@ -671,6 +672,7 @@
 		77324B9124AC2CC50007CB07 /* open810snd.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = open810snd.wav; sourceTree = "<group>"; };
 		77A5A9D421EC3B430098C3A5 /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock.png; sourceTree = "<group>"; };
 		A8000000DEAD000100000001 /* Atari800Core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Atari800Core.h; sourceTree = "<group>"; };
+		A8000000DEAD000600000006 /* Atari800Core.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Atari800Core.c; sourceTree = "<group>"; };
 		A8000000DEAD000200000002 /* Atari800Engine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Atari800Engine.h; sourceTree = "<group>"; };
 		A8000000DEAD000300000003 /* Atari800Engine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Atari800Engine.m; sourceTree = "<group>"; };
 		A8000000DEAD000400000004 /* PreferenceKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreferenceKeys.h; sourceTree = "<group>"; };
@@ -775,6 +777,7 @@
 				2DBC742B05AD0334004925CD /* Atari800Window.m */,
 				2D003B9D21D70F5C003F6F94 /* Atari800Window.h */,
 				A8000000DEAD000100000001 /* Atari800Core.h */,
+				A8000000DEAD000600000006 /* Atari800Core.c */,
 				A8000000DEAD000200000002 /* Atari800Engine.h */,
 				A8000000DEAD000300000003 /* Atari800Engine.m */,
 				A8000000DEAD000400000004 /* PreferenceKeys.h */,
