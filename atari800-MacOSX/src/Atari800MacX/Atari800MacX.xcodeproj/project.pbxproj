@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A8000000CAFE000100000001 /* Atari800Core.h in Headers */ = {isa = PBXBuildFile; fileRef = A8000000DEAD000100000001 /* Atari800Core.h */; };
+		A8000000CAFE000200000002 /* Atari800Engine.h in Headers */ = {isa = PBXBuildFile; fileRef = A8000000DEAD000200000002 /* Atari800Engine.h */; };
+		A8000000CAFE000300000003 /* Atari800Engine.m in Sources */ = {isa = PBXBuildFile; fileRef = A8000000DEAD000300000003 /* Atari800Engine.m */; };
+		A8000000CAFE000400000004 /* PreferenceKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = A8000000DEAD000400000004 /* PreferenceKeys.h */; };
+		A8000000CAFE000500000005 /* PreferenceKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = A8000000DEAD000500000005 /* PreferenceKeys.m */; };
 		2D003B9E21D70F5C003F6F94 /* Atari800Window.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D003B9D21D70F5C003F6F94 /* Atari800Window.h */; };
 		2D013C8D10718EF8009D2E84 /* BreakpointDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D013C8B10718EF8009D2E84 /* BreakpointDataSource.h */; };
 		2D013C8E10718EF8009D2E84 /* BreakpointDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D013C8C10718EF8009D2E84 /* BreakpointDataSource.m */; };
@@ -206,19 +211,19 @@
 		2DAEDB4809B69AED005FF181 /* rdevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D10A79709B0E209001F913C /* rdevice.h */; };
 		2DAEDB4A09B69AED005FF181 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		2DAEDB4B09B69AED005FF181 /* Fuji.icns in Resources */ = {isa = PBXBuildFile; fileRef = F5C68C3D032B1E4501A8C8B4 /* Fuji.icns */; };
-		2DAEDB4C09B69AED005FF181 /* SDLMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = F5E6BF3A032D9AF501A8C8B4 /* SDLMain.nib */; };
-		2DAEDB4D09B69AED005FF181 /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = F5E6BF3E032DA88501A8C8B4 /* Preferences.nib */; };
-		2DAEDB4E09B69AED005FF181 /* MediaManager.nib in Resources */ = {isa = PBXBuildFile; fileRef = F570397A0339709901A8C8B4 /* MediaManager.nib */; };
-		2DAEDB4F09B69AED005FF181 /* ControlManager.nib in Resources */ = {isa = PBXBuildFile; fileRef = F565ED130340F40001A8C8B4 /* ControlManager.nib */; };
+		2DAEDB4C09B69AED005FF181 /* SDLMain.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5E6BF3A032D9AF501A8C8B4 /* SDLMain.xib */; };
+		2DAEDB4D09B69AED005FF181 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5E6BF3E032DA88501A8C8B4 /* Preferences.xib */; };
+		2DAEDB4E09B69AED005FF181 /* MediaManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = F570397A0339709901A8C8B4 /* MediaManager.xib */; };
+		2DAEDB4F09B69AED005FF181 /* ControlManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = F565ED130340F40001A8C8B4 /* ControlManager.xib */; };
 		2DAEDB5009B69AED005FF181 /* Atari800MacX Help in Resources */ = {isa = PBXBuildFile; fileRef = F5176916034BFE7501A8C8B4 /* Atari800MacX Help */; };
 		2DAEDB5109B69AED005FF181 /* doc.icns in Resources */ = {isa = PBXBuildFile; fileRef = F507FF78034EB78801A8C8B4 /* doc.icns */; };
 		2DAEDB5209B69AED005FF181 /* Updater.esud in Resources */ = {isa = PBXBuildFile; fileRef = 2D60C39503BFE68F00A8C8B4 /* Updater.esud */; };
-		2DAEDB5E09B69AED005FF181 /* DiskEditorWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2D8F5044060E110700C950A4 /* DiskEditorWindow.nib */; };
-		2DAEDB5F09B69AED005FF181 /* AboutBox.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2D8B1E42061D036E00B0AA56 /* AboutBox.nib */; };
+		2DAEDB5E09B69AED005FF181 /* DiskEditorWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D8F5044060E110700C950A4 /* DiskEditorWindow.xib */; };
+		2DAEDB5F09B69AED005FF181 /* AboutBox.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D8B1E42061D036E00B0AA56 /* AboutBox.xib */; };
 		2DAEDB6009B69AED005FF181 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 2D8AFFF6061DBB6E00EC63CC /* Credits.html */; };
-		2DAEDB6509B69AED005FF181 /* PrintOutput.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2DAB84FE07E39B9800599B16 /* PrintOutput.nib */; };
-		2DAEDB6A09B69AED005FF181 /* PrintOutputConfirm.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2DA416410844552E00EA7648 /* PrintOutputConfirm.nib */; };
-		2DAEDB6D09B69AED005FF181 /* SectorEditorWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2D35913B08DDE9F10041824D /* SectorEditorWindow.nib */; };
+		2DAEDB6509B69AED005FF181 /* PrintOutput.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DAB84FE07E39B9800599B16 /* PrintOutput.xib */; };
+		2DAEDB6A09B69AED005FF181 /* PrintOutputConfirm.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DA416410844552E00EA7648 /* PrintOutputConfirm.xib */; };
+		2DAEDB6D09B69AED005FF181 /* SectorEditorWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D35913B08DDE9F10041824D /* SectorEditorWindow.xib */; };
 		2DAEDB7009B69AED005FF181 /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = F5A47A9E01A0483001D3D55B /* SDLMain.m */; };
 		2DAEDB7109B69AED005FF181 /* memory.c in Sources */ = {isa = PBXBuildFile; fileRef = F555833D030EF4CD01A8C8B4 /* memory.c */; };
 		2DAEDB7209B69AED005FF181 /* log.c in Sources */ = {isa = PBXBuildFile; fileRef = F555833F030EF4CD01A8C8B4 /* log.c */; };
@@ -464,7 +469,7 @@
 		2D32203925885D4500CF099D /* vec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = vec.c; path = ../vec.c; sourceTree = "<group>"; };
 		2D32203A25885D4500CF099D /* vec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vec.h; path = ../vec.h; sourceTree = "<group>"; };
 		2D32203D25892E8000CF099D /* pclink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = pclink.h; path = ../pclink.h; sourceTree = "<group>"; };
-		2D35913B08DDE9F10041824D /* SectorEditorWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = SectorEditorWindow.nib; sourceTree = "<group>"; };
+		2D35913B08DDE9F10041824D /* SectorEditorWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SectorEditorWindow.xib; sourceTree = "<group>"; };
 		2D35920108DE2E760041824D /* SectorEditorAsciiFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SectorEditorAsciiFieldCell.h; sourceTree = SOURCE_ROOT; };
 		2D35920208DE2E760041824D /* SectorEditorAsciiFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SectorEditorAsciiFieldCell.m; sourceTree = SOURCE_ROOT; };
 		2D36F9682E4844070007EDF5 /* netsio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = netsio.h; path = ../netsio.h; sourceTree = SOURCE_ROOT; };
@@ -544,7 +549,7 @@
 		2D8A0393061BA44600A4446B /* atrXE.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = atrXE.c; sourceTree = SOURCE_ROOT; };
 		2D8A0394061BA44600A4446B /* atrXE.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = atrXE.h; sourceTree = SOURCE_ROOT; };
 		2D8AFFF6061DBB6E00EC63CC /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; path = Credits.html; sourceTree = SOURCE_ROOT; };
-		2D8B1E42061D036E00B0AA56 /* AboutBox.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = AboutBox.nib; sourceTree = "<group>"; };
+		2D8B1E42061D036E00B0AA56 /* AboutBox.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AboutBox.xib; sourceTree = "<group>"; };
 		2D8B1E46061D03B400B0AA56 /* AboutBox.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AboutBox.m; sourceTree = "<group>"; };
 		2D8B1E47061D03B400B0AA56 /* AboutBox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AboutBox.h; sourceTree = "<group>"; };
 		2D8D38DA0815E3B00008BD93 /* Atari825Simulator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Atari825Simulator.h; sourceTree = "<group>"; };
@@ -552,18 +557,23 @@
 		2D8EC3CD0800BB8F00BE859C /* PrinterProtocol.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrinterProtocol.h; sourceTree = "<group>"; };
 		2D8EC4310800C8C500BE859C /* PrinterSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrinterSimulator.h; sourceTree = "<group>"; };
 		2D8EC4320800C8C500BE859C /* PrinterSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrinterSimulator.m; sourceTree = "<group>"; };
-		2D8F5044060E110700C950A4 /* DiskEditorWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = DiskEditorWindow.nib; sourceTree = "<group>"; };
+		2D8F5044060E110700C950A4 /* DiskEditorWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DiskEditorWindow.xib; sourceTree = "<group>"; };
 		2D8F5067060E15D500C950A4 /* DiskEditorWindow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DiskEditorWindow.h; sourceTree = "<group>"; };
 		2D8F5068060E15D500C950A4 /* DiskEditorWindow.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DiskEditorWindow.m; sourceTree = "<group>"; };
 		2D9627A8106C3CC00081F384 /* Breakpoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Breakpoint.png; sourceTree = SOURCE_ROOT; };
 		2D9627AA106C3CD90081F384 /* CurrentLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CurrentLine.png; sourceTree = SOURCE_ROOT; };
 		2D9627CA106C43700081F384 /* BreakpointCurrentLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BreakpointCurrentLine.png; sourceTree = SOURCE_ROOT; };
+		A8000000DEAD000100000001 /* Atari800Core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Atari800Core.h; sourceTree = "<group>"; };
+		A8000000DEAD000200000002 /* Atari800Engine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Atari800Engine.h; sourceTree = "<group>"; };
+		A8000000DEAD000300000003 /* Atari800Engine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Atari800Engine.m; sourceTree = "<group>"; };
+		A8000000DEAD000400000004 /* PreferenceKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreferenceKeys.h; sourceTree = "<group>"; };
+		A8000000DEAD000500000005 /* PreferenceKeys.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreferenceKeys.m; sourceTree = "<group>"; };
 		2D975D3624E388A700B8A7F5 /* Atari800WindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Atari800WindowController.h; sourceTree = "<group>"; };
 		2D975D3724E388A700B8A7F5 /* Atari800WindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Atari800WindowController.m; sourceTree = "<group>"; };
 		2D9863E407BED49700596C6B /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		2D9B7BBF07F618C80059298E /* PrintableGraphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrintableGraphics.h; sourceTree = "<group>"; };
 		2D9B7BC007F618C80059298E /* PrintableGraphics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrintableGraphics.m; sourceTree = "<group>"; };
-		2DA416410844552E00EA7648 /* PrintOutputConfirm.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = PrintOutputConfirm.nib; sourceTree = SOURCE_ROOT; };
+		2DA416410844552E00EA7648 /* PrintOutputConfirm.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrintOutputConfirm.xib; sourceTree = SOURCE_ROOT; };
 		2DA5816209C5F38700331696 /* devices.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = devices.c; path = ../devices.c; sourceTree = SOURCE_ROOT; };
 		2DA5F7BB24D090E2002EBBFA /* sysrom.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sysrom.c; path = ../sysrom.c; sourceTree = "<group>"; };
 		2DA5F7BC24D090E3002EBBFA /* sysrom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sysrom.h; path = ../sysrom.h; sourceTree = "<group>"; };
@@ -573,7 +583,7 @@
 		2DA74FB010782987008F0171 /* WatchTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WatchTableView.m; sourceTree = SOURCE_ROOT; };
 		2DAB84EE07E39A9700599B16 /* PrintOutputController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrintOutputController.h; sourceTree = "<group>"; };
 		2DAB84EF07E39A9700599B16 /* PrintOutputController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrintOutputController.m; sourceTree = "<group>"; };
-		2DAB84FE07E39B9800599B16 /* PrintOutput.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = PrintOutput.nib; sourceTree = SOURCE_ROOT; };
+		2DAB84FE07E39B9800599B16 /* PrintOutput.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrintOutput.xib; sourceTree = SOURCE_ROOT; };
 		2DAEDBD509B69AED005FF181 /* Atari800MacX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Atari800MacX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DB0A0550F524110007879C7 /* ui_basic.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ui_basic.c; path = ../ui_basic.c; sourceTree = SOURCE_ROOT; };
 		2DB0A0580F52413B007879C7 /* ui_basic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ui_basic.h; path = ../ui_basic.h; sourceTree = SOURCE_ROOT; };
@@ -710,8 +720,8 @@
 		F55583BD030EFF8001A8C8B4 /* atari_mac_sdl.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = atari_mac_sdl.c; sourceTree = SOURCE_ROOT; };
 		F56329590332E78801A8C8B4 /* preferences_c.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = preferences_c.h; sourceTree = "<group>"; };
 		F563295A0332E78801A8C8B4 /* preferences_c.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = preferences_c.c; sourceTree = "<group>"; };
-		F565ED130340F40001A8C8B4 /* ControlManager.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = ControlManager.nib; sourceTree = "<group>"; };
-		F570397A0339709901A8C8B4 /* MediaManager.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = MediaManager.nib; sourceTree = "<group>"; };
+		F565ED130340F40001A8C8B4 /* ControlManager.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControlManager.xib; sourceTree = "<group>"; };
+		F570397A0339709901A8C8B4 /* MediaManager.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MediaManager.xib; sourceTree = "<group>"; };
 		F570397C033987BD01A8C8B4 /* MediaManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MediaManager.m; sourceTree = "<group>"; };
 		F570397D033987BD01A8C8B4 /* MediaManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MediaManager.h; sourceTree = "<group>"; };
 		F570398003398D3301A8C8B4 /* DisplayManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DisplayManager.m; sourceTree = "<group>"; };
@@ -725,8 +735,8 @@
 		F5A47A9D01A0482F01D3D55B /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SDLMain.h; sourceTree = SOURCE_ROOT; };
 		F5A47A9E01A0483001D3D55B /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SDLMain.m; sourceTree = SOURCE_ROOT; };
 		F5C68C3D032B1E4501A8C8B4 /* Fuji.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Fuji.icns; sourceTree = "<group>"; };
-		F5E6BF3A032D9AF501A8C8B4 /* SDLMain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = SDLMain.nib; sourceTree = "<group>"; };
-		F5E6BF3E032DA88501A8C8B4 /* Preferences.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Preferences.nib; sourceTree = "<group>"; };
+		F5E6BF3A032D9AF501A8C8B4 /* SDLMain.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SDLMain.xib; sourceTree = "<group>"; };
+		F5E6BF3E032DA88501A8C8B4 /* Preferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -764,6 +774,11 @@
 				2D52946308568B0E007B8F5F /* Atari800FunctionKeysWindow.m */,
 				2DBC742B05AD0334004925CD /* Atari800Window.m */,
 				2D003B9D21D70F5C003F6F94 /* Atari800Window.h */,
+				A8000000DEAD000100000001 /* Atari800Core.h */,
+				A8000000DEAD000200000002 /* Atari800Engine.h */,
+				A8000000DEAD000300000003 /* Atari800Engine.m */,
+				A8000000DEAD000400000004 /* PreferenceKeys.h */,
+				A8000000DEAD000500000005 /* PreferenceKeys.m */,
 				2D975D3624E388A700B8A7F5 /* Atari800WindowController.h */,
 				2D975D3724E388A700B8A7F5 /* Atari800WindowController.m */,
 				2D68BC170607F3E800BB94D6 /* Atari800TableView.h */,
@@ -1094,15 +1109,15 @@
 				F5C68C3D032B1E4501A8C8B4 /* Fuji.icns */,
 				2D8AFFF6061DBB6E00EC63CC /* Credits.html */,
 				2D76730A21EA791E00D99B0E /* Media.xcassets */,
-				2D8B1E42061D036E00B0AA56 /* AboutBox.nib */,
-				F565ED130340F40001A8C8B4 /* ControlManager.nib */,
-				2D8F5044060E110700C950A4 /* DiskEditorWindow.nib */,
-				F570397A0339709901A8C8B4 /* MediaManager.nib */,
-				F5E6BF3E032DA88501A8C8B4 /* Preferences.nib */,
-				2DAB84FE07E39B9800599B16 /* PrintOutput.nib */,
-				2DA416410844552E00EA7648 /* PrintOutputConfirm.nib */,
-				F5E6BF3A032D9AF501A8C8B4 /* SDLMain.nib */,
-				2D35913B08DDE9F10041824D /* SectorEditorWindow.nib */,
+				2D8B1E42061D036E00B0AA56 /* AboutBox.xib */,
+				F565ED130340F40001A8C8B4 /* ControlManager.xib */,
+				2D8F5044060E110700C950A4 /* DiskEditorWindow.xib */,
+				F570397A0339709901A8C8B4 /* MediaManager.xib */,
+				F5E6BF3E032DA88501A8C8B4 /* Preferences.xib */,
+				2DAB84FE07E39B9800599B16 /* PrintOutput.xib */,
+				2DA416410844552E00EA7648 /* PrintOutputConfirm.xib */,
+				F5E6BF3A032D9AF501A8C8B4 /* SDLMain.xib */,
+				2D35913B08DDE9F10041824D /* SectorEditorWindow.xib */,
 				F5176916034BFE7501A8C8B4 /* Atari800MacX Help */,
 				2D60C39503BFE68F00A8C8B4 /* Updater.esud */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
@@ -1320,6 +1335,9 @@
 				2D0326961085649200983A3E /* AnticDataSource.h in Headers */,
 				2D0326B91085684F00983A3E /* GtiaDataSource.h in Headers */,
 				2D0326F410856DB400983A3E /* PokeyDataSource.h in Headers */,
+				A8000000CAFE000100000001 /* Atari800Core.h in Headers */,
+				A8000000CAFE000200000002 /* Atari800Engine.h in Headers */,
+				A8000000CAFE000400000004 /* PreferenceKeys.h in Headers */,
 				2DEDFBF511FE4C18008B815C /* emuio.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1393,11 +1411,11 @@
 				2D76733F21EA934B00D99B0E /* cartridgeoff.png in Resources */,
 				2D76734321EA98D100D99B0E /* diskette.png in Resources */,
 				2DAEDB4B09B69AED005FF181 /* Fuji.icns in Resources */,
-				2DAEDB4C09B69AED005FF181 /* SDLMain.nib in Resources */,
-				2DAEDB4D09B69AED005FF181 /* Preferences.nib in Resources */,
+				2DAEDB4C09B69AED005FF181 /* SDLMain.xib in Resources */,
+				2DAEDB4D09B69AED005FF181 /* Preferences.xib in Resources */,
 				2D0CA96724B1689E0089AC88 /* AtariClassic-Regular.ttf in Resources */,
-				2DAEDB4E09B69AED005FF181 /* MediaManager.nib in Resources */,
-				2DAEDB4F09B69AED005FF181 /* ControlManager.nib in Resources */,
+				2DAEDB4E09B69AED005FF181 /* MediaManager.xib in Resources */,
+				2DAEDB4F09B69AED005FF181 /* ControlManager.xib in Resources */,
 				2D76733C21EA922600D99B0E /* cassetteon.png in Resources */,
 				2D76733521EA8DF700D99B0E /* text.png in Resources */,
 				2DAEDB5009B69AED005FF181 /* Atari800MacX Help in Resources */,
@@ -1407,11 +1425,11 @@
 				77A5A9D521EC3B440098C3A5 /* lock.png in Resources */,
 				2D76732F21EA8C9E00D99B0E /* epson.png in Resources */,
 				2D76731721EA870800D99B0E /* atari810closed.png in Resources */,
-				2DAEDB5E09B69AED005FF181 /* DiskEditorWindow.nib in Resources */,
+				2DAEDB5E09B69AED005FF181 /* DiskEditorWindow.xib in Resources */,
 				2D76732721EA8B7A00D99B0E /* atari825.png in Resources */,
 				2D76733321EA8D8F00D99B0E /* text_dark.png in Resources */,
 				2DE6170124EA0A1F0032A53F /* Mac52-3x-Clear-60-Rounded.png in Resources */,
-				2DAEDB5F09B69AED005FF181 /* AboutBox.nib in Resources */,
+				2DAEDB5F09B69AED005FF181 /* AboutBox.xib in Resources */,
 				2D76733721EA920000D99B0E /* cassetteoff.png in Resources */,
 				2DE616FF24EA0A010032A53F /* Atari400KeyRepro60Rounded.png in Resources */,
 				2D76731F21EA882000D99B0E /* atari810write.png in Resources */,
@@ -1419,16 +1437,16 @@
 				2DAEDB6009B69AED005FF181 /* Credits.html in Resources */,
 				77324B9324AC2CC50007CB07 /* open810snd.wav in Resources */,
 				2DCB321024F3552900055C74 /* AtariClear60Rounded.png in Resources */,
-				2DAEDB6509B69AED005FF181 /* PrintOutput.nib in Resources */,
+				2DAEDB6509B69AED005FF181 /* PrintOutput.xib in Resources */,
 				2D0CA97624B56AE80089AC88 /* AtasciiDark.png in Resources */,
 				2D76730E21EA7F9A00D99B0E /* atari810off.png in Resources */,
 				2D76734121EA935F00D99B0E /* cartridgeon.png in Resources */,
 				2D76732B21EA8C1400D99B0E /* atari1020.png in Resources */,
 				2D76730B21EA791E00D99B0E /* Media.xcassets in Resources */,
 				2D76731321EA846800D99B0E /* atari810emtpy.png in Resources */,
-				2DAEDB6A09B69AED005FF181 /* PrintOutputConfirm.nib in Resources */,
+				2DAEDB6A09B69AED005FF181 /* PrintOutputConfirm.xib in Resources */,
 				77324B9224AC2CC50007CB07 /* close810snd.wav in Resources */,
-				2DAEDB6D09B69AED005FF181 /* SectorEditorWindow.nib in Resources */,
+				2DAEDB6D09B69AED005FF181 /* SectorEditorWindow.xib in Resources */,
 				2D54B79310684FD800892FE1 /* go.png in Resources */,
 				2D9627A9106C3CC00081F384 /* Breakpoint.png in Resources */,
 				2D9627AB106C3CD90081F384 /* CurrentLine.png in Resources */,
@@ -1585,6 +1603,8 @@
 				2D0326971085649200983A3E /* AnticDataSource.m in Sources */,
 				2D0326BA1085684F00983A3E /* GtiaDataSource.m in Sources */,
 				2D0326F510856DB400983A3E /* PokeyDataSource.m in Sources */,
+				A8000000CAFE000300000003 /* Atari800Engine.m in Sources */,
+				A8000000CAFE000500000005 /* PreferenceKeys.m in Sources */,
 				2DEDFBF411FE4C18008B815C /* emuio.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
