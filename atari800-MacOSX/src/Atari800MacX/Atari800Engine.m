@@ -18,6 +18,7 @@
 #import "Atari800Engine.h"
 #import "Atari800Core.h"
 
+#include <os/lock.h>
 #include "mac_diskled.h"   /* led_status, led_sector */
 
 /* -------------------------------------------------------------------------
