@@ -14,20 +14,21 @@
 	BreakpointCondition *theBreakpoint;
 	
 	theBreakpoint = [[self alloc] initWithConditionIndex:index];
-	[theBreakpoint autorelease];
 	return(theBreakpoint);
 }
 
 -(BreakpointCondition *) initWithConditionIndex:(int) index
 {
-	[super init];
+	self = [super init];
+	if (!self) return nil;
 	memcpy(&cond, &MONITOR_breakpoint_table[index], sizeof(MONITOR_breakpoint_cond));
 	return(self);
 }
 
 -(BreakpointCondition *) initWithBreakpointCondition:(MONITOR_breakpoint_cond *) condition
 {
-	[super init];
+	self = [super init];
+	if (!self) return nil;
 	memcpy(&cond, condition, sizeof(MONITOR_breakpoint_cond));
 	return(self);
 }
@@ -37,9 +38,9 @@
 	return(&cond);
 }
 
--(id) copyWithZone:(NSZone *)zone 
+-(id) copyWithZone:(NSZone *)zone
 {
-	BreakpointCondition *copyCond = [[[self class] allocWithZone:zone] initWithBreakpointCondition:[self getCondition]];
+	BreakpointCondition *copyCond = [[BreakpointCondition alloc] initWithBreakpointCondition:[self getCondition]];
 	return copyCond;
 }
 

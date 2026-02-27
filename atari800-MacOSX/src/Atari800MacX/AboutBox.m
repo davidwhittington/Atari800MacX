@@ -29,14 +29,12 @@ static AboutBox *sharedInstance = nil;
     return sharedInstance ? sharedInstance : [[self alloc] init];
 }
 
-- (id)init 
+- (id)init
 {
     if (sharedInstance) {
-        [self dealloc];
-    } else {
-        sharedInstance = [super init];
+        return sharedInstance;
     }
-    
+    sharedInstance = [super init];
     return sharedInstance;
 }
 
@@ -66,7 +64,6 @@ static AboutBox *sharedInstance = nil;
             NSBeep();
             return;
             }
-        [top retain];
         theWindow = [appNameField window];
 
         // Get the info dictionary (Info.plist)

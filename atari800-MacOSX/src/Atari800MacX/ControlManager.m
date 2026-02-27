@@ -8,6 +8,7 @@
 
 */
 #import "ControlManager.h"
+#import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 #import "Preferences.h"
 #import "DisplayManager.h"
 #import "MediaManager.h"
@@ -219,7 +220,6 @@ void ControlManagerAddToHistory(char *string)
 	
 	historyString = [NSString stringWithCString:string encoding:NSASCIIStringEncoding];
 	[[ControlManager sharedInstance] addToHistory:historyString];
-	[historyString release];
 }
 
 void ControlManagerMonitorSetLabelsDirty(void)
@@ -248,18 +248,19 @@ static int monitorRunFirstTime = 1;
     NSArray *top;
 
     if (sharedInstance) {
-	[self dealloc];
-    } else {
-        [super init];
-        sharedInstance = self;
+        return sharedInstance;
+    }
+    self = [super init];
+    if (!self) return nil;
+    sharedInstance = self;
+    {
         if (!errorTextField) {
-				if (![[NSBundle mainBundle] loadNibNamed:@"ControlManager" owner:self topLevelObjects:&top])  {
-					NSLog(@"Failed to load ControlManager.nib");
-					NSBeep();
-					return nil;
-			}
-            [top retain];
+            if (![[NSBundle mainBundle] loadNibNamed:@"ControlManager" owner:self topLevelObjects:&top])  {
+                NSLog(@"Failed to load ControlManager.nib");
+                NSBeep();
+                return nil;
             }
+        }
     [[waitingTextField window] setExcludedFromWindowsMenu:YES];
     [[waitingTextField window] setMenu:nil];
     [[errorTextField window] setExcludedFromWindowsMenu:YES];
@@ -275,7 +276,6 @@ static int monitorRunFirstTime = 1;
     [monitorOutputView setTypingAttributes:attribs];
     [messageOutputView setTypingAttributes:attribs];
     [monitorOutputView setString:@"Atari800MacX Monitor\nType '?' for help, 'CONT' to exit\n"];
-    [attribs release];
 	
 	// Init Monitor Command History
     historyIndex = 0;
@@ -289,15 +289,15 @@ static int monitorRunFirstTime = 1;
 	black = [NSColor labelColor];
 	red = [NSColor redColor];
     white = [NSColor whiteColor];
-	blackDict =[[NSDictionary dictionaryWithObjectsAndKeys:
+	blackDict =[NSDictionary dictionaryWithObjectsAndKeys:
 				black, NSForegroundColorAttributeName,
 				[NSFont labelFontOfSize:[NSFont smallSystemFontSize]],NSFontAttributeName,
-				nil] retain];
-	redDict =[[NSDictionary dictionaryWithObjectsAndKeys:
+				nil];
+	redDict =[NSDictionary dictionaryWithObjectsAndKeys:
 			    [NSFont labelFontOfSize:[NSFont smallSystemFontSize]],NSFontAttributeName,
 				red, NSForegroundColorAttributeName,
                 white, NSBackgroundColorAttributeName,
-				nil] retain];
+				nil];
 	blackNString = [[NSAttributedString alloc] initWithString:@"N" attributes:blackDict];
 	redNString = [[NSAttributedString alloc] initWithString:@"N" attributes:redDict];
 	blackVString = [[NSAttributedString alloc] initWithString:@"V" attributes:blackDict];
@@ -618,7 +618,8 @@ static int monitorRunFirstTime = 1;
     
     savePanel = [NSSavePanel savePanel];
     
-    [savePanel setAllowedFileTypes:[NSArray arrayWithObject:type]];
+    UTType *utType = [UTType typeWithFilenameExtension:type];
+    if (utType) savePanel.allowedContentTypes = @[utType];
     [savePanel setDirectoryURL:[NSURL fileURLWithPath:directory]];
 
     if ([savePanel runModal] == NSModalResponseOK)
@@ -800,7 +801,6 @@ static int monitorRunFirstTime = 1;
                  selector:@selector(waitNetsioTimeout:)
                  userInfo:nil
                  repeats:YES];
-    [netsioTimer retain];
     [[NSRunLoop currentRunLoop] addTimer:netsioTimer
                                 forMode:NSModalPanelRunLoopMode];
     [NSApp runModalForWindow:[waitingTextField window]];
@@ -811,7 +811,6 @@ static int monitorRunFirstTime = 1;
     if (netsio_enabled)
     {
         [netsioTimer invalidate];
-        [netsioTimer release];
         netsioTimer = nil;
         [NSApp stopModal];
         [[waitingTextField window] close];
@@ -905,7 +904,6 @@ static int monitorRunFirstTime = 1;
 - (IBAction)waitingCancel:(id)sender
 {
     [netsioTimer invalidate];
-    [netsioTimer release];
     netsioTimer = nil;
     [NSApp stopModal];
     [[sender window] close];
@@ -1072,7 +1070,6 @@ static int monitorRunFirstTime = 1;
     stringObj = [[NSString alloc] initWithCString:printString encoding:NSASCIIStringEncoding];
     [messageOutputView replaceCharactersInRange:theEnd withString:stringObj]; // append new string to the end
     theEnd.location += strlen(printString); // the end has moved
-	[stringObj autorelease];
     [messageOutputView scrollRangeToVisible:theEnd];
 }
 
@@ -1134,7 +1131,6 @@ static int monitorRunFirstTime = 1;
     while (retValue == 0) {
         retValue = [NSApp runModalForWindow:[monitorInputField window]];
         theEnd=NSMakeRange([[monitorOutputView string] length],0);
-		[stringObj release];
         stringObj = [[NSString alloc] initWithCString:monitorOutput encoding:NSASCIIStringEncoding];
         [monitorOutputView replaceCharactersInRange:theEnd withString:stringObj]; // append new string to the end
         theEnd.location += monitorCharCount; // the end has moved
@@ -1182,8 +1178,6 @@ static int monitorRunFirstTime = 1;
 *-----------------------------------------------------------------------------*/
 - (void)addToHistory:(NSString *)str
 {
-	[str retain];
-	[history[historyIndex] release];
 	history[historyIndex] = str;
     historyIndex = (historyIndex + 1) % kHistorySize;
 	historyLine = 0;
@@ -1523,10 +1517,7 @@ static int monitorRunFirstTime = 1;
 	char findString[81];
 	
 	[[monitorMemoryFindField stringValue] getCString:findString maxLength:80 encoding:NSASCIIStringEncoding];
-	if ((foundMemoryLocations) != nil && ([foundMemoryLocations count] != 0)) 
-		[foundMemoryLocations release];
 	foundMemoryLocations = [NSMutableArray arrayWithCapacity:100];
-	[foundMemoryLocations retain];
 	memorySearchLength = 0;
 	
 	if (get_hex(findString, &hexval)) {
@@ -1741,6 +1732,7 @@ static int monitorRunFirstTime = 1;
 - (IBAction)okBreakpointEditor:(id)sender
 {
     [NSApp stopModalWithCode:1];
+    [[monitorBreakpointEditorTableView window] makeFirstResponder:breakpointEditorOkButton];
     [[monitorBreakpointEditorTableView window] close];
 }
 
@@ -1904,7 +1896,7 @@ static int monitorRunFirstTime = 1;
 
 - (NSString *) hexStringFromShort:(unsigned short)a
 {
-	return([[NSString stringWithFormat:@"%04X",a] retain]);
+	return([NSString stringWithFormat:@"%04X",a]);
 }
 
 - (NSAttributedString *) colorFromShort:(unsigned short)a:(unsigned short)old_a

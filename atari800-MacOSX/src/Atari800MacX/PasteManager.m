@@ -47,10 +47,12 @@ static PasteManager *sharedInstance = nil;
 
 - (id)init {	
     if (sharedInstance) {
-		[self dealloc];
-    } else {
-        [super init];
-        sharedInstance = self;
+        return sharedInstance;
+    }
+    self = [super init];
+    if (!self) return nil;
+    sharedInstance = self;
+    {
 		charCount = 0;
         parseDict = @{
             @"tab" : [NSNumber numberWithInt:0x2C],
@@ -80,7 +82,6 @@ static PasteManager *sharedInstance = nil;
             @"f3" : [NSNumber numberWithInt:0x13],
             @"f4" : [NSNumber numberWithInt:0x14]
         };
-        [parseDict retain];
         startupPasteString = @"{delay-300}{^+}m";
         startupPasteEnabled = YES;
     }
@@ -395,10 +396,7 @@ static PasteManager *sharedInstance = nil;
     char  name[64];
     char  *pname;
 
-    if (pasteBuffer)
-        [pasteBuffer release];
     pasteBuffer = [NSMutableArray arrayWithCapacity:2048];
-    [pasteBuffer retain];
     char *t = (char *)[pasteString UTF8String];
     char c;
     

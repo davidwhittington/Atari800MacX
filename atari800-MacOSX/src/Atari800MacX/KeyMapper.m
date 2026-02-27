@@ -23,15 +23,22 @@ static KeyMapper *sharedInstance = nil;
     int world = 128; // TBD SDLK_WORLD_0;
 
     if (sharedInstance) {
-	    [self dealloc];
-    } else {
-        [super init];
-        sharedInstance = self;
+        return sharedInstance;
+    }
+    self = [super init];
+    if (!self) return nil;
+    sharedInstance = self;
+    {
 		
 		for ( i=0; i<128; ++i )
 			keymap[i] = SDLK_UNKNOWN;
 		
-        TISInputSourceRef src = TISCopyCurrentKeyboardLayoutInputSource();
+        // Guard against macOS 15+ where Carbon.framework (and HIToolbox TIS APIs)
+        // may be absent. If the symbol is NULL the keymap stays all SDLK_UNKNOWN.
+        TISInputSourceRef src =
+            (TISCopyCurrentKeyboardLayoutInputSource != NULL)
+            ? TISCopyCurrentKeyboardLayoutInputSource()
+            : NULL;
         if (src != NULL) {
             CFDataRef data = (CFDataRef)
                 TISGetInputSourceProperty(src,
@@ -40,7 +47,11 @@ static KeyMapper *sharedInstance = nil;
                 const UCKeyboardLayout *layout = (const UCKeyboardLayout *)
                     CFDataGetBytePtr(data);
                 if (layout != NULL) {
+#if TARGET_CPU_ARM64
+                    const UInt32 kbdtype = 0; /* LMGetKbdType() unavailable on arm64 */
+#else
                     const UInt32 kbdtype = LMGetKbdType();
+#endif
                     saw_layout = YES;
 
                     /* Loop over all 127 possible scan codes */

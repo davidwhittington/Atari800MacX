@@ -44,11 +44,6 @@
 	[_contents setAttributes:attributes range:range];
 }
 				  
--(void)dealloc
-{
-	[_contents release];
-	[super dealloc];
-}
 
 -(void) setLocation:(NSPoint)location
 {

@@ -9,6 +9,7 @@
 */
 #import <Cocoa/Cocoa.h>
 #import <SDL.h>
+#import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 #import "Preferences.h"
 #import "MediaManager.h"
 #import "ControlManager.h"
@@ -53,12 +54,25 @@ extern EPSON_PREF prefsEpson;
 extern ATASCII_PREF prefsAtascii;
 extern int diskDriveSound;
 extern int FULLSCREEN_MACOS;
+
+typedef struct CARTRIDGE_funcs_type {
+    void (*shutdown)(void);
+    int (*is_dirty)(void);
+    void (*cold_reset)(void);
+    uint8_t (*read_byte)(uint16_t address);
+    void (*write_byte)(uint16_t address, uint8_t value);
+    void (*map)(void);
+} CARTRIDGE_funcs_type;
+
 typedef struct CARTRIDGE_image_t {
     int type;
     int state; /* Cartridge's state, such as selected bank or switch on/off. */
-    int size; /* Size of the image, in kilobytes */
-    unsigned char *image;
+    int size; /* Size of the image, in kilobytes. */
+    uint8_t *image;
     char filename[FILENAME_MAX];
+    int raw; /* File contains RAW data (important for writeable cartridges). */
+    int blank; /* Blank cartridge that has never been saved */
+    CARTRIDGE_funcs_type funcs; /* Cart specific functions */
 } CARTRIDGE_image_t;
 
 extern CARTRIDGE_image_t CARTRIDGE_main;
@@ -300,6 +314,9 @@ static NSDictionary *defaultValues() {
                 [NSNumber numberWithBool:NO], OnlyIntegralScaling,
                 [NSNumber numberWithBool:NO], FixAspectFullscreen,
                 [NSNumber numberWithBool:NO], VsyncDisabled,
+                [NSNumber numberWithBool:YES], LinearFilterEnabled,
+                [NSNumber numberWithBool:YES], PixelAspectEnabled,
+                [NSNumber numberWithDouble:25.0], ScanlineTransparency,
                 [NSNumber numberWithBool:YES], LedStatus,
                 [NSNumber numberWithBool:YES], LedSector,
                 [NSNumber numberWithBool:YES], LedStatusMedia,
@@ -692,34 +709,30 @@ static Preferences *sharedInstance = nil;
 *-----------------------------------------------------------------------------*/
 - (id)init {
     if (sharedInstance) {
-	[self dealloc];
-    } else {
-        [super init];
-        curValues = [[[self class] preferencesFromDefaults] copyWithZone:[self zone]];
-        origValues = [curValues retain];
-        [self transferValuesToEmulator];
-        [self transferValuesToAtari825];
-        [self transferValuesToAtari1020];
-        [self transferValuesToAtascii];
-        [self transferValuesToEpson];
-        commitPrefs();
-        [self discardDisplayedValues];
-        sharedInstance = self;
-		modems = [NSMutableArray array];
-		[modems retain];
-        [[PasteManager sharedInstance] setEscapeCopy:[[curValues objectForKey:EscapeCopy] boolValue]];
-        [[PasteManager sharedInstance] setStartupPasteEnabled:[[curValues objectForKey:StartupPasteEnable] boolValue]];
-        [[PasteManager sharedInstance] setStartupPasteString:[curValues objectForKey:StartupPasteString]];
+        return sharedInstance;
     }
+    self = [super init];
+    if (!self) return nil;
+    curValues = [[[self class] preferencesFromDefaults] copy];
+    origValues = curValues;
+    [self transferValuesToEmulator];
+    [self transferValuesToAtari825];
+    [self transferValuesToAtari1020];
+    [self transferValuesToAtascii];
+    [self transferValuesToEpson];
+    commitPrefs();
+    [self discardDisplayedValues];
+    sharedInstance = self;
+    modems = [NSMutableArray array];
+    [[PasteManager sharedInstance] setEscapeCopy:[[curValues objectForKey:EscapeCopy] boolValue]];
+    [[PasteManager sharedInstance] setStartupPasteEnabled:[[curValues objectForKey:StartupPasteEnable] boolValue]];
+    [[PasteManager sharedInstance] setStartupPasteString:[curValues objectForKey:StartupPasteString]];
     return sharedInstance;
 }
 
 /*------------------------------------------------------------------------------
 *  Destructor
 *-----------------------------------------------------------------------------*/
-- (void)dealloc {
-	[super dealloc];
-}
 
 /*------------------------------------------------------------------------------
 * preferences - Method to return pointer to current preferences.
@@ -772,7 +785,6 @@ static Preferences *sharedInstance = nil;
         [atasciiFontDropdown removeAllItems];
         [atasciiFontDropdown addItemsWithTitles:filteredFonts];
         }
-    [top retain];
 	[[prefTabView window] setExcludedFromWindowsMenu:YES];
 	[[prefTabView window] setMenu:nil];
 	[[gamepadButton1 window] setExcludedFromWindowsMenu:YES];
@@ -865,9 +877,9 @@ static Preferences *sharedInstance = nil;
 
     if (!prefTabView) return;	/* UI hasn't been loaded... */
 
-    [scaleModeMatrix  selectCellWithTag:[[displayedValues objectForKey:ScaleMode] intValue]];
-    [widthModeMatrix  selectCellWithTag:[[displayedValues objectForKey:WidthMode] intValue]];
-    [tvModeMatrix  selectCellWithTag:[[displayedValues objectForKey:TvMode] intValue]];
+    [scaleModeMatrix  setSelectedSegment:[[displayedValues objectForKey:ScaleMode] intValue]];
+    [widthModeMatrix  setSelectedSegment:[[displayedValues objectForKey:WidthMode] intValue]];
+    [tvModeMatrix  setSelectedSegment:[[displayedValues objectForKey:TvMode] intValue]];
     [spriteCollisionsButton setState:[[displayedValues objectForKey:SpriteCollisions] boolValue] ? NSOnState : NSOffState];
     index = [[displayedValues objectForKey:RefreshRatio] intValue] - 1;
     [refreshRatioPulldown  selectItemAtIndex:index];
@@ -884,6 +896,9 @@ static Preferences *sharedInstance = nil;
     [onlyIntegralScalingButton setState:[[displayedValues objectForKey:OnlyIntegralScaling] boolValue] ? NSOnState : NSOffState];
     [fixAspectFullscreenButton setState:[[displayedValues objectForKey:FixAspectFullscreen] boolValue] ? NSOnState : NSOffState];
     [vsyncEnabledButton setState:[[displayedValues objectForKey:VsyncDisabled] boolValue] ? NSOffState : NSOnState];
+    [linearFilterEnabledButton setState:[[displayedValues objectForKey:LinearFilterEnabled] boolValue] ? NSOnState : NSOffState];
+    [pixelAspectEnabledButton setState:[[displayedValues objectForKey:PixelAspectEnabled] boolValue] ? NSOnState : NSOffState];
+    [scanlineTransparencySlider setDoubleValue:[[displayedValues objectForKey:ScanlineTransparency] doubleValue]];
     [ledStatusButton setState:[[displayedValues objectForKey:LedStatus] boolValue] ? NSOnState : NSOffState];
     [ledSectorButton setState:[[displayedValues objectForKey:LedSector] boolValue] ? NSOnState : NSOffState];
     [ledHDSectorButton setState:[[displayedValues objectForKey:LedHDSector] boolValue] ? NSOnState : NSOffState];
@@ -909,10 +924,10 @@ static Preferences *sharedInstance = nil;
     [rPatchPortField setStringValue:[displayedValues objectForKey:RPatchPort]];
 	portName = [displayedValues objectForKey:RPatchSerialPort];	
 	if ([[displayedValues objectForKey:RPatchSerialEnabled] boolValue] == YES) {
-		[rPatchSerialMatrix selectCellWithTag:0];
+		[rPatchSerialMatrix setSelectedSegment:0];
   }
 	else {
-		[rPatchSerialMatrix selectCellWithTag:1];
+		[rPatchSerialMatrix setSelectedSegment:1];
   }
 	
 	[rPatchSerialPulldown removeAllItems];
@@ -990,13 +1005,13 @@ static Preferences *sharedInstance = nil;
 	}
 	if (!foundMatch)
 		[mosaicMemSizePulldown selectItemAtIndex:0];
-	/* Update PBI expansion matrix (Black Box, MIO, None) */
+	/* Update PBI expansion segmented control (None=0, Black Box=1, MIO=2) */
 	if ([[displayedValues objectForKey:BlackBoxEnabled] boolValue] == YES)
-		[pbiExpansionMatrix selectCellWithTag:2];
+		[pbiExpansionMatrix setSelectedSegment:1];
 	else if ([[displayedValues objectForKey:MioEnabled] boolValue] == YES)
-		[pbiExpansionMatrix selectCellWithTag:3];
+		[pbiExpansionMatrix setSelectedSegment:2];
 	else
-		[pbiExpansionMatrix selectCellWithTag:1]; /* None */		
+		[pbiExpansionMatrix setSelectedSegment:0]; /* None */
 	/* Update FujiNet UI fields */
 	if ([displayedValues objectForKey:FujiNetEnabled] && [[displayedValues objectForKey:FujiNetEnabled] boolValue] == YES)
 		[fujiNetEnabledButton setState:NSOnState];
@@ -1692,7 +1707,7 @@ static Preferences *sharedInstance = nil;
         fourteen = [[NSNumber alloc] initWithInt:14];
     }
 
-	switch([[scaleModeMatrix selectedCell] tag]) {
+	switch([scaleModeMatrix selectedSegment]) {
         case 0:
 		default:
             [displayedValues setObject:zero forKey:ScaleMode];
@@ -1701,7 +1716,7 @@ static Preferences *sharedInstance = nil;
             [displayedValues setObject:one forKey:ScaleMode];
             break;
     }
-	switch([[widthModeMatrix selectedCell] tag]) {
+	switch([widthModeMatrix selectedSegment]) {
         case 0:
 		default:
             [displayedValues setObject:zero forKey:WidthMode];
@@ -1713,7 +1728,7 @@ static Preferences *sharedInstance = nil;
             [displayedValues setObject:two forKey:WidthMode];
             break;
     }
-    switch([[tvModeMatrix selectedCell] tag]) {
+    switch([tvModeMatrix selectedSegment]) {
         case 0:
 		default:
             [displayedValues setObject:zero forKey:TvMode];
@@ -1818,6 +1833,16 @@ static Preferences *sharedInstance = nil;
         [displayedValues setObject:no forKey:VsyncDisabled];
     else
         [displayedValues setObject:yes forKey:VsyncDisabled];
+    if ([linearFilterEnabledButton state] == NSOnState)
+        [displayedValues setObject:yes forKey:LinearFilterEnabled];
+    else
+        [displayedValues setObject:no forKey:LinearFilterEnabled];
+    if ([pixelAspectEnabledButton state] == NSOnState)
+        [displayedValues setObject:yes forKey:PixelAspectEnabled];
+    else
+        [displayedValues setObject:no forKey:PixelAspectEnabled];
+    [displayedValues setObject:[NSNumber numberWithFloat:[scanlineTransparencySlider doubleValue]]
+        forKey:ScanlineTransparency];
     if ([ledSectorButton state] == NSOnState)
         [displayedValues setObject:yes forKey:LedSector];
     else
@@ -2177,7 +2202,7 @@ static Preferences *sharedInstance = nil;
     else
         [displayedValues setObject:no forKey:EnableRPatch];
     [displayedValues setObject:[rPatchPortField stringValue] forKey:RPatchPort];
-	switch([[rPatchSerialMatrix selectedCell] tag]) {
+	switch([rPatchSerialMatrix selectedSegment]) {
         case 0:
 		default:
             [displayedValues setObject:yes forKey:RPatchSerialEnabled];
@@ -2314,17 +2339,17 @@ static Preferences *sharedInstance = nil;
 
 	[displayedValues setObject:[NSNumber numberWithInt:axlonBankMasks[[axlonMemSizePulldown indexOfSelectedItem]]] forKey:AxlonBankMask];
 	[displayedValues setObject:[NSNumber numberWithInt:mosaicBankMaxs[[mosaicMemSizePulldown indexOfSelectedItem]]] forKey:MosaicMaxBank];
-	switch([[pbiExpansionMatrix selectedCell] tag]) {
-        case 1:
+	switch([pbiExpansionMatrix selectedSegment]) {
+        case 0:
 		default:
             [displayedValues setObject:no forKey:BlackBoxEnabled];
             [displayedValues setObject:no forKey:MioEnabled];
             break;
-        case 2:
+        case 1:
             [displayedValues setObject:yes forKey:BlackBoxEnabled];
             [displayedValues setObject:no forKey:MioEnabled];
             break;
-        case 3:
+        case 2:
             [displayedValues setObject:no forKey:BlackBoxEnabled];
             [displayedValues setObject:yes forKey:MioEnabled];
             break;
@@ -3114,7 +3139,8 @@ static Preferences *sharedInstance = nil;
     
     savePanel = [NSSavePanel savePanel];
     
-    [savePanel setAllowedFileTypes:[NSArray arrayWithObject:type]];
+    UTType *utType = [UTType typeWithFilenameExtension:type];
+    if (utType) savePanel.allowedContentTypes = @[utType];
     [savePanel setDirectoryURL:[NSURL fileURLWithPath:directory]];
     if ([savePanel runModal] == NSModalResponseOK)
         return([[savePanel URL] path]);
@@ -3148,7 +3174,6 @@ static Preferences *sharedInstance = nil;
         [paletteField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
     }
 
 - (void)browseImage:(id)sender {
@@ -3270,7 +3295,6 @@ static Preferences *sharedInstance = nil;
         [af80RomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
     }
 
 - (IBAction)browseAF80CharsetRom:(id)sender {
@@ -3282,7 +3306,6 @@ static Preferences *sharedInstance = nil;
         [af80CharsetRomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
 }
 
 - (IBAction)browseBit3Rom:(id)sender {
@@ -3294,7 +3317,6 @@ static Preferences *sharedInstance = nil;
         [bit3RomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
     }
 
 - (IBAction)browseBit3CharsetRom:(id)sender {
@@ -3306,7 +3328,6 @@ static Preferences *sharedInstance = nil;
         [bit3CharsetRomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
 }
 
 - (IBAction)identifyRom:(id)sender {
@@ -3383,7 +3404,6 @@ static Preferences *sharedInstance = nil;
         [osBRomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
     }
     
 - (void)browseXlRom:(id)sender {
@@ -3395,7 +3415,6 @@ static Preferences *sharedInstance = nil;
         [xlRomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
     }
     
 - (void)browse1200XLRom:(id)sender {
@@ -3407,7 +3426,6 @@ static Preferences *sharedInstance = nil;
         [a1200xlRomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
     }
 
 - (void)browseXEGSRom:(id)sender {
@@ -3419,7 +3437,6 @@ static Preferences *sharedInstance = nil;
         [xegsRomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
     }
 
 - (void)browseXEGSGameRom:(id)sender {
@@ -3431,7 +3448,6 @@ static Preferences *sharedInstance = nil;
         [xegsGameRomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
     }
 
 - (void)browseBasicRom:(id)sender {
@@ -3443,7 +3459,6 @@ static Preferences *sharedInstance = nil;
         [basicRomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
     }
     
 - (void)browse5200Rom:(id)sender {
@@ -3455,7 +3470,6 @@ static Preferences *sharedInstance = nil;
         [a5200RomFileField setStringValue:filename];
         [self miscChanged:self];
         }
-    [dir release];
     }
 
 - (void)browseMioRom:(id)sender {
@@ -3467,7 +3481,6 @@ static Preferences *sharedInstance = nil;
         [mioRomFileField setStringValue:filename];
         [self miscChanged:self];
     }
-    [dir release];
 }
 
 - (void)browseUltimate1MBFlash:(id)sender {
@@ -3479,7 +3492,6 @@ static Preferences *sharedInstance = nil;
         [ultimate1MBFlashFileField setStringValue:filename];
         [self miscChanged:self];
     }
-    [dir release];
 }
 
 - (void)browseSide2Flash:(id)sender {
@@ -3491,7 +3503,6 @@ static Preferences *sharedInstance = nil;
         [side2FlashFileField setStringValue:filename];
         [self miscChanged:self];
     }
-    [dir release];
 }
 
 - (void)browseSide2CF:(id)sender {
@@ -3503,7 +3514,6 @@ static Preferences *sharedInstance = nil;
         [side2CFFileField setStringValue:filename];
         [self miscChanged:self];
     }
-    [dir release];
 }
 
 - (void)browseBlackBoxRom:(id)sender {
@@ -3515,7 +3525,6 @@ static Preferences *sharedInstance = nil;
         [blackBoxRomFileField setStringValue:filename];
         [self miscChanged:self];
 	}
-    [dir release];
 }
 
 - (void)browseBlackBoxScsiDiskFile:(id)sender {
@@ -3527,7 +3536,6 @@ static Preferences *sharedInstance = nil;
         [blackBoxScsiDiskFileField setStringValue:filename];
         [self miscChanged:self];
 	}
-    [dir release];
 }
 
 - (void)browseMioScsiDiskFile:(id)sender {
@@ -3539,7 +3547,6 @@ static Preferences *sharedInstance = nil;
         [mioScsiDiskFileField setStringValue:filename];
         [self miscChanged:self];
 	}
-    [dir release];
 }
 /* The following methods allow the user to choose the default directories
     for files */
@@ -3754,15 +3761,13 @@ static Preferences *sharedInstance = nil;
 
 - (void)commitDisplayedValues {
     if (curValues != displayedValues) {
-        [curValues release];
-        curValues = [displayedValues copyWithZone:[self zone]];
+        curValues = [displayedValues copy];
     }
 }
 
 - (void)discardDisplayedValues {
     if (curValues != displayedValues) {
-        [displayedValues release];
-        displayedValues = [curValues mutableCopyWithZone:[self zone]];
+        displayedValues = [curValues mutableCopy];
         [self updateUI];
     }
 }
@@ -3854,6 +3859,9 @@ static Preferences *sharedInstance = nil;
     prefs->onlyIntegralScaling = [[curValues objectForKey:OnlyIntegralScaling] intValue];
     prefs->fixAspectFullscreen = [[curValues objectForKey:FixAspectFullscreen] intValue];
     prefs->vsyncEnabled = 1 - [[curValues objectForKey:VsyncDisabled] intValue];
+    prefs->linearFilterEnabled = [[curValues objectForKey:LinearFilterEnabled] intValue];
+    prefs->pixelAspectEnabled = [[curValues objectForKey:PixelAspectEnabled] intValue];
+    prefs->scanlineTransparency = [[curValues objectForKey:ScanlineTransparency] doubleValue];
     prefs->ledStatus = [[curValues objectForKey:LedStatus] intValue];
     prefs->ledSector = [[curValues objectForKey:LedSector] intValue];
     prefs->ledHDSector = [[curValues objectForKey:LedHDSector] intValue];
@@ -4199,6 +4207,9 @@ static Preferences *sharedInstance = nil;
 		}
     [displayedValues setObject:prefssave->showFPS ? yes : no forKey:ShowFPS];
     [displayedValues setObject:prefssave->vsyncEnabled ? no : yes forKey:VsyncDisabled];
+    [displayedValues setObject:prefssave->linearFilterEnabled ? yes : no forKey:LinearFilterEnabled];
+    [displayedValues setObject:prefssave->pixelAspectEnabled ? yes : no forKey:PixelAspectEnabled];
+    [displayedValues setObject:[NSNumber numberWithDouble:prefssave->scanlineTransparency] forKey:ScanlineTransparency];
     [displayedValues setObject:prefssave->ledStatus ? yes : no forKey:LedStatus];
     [displayedValues setObject:prefssave->ledSector ? yes : no forKey:LedSector];
     [displayedValues setObject:prefssave->speedLimit ? yes : no forKey:SpeedLimit];
@@ -4543,8 +4554,8 @@ static Preferences *sharedInstance = nil;
 - (void)revertToDefault:(id)sender {
     NSMutableArray *configArray;
     
-    configArray = [[curValues objectForKey:GamepadConfigArray] mutableCopyWithZone:[self zone]];
-    curValues = [defaultValues() mutableCopyWithZone:[self zone]];
+    configArray = [[curValues objectForKey:GamepadConfigArray] mutableCopy];
+    curValues = [defaultValues() mutableCopy];
     [curValues setObject:configArray forKey:GamepadConfigArray];
     
     [self discardDisplayedValues];
@@ -4738,9 +4749,9 @@ static Preferences *sharedInstance = nil;
             button5200Key = [Button5200AssignmentPrefix stringByAppendingString:
                 [displayedValues objectForKey:GamepadConfigCurrent]];
             [displayedValues setObject:[[[NSUserDefaults standardUserDefaults] objectForKey:buttonKey] 
-                mutableCopyWithZone:[self zone]] forKey:ButtonAssignment];
+                mutableCopy] forKey:ButtonAssignment];
             [displayedValues setObject:[[[NSUserDefaults standardUserDefaults] objectForKey:button5200Key]
-                mutableCopyWithZone:[self zone]] forKey:Button5200Assignment];
+                mutableCopy] forKey:Button5200Assignment];
             }
         }
     else {
@@ -4751,9 +4762,9 @@ static Preferences *sharedInstance = nil;
         buttonKey = [ButtonAssignmentPrefix stringByAppendingString:[gamepadConfigPulldown itemTitleAtIndex:action]];
         button5200Key = [Button5200AssignmentPrefix stringByAppendingString:[gamepadConfigPulldown itemTitleAtIndex:action]];
         [displayedValues setObject:[[[NSUserDefaults standardUserDefaults] objectForKey:buttonKey] 
-            mutableCopyWithZone:[self zone]] forKey:ButtonAssignment];
+            mutableCopy] forKey:ButtonAssignment];
         [displayedValues setObject:[[[NSUserDefaults standardUserDefaults] objectForKey:button5200Key]
-            mutableCopyWithZone:[self zone]] forKey:Button5200Assignment];
+            mutableCopy] forKey:Button5200Assignment];
         }
     
     /* Set the menu to the selected configuration */
@@ -4844,7 +4855,6 @@ static Preferences *sharedInstance = nil;
                 NSBeep();
                 return;
         }
-        [top retain];
     }
 
     gamepadButtons[0] = gamepadButton1;
@@ -4904,29 +4914,17 @@ static Preferences *sharedInstance = nil;
     int numButtons, numSticks, numHats, i;
     SDL_Joystick *joystick;
 
-    if (joystick0)
-        [[gamepadSelector cellAtRow:0 column:0] setEnabled:YES];
-    else
-        [[gamepadSelector cellAtRow:0 column:0] setEnabled:NO];
-    if (joystick1)
-        [[gamepadSelector cellAtRow:0 column:1] setEnabled:YES];
-    else
-        [[gamepadSelector cellAtRow:0 column:1] setEnabled:NO];
-    if (joystick2)
-        [[gamepadSelector cellAtRow:0 column:2] setEnabled:YES];
-    else
-        [[gamepadSelector cellAtRow:0 column:2] setEnabled:NO];
-    if (joystick3)
-        [[gamepadSelector cellAtRow:0 column:3] setEnabled:YES];
-    else
-        [[gamepadSelector cellAtRow:0 column:3] setEnabled:NO];
+    [gamepadSelector setEnabled:joystick0 ? YES : NO forSegment:0];
+    [gamepadSelector setEnabled:joystick1 ? YES : NO forSegment:1];
+    [gamepadSelector setEnabled:joystick2 ? YES : NO forSegment:2];
+    [gamepadSelector setEnabled:joystick3 ? YES : NO forSegment:3];
 
     if (sender == self || sender == 0) {
         padNum = 0;
-        [gamepadSelector selectCellWithTag:0];
+        [gamepadSelector setSelectedSegment:0];
     }
     else {
-        padNum = [gamepadSelector selectedTag];
+        padNum = [gamepadSelector selectedSegment];
     }
 
     if (padNum == 0) {
@@ -5298,7 +5296,7 @@ static Preferences *sharedInstance = nil;
       
 #define getArrayDefault(name) \
   {id obj = [defaults objectForKey:name]; \
-      [dict setObject:obj ? [NSMutableArray arrayWithArray:[defaults arrayForKey:name]] : [[defaultValues() objectForKey:name] mutableCopyWithZone:[self zone]] forKey:name];}
+      [dict setObject:obj ? [NSMutableArray arrayWithArray:[defaults arrayForKey:name]] : [[defaultValues() objectForKey:name] mutableCopy] forKey:name];}
       
 /* Read prefs from system defaults */
 + (NSDictionary *)preferencesFromDefaults {
@@ -5327,6 +5325,9 @@ static Preferences *sharedInstance = nil;
     getBoolDefault(OnlyIntegralScaling);
     getBoolDefault(FixAspectFullscreen);
     getBoolDefault(VsyncDisabled);
+    getBoolDefault(LinearFilterEnabled);
+    getBoolDefault(PixelAspectEnabled);
+    getFloatDefault(ScanlineTransparency);
     getBoolDefault(LedStatus);
     getBoolDefault(LedSector);
     getBoolDefault(LedHDSector);
@@ -5641,6 +5642,9 @@ static Preferences *sharedInstance = nil;
     setBoolDefault(OnlyIntegralScaling);
     setBoolDefault(FixAspectFullscreen);
     setBoolDefault(VsyncDisabled);
+    setBoolDefault(LinearFilterEnabled);
+    setBoolDefault(PixelAspectEnabled);
+    setFloatDefault(ScanlineTransparency);
     setBoolDefault(LedStatus);
     setBoolDefault(LedSector);
     setBoolDefault(LedHDSector);
@@ -5936,6 +5940,9 @@ static Preferences *sharedInstance = nil;
     setConfig(OnlyIntegralScaling);
     setConfig(FixAspectFullscreen);
     setConfig(VsyncDisabled);
+    setConfig(LinearFilterEnabled);
+    setConfig(PixelAspectEnabled);
+    setConfig(ScanlineTransparency);
     setConfig(LedStatus);
     setConfig(LedSector);
     setConfig(LedHDSector);
@@ -6193,14 +6200,12 @@ static Preferences *sharedInstance = nil;
     xmlData = [NSPropertyListSerialization dataWithPropertyList:dict
         format:NSPropertyListXMLFormat_v1_0 options:0
                                            error:&error];
-	[dict release];
 	
 	if(xmlData) {
 		[xmlData writeToFile:filename atomically:YES];
 	}
 	else {
 		NSLog(@"%@",error);
-		[error release];
 	}
 }
 
@@ -6239,7 +6244,9 @@ static Preferences *sharedInstance = nil;
 	[openPanel setCanChooseDirectories:NO];
 	[openPanel setCanChooseFiles:YES];
     [openPanel setDirectoryURL:[NSURL fileURLWithPath:[NSString stringWithCString:atari_config_dir encoding:NSUTF8StringEncoding]]];
-    [openPanel setAllowedFileTypes:[NSArray arrayWithObjects:@"a8c",@"A8C",nil]];
+    // .a8c is a custom Atari 800 config type; UTType resolves it by extension (case-insensitive).
+    UTType *a8cType = [UTType typeWithFilenameExtension:@"a8c"];
+    if (a8cType) openPanel.allowedContentTypes = @[a8cType];
 
 	if ([openPanel runModal] != NSModalResponseOK) { 
 		[[KeyMapper sharedInstance] releaseCmdKeys:@"l"];
@@ -6304,7 +6311,6 @@ static Preferences *sharedInstance = nil;
         error:&error];
 	if(!configDict){
 		NSLog(@"%@",error);
-		[error release];
 		return;
 	}
 
@@ -6329,6 +6335,9 @@ static Preferences *sharedInstance = nil;
     getConfig(OnlyIntegralScaling);
     getConfig(FixAspectFullscreen);
     getConfig(VsyncDisabled);
+    getConfig(LinearFilterEnabled);
+    getConfig(PixelAspectEnabled);
+    getConfig(ScanlineTransparency);
     getConfig(LedStatus);
     getConfig(LedSector);
     getConfig(LedHDSector);
@@ -6592,9 +6601,7 @@ static Preferences *sharedInstance = nil;
     getConfig(FunctionKeysY);
     getConfig(ApplicationWindowX);
     getConfig(ApplicationWindowY);
-
-	[curValues release];
-	curValues = [dict mutableCopyWithZone:[self zone]];
+	curValues = [dict mutableCopy];
 	[self discardDisplayedValues];
 }
 

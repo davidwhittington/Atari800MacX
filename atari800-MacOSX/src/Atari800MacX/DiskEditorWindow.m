@@ -23,7 +23,6 @@ static NSMutableArray *editorArray = nil;
 {
 	if (editorArray == nil) {
 		editorArray = [[NSMutableArray alloc] initWithCapacity:5];
-		[editorArray retain];
 		}
 	return(editorArray);
 }
@@ -63,7 +62,8 @@ static NSMutableArray *editorArray = nil;
 	(DiskEditorDataSource *)dataSource:
 	(NSString *)filename
 	{
-	[super initWithWindowNibName:windowNibName];
+	self = [super initWithWindowNibName:windowNibName];
+	if (!self) return nil;
 	directoryDataSource = dataSource;
 	diskImageReadWrite = 0;
 	diskImageSubdirs = 0;
@@ -72,7 +72,6 @@ static NSMutableArray *editorArray = nil;
     tabConvert = 0;
 	imageEditorOpen = 0;
 	imageFilename = filename;
-	[imageFilename retain];
 	[[DiskEditorWindow getEditorArray] addObject:self];
     return self;
 	}
@@ -473,8 +472,6 @@ static NSMutableArray *editorArray = nil;
 {
 	[[DiskEditorWindow getEditorArray] removeObject:self];
 	[directoryDataSource reset];
-	[imageFilename autorelease];
-	[self autorelease];
     return YES;
 }
 

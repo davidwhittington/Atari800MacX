@@ -1,0 +1,1350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="24412" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment version="101202" identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24412"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
+            <connections>
+                <outlet property="delegate" destination="194" id="195"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <menu title="SDLMain" systemMenu="main" id="29" userLabel="MainMenu">
+            <items>
+                <menuItem title="SDL App" id="300">
+                    <menu key="submenu" title="SDL App" systemMenu="apple" autoenablesItems="NO" id="299">
+                        <items>
+                            <menuItem title="About SDL App" id="303">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="showAboutBox:" target="524" id="784"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Donate..." id="818">
+                                <connections>
+                                    <action selector="showDonation:" target="524" id="819"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Preferences..." keyEquivalent="," id="295">
+                                <connections>
+                                    <action selector="showPanel:" target="315" id="317"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="304">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Hide SDL App" keyEquivalent="h" id="296">
+                                <connections>
+                                    <action selector="hide:" target="-1" id="305"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Hide Others" id="294">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="hideOtherApplications:" target="-1" id="308"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Show All" id="292">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="unhideAllApplications:" target="-1" id="306"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="293">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Close Window" keyEquivalent="w" id="775">
+                                <connections>
+                                    <action selector="closeKeyWindow:" target="473" id="778"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="776">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Quit SDL App" keyEquivalent="q" id="302">
+                                <connections>
+                                    <action selector="terminate:" target="-1" id="307"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Edit" id="607">
+                    <menu key="submenu" title="Edit" id="622">
+                        <items>
+                            <menuItem title="Undo" keyEquivalent="z" id="626">
+                                <connections>
+                                    <action selector="undo:" target="-1" id="633"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Redo" keyEquivalent="Z" id="620">
+                                <connections>
+                                    <action selector="redo:" target="-1" id="636"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="610">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Cut" keyEquivalent="x" id="608">
+                                <connections>
+                                    <action selector="cut:" target="-1" id="6cM-of-ie5"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Copy" keyEquivalent="c" id="631">
+                                <connections>
+                                    <action selector="copy:" target="498" id="XWX-NT-khA"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Paste" keyEquivalent="v" id="605">
+                                <connections>
+                                    <action selector="paste:" target="498" id="l6m-ui-WGh"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Delete" id="615">
+                                <connections>
+                                    <action selector="delete:" target="-1" id="637"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Select All" keyEquivalent="a" id="619">
+                                <connections>
+                                    <action selector="selectAll:" target="498" id="np0-QJ-c9T"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="rg3-br-XfD"/>
+                            <menuItem title="Escape ATASCII On Copy" id="u4Q-E0-HNj">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="handleEscapeCopyMenu:" target="bvR-X1-pfS" id="AFh-3w-FTB"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Media" id="375">
+                    <menu key="submenu" title="Media" id="376">
+                        <items>
+                            <menuItem title="Disk Management..." keyEquivalent="d" id="377">
+                                <connections>
+                                    <action selector="showManagementPanel:" target="473" id="474"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Insert Floppy" id="383">
+                                <menu key="submenu" title="Insert Floppy" id="384">
+                                    <items>
+                                        <menuItem title="D1:..." tag="1" keyEquivalent="1" id="385">
+                                            <connections>
+                                                <action selector="diskInsert:" target="473" id="475"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="D2:..." tag="2" keyEquivalent="2" id="389">
+                                            <connections>
+                                                <action selector="diskInsert:" target="473" id="476"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="D3:..." tag="3" keyEquivalent="3" id="390">
+                                            <connections>
+                                                <action selector="diskInsert:" target="473" id="477"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="D4:..." tag="4" keyEquivalent="4" id="391">
+                                            <connections>
+                                                <action selector="diskInsert:" target="473" id="478"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="D5:..." tag="5" keyEquivalent="5" id="392">
+                                            <connections>
+                                                <action selector="diskInsert:" target="473" id="479"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="D6:..." tag="6" keyEquivalent="6" id="393">
+                                            <connections>
+                                                <action selector="diskInsert:" target="473" id="480"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="D7:..." tag="7" keyEquivalent="7" id="394">
+                                            <connections>
+                                                <action selector="diskInsert:" target="473" id="481"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="D8:..." tag="8" keyEquivalent="8" id="395">
+                                            <connections>
+                                                <action selector="diskInsert:" target="473" id="482"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Remove Floppy" id="397">
+                                <menu key="submenu" title="Remove Floppy" id="405">
+                                    <items>
+                                        <menuItem title="All" keyEquivalent="0" id="471">
+                                            <connections>
+                                                <action selector="diskRemoveAll:" target="473" id="548"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="470">
+                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                        </menuItem>
+                                        <menuItem title="D1:" tag="1" keyEquivalent="1" id="404">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="diskRemove:" target="473" id="484"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="D2:" tag="2" keyEquivalent="2" id="398">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="diskRemove:" target="473" id="485"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="D3:" tag="3" keyEquivalent="3" id="400">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="diskRemove:" target="473" id="486"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="D4:" tag="4" keyEquivalent="4" id="402">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="diskRemove:" target="473" id="487"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="D5:" tag="5" keyEquivalent="5" id="406">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="diskRemove:" target="473" id="488"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="D6:" tag="6" keyEquivalent="6" id="403">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="diskRemove:" target="473" id="513"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="D7:" tag="7" keyEquivalent="7" id="401">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="diskRemove:" target="473" id="514"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="D8:" tag="8" keyEquivalent="8" id="399">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="diskRemove:" target="473" id="515"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Rotate Floppies" id="648">
+                                <connections>
+                                    <action selector="diskRotate:" target="473" id="649"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="New Floppy Image..." keyEquivalent="n" id="779">
+                                <connections>
+                                    <action selector="showCreatePanel:" target="473" id="780"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="New Hard Disk Image..." id="z3a-n0-jgV">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="showHardCreatePanel:" target="473" id="DGm-qL-FBm"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Edit an .atr Disk Image..." keyEquivalent="e" id="771">
+                                <connections>
+                                    <action selector="showEditorPanel:" target="473" id="772"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Sector Edit an .atr Image..." keyEquivalent="E" id="822">
+                                <connections>
+                                    <action selector="showSectorPanel:" target="473" id="823"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Disk Image Conversions" id="651">
+                                <menu key="submenu" title="Disk Image Conversions" id="650">
+                                    <items>
+                                        <menuItem title="Convert .xfd Image To .atr Image..." id="759">
+                                            <connections>
+                                                <action selector="convertXFDtoATR:" target="473" id="765"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Convert .dcm Image To .atr Image..." id="760">
+                                            <connections>
+                                                <action selector="convertDCMtoATR:" target="473" id="766"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Convert .scp Image To .atr Image..." id="761">
+                                            <connections>
+                                                <action selector="convertSCPtoATR:" target="473" id="767"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Convert .atr Image To .xfd Image..." id="762">
+                                            <connections>
+                                                <action selector="convertATRtoXFD:" target="473" id="768"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Convert .atr Image To .dcm Image..." id="763">
+                                            <connections>
+                                                <action selector="convertATRtoDCM:" target="473" id="769"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Convert .atr Image To .scp Image..." id="764">
+                                            <connections>
+                                                <action selector="convertATRtoSCP:" target="473" id="770"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="380">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Insert Cartridge..." keyEquivalent="o" id="413">
+                                <connections>
+                                    <action selector="cartInsert:" target="473" id="489"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Remove Cartridge" keyEquivalent="O" id="414">
+                                <connections>
+                                    <action selector="cartRemove:" target="473" id="490"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Handle Special Cartridge" id="he6-pG-YVh">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Handle Special Cartridge" id="Wcm-vj-IoM">
+                                    <items>
+                                        <menuItem title="Insert BASIC Cartridge" keyEquivalent="b" id="9Wv-JY-H9Q">
+                                            <connections>
+                                                <action selector="basicInsert:" target="473" id="iVn-KV-m1M"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="ySb-r7-nca">
+                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                        </menuItem>
+                                        <menuItem title="Insert Blank Flash/RAM Cartridge" id="BsU-jU-wTN">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Insert Blank Flash/RAM Cartridge" id="OT5-9b-HmS">
+                                                <items>
+                                                    <menuItem title="MaxFlash 128K (1MBit) Cartridge" id="N4S-dE-XyM">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankMaxFlash128KInsert:" target="473" id="R8V-a2-EEH"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="MaxFlash 1M (8MBit) Cartridge (older bank = 127)" id="d5K-KG-y1L">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankMaxFlash1MOldInsert:" target="473" id="BPW-59-oTp"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="MaxFlash 1M (8MBit) Cartridge (newer bank = 0)" id="cZF-L5-4Pw">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankMaxFlash1MNewInsert:" target="473" id="kpp-U6-fqB"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="The!Cart 32MB Cartridge" id="9p4-cv-arR">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankTheCart32MInsert:" target="473" id="KBK-G9-0UD"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="The!Cart 64MB Cartridge" id="bhy-Lo-puK">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankTheCart64MInsert:" target="473" id="8dj-wP-Mmn"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="The!Cart 128MB Cartridge" id="nAN-yQ-Urq">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankTheCart128MInsert:" target="473" id="yXL-19-1kH"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="J(atari) 128KB Cartridge" id="JpV-YU-f7e">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankJAtari128KInsert:" target="473" id="ftP-tz-ERG"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="J(atari) 256KB Cartridge" id="sTM-tr-HQF">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankJAtari256KInsert:" target="473" id="YSy-Yp-wWW"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="J(atari) 512KB Cartridge" id="Uh7-Yg-vZd">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankJAtari512KInsert:" target="473" id="swF-pW-9sf"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="J(atari) 1024KB Cartridge" id="3Dy-1a-HpY">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankJAtari1024KInsert:" target="473" id="DTn-Vv-5S6"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="DCart Cartridge" id="VPZ-dG-fiV">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankDCartInsert:" target="473" id="vJF-KR-w8Q"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Sic! 128KB Cartridge" id="s8G-hH-vBe">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankSic128Insert:" target="473" id="N1K-HJ-wHZ"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Sic! 256KB Cartridge" id="4XR-Lg-yyf">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankSic256Insert:" target="473" id="iQa-DG-pw9"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Sic! 512KB Cartridge" id="zhF-pO-4aS">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankSic512Insert:" target="473" id="avO-Ek-gge"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Sic!+ Cartridge" id="fQf-jU-qQC">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankSicPlusInsert:" target="473" id="PRb-oN-vO2"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="MegaCart 512KB Cartridge" id="IOx-Xn-dGe">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankMegaCart512KInsert:" target="473" id="cdx-Te-Tkf"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="MegaCart 1MB Cartridge" id="HXO-pI-njH">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankMegaCart4MInsert:" target="473" id="jU4-5G-7AB"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="MegaCart 4MB Cartridge" id="EmP-WS-eFV">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankMegaCart4MInsert:" target="473" id="xz1-e2-qnq"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Ram-Cart 64KB Cartridge" id="rIN-x3-4Yr">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankRamCart64KInsert:" target="473" id="kfu-IQ-pnC"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Ram-Cart 128KB Cartridge" id="FA5-d8-yAG">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankRamCart128KInsert:" target="473" id="vEi-1N-kvn"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Ram-Cart 256KB Cartridge" id="D8G-hC-XXQ">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankRamCart256KInsert:" target="473" id="NZX-sJ-Kcj"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Ram-Cart 1MB Cartridge" id="pwE-B5-ZYY">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankRamCart1MInsert:" target="473" id="1I8-Cg-Op3"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Ram-Cart 2MB Cartridge" id="jNx-WF-1hb">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankRamCart2MInsert:" target="473" id="RuN-FG-lBm"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Ram-Cart 4MB Cartridge" id="vtu-vR-uq0">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankRamCart4MInsert:" target="473" id="gur-4z-qLb"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Ram-Cart 8MB Cartridge" id="fQd-Oa-m6D">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankRamCart8MInsert:" target="473" id="DoL-fd-xKq"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Ram-Cart 16MB Cartridge" id="jWh-NJ-FwH">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankRamCart16MInsert:" target="473" id="NnN-AF-OTw"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Ram-Cart 32MB Cartridge" id="8HC-WG-fKB">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankRamCart32MInsert:" target="473" id="Cwe-xZ-PmV"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="SiDiCar 32KB Cartridge" id="nVY-XQ-2UO">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="cartBlankSidiCar32KInsert:" target="473" id="0D5-9H-vZ1"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </menuItem>
+                                        <menuItem title="Save Flash/RAM Cartridge..." id="MHh-gY-e3t">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="cartSave:" target="473" id="s7L-tJ-zfB"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="3BN-4u-3qy">
+                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                        </menuItem>
+                                        <menuItem title="Insert SIDE2 Cartridge" keyEquivalent="i" id="r8c-Qd-O8u">
+                                            <connections>
+                                                <action selector="side2Insert:" target="473" id="PGa-Ol-PtZ"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Change SIDE2 ROM Image..." id="mHm-CR-SdA">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="side2ChangeRom:" target="473" id="O3y-5m-KLR"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Save SIDE2 ROM Image..." id="QFy-6q-EPo">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="side2SaveRom:" target="473" id="ACQ-rD-elq"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Attach SIDE2 Hard Disk..." id="XiC-uU-bmv">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="side2AttachCF:" target="473" id="z6e-v6-Hy7"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Remove SIDE2 Hard Disk" id="ZkG-z7-B3L">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="side2RemoveCF:" target="473" id="oMG-3w-hV8"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="SIDE2 Switch - SDX" tag="1" id="wDl-Q2-THn">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="side2SlideSwitch:" target="473" id="x3e-mL-wPe"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="SIDE2 Switch - Loader" id="YW3-c1-TfY">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="side2SlideSwitch:" target="473" id="iE6-AD-mZr"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Press SIDE2 Button" id="VXx-ja-L1S">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="side2Button:" target="473" id="J6e-x1-wHg"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Handle Ultimate1mb ROM Images" id="FH3-Kn-Z89">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Handle Ultimate1mb ROM Images" id="DXN-pH-Rsg">
+                                    <items>
+                                        <menuItem title="Change Ultimate ROM Image..." id="pbK-qu-x45">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="ultimateChangeRom:" target="473" id="9pR-Sr-8gv"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Save Ultimate ROM Image..." id="eyc-Pv-07K">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="ultimateSaveRom:" target="473" id="7ov-Qw-u1a"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Insert SDX Piggyback Cartridge..." id="845">
+                                <connections>
+                                    <action selector="cartSecondInsert:" target="473" id="847"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Remove SDX Piggyback Cartridge" id="846">
+                                <connections>
+                                    <action selector="cartSecondRemove:" target="473" id="848"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Create .car From ROM File..." id="460">
+                                <connections>
+                                    <action selector="convertRomCart:" target="473" id="491"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Create ROM File From .car..." id="461">
+                                <connections>
+                                    <action selector="convertCartRom:" target="473" id="492"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="ip7-e8-GSu">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Insert Cassette..." id="416">
+                                <connections>
+                                    <action selector="cassInsert:" target="473" id="494"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="New Cassette Image..." id="820">
+                                <connections>
+                                    <action selector="createCassette:" target="473" id="821"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Remove Cassette" id="417">
+                                <connections>
+                                    <action selector="cassRemove:" target="473" id="495"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Rewind Cassette" id="472">
+                                <connections>
+                                    <action selector="cassRewind:" target="473" id="496"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Cassette Record" id="96g-1U-6SU">
+                                <connections>
+                                    <action selector="cassRecord:" target="473" id="aJ5-5w-r5s"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Cassette Write Protect" id="GhL-1U-SCu">
+                                <connections>
+                                    <action selector="cassStatusProtect:" target="473" id="qz2-qD-fqk"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="453">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Load Executable File..." keyEquivalent="r" id="454">
+                                <connections>
+                                    <action selector="loadExeFile:" target="473" id="497"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="785">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Select Printer" id="790">
+                                <menu key="submenu" title="Select Printer" id="792">
+                                    <items>
+                                        <menuItem title="Text" id="791">
+                                            <connections>
+                                                <action selector="onSelectPrinter:" target="788" id="800"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari 825" tag="1" id="793">
+                                            <connections>
+                                                <action selector="onSelectPrinter:" target="788" id="801"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari 1020" tag="2" id="794">
+                                            <connections>
+                                                <action selector="onSelectPrinter:" target="788" id="802"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Epson FX-80" tag="3" id="795">
+                                            <connections>
+                                                <action selector="onSelectPrinter:" target="788" id="803"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="ATASCII Printer" tag="4" id="qcY-e6-1oa">
+                                            <connections>
+                                                <action selector="onSelectPrinter:" target="788" id="Fgc-jc-Eni"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="796">
+                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                        </menuItem>
+                                        <menuItem title="Reset Printer" id="798">
+                                            <connections>
+                                                <action selector="onResetPrinter:" target="788" id="799"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Preview Printer Output" id="786">
+                                <connections>
+                                    <action selector="showPrinterOutput:" target="788" id="789"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="680">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Show Media Status Window" keyEquivalent="t" id="681">
+                                <connections>
+                                    <action selector="mediaStatusWindowShow:" target="473" id="682"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Display" id="439">
+                    <menu key="submenu" title="Display" id="440">
+                        <items>
+                            <menuItem title="Display Width" id="693">
+                                <menu key="submenu" title="Display Width" id="694">
+                                    <items>
+                                        <menuItem title="Narrow Width (320x240)" tag="1" keyEquivalent="5" id="692">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="widthMode:" target="498" id="708"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Default Width (336x240)" tag="2" keyEquivalent="6" id="695">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="widthMode:" target="498" id="709"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Full Width       (384x240)" tag="3" keyEquivalent="7" id="696">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="widthMode:" target="498" id="710"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Scaling Mode" id="713">
+                                <menu key="submenu" title="Scaling Mode" id="712">
+                                    <items>
+                                        <menuItem title="Normal Scaling" tag="1" keyEquivalent="8" id="711">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="scaleMode:" target="498" id="719"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Scaling with Scanlines" tag="2" keyEquivalent="9" id="714">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="scaleMode:" target="498" id="720"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Artifact Mode" id="828">
+                                <menu key="submenu" title="Artifact Mode" id="829">
+                                    <items>
+                                        <menuItem title="No Artifacting" id="830">
+                                            <connections>
+                                                <action selector="artifactModeChange:" target="498" id="835"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Rev XL/XE GTIA Artifacting" tag="1" id="831">
+                                            <connections>
+                                                <action selector="artifactModeChange:" target="498" id="836"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="XL/XE GTIA Artifacting" tag="2" id="832">
+                                            <connections>
+                                                <action selector="artifactModeChange:" target="498" id="837"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="400/800 GTIA Artifacting" tag="3" id="833">
+                                            <connections>
+                                                <action selector="artifactModeChange:" target="498" id="838"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="400/800 CTIA Artifacting" tag="4" id="834">
+                                            <connections>
+                                                <action selector="artifactModeChange:" target="498" id="839"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Fullscreen" id="442">
+                                <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                <connections>
+                                    <action selector="fullScreen:" target="498" id="500"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="540">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="80 Column Card Selection" id="852">
+                                <menu key="submenu" title="80 Column Card Selection" id="853">
+                                    <items>
+                                        <menuItem title="80 Column Card Not Connected" id="854">
+                                            <connections>
+                                                <action selector="xep80Mode:" target="498" id="864"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari XEP80 - Joystick Port 1" tag="1" id="855">
+                                            <connections>
+                                                <action selector="xep80Mode:" target="498" id="865"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari XEP80 - Joystick Port 2" tag="2" id="856">
+                                            <connections>
+                                                <action selector="xep80Mode:" target="498" id="866"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Austin Franklin 80 Column Card" tag="3" id="MnU-TU-cRx">
+                                            <connections>
+                                                <action selector="xep80Mode:" target="498" id="cjo-yp-xEL"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Bit3 Full View 80 Column Card" tag="4" id="5Bm-Vo-lcW">
+                                            <connections>
+                                                <action selector="xep80Mode:" target="498" id="1Xb-on-TsB"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="80 Column Display Autoswitch" id="nBK-cd-jka">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="xep80Autoswitch:" target="498" id="Nkx-s6-dr7"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Display 80 Column Screen" keyEquivalent="X" id="857">
+                                <connections>
+                                    <action selector="xep80:" target="498" id="863"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="cim-gf-ecb">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Verticle Sync Enabled" id="2C3-e4-PLL">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="displayVsync:" target="498" id="3I1-Xu-jBr"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Linear Smoothing Filter Enabled" id="U8D-BB-cLt">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="displayLinearFilter:" target="498" id="y7G-bf-2rg"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Realistic Pixel Aspect Ratio Enabled" id="wZ3-iL-sGI">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="displayPixelAspect:" target="498" id="UNu-ga-Cp6"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="BJ4-Qn-8bf">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Show Frames Per Second" keyEquivalent="k" id="544">
+                                <connections>
+                                    <action selector="displayFps:" target="498" id="545"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="yo0-4Q-xqa">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Grab Mouse" keyEquivalent="" id="541">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="grabMouse:" target="498" id="542"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="463">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Screenshot" keyEquivalent="" id="464">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="screenshot:" target="498" id="502"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Sound" id="455">
+                    <menu key="submenu" title="Sound" id="456">
+                        <items>
+                            <menuItem title="Enable Sound" id="457">
+                                <connections>
+                                    <action selector="enableSound:" target="516" id="517"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Stereo Sound" keyEquivalent="u" id="458">
+                                <connections>
+                                    <action selector="stereoSound:" target="516" id="519"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Start Sound Recording" keyEquivalent="t" id="459">
+                                <connections>
+                                    <action selector="soundRecording:" target="516" id="520"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Increase Volume" keyEquivalent="]" id="1059">
+                                <connections>
+                                    <action selector="increaseVolume:" target="516" id="1062"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Decrease Volume" keyEquivalent="[" id="1060">
+                                <connections>
+                                    <action selector="decreaseVolume:" target="516" id="1064"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Volume Level - 100%" enabled="NO" id="1061">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Control" id="446">
+                    <menu key="submenu" title="Control" id="447">
+                        <items>
+                            <menuItem title="Pause" keyEquivalent="p" id="448">
+                                <connections>
+                                    <action selector="pause:" target="524" id="525"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Limit To Normal Speed" keyEquivalent="" id="449">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="limit:" target="524" id="526"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="450">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Warm Reset" keyEquivalent="" id="451">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="warmReset:" target="524" id="527"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Cold Reset                    Shift+F5" id="452">
+                                <modifierMask key="keyEquivalentModifierMask" control="YES"/>
+                                <connections>
+                                    <action selector="coldReset:" target="524" id="528"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="725">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Atari Machine Type" id="727">
+                                <menu key="submenu" title="Atari Machine Type" id="962">
+                                    <items>
+                                        <menuItem title="Atari 800 (16KB)" id="976">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="991"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari 800 (48KB)" tag="1" id="975">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="992"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari 800 (52KB)" tag="2" id="974">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="993"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari 800 (Axlon Memory)" tag="3" id="965">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="994"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari 800 (Mosaic Memory)" tag="4" id="964">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="995"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari 600XL (16KB)" tag="5" id="973">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="996"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari 800XL (64KB)" tag="6" id="972">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="997"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari 130XE (128KB)" tag="7" id="971">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="998"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari 130XE (192KB)" tag="8" id="963">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="999"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari 320XE (320 KB RAMBO)" tag="9" id="980">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="1000"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari 320XE (320 KB COMPY SHOP)" tag="10" id="970">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="1001"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari 576XE (576 KB)" tag="11" id="969">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="1002"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari 1088XE (1088 KB)" tag="12" id="968">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="1003"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari 5200 (16KB)" tag="13" id="979">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="1004"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari 1200XL (64KB)" tag="14" id="GmC-LE-ik4">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="20J-dy-2ob"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari 1200XL (320KB RAMBO)" tag="15" id="h8E-TM-TPk">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="CaN-fz-mAJ"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari 1200XL (576KB)" tag="16" id="cK8-Kw-uK3">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="Lb3-yl-gCg"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari 1200XL (1088KB)" tag="17" id="vzq-eT-3QY">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="0cD-OT-akV"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari XEGS (64KB)" tag="18" id="fqw-J3-iaT">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="o2l-Sj-H5N"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari XEGS (320KB RAMBO)" tag="19" id="U80-1c-jfD">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="w0x-3V-JTz"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari XEGS (576KB)" tag="20" id="Yuo-TR-SzN">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="Xcr-Cp-Mcv"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari XEGS (1088KB)" tag="21" id="62v-5z-jem">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="UEm-z1-9Er"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari XL Ultimate 1MB" tag="22" id="Lqx-DL-0om">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="3CD-mJ-xJc"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari 1200XL Ultimate 1MB" tag="23" id="JOa-gW-8Q9">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="VS7-a6-eLL"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Atari XEGS Ultimate 1MB" tag="24" id="Grx-9F-6gu">
+                                            <connections>
+                                                <action selector="changeMachineType:" target="524" id="pgC-6c-Qlw"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="PBI Expansion Type" id="887">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="PBI Expansion Type" id="888">
+                                    <items>
+                                        <menuItem title="No Expansion" id="889">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="changePBIExpansion:" target="524" id="892"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Black Box" tag="1" id="890">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="changePBIExpansion:" target="524" id="893"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="MIO" tag="2" id="891">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="changePBIExpansion:" target="524" id="894"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Disable Basic" id="722">
+                                <connections>
+                                    <action selector="enableNetsio:" target="524" id="ld6-sX-L7d"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Enable NetSIO" id="Kqe-4x-PYW">
+                                <connections>
+                                    <action selector="enableNetsio:" target="524" id="1iH-0y-IxZ"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="467">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Save State" keyEquivalent="s" id="468">
+                                <connections>
+                                    <action selector="saveState:" target="524" id="529"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Load State" keyEquivalent="l" id="469">
+                                <connections>
+                                    <action selector="loadState:" target="524" id="530"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="1011"/>
+                            <menuItem title="Save Configuration" keyEquivalent="S" id="1012">
+                                <connections>
+                                    <action selector="saveConfigurationMenu:" target="315" id="1015"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Load Configuration" keyEquivalent="L" id="1013">
+                                <connections>
+                                    <action selector="loadConfigurationMenu:" target="315" id="1016"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="562">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Enable Keyboard Joysticks" keyEquivalent="j" id="825">
+                                <connections>
+                                    <action selector="keyjoyEnable:" target="524" id="826"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Enable CX85 Keypad" id="1006">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="cx85Enable:" target="524" id="1007"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="XEGS Keyboard Attached" id="Sdp-iv-Asq">
+                                <connections>
+                                    <action selector="changeXEGSKeyboard:" target="524" id="eo6-VI-qi7"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Arrow Keys" id="1045">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Menu" id="1046">
+                                    <items>
+                                        <menuItem title="Ctrl + Arrow Keys" id="1047">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="changeArrowKeys:" target="524" id="1051"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Arrow Keys Only" tag="1" id="1048">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="changeArrowKeys:" target="524" id="1052"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="F1 - F4" tag="2" id="1049">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="changeArrowKeys:" target="524" id="1053"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Show Gamepad  Identify Window" id="YE9-1t-g74">
+                                <connections>
+                                    <action selector="identifyGamepad:" target="315" id="WjZ-Kr-TrR"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="824">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Monitor" keyEquivalent="" id="563">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="monitorMenuRun:" target="524" id="565"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="646">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Show Function Key Window" id="816">
+                                <connections>
+                                    <action selector="functionKeyWindowShow:" target="524" id="817"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Show Message Window" id="644">
+                                <connections>
+                                    <action selector="messageWindowShow:" target="524" id="645"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Window" id="284">
+                    <menu key="submenu" title="Window" systemMenu="window" id="285">
+                        <items>
+                            <menuItem title="Minimize" keyEquivalent="m" id="283">
+                                <connections>
+                                    <action selector="performMiniaturize:" target="-1" id="288"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Help" id="103">
+                    <menu key="submenu" title="Help" id="106">
+                        <items>
+                            <menuItem title="Atari800MacX Help" keyEquivalent="?" id="111">
+                                <connections>
+                                    <action selector="showHelp:" target="-1" id="122"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="116" y="-477"/>
+        </menu>
+        <customObject id="194" userLabel="SDLMain" customClass="SDLMain"/>
+        <customObject id="253" userLabel="Font Manager" customClass="NSFontManager"/>
+        <customObject id="315" userLabel="Preferences" customClass="Preferences"/>
+        <customObject id="473" userLabel="MediaManager" customClass="MediaManager">
+            <connections>
+                <outlet property="attachSIDE2CFItem" destination="XiC-uU-bmv" id="yhb-TF-MA1"/>
+                <outlet property="changeSIDE2RomItem" destination="mHm-CR-SdA" id="LzM-A3-YER"/>
+                <outlet property="changeUltimateRomItem" destination="pbK-qu-x45" id="lu9-58-Y7J"/>
+                <outlet property="insertBasicItem" destination="9Wv-JY-H9Q" id="gSh-tN-gY3"/>
+                <outlet property="insertSIDE2Item" destination="r8c-Qd-O8u" id="xhJ-au-udl"/>
+                <outlet property="insertSecondCartItem" destination="845" id="851"/>
+                <outlet property="pressSIDE2ButtonItem" destination="VXx-ja-L1S" id="Mev-AV-366"/>
+                <outlet property="printerPreviewItem" destination="786" id="811"/>
+                <outlet property="protectCassItem" destination="GhL-1U-SCu" id="fKd-cD-kG5"/>
+                <outlet property="recordCassItem" destination="96g-1U-6SU" id="pLM-F1-oVp"/>
+                <outlet property="removeCartItem" destination="414" id="552"/>
+                <outlet property="removeCassItem" destination="417" id="554"/>
+                <outlet property="removeD1Item" destination="404" id="505"/>
+                <outlet property="removeD2Item" destination="398" id="506"/>
+                <outlet property="removeD3Item" destination="400" id="507"/>
+                <outlet property="removeD4Item" destination="402" id="508"/>
+                <outlet property="removeD5Item" destination="406" id="509"/>
+                <outlet property="removeD6Item" destination="403" id="510"/>
+                <outlet property="removeD7Item" destination="401" id="511"/>
+                <outlet property="removeD8Item" destination="399" id="512"/>
+                <outlet property="removeMenu" destination="471" id="550"/>
+                <outlet property="removeSIDE2CFItem" destination="ZkG-z7-B3L" id="0Xk-cK-MG5"/>
+                <outlet property="removeSecondCartItem" destination="846" id="850"/>
+                <outlet property="resetPrinterItem" destination="798" id="808"/>
+                <outlet property="resetPrinterMenuItem" destination="798" id="809"/>
+                <outlet property="rewindCassItem" destination="472" id="555"/>
+                <outlet property="saveCartItem" destination="MHh-gY-e3t" id="Lni-S1-9d8"/>
+                <outlet property="saveSIDE2RomItem" destination="QFy-6q-EPo" id="m38-pj-124"/>
+                <outlet property="saveUltimateRomItem" destination="eyc-Pv-07K" id="yxW-Sf-6yJ"/>
+                <outlet property="selectAtari1020Item" destination="794" id="806"/>
+                <outlet property="selectAtari1020MenuItem" destination="794" id="814"/>
+                <outlet property="selectAtari825Item" destination="793" id="805"/>
+                <outlet property="selectAtari825MenuItem" destination="793" id="813"/>
+                <outlet property="selectAtasciiItem" destination="qcY-e6-1oa" id="DbP-SS-7Xs"/>
+                <outlet property="selectAtasciiMenuItem" destination="qcY-e6-1oa" id="bjS-xY-IQS"/>
+                <outlet property="selectEpsonItem" destination="795" id="807"/>
+                <outlet property="selectEpsonMenuItem" destination="795" id="815"/>
+                <outlet property="selectPrinterMenu" destination="792" id="810"/>
+                <outlet property="selectTextItem" destination="791" id="804"/>
+                <outlet property="selectTextMenuItem" destination="791" id="812"/>
+                <outlet property="slideSIDE2ButtonLoaderItem" destination="YW3-c1-TfY" id="ZhK-gB-5za"/>
+                <outlet property="slideSIDE2ButtonSDXItem" destination="wDl-Q2-THn" id="gdV-r4-Bn4"/>
+            </connections>
+        </customObject>
+        <customObject id="498" userLabel="DisplayManager" customClass="DisplayManager">
+            <connections>
+                <outlet property="CTIA400800Item" destination="834" id="844"/>
+                <outlet property="GTIA400800Item" destination="833" id="843"/>
+                <outlet property="NoArtifactItem" destination="830" id="840"/>
+                <outlet property="XLXEGTIAItem" destination="832" id="842"/>
+                <outlet property="af80ModeItem" destination="MnU-TU-cRx" id="vFu-px-Qsg"/>
+                <outlet property="bit3ModeItem" destination="5Bm-Vo-lcW" id="Sm2-fg-1BT"/>
+                <outlet property="copyMenu" destination="631" id="vyM-hS-9oV"/>
+                <outlet property="displayFpsItem" destination="544" id="546"/>
+                <outlet property="fullscreenItem" destination="442" id="539"/>
+                <outlet property="grabMouseItem" destination="541" id="543"/>
+                <outlet property="linearFilterEnabledItem" destination="U8D-BB-cLt" id="1rd-L6-LHc"/>
+                <outlet property="pasteMenu" destination="605" id="FFJ-kN-BCM"/>
+                <outlet property="pixelAspectEnabledItem" destination="wZ3-iL-sGI" id="B35-aF-Ntn"/>
+                <outlet property="revXLXEGTIAItem" destination="831" id="841"/>
+                <outlet property="scaleModeNormalItem" destination="711" id="716"/>
+                <outlet property="scaleModeScanlineItem" destination="714" id="717"/>
+                <outlet property="selectAllMenu" destination="619" id="mEm-QG-G1b"/>
+                <outlet property="vsyncEnabledItem" destination="2C3-e4-PLL" id="LC5-ed-UrG"/>
+                <outlet property="widthModeDefaultItem" destination="695" id="706"/>
+                <outlet property="widthModeFullItem" destination="696" id="707"/>
+                <outlet property="widthModeNarrowItem" destination="692" id="705"/>
+                <outlet property="xep80AutoswitchItem" destination="nBK-cd-jka" id="MmZ-gw-Jr3"/>
+                <outlet property="xep80Item" destination="857" id="862"/>
+                <outlet property="xep80Mode0Item" destination="854" id="867"/>
+                <outlet property="xep80Mode1Item" destination="855" id="868"/>
+                <outlet property="xep80Mode2Item" destination="856" id="869"/>
+            </connections>
+        </customObject>
+        <customObject id="516" userLabel="SoundManager" customClass="SoundManager">
+            <connections>
+                <outlet property="enableSoundItem" destination="457" id="521"/>
+                <outlet property="soundRecordingItem" destination="459" id="523"/>
+                <outlet property="stereoSoundItem" destination="458" id="522"/>
+                <outlet property="volumeItem" destination="1061" id="1063"/>
+            </connections>
+        </customObject>
+        <customObject id="524" userLabel="ControlManager" customClass="ControlManager">
+            <connections>
+                <outlet property="arrowKeysF1F4Item" destination="1049" id="1057"/>
+                <outlet property="arrowKeysMenu" destination="1046" id="1050"/>
+                <outlet property="arrowKeysOnlyItem" destination="1048" id="1056"/>
+                <outlet property="coldResetItem" destination="452" id="534"/>
+                <outlet property="ctrlArrowKeysItem" destination="1047" id="1055"/>
+                <outlet property="cx85EnableItem" destination="1006" id="1008"/>
+                <outlet property="disableBasicItem" destination="722" id="723"/>
+                <outlet property="enableNetsioItem" destination="Kqe-4x-PYW" id="TnQ-Jy-l1w"/>
+                <outlet property="keyjoyEnableItem" destination="825" id="827"/>
+                <outlet property="limitItem" destination="449" id="532"/>
+                <outlet property="loadStateItem" destination="469" id="536"/>
+                <outlet property="machineTypeMenu" destination="962" id="984"/>
+                <outlet property="pauseItem" destination="448" id="531"/>
+                <outlet property="pbiExpansionMenu" destination="888" id="982"/>
+                <outlet property="saveStateItem" destination="468" id="535"/>
+                <outlet property="warmResetItem" destination="451" id="533"/>
+                <outlet property="xegsKeyboardItem" destination="Sdp-iv-Asq" id="2xV-50-diG"/>
+            </connections>
+        </customObject>
+        <customObject id="788" userLabel="PrintOutputController" customClass="PrintOutputController"/>
+        <customObject id="bvR-X1-pfS" customClass="PasteManager">
+            <connections>
+                <outlet property="escapeCopyMenuItem" destination="u4Q-E0-HNj" id="JSx-er-O0u"/>
+            </connections>
+        </customObject>
+    </objects>
+</document>

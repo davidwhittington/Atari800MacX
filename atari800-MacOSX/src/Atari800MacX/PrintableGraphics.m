@@ -5,13 +5,14 @@
  */
 
 #import "PrintableGraphics.h"
+#include <stdlib.h>
 
 @implementation PrintableGraphics
 
 - (id)initWithBytes:(const void *)bytes length:(unsigned)length width:(float)width height:(float) height bits:(unsigned)bits
 {
 	graphLength = length;
-	graphBytes = (unsigned char *) NSZoneMalloc(NSDefaultMallocZone(), length);
+	graphBytes = (unsigned char *) malloc(length);
 	bcopy(bytes, graphBytes, length);
 	pixelWidth = width;
 	pixelHeight = height;
@@ -21,8 +22,8 @@
 
 - (void)dealloc
 {
-	NSZoneFree(NSDefaultMallocZone(), graphBytes);
-	[super dealloc];
+	free(graphBytes);
+	graphBytes = NULL;
 }
 
 -(void) setLocation:(NSPoint)location

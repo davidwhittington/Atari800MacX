@@ -16,11 +16,12 @@
 static NSWindow *our_window = nil;
 //static Atari800WindowView *our_window_view = nil;
 static NSPoint windowOrigin;
+static Atari800WindowController *sharedWindowController = nil;
 
 /* Functions which provide an interface for C code to call this object's shared Instance functions */
 void Atari800WindowCreate(NSWindow *window) {
     our_window = window;
-    [[[Atari800WindowController alloc] init:window] retain];
+    sharedWindowController = [[Atari800WindowController alloc] init:window];
 }
 
 void Atari800WindowAspectSet(int w, int h) {

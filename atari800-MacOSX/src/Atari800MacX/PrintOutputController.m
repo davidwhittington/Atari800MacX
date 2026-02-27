@@ -1,4 +1,5 @@
 #import "PrintOutputController.h"
+#import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 #import "Atari800Window.h"
 #import "Preferences.h"
 #import "PrintableString.h"
@@ -33,40 +34,35 @@ static NSMutableArray *printArray;
 }
 
 - (id)init {
-    NSArray *top;
     if (sharedInstance) {
-		[self dealloc];
-    } else {
-        sharedInstance = self;	
-        [super initWithWindowNibName:@"PrintOutput" owner:self];
-        /* load the reset confirm nib  */
-        if (!mResetConfirmButton) {
-			if ([[Preferences sharedInstance] getBrushed]) { 
-				if (![[NSBundle mainBundle] loadNibNamed:@"PrintOutputConfirmBrushed" owner:self topLevelObjects:&top])  {
-					NSLog(@"Failed to load PrintOutputConfirm.nib");
-					NSBeep();
-					return nil;
-					}
-                [top retain];
-                }
-			else {
-				if (![[NSBundle mainBundle] loadNibNamed:@"PrintOutputConfirm" owner:self topLevelObjects:&top])  {
-					NSLog(@"Failed to load PrintOutputConfirm.nib");
-					NSBeep();
-					return nil;
-					}
-                [top retain];
-				}
-			}
-		[[mResetConfirmButton window] setExcludedFromWindowsMenu:YES];
-		[[mResetConfirmButton window] setMenu:nil];
-		printArray = [NSMutableArray arrayWithCapacity:100];
-		preview = YES;
-		numPages = 1;
-		printOffset = 0.0;
-		[printArray retain];
-	}
-	
+        return sharedInstance;
+    }
+    NSArray *top;
+    self = [super initWithWindowNibName:@"PrintOutput" owner:self];
+    if (!self) return nil;
+    sharedInstance = self;
+    /* load the reset confirm nib  */
+    if (!mResetConfirmButton) {
+        if ([[Preferences sharedInstance] getBrushed]) {
+            if (![[NSBundle mainBundle] loadNibNamed:@"PrintOutputConfirmBrushed" owner:self topLevelObjects:&top])  {
+                NSLog(@"Failed to load PrintOutputConfirm.nib");
+                NSBeep();
+                return nil;
+            }
+        } else {
+            if (![[NSBundle mainBundle] loadNibNamed:@"PrintOutputConfirm" owner:self topLevelObjects:&top])  {
+                NSLog(@"Failed to load PrintOutputConfirm.nib");
+                NSBeep();
+                return nil;
+            }
+        }
+    }
+    [[mResetConfirmButton window] setExcludedFromWindowsMenu:YES];
+    [[mResetConfirmButton window] setMenu:nil];
+    printArray = [NSMutableArray arrayWithCapacity:100];
+    preview = YES;
+    numPages = 1;
+    printOffset = 0.0;
     return sharedInstance;
 }
 
@@ -181,7 +177,7 @@ static NSMutableArray *printArray;
     [[self window] orderOut: self];
 	[NSMenu setMenuBarVisible:NO];
 	[NSMenu setMenuBarVisible:YES];
-	[ourPrinterView release];
+	ourPrinterView = nil;
 }
 
 -(void)setPenButtonColor
@@ -190,14 +186,12 @@ static NSMutableArray *printArray;
 	
 	if ([mPenChangeButton isEnabled])
 		{
-		penString = [NSAttributedString alloc];
-		[penString initWithString:@"Pen Change" 
+		penString = [[NSAttributedString alloc] initWithString:@"Pen Change"
 					attributes:[NSDictionary dictionaryWithObjectsAndKeys:
 								[currentPrinter getPenColor], NSForegroundColorAttributeName,
 								[NSFont systemFontOfSize:0.0], NSFontAttributeName,
 								nil]];
 		[mPenChangeButton setAttributedTitle:penString];
-		[penString autorelease];
 		}	
 }
 
@@ -292,7 +286,7 @@ static NSMutableArray *printArray;
     NSSavePanel *savePanel = nil;
     
     savePanel = [NSSavePanel savePanel];
-    [savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"pdf"]];
+    savePanel.allowedContentTypes = @[UTTypePDF];
 	[savePanel setDirectoryURL:[NSURL fileURLWithPath:[NSString stringWithCString:atari_print_dir encoding:NSUTF8StringEncoding]]];
     
     if ([savePanel runModal] == NSModalResponseOK)

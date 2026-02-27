@@ -20,8 +20,6 @@
 	grayDict =[NSDictionary dictionaryWithObjectsAndKeys:
 				gray, NSForegroundColorAttributeName,
 				nil];
-	[gray retain];
-	[grayDict retain];
 	
 	return self;
 }
@@ -78,14 +76,8 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 		count = 0;
 	else
 		count = [breakpoints count];
-	if (enables != nil)
-		[enables release];
 	enables = [NSMutableArray arrayWithCapacity:20];
-	[enables retain];
-	if (breakpointStrings != nil)
-		[breakpointStrings release];
 	breakpointStrings = [NSMutableArray arrayWithCapacity:20];
-	[breakpointStrings retain];
 	
 	for (i=0;i<count;i++) {
 		int condCount;
@@ -256,11 +248,8 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 		count = 0;
 	else
 		count = [breakpoints count];
-	if (enables != nil)
-		[enables release];
 	enables = [NSMutableArray arrayWithCapacity:20];
-	[enables retain];
-	
+
 	for (i=0;i<count;i++) {
 		Breakpoint *theBreakpoint;
 		

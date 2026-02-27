@@ -25,28 +25,22 @@ static AtasciiPrinter *sharedInstance = nil;
     int size;
     NSString *fontName;
 
-    for (size = ATASCII_MIN_CHAR_SIZE; size <= 24; size++)
-        if (styles[size - ATASCII_MIN_CHAR_SIZE])
-            [styles[size - ATASCII_MIN_CHAR_SIZE] release];
-
     fontName = [NSString stringWithCString:prefsAtascii.font encoding:NSASCIIStringEncoding];
     for (size = ATASCII_MIN_CHAR_SIZE; size <= 24; size++)
-        styles[size - ATASCII_MIN_CHAR_SIZE] = [[NSFont fontWithName : fontName size : size] retain];
+        styles[size - ATASCII_MIN_CHAR_SIZE] = [NSFont fontWithName:fontName size:size];
 }
 
 - (id)init {
     if (sharedInstance) {
-		[self dealloc];
-    } else {
-        [super init];
-	}
-	
+        return sharedInstance;
+    }
+    self = [super init];
+    if (!self) return nil;
     sharedInstance = self;
 	
     [self generateFonts];
  
 	printBuffer = [[PrintableString alloc] init];
-	[printBuffer retain];
 	
 	[self reset];
 
@@ -78,11 +72,9 @@ static AtasciiPrinter *sharedInstance = nil;
                        nil]];
         
     [printBuffer appendAttributedString:newString];
-	
+
     //	Increment horizontal position by character width;
     nextHorizPosition += horizWidth;
-
-	[newString release];
 	
     currRightMargin = rightMargin;
 				
@@ -106,7 +98,6 @@ static AtasciiPrinter *sharedInstance = nil;
 
 	[printBuffer setLocation:location];
 	[[PrintOutputController sharedInstance] addToPrintArray:printBuffer];
-	[printBuffer release];
 	printBuffer = [[PrintableString alloc] init];
 	
 	startHorizPosition = nextHorizPosition;

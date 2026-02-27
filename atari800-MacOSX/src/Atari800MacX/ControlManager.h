@@ -125,11 +125,12 @@
 	IBOutlet id arrowKeysF1F4Item;
 	IBOutlet id startButton;
     IBOutlet id escapeCopyMenuItem;
+    IBOutlet id breakpointEditorOkButton;
 }
 + (ControlManager *)sharedInstance;
 - (void)setLimitMenu:(int)limit;
 - (void)setDisableBasicMenu:(int)mode:(int)disableBasic;
-- (void)setEnableNetsioMenu:(int)mode:(int)enableNetsio;
+- (void)setEnableNetsioMenu:(int)enableNetsio;
 - (void)setKeyjoyEnableMenu:(int)keyjoyEnable;
 - (void)setCX85EnableMenu:(int)cx85Enable;
 - (void)setXEGSKeyboardMenu:(int)attached;

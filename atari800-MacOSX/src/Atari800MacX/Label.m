@@ -14,7 +14,6 @@
 	Label *theLabel;
 	
 	theLabel = [[self alloc] initWithName:name Addr:addr Builtin:builtin Read:read Write:write];
-	[theLabel autorelease];
 	return(theLabel);
 }
 

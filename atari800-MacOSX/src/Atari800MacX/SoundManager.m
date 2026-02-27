@@ -54,11 +54,11 @@ static SoundManager *sharedInstance = nil;
 
 - (id)init {
     if (sharedInstance) {
-	[self dealloc];
-    } else {
-        [super init];
-        sharedInstance = self;
+        return sharedInstance;
     }
+    self = [super init];
+    if (!self) return nil;
+    sharedInstance = self;
     return sharedInstance;
 }
 

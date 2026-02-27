@@ -30,9 +30,7 @@
 		{
 		if (offset != lastOffset)
 			{
-			[transform release];
 			transform = [NSAffineTransform transform];
-			[transform retain];
 			// Translate the glyph the apporpriate amount
 			[transform translateXBy:0.0 yBy:offset];
 			}

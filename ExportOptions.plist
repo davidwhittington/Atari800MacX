@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Distribution method: Developer ID for direct/notarized distribution outside the App Store -->
+	<key>method</key>
+	<string>developer-id</string>
+
+	<key>teamID</key>
+	<string>X49M46V9N7</string>
+
+	<key>signingStyle</key>
+	<string>automatic</string>
+
+	<!-- Strip Swift symbol names from the binary for smaller, cleaner release builds -->
+	<key>stripSwiftSymbols</key>
+	<true/>
+</dict>
+</plist>

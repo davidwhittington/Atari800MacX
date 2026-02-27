@@ -736,7 +736,7 @@ static int idCounter = 0;
 		return nil;
 		}
 	else {
-		filenames = [[[NSMutableArray alloc] initWithCapacity:[dragRows count]] autorelease];
+		filenames = [[NSMutableArray alloc] initWithCapacity:[dragRows count]];
 
 		dropPath = nil;
 		for (i=0;i<[dragRows count];i++) { 

@@ -31,6 +31,7 @@
 #include <SDL.h>
 
 #include <SDL_syswm.h>
+#include "EmulatorMetalView.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -108,6 +109,12 @@ int screen_x_offset = 0;
 int screen_y_offset = 0;
 int FULLSCREEN_MACOS = 0;
 int SCALE_MODE;
+int linearFilterEnabled = FALSE;
+int pixelAspectEnabled = FALSE;
+double scanlineTransparency = 0.9;
+double pixelAspectRatio = 1.0;  /* Pixel Height / Pixel Width */
+#define PAL_REALISTIC_PIXEL_ASPECT  (25.0/26.0)
+#define NTSC_REALISTIC_PIXEL_ASPECT (7.0/6.0)
 double scaleFactor = 3;
 double scaleFactorFloat = 2.0;
 double scaleFactorRenderX;
@@ -179,6 +186,8 @@ int requestSoundStereoChange = 0;
 int requestSoundRecordingChange = 0;
 int requestFpsChange = 0;
 int requestVsyncChange = 0;
+int requestLinearFilterChange = 0;
+int requestPixelAspectChange = 0;
 int requestPrefsChange = 0;
 int requestScaleModeChange = 0;
 int requestPauseEmulator = 0;
@@ -232,6 +241,8 @@ extern int xep80ColorsChanged;
 extern int configurationChanged;
 extern int fullscreenOptsChanged;
 extern int vsyncOptsChanged;
+extern int linearFilterOptsChanged;
+extern int pixelAspectOptsChanged;
 extern int ultimateRomChanged;
 extern int side2RomChanged;
 extern int side2CFChanged;
@@ -289,6 +300,8 @@ extern void PasteManagerUpdateEscapeCopyMenu(void);
 extern void SetDisplayManagerWidthMode(int widthMode);
 extern void SetDisplayManagerFps(int fpsOn);
 extern void SetDisplayManagerVsyncEnabled(int vsyncEnabled);
+extern void SetDisplayManagerLinearFilterEnabled(int linearFilterEnabled);
+extern void SetDisplayManagerPixelAspectEnabled(int pixelAspectEnabled);
 extern void SetDisplayManagerScaleMode(int scaleMode);
 extern void SetDisplayManagerArtifactMode(int scaleMode);
 extern void SetDisplayManagerGrabMouse(int mouseOn);
@@ -555,16 +568,13 @@ static int callbacktick = 0;
 #endif
 
 // video
-SDL_Surface *MainScreen = NULL;
 SDL_Window *MainWindow = NULL;
 SDL_Surface *MonitorGLScreen = NULL;
-SDL_Renderer *renderer = NULL;
-SDL_Texture *texture = NULL;
 int screenSwitchEnabled = 1;
 
-SDL_Color colors[256];          // palette
-Uint16 Palette16[256];          // 16-bit palette
-Uint32 Palette32[256];          // 32-bit palette
+Uint32 Palette32[256];                      // 32-bit palette (used for screenshots)
+static Uint32 MetalPalette32[256];          // BGRA8Unorm palette for Metal renderer
+static Uint32 *MetalFrameBuffer = NULL;     // BGRA8 pixel buffer, max 640×300
 static int our_width, our_height; // The variables for storing screen width
 char windowCaption[80];
 int selectionStartX = 0;
@@ -774,7 +784,7 @@ void Sound_Update(void)
 *-----------------------------------------------------------------------------*/
 static void SetPalette()
 {
-    SDL_SetPaletteColors(MainScreen->format->palette, colors, 0, 256);
+    /* No-op: Metal renderer uses MetalPalette32 built in CalcPalette(). */
 }
 
 /*------------------------------------------------------------------------------
@@ -783,36 +793,16 @@ static void SetPalette()
 *-----------------------------------------------------------------------------*/
 void CalcPalette()
 {
-    int i, rgb;
-    Uint32 c,c32;
-    //static SDL_PixelFormat Format32 = {NULL,32,4,0,0,0,8,16,8,0,0,
-	//									0xff0000,0x00ff00,0x0000ff,0x000000,
-	//									0,255};
-    SDL_PixelFormat* Format32 = SDL_AllocFormat(SDL_PIXELFORMAT_RGB888);
+    int i;
+    Uint32 rgb;
 
     for (i = 0; i < 256; i++) {
-         rgb = colortable[i];
-         colors[i].r = (rgb & 0x00ff0000) >> 16;
-         colors[i].g = (rgb & 0x0000ff00) >> 8;
-         colors[i].b = (rgb & 0x000000ff) >> 0;
-        }
-
-    for (i = 0; i < 256; i++) {
-        c = SDL_MapRGBA(MainScreen->format, colors[i].r, colors[i].g,
-                        colors[i].b,255);
-        switch (MainScreen->format->BitsPerPixel) {
-            case 16:
-                Palette16[i] = (Uint16) c;
-				// We always need Pallette32 for screenshots on the Mac
-				c32 = SDL_MapRGBA(Format32, colors[i].r, colors[i].g,
-                                  colors[i].b, 255);
-                Palette32[i] = c32; // Opaque
-                break;
-            case 32:
-                Palette32[i] = c; // Opaque
-                break;
-            }
-        }
+        rgb = (Uint32)colortable[i]; /* 0x00RRGGBB */
+        /* Metal BGRA8Unorm: uint32_t = 0xAARRGGBB in LE → [B][G][R][A] in memory */
+        MetalPalette32[i] = 0xFF000000u | rgb;
+        /* Palette32 (0x00RRGGBB) used by screenshot code */
+        Palette32[i] = rgb;
+    }
 }
 
 Uint32 power_of_two(Uint32 input)
@@ -828,15 +818,9 @@ Uint32 power_of_two(Uint32 input)
 *-----------------------------------------------------------------------------*/
 void InitializeWindow(int w, int h)
 {
-    Uint32 texture_w, texture_h;
-
     PauseAudio(1);
     Atari800OriginSave();
 
-    // Get rid of old renderer
-    if (renderer)
-        SDL_DestroyRenderer(renderer);
-    
     // Delete the old window, if it exists
     if (MainWindow) {
         Atari800OriginSave();
@@ -849,41 +833,28 @@ void InitializeWindow(int w, int h)
                                     w, h, SDL_WINDOW_RESIZABLE);
     current_w = w;
     current_h = h;
-    SDL_SetHint(SDL_HINT_RENDER_DRIVER, "metal");
-    SDL_SetHint(SDL_HINT_RENDER_VSYNC, vsyncEnabled ? "1" : "0");
-    renderer = SDL_CreateRenderer(MainWindow, -1, 0);
-    SetRenderScale();
-    
-    // Save Mac Window for later use
+
+    // Save Mac Window and create Metal view
     SDL_SysWMinfo wmInfo;
     SDL_VERSION(&wmInfo.version);
     SDL_GetWindowWMInfo(MainWindow, &wmInfo);
     Atari800WindowCreate(wmInfo.info.cocoa.window);
+    Mac_MetalViewCreate(wmInfo.info.cocoa.window, w, h);
     SetWindowAspectRatio();
 
-    // Delete the old textures
-    if(MainScreen)
-        SDL_FreeSurface(MainScreen);
-
-    texture_w = power_of_two(1024);
-    texture_h = power_of_two(512);
-    // Create the SDL texture
-    MainScreen = SDL_CreateRGBSurface(0, texture_w, texture_h, 16,
-                    0x0000F800, 0x000007E0, 0x0000001F, 0x00000000);
-
-    // Make sure the screens are cleared to black
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderClear(renderer);
+    // Allocate Metal frame buffer (sized for the largest possible mode: AF80 640×300)
+    if (MetalFrameBuffer == NULL)
+        MetalFrameBuffer = (Uint32 *)malloc(640 * 300 * sizeof(Uint32));
 
     Atari800OriginRestore();
 
     PauseAudio(0);
-        
-    if (MainScreen == NULL || MainWindow == NULL) {
-        Log_print("Setting Video Mode: %ix%ix%i FAILED", w, h);
+
+    if (MainWindow == NULL) {
+        Log_print("Setting Video Mode: %ix%i FAILED", w, h);
         Log_flushlog();
         exit(-1);
-        }
+    }
 }
 
 /*------------------------------------------------------------------------------
@@ -1012,16 +983,11 @@ static void SetRenderScale(void)
         scaleFactorRenderX = scaleFactorFloat;
         scaleFactorRenderY = scaleFactorFloat;
     }
-    SDL_RenderSetScale(renderer,
-                       scaleFactorRenderX,
-                       scaleFactorRenderY);
+    /* Scale factors are consumed by the NDC quad computation in Atari_DisplayScreen. */
 }
 
 static void Switch80Col(void)
 {
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderClear(renderer);
-    SDL_RenderPresent(renderer);
     HandleScreenChange(current_w, current_h);
     full_display = FULL_DISPLAY_COUNT;
     Atari_DisplayScreen((UBYTE *) Screen_atari);
@@ -1073,6 +1039,35 @@ void SwitchVsync()
     vsyncEnabled = 1 - vsyncEnabled;
     SetDisplayManagerVsyncEnabled(vsyncEnabled);
     HandleVsyncChange();
+}
+
+/*------------------------------------------------------------------------------
+*  SwitchLinearFilter - Toggle bilinear texture filtering on/off.
+*-----------------------------------------------------------------------------*/
+void SwitchLinearFilter()
+{
+    linearFilterEnabled = 1 - linearFilterEnabled;
+    SetDisplayManagerLinearFilterEnabled(linearFilterEnabled);
+    Mac_MetalSetLinearFilter(linearFilterEnabled);
+}
+
+/*------------------------------------------------------------------------------
+*  SwitchPixelAspect - Toggle realistic pixel aspect ratio on/off.
+*    NTSC pixels are wider (7:6 height:width), PAL pixels are narrower (25:26).
+*-----------------------------------------------------------------------------*/
+void SwitchPixelAspect()
+{
+    pixelAspectEnabled = 1 - pixelAspectEnabled;
+    if (pixelAspectEnabled) {
+        if (Atari800_tv_mode == Atari800_TV_PAL)
+            pixelAspectRatio = PAL_REALISTIC_PIXEL_ASPECT;
+        else
+            pixelAspectRatio = NTSC_REALISTIC_PIXEL_ASPECT;
+    } else {
+        pixelAspectRatio = 1.0;
+    }
+    SetDisplayManagerPixelAspectEnabled(pixelAspectEnabled);
+    Atari_DisplayScreen((UBYTE *) Screen_atari);
 }
 
 /*------------------------------------------------------------------------------
@@ -2884,97 +2879,71 @@ void DisplayWithoutScaling16bpp(Uint8 * screen, int jumped, int width,
                                  int first_row, int last_row)
 {
     register Uint8 *fromPtr;
-    register Uint16 *toPtr;
-    register int i,j;
-    register Uint32 *start32;
-    register int pitch4;
-	int screen_width = (PLATFORM_80col ? XEP80_SCRN_WIDTH : Screen_WIDTH);
-
-    pitch4 = MainScreen->pitch / 4;
-    start32 = (Uint32 *) MainScreen->pixels + (first_row * pitch4);
+    register Uint32 *toPtr;
+    register int i, j;
+    int screen_width = (PLATFORM_80col ? XEP80_SCRN_WIDTH : Screen_WIDTH);
 
     screen = screen + jumped + (first_row * screen_width);
+    toPtr  = MetalFrameBuffer + (first_row * screen_width);
     i = last_row - first_row + 1;
     while (i > 0) {
         j = width;
-        toPtr = (Uint16 *) start32;
         fromPtr = screen;
         while (j > 0) {
-            *toPtr++ = Palette16[*fromPtr++];
+            *toPtr++ = MetalPalette32[*fromPtr++];
             j--;
-            }
-        screen += screen_width;
-        start32 += pitch4;
-        i--;
         }
+        screen += screen_width;
+        toPtr  += screen_width - width; /* skip unrendered pixels on this row */
+        i--;
+    }
 }
 
 void DisplayAF80WithoutScaling16bpp(int first_row, int last_row, int blink)
 {
-    Uint32 const black = (Uint32)Palette16[0];
-    Uint32 const black2 = black << 16;
-    register Uint32 *start32;
+    register Uint32 *toPtr;
     unsigned int column;
     UBYTE pixels;
-    register int pitch4;
 
-    pitch4 = MainScreen->pitch / 4;
-    start32 = (Uint32 *) MainScreen->pixels + (first_row * pitch4);
-    register Uint32 quad;
+    toPtr = MetalFrameBuffer + (first_row * AF80_SCRN_WIDTH);
     for (; first_row < last_row; first_row++) {
         for (column = 0; column < 80; column++) {
             int i;
             int colour;
+            Uint32 fgColor;
             pixels = AF80_GetPixels(first_row, column, &colour, blink);
+            fgColor = 0xFF000000u | (Uint32)AF80_palette[colour]; /* 0x00RRGGBB → BGRA8 */
             for (i = 0; i < 4; i++) {
-                if (pixels & 0x01)
-                    quad = AF80_palette[colour];
-                else
-                    quad = black;
-                if (pixels & 0x02)
-                    quad |= AF80_palette[colour] << 16;
-                else
-                    quad |= black2;
-                *start32++ = quad;
+                *toPtr++ = (pixels & 0x01) ? fgColor : 0xFF000000u;
+                *toPtr++ = (pixels & 0x02) ? fgColor : 0xFF000000u;
                 pixels >>= 2;
             }
         }
-        start32 += pitch4 - (4*80);
+        /* toPtr has advanced AF80_SCRN_WIDTH (640) pixels; ready for next row */
     }
 }
 
 void DisplayBit3WithoutScaling16bpp(int first_line, int last_line, int blink)
 {
-    register Uint32 *start32;
-    Uint32 const black = (Uint32)Palette16[0];
-    Uint32 const black2 = black << 16;
-
-    register int pitch4;
-
-    pitch4 = MainScreen->pitch / 4;
-    start32 = (Uint32 *) MainScreen->pixels + (first_line * pitch4);
+    register Uint32 *toPtr;
     unsigned int column;
     UBYTE pixels;
-    register Uint32 quad;
+
+    toPtr = MetalFrameBuffer + (first_line * BIT3_SCRN_WIDTH);
     for (; first_line < last_line; first_line++) {
         for (column = 0; column < 80; column++) {
             int i;
             int colour;
+            Uint32 fgColor;
             pixels = BIT3_GetPixels(first_line, column, &colour, blink);
+            fgColor = 0xFF000000u | (Uint32)BIT3_palette[colour]; /* 0x00RRGGBB → BGRA8 */
             for (i = 0; i < 4; i++) {
-                if (pixels & 0x01)
-                    quad = BIT3_palette[colour];
-                else
-                    quad = black;
-                if (pixels & 0x02)
-                    quad |= BIT3_palette[colour] << 16;
-                else
-                    quad |= black2;
-                *start32++ = quad;
+                *toPtr++ = (pixels & 0x01) ? fgColor : 0xFF000000u;
+                *toPtr++ = (pixels & 0x02) ? fgColor : 0xFF000000u;
                 pixels >>= 2;
             }
         }
-        start32 += pitch4 - (4*80);
+        /* toPtr has advanced BIT3_SCRN_WIDTH (640) pixels; ready for next row */
     }
 }
 
@@ -3017,7 +2986,6 @@ void Atari_DisplayScreen(UBYTE * screen)
     static int xep80Frame = 0;
     static int af80Frame = 0;
     static int bit3Frame = 0;
-    SDL_Rect rect;
 	
     switch (WIDTH_MODE) {
         case SHORT_WIDTH_MODE:
@@ -3139,41 +3107,36 @@ void Atari_DisplayScreen(UBYTE * screen)
     
     scaledWidth = width;
     scaledHeight = screen_height;
-    
-    texture = SDL_CreateTextureFromSurface(renderer, MainScreen);
 
-    //Copying the texture on to the window using renderer and rectangle
-    rect.x = screen_x_offset;
-    rect.y = screen_y_offset;
-    rect.w = MainScreen->w;
-    rect.h = MainScreen->h;
-    SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, texture, NULL, &rect);
+    /* Scanline mode: toggle in the Metal fragment shader */
+    Mac_MetalSetScanlines(SCALE_MODE == SCANLINE_SCALE);
+    Mac_MetalSetScanlineTransparency(scanlineTransparency);
 
-    // Add the scanlines if we are in that mode
-    if (SCALE_MODE == SCANLINE_SCALE)
-        {
-        int rows = 0;
-        SDL_Rect scanlineRect;
-        float oldScaleX, oldScaleY;
-        
-        SDL_RenderGetScale(renderer, &oldScaleX, &oldScaleY);
-        SDL_RenderSetScale(renderer, scaleFactorFloat, 1);
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    /* Compute NDC quad coordinates for the Metal renderer */
+    float quadL, quadB, quadR, quadT;
+    if (!FULLSCREEN_MACOS) {
+        /* Windowed: apply pixel aspect ratio by shrinking the quad height.
+         * pixelAspectRatio < 1 (PAL) shrinks height; > 1 (NTSC) expands it.
+         * We clamp to [-1,1] so the image never exceeds the drawable. */
+        float qH = (float)fmin(1.0, pixelAspectRatio);
+        float qW = (pixelAspectRatio > 1.0f) ? 1.0f / (float)pixelAspectRatio : 1.0f;
+        quadL = -qW; quadR = qW; quadB = -qH; quadT = qH;
+    } else {
+        /* Fullscreen: map Atari content into the letterbox sub-rect.
+         * screen_x_offset / screen_y_offset are in pre-scale coordinates;
+         * multiply by scaleFactorRenderX/Y to get actual pixel positions. */
+        float ox   = (float)(screen_x_offset * scaleFactorRenderX);
+        float oy   = (float)(screen_y_offset * scaleFactorRenderY);
+        float visW = (float)(scaledWidth  * scaleFactorRenderX);
+        float visH = (float)(scaledHeight * scaleFactorRenderY);
+        quadL = (ox          / (float)current_w) * 2.0f - 1.0f;
+        quadR = ((ox + visW) / (float)current_w) * 2.0f - 1.0f;
+        quadT = 1.0f - (oy          / (float)current_h) * 2.0f; /* Y flip */
+        quadB = 1.0f - ((oy + visH) / (float)current_h) * 2.0f;
+    }
 
-        for (rows = 0; rows < MainScreen->h; rows ++)
-            {
-            scanlineRect.x = 0;
-            scanlineRect.w = (screen_width*3)/2;
-            scanlineRect.y = rows*scaleFactorFloat+scaleFactorFloat;
-            scanlineRect.h = 1;
-            SDL_RenderFillRect(renderer, &scanlineRect);
-            }
-        SDL_RenderSetScale(renderer, oldScaleX, oldScaleY);
-        }
-
-    SDL_RenderPresent(renderer);
-    SDL_DestroyTexture(texture);
+    Mac_MetalPresent(MetalFrameBuffer, (int)scaledWidth, (int)scaledHeight,
+                     quadL, quadB, quadR, quadT);
 }
 
 // two empty functions, needed by input.c and platform.h
@@ -4338,28 +4301,18 @@ void HandleScreenChange(int requested_w, int requested_h)
     FULLSCREEN_MACOS = Atari800WindowIsFullscreen();
     if (FULLSCREEN_MACOS) {
         Log_print("Setting FullSreeen: %dx%d ",requested_w, requested_h);
-        /* Destroying and recreating the renderer here is neccesary to
-           prevent unexplained artifacts on the side of the screen.
-           The screen clearing at the end of this function doesn't fix
-           it, and I don't know why.  I think it's a Metal or libSDL
-           issue */
-        SDL_DestroyRenderer(renderer);
-        SDL_SetHint(SDL_HINT_RENDER_VSYNC, vsyncEnabled ? "1" : "0");
-        renderer = SDL_CreateRenderer(MainWindow, -1, 0);
         if (!fixAspectFullscreen) {
             scaleFactorRenderX = (double) requested_w /
                                  (double) GetDisplayScreenWidth();
             scaleFactorRenderY = (double) requested_h /
                                  (double) GetDisplayScreenHeight();
-            SDL_RenderSetScale(renderer, scaleFactorRenderX,
-                               scaleFactorRenderY);
             screen_x_offset = 0;
             screen_y_offset = 0;
-            }
+        }
         else if (onlyIntegralScaling) {
             double thisXScaleFactor;
             double thisYScaleFactor;
-            
+
             thisYScaleFactor = trunc((double) requested_h /
                                      (double) GetDisplayScreenHeight());
             if (thisYScaleFactor < 1.0)
@@ -4368,25 +4321,23 @@ void HandleScreenChange(int requested_w, int requested_h)
                     (double) GetDisplayScreenWidth()) * thisYScaleFactor;
             scaleFactorRenderX = thisXScaleFactor;
             scaleFactorRenderY = thisYScaleFactor;
-            SDL_RenderSetScale(renderer, thisXScaleFactor, thisYScaleFactor);
             screen_x_offset = ((double)((requested_w -
-                                       ((int)(GetDisplayScreenWidth()* thisXScaleFactor)))/2))/thisXScaleFactor;;
+                                       ((int)(GetDisplayScreenWidth()* thisXScaleFactor)))/2))/thisXScaleFactor;
             screen_y_offset = ((double)((requested_h -
                                          ((int)(GetDisplayScreenHeight()* thisYScaleFactor)))/2))/thisYScaleFactor;
         }
         else {
             double thisXScaleFactor;
             double thisYScaleFactor;
-            
+
             thisYScaleFactor = (double) requested_h /
                                (double) GetDisplayScreenHeight();
             thisXScaleFactor = ((double) GetAtariScreenWidth() /
                     (double) GetDisplayScreenWidth()) * thisYScaleFactor;
             scaleFactorRenderX = thisXScaleFactor;
             scaleFactorRenderY = thisYScaleFactor;
-            SDL_RenderSetScale(renderer, thisXScaleFactor, thisYScaleFactor);
             screen_x_offset = ((double)((requested_w -
-                                       ((int)(GetDisplayScreenWidth()* thisXScaleFactor)))/2))/thisXScaleFactor;;
+                                       ((int)(GetDisplayScreenWidth()* thisXScaleFactor)))/2))/thisXScaleFactor;
             screen_y_offset = 0;
         }
         current_w = requested_w;
@@ -4417,10 +4368,6 @@ void HandleScreenChange(int requested_w, int requested_h)
     memset(Screen_atari2, 0, (Screen_HEIGHT * Screen_WIDTH));
     full_display = FULL_DISPLAY_COUNT;
     Atari_DisplayScreen((UBYTE *) Screen_atari);
-    SDL_FillRect(MainScreen, NULL, SDL_MapRGB(MainScreen->format, 0, 0, 0));
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderClear(renderer);
-    SDL_RenderPresent(renderer);
 }
 
 void HandleVsyncChange()
@@ -4466,6 +4413,14 @@ void ProcessMacMenus()
     if (requestVsyncChange) {
         SwitchVsync();
         requestVsyncChange = 0;
+        }
+    if (requestLinearFilterChange) {
+        SwitchLinearFilter();
+        requestLinearFilterChange = 0;
+        }
+    if (requestPixelAspectChange) {
+        SwitchPixelAspect();
+        requestPixelAspectChange = 0;
         }
     if (requestScaleModeChange) {
         SwitchScaleMode(requestScaleModeChange-1);
@@ -4889,6 +4844,20 @@ void ProcessMacPrefsChange()
             SetDisplayManagerVsyncEnabled(vsyncEnabled);
             HandleVsyncChange();
         }
+        if (linearFilterOptsChanged) {
+            SetDisplayManagerLinearFilterEnabled(linearFilterEnabled);
+            Mac_MetalSetLinearFilter(linearFilterEnabled);
+        }
+        if (pixelAspectOptsChanged) {
+            if (pixelAspectEnabled) {
+                pixelAspectRatio = (Atari800_tv_mode == Atari800_TV_PAL)
+                    ? PAL_REALISTIC_PIXEL_ASPECT : NTSC_REALISTIC_PIXEL_ASPECT;
+            } else {
+                pixelAspectRatio = 1.0;
+            }
+            SetDisplayManagerPixelAspectEnabled(pixelAspectEnabled);
+            Atari_DisplayScreen((UBYTE *) Screen_atari);
+        }
         if (ultimateRomChanged) {
             int loaded;
             loaded = ULTIMATE_Change_Rom(ultimate_rom_filename, FALSE);
@@ -5229,44 +5198,37 @@ void DrawSelectionRectangle(int orig_x, int orig_y, int copy_x, int copy_y)
     scaleY = scaleFactorRenderY;
 	
 	if (SCALE_MODE==NORMAL_SCALE || SCALE_MODE == SCANLINE_SCALE) {
-		register int pitch2;
-		register Uint16 *start16;
-		
-		pitch2 = MainScreen->pitch / 2;
+		int stride = (PLATFORM_80col ? XEP80_SCRN_WIDTH : Screen_WIDTH);
 
 		orig_x = (double) orig_x/scaleX;
 		orig_y = (double) orig_y/scaleY;
 		copy_x = (double) copy_x/scaleX;
 		copy_y = (double) copy_y/scaleY;
-		
+
         if (FULLSCREEN_MACOS) {
             orig_x -= screen_x_offset;
             orig_y -= screen_y_offset;
             copy_x -= screen_x_offset;
             copy_y -= screen_y_offset;
         }
-        
-		start16 = (Uint16 *) MainScreen->pixels +
-		(orig_y * pitch2) + orig_x;
-		for (i=0;i<(copy_x-orig_x+1);i++,start16++)
-			*start16 ^= 0xFFFF;
+
+		/* XOR top border */
+		Uint32 *row32 = MetalFrameBuffer + (orig_y * stride) + orig_x;
+		for (i=0;i<(copy_x-orig_x+1);i++,row32++)
+			*row32 ^= 0x00FFFFFFu;
 		if (copy_y > orig_y) {
-			start16 = (Uint16 *) MainScreen->pixels + 
-			(copy_y * pitch2) + orig_x;
-			for (i=0;i<(copy_x-orig_x+1);i++,start16++)
-				*start16 ^= 0xFFFF;
+			/* XOR bottom border */
+			row32 = MetalFrameBuffer + (copy_y * stride) + orig_x;
+			for (i=0;i<(copy_x-orig_x+1);i++,row32++)
+				*row32 ^= 0x00FFFFFFu;
 		}
-		for (y=orig_y+1;y < copy_y;y++) {
-			start16 = (Uint16 *) MainScreen->pixels + 
-				(y * pitch2) + orig_x;
-			*start16 ^= 0xFFFF;
-		}
+		/* XOR left border */
+		for (y=orig_y+1;y < copy_y;y++)
+			MetalFrameBuffer[y * stride + orig_x] ^= 0x00FFFFFFu;
 		if (copy_x > orig_x) {
-			for (y=orig_y+1;y < copy_y;y++) {
-				start16 = (Uint16 *) MainScreen->pixels + 
-					(y * pitch2) + copy_x;
-				*start16 ^= 0xFFFF;
-			}
+			/* XOR right border */
+			for (y=orig_y+1;y < copy_y;y++)
+				MetalFrameBuffer[y * stride + copy_x] ^= 0x00FFFFFFu;
 		}
 	}
 }
