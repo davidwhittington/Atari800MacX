@@ -311,7 +311,6 @@
 		2DD12DD82570A19A00E07898 /* pclink.c in Sources */ = {isa = PBXBuildFile; fileRef = 2DD12DD72570A19900E07898 /* pclink.c */; };
 		2DDD844F0AAA01CC00DE182D /* KeyMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DDD844D0AAA01CC00DE182D /* KeyMapper.h */; };
 		2DDD84500AAA01CC00DE182D /* KeyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DDD844E0AAA01CC00DE182D /* KeyMapper.m */; };
-		/* 2DDD85100AAA055D00DE182D — Carbon.framework removed from hard link (Phase 4); now WEAK_FRAMEWORKS in xcconfig */
 		2DDF9C3621D6FBE500A56FB4 /* MessagesWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DDF9C3421D6FBE500A56FB4 /* MessagesWindow.h */; };
 		2DDF9C3721D6FBE500A56FB4 /* MessagesWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DDF9C3521D6FBE500A56FB4 /* MessagesWindow.m */; };
 		2DE2D1EC106EA23D0049A8A1 /* DisabledBreakpoint.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DE2D1EA106EA23D0049A8A1 /* DisabledBreakpoint.png */; };
@@ -343,19 +342,16 @@
 		77A5A9D521EC3B440098C3A5 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 77A5A9D421EC3B430098C3A5 /* lock.png */; };
 		A8000000CAFE000100000001 /* Atari800Core.h in Headers */ = {isa = PBXBuildFile; fileRef = A8000000DEAD000100000001 /* Atari800Core.h */; };
 		A8000000CAFE000200000002 /* Atari800Engine.h in Headers */ = {isa = PBXBuildFile; fileRef = A8000000DEAD000200000002 /* Atari800Engine.h */; };
-		A8000000CAFE000600000006 /* Atari800Core.c in Sources */ = {isa = PBXBuildFile; fileRef = A8000000DEAD000600000006 /* Atari800Core.c */; };
 		A8000000CAFE000300000003 /* Atari800Engine.m in Sources */ = {isa = PBXBuildFile; fileRef = A8000000DEAD000300000003 /* Atari800Engine.m */; };
 		A8000000CAFE000400000004 /* PreferenceKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = A8000000DEAD000400000004 /* PreferenceKeys.h */; };
 		A8000000CAFE000500000005 /* PreferenceKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = A8000000DEAD000500000005 /* PreferenceKeys.m */; };
-		/* Phase 5: Metal rendering pipeline */
+		A8000000CAFE000600000006 /* Atari800Core.c in Sources */ = {isa = PBXBuildFile; fileRef = A8000000DEAD000600000006 /* Atari800Core.c */; };
 		E5METAL01000000000000B001 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5METAL01000000000000A001 /* MetalKit.framework */; };
 		E5METAL01000000000000B002 /* EmulatorMetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = E5METAL01000000000000A002 /* EmulatorMetalView.h */; };
 		E5METAL01000000000000B003 /* EmulatorMetalView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5METAL01000000000000A003 /* EmulatorMetalView.m */; };
 		E5METAL01000000000000B004 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = E5METAL01000000000000A004 /* Shaders.metal */; };
-		/* Phase 6: Swift/ObjC interoperability */
 		E5SWIFT06000000000000B001 /* Atari800App.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5SWIFT06000000000000A001 /* Atari800App.swift */; };
 		E5SWIFT06000000000000B002 /* PreferenceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5SWIFT06000000000000A002 /* PreferenceModel.swift */; };
-		/* Phase 7: SwiftUI panels */
 		E5SWUI07000000000000B001 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5SWUI07000000000000A001 /* PreferencesView.swift */; };
 		E5SWUI07000000000000B002 /* AboutBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5SWUI07000000000000A002 /* AboutBoxView.swift */; };
 		E5SWUI07000000000000B003 /* SwiftUIPanelCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5SWUI07000000000000A003 /* SwiftUIPanelCoordinator.swift */; };
@@ -411,7 +407,6 @@
 		2D013C8B10718EF8009D2E84 /* BreakpointDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BreakpointDataSource.h; sourceTree = "<group>"; };
 		2D013C8C10718EF8009D2E84 /* BreakpointDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BreakpointDataSource.m; sourceTree = "<group>"; };
 		2D02BE9509B5617D00E023ED /* Info-Atari800MacX.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-Atari800MacX.plist"; sourceTree = "<group>"; };
-		A8000000DEAD000700000007 /* Atari800MacX.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Atari800MacX.entitlements; sourceTree = "<group>"; };
 		2D0325CD10853FC200983A3E /* PiaDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PiaDataSource.h; sourceTree = SOURCE_ROOT; };
 		2D0325CE10853FC200983A3E /* PiaDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PiaDataSource.m; sourceTree = SOURCE_ROOT; };
 		2D0325F410854BEB00983A3E /* RegDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegDataSource.h; sourceTree = SOURCE_ROOT; };
@@ -637,7 +632,6 @@
 		2DD92D9305B51C3B00F96269 /* scalebit.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = scalebit.c; sourceTree = SOURCE_ROOT; };
 		2DDD844D0AAA01CC00DE182D /* KeyMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyMapper.h; sourceTree = "<group>"; };
 		2DDD844E0AAA01CC00DE182D /* KeyMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyMapper.m; sourceTree = "<group>"; };
-		/* 2DDD850F0AAA055D00DE182D — Carbon.framework file reference removed (Phase 4); weakly linked via WEAK_FRAMEWORKS xcconfig setting */
 		2DDF9C3421D6FBE500A56FB4 /* MessagesWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessagesWindow.h; sourceTree = "<group>"; };
 		2DDF9C3521D6FBE500A56FB4 /* MessagesWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessagesWindow.m; sourceTree = "<group>"; };
 		2DE2D1EA106EA23D0049A8A1 /* DisabledBreakpoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DisabledBreakpoint.png; sourceTree = SOURCE_ROOT; };
@@ -685,11 +679,22 @@
 		77324B9124AC2CC50007CB07 /* open810snd.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = open810snd.wav; sourceTree = "<group>"; };
 		77A5A9D421EC3B430098C3A5 /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock.png; sourceTree = "<group>"; };
 		A8000000DEAD000100000001 /* Atari800Core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Atari800Core.h; sourceTree = "<group>"; };
-		A8000000DEAD000600000006 /* Atari800Core.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Atari800Core.c; sourceTree = "<group>"; };
 		A8000000DEAD000200000002 /* Atari800Engine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Atari800Engine.h; sourceTree = "<group>"; };
 		A8000000DEAD000300000003 /* Atari800Engine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Atari800Engine.m; sourceTree = "<group>"; };
 		A8000000DEAD000400000004 /* PreferenceKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreferenceKeys.h; sourceTree = "<group>"; };
 		A8000000DEAD000500000005 /* PreferenceKeys.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreferenceKeys.m; sourceTree = "<group>"; };
+		A8000000DEAD000600000006 /* Atari800Core.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Atari800Core.c; sourceTree = "<group>"; };
+		A8000000DEAD000700000007 /* Atari800MacX.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Atari800MacX.entitlements; sourceTree = "<group>"; };
+		E5METAL01000000000000A001 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
+		E5METAL01000000000000A002 /* EmulatorMetalView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmulatorMetalView.h; sourceTree = "<group>"; };
+		E5METAL01000000000000A003 /* EmulatorMetalView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EmulatorMetalView.m; sourceTree = "<group>"; };
+		E5METAL01000000000000A004 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		E5SWIFT06000000000000A001 /* Atari800App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atari800App.swift; sourceTree = "<group>"; };
+		E5SWIFT06000000000000A002 /* PreferenceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceModel.swift; sourceTree = "<group>"; };
+		E5SWIFT06000000000000A003 /* Atari800MacX-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Atari800MacX-Bridging-Header.h"; sourceTree = "<group>"; };
+		E5SWUI07000000000000A001 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
+		E5SWUI07000000000000A002 /* AboutBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutBoxView.swift; sourceTree = "<group>"; };
+		E5SWUI07000000000000A003 /* SwiftUIPanelCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIPanelCoordinator.swift; sourceTree = "<group>"; };
 		F507FF78034EB78801A8C8B4 /* doc.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = doc.icns; sourceTree = "<group>"; };
 		F5176916034BFE7501A8C8B4 /* Atari800MacX Help */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = folder; path = "Atari800MacX Help"; sourceTree = "<group>"; };
 		F555833A030EF41401A8C8B4 /* config.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = SOURCE_ROOT; };
@@ -752,19 +757,6 @@
 		F5C68C3D032B1E4501A8C8B4 /* Fuji.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Fuji.icns; sourceTree = "<group>"; };
 		F5E6BF3A032D9AF501A8C8B4 /* SDLMain.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SDLMain.xib; sourceTree = "<group>"; };
 		F5E6BF3E032DA88501A8C8B4 /* Preferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
-		/* Phase 5: Metal rendering pipeline */
-		E5METAL01000000000000A001 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
-		E5METAL01000000000000A002 /* EmulatorMetalView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmulatorMetalView.h; sourceTree = "<group>"; };
-		E5METAL01000000000000A003 /* EmulatorMetalView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EmulatorMetalView.m; sourceTree = "<group>"; };
-		E5METAL01000000000000A004 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
-		/* Phase 6: Swift/ObjC interoperability */
-		E5SWIFT06000000000000A001 /* Atari800App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atari800App.swift; sourceTree = "<group>"; };
-		E5SWIFT06000000000000A002 /* PreferenceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceModel.swift; sourceTree = "<group>"; };
-		E5SWIFT06000000000000A003 /* Atari800MacX-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Atari800MacX-Bridging-Header.h"; sourceTree = "<group>"; };
-		/* Phase 7: SwiftUI panels */
-		E5SWUI07000000000000A001 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
-		E5SWUI07000000000000A002 /* AboutBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutBoxView.swift; sourceTree = "<group>"; };
-		E5SWUI07000000000000A003 /* SwiftUIPanelCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIPanelCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -775,7 +767,6 @@
 				2DAEDBC709B69AED005FF181 /* Cocoa.framework in Frameworks */,
 				2DAEDBC809B69AED005FF181 /* IOKit.framework in Frameworks */,
 				2D20134221D45A5B005793AE /* SDL2.framework in Frameworks */,
-				/* Carbon.framework removed from hard link — see WEAK_FRAMEWORKS in xcconfig (Phase 4) */
 				E5METAL01000000000000B001 /* MetalKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -919,10 +910,8 @@
 		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				/* Carbon.framework removed from group (Phase 4) */
 				2D20134021D076AA005793AE /* SDL2.framework */,
 				2D9863E407BED49700596C6B /* IOKit.framework */,
-				/* OpenGL.framework removed from link phase (Phase 5) — dead file ref left for reference */
 				2DFB2BC808A99F86004EF21F /* OpenGL.framework */,
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
@@ -1726,6 +1715,7 @@
 				PRODUCT_NAME = Atari800MacX;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "Atari800MacX-Bridging-Header.h";
 				SWIFT_VERSION = 5.9;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -1733,7 +1723,6 @@
 					"-Wno-unknown-pragmas",
 					"-Wno-missing-selector-name",
 				);
-				SWIFT_OBJC_BRIDGING_HEADER = "Atari800MacX-Bridging-Header.h";
 				WEAK_FRAMEWORKS = Carbon;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1748,7 +1737,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
-				DEVELOPMENT_TEAM = X49M46V9N7;
+				DEVELOPMENT_TEAM = XN4XN8329W;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					.,
@@ -1789,6 +1778,7 @@
 				PRODUCT_NAME = Atari800MacX;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "Atari800MacX-Bridging-Header.h";
 				SWIFT_VERSION = 5.9;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -1796,7 +1786,6 @@
 					"-Wno-unknown-pragmas",
 					"-Wno-missing-selector-name",
 				);
-				SWIFT_OBJC_BRIDGING_HEADER = "Atari800MacX-Bridging-Header.h";
 				WEAK_FRAMEWORKS = Carbon;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1810,7 +1799,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = X49M46V9N7;
+				DEVELOPMENT_TEAM = XN4XN8329W;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					.,
@@ -1851,6 +1840,7 @@
 				PRODUCT_NAME = Atari800MacX;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "Atari800MacX-Bridging-Header.h";
 				SWIFT_VERSION = 5.9;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -1858,7 +1848,6 @@
 					"-Wno-unknown-pragmas",
 					"-Wno-missing-selector-name",
 				);
-				SWIFT_OBJC_BRIDGING_HEADER = "Atari800MacX-Bridging-Header.h";
 				WEAK_FRAMEWORKS = Carbon;
 				WRAPPER_EXTENSION = app;
 			};
