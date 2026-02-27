@@ -221,7 +221,7 @@ static BreakpointsController *sharedInstance = nil;
 	if (pc == CPU_regPC) {
 		CPU_hit_breakpoint = TRUE;
 	}
-	dirty = TRUE;
+	dirty = YES;
 }
 
 -(void) addBreakpointWithType:(int) type Mem:(unsigned short) memAddr Size:(int) size
@@ -267,7 +267,7 @@ static BreakpointsController *sharedInstance = nil;
 		cond->on = TRUE;
 		MONITOR_breakpoint_table_size++;
 	}
-	dirty = TRUE;
+	dirty = YES;
 }
 
 -(void) addBreakpointWithMem:(unsigned short) memAddr Size:(int) size Value: (unsigned short) memValue
@@ -316,7 +316,7 @@ static BreakpointsController *sharedInstance = nil;
 		cond->on = TRUE;
 		MONITOR_breakpoint_table_size++;
 	}
-	dirty = TRUE;	
+	dirty = YES;
 }
 
 -(void) addBreakpointWithRow:(int) row
@@ -373,11 +373,13 @@ static BreakpointsController *sharedInstance = nil;
 	}
 	
 	// Move the new breakpoint into the table in place of the old one.
-	for (i=0;i<newCount;i++)
-		memcpy(&MONITOR_breakpoint_table[start+i], 
-			   [[new conditionAtIndex:i] getCondition], 
-			   sizeof(MONITOR_breakpoint_cond));
-	dirty = TRUE;
+    for (i=0;i<newCount;i++) {
+        MONITOR_breakpoint_cond *cond = [[new conditionAtIndex:i] getCondition];
+        memcpy(&MONITOR_breakpoint_table[start+i],
+               cond,
+               sizeof(MONITOR_breakpoint_cond));
+    }
+	dirty = YES;
 }
 
 -(void) toggleBreakpointEnable:(Breakpoint *) theBreakpoint
@@ -497,7 +499,7 @@ static BreakpointsController *sharedInstance = nil;
 		memcpy(&MONITOR_breakpoint_table[start+i], &MONITOR_breakpoint_table[end+1+i], sizeof(MONITOR_breakpoint_cond));
 	
 	MONITOR_breakpoint_table_size -= end-start+1;
-	dirty = TRUE;
+	dirty = YES;
 }
 
 -(void) deleteBreakpointWithMem:(unsigned short) memAddr
@@ -541,7 +543,7 @@ static BreakpointsController *sharedInstance = nil;
 -(void) deleteAllBreakpoints
 {
 	MONITOR_breakpoint_table_size = 0;
-	dirty = TRUE;
+	dirty = YES;
 }
 
 -(int) getBreakpointCount
