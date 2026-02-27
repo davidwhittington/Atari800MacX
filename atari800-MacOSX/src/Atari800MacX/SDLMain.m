@@ -296,21 +296,14 @@ int main (int argc, char **argv)
     /* Set the working directory to the .app's parent directory */
     setupWorkingDirectory();
 	
-    /* Modern replacement for deprecated NSApplicationMain().
-     * Loads NSMainNibFile ("SDLMain.xib") which instantiates the main menu
-     * and wires the SDLMain delegate, then runs the event loop.
-     * All ObjC calls are inside the pool so autoreleased objects have
-     * somewhere to drain. */
-    @autoreleasepool {
-        /* Set the working directory for preferences, so defaults for
-           directories are set correctly */
-        [Preferences setWorkingDirectory:gArgv[0]];
+    /* Set the working directory for preferences, so defaults for
+       directories are set correctly */
+    [Preferences setWorkingDirectory:gArgv[0]];
 
-        [NSApplication sharedApplication];
-        NSString *nibName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSMainNibFile"];
-        if (nibName.length > 0)
-            [[NSBundle mainBundle] loadNibNamed:nibName owner:NSApp topLevelObjects:nil];
-        [NSApp run];
-    }
+    /* TEST: use NSApplicationMain to verify it works before using replacement */
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    NSApplicationMain(argc, (const char **) argv);
+#pragma clang diagnostic pop
     return 0;
 }
