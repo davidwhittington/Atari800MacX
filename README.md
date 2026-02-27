@@ -1,14 +1,30 @@
-# Atari800MacX
-Atari800 Emulator for Mac OSX
+# fuji-concepts
 
-Atari800MacX is the Macintosh OS X Port of David Firth's Fantastic Atari 800 Emulator. I have ported the SDL version of the Atrari800 emulator to Mac OS X, and added a full native Cocoa interface, including Preferences, Menus, File Associations, Help and more.
+A monorepo for the **Fuji** family of Atari 800 emulators for macOS — modernized, arm64-native,
+and built on the [atari800](https://atari800.github.io) core.
 
-It does not require libSDL2 to be installed separately, but includes it within the application package. It does however require ROM image files from the original Atari systems, which are not included here. 
+## Apps
 
-The full web page for this emulator (including older versions), as well as other Atari/Mac software can be found at http://atarimac.com.
+| App | Description |
+|-----|-------------|
+| [fuji-foundation](apps/fuji-foundation) | **Atari800MacOS** — the modernized core. Full-featured Cocoa + Metal emulator. Tracks upstream atari800. |
+| [fuji-swift](apps/fuji-swift) | Streamlined, lightweight variant derived from fuji-foundation. |
+| [fuji-vision](apps/fuji-vision) | Display-focused variant with enhanced rendering fidelity. |
+| [fuji-dynasty](apps/fuji-dynasty) | Feature-rich modular variant — opt-in modules extend the core. |
 
-Special Thanks go to Jacek Poplawski for writing the general SDL port, and the entire libSDL team that has made this port possible. (As well as to the whole Atari800 team for their invaluable support and suggestions. Please visit their website at https://atari800.github.io for full info on their emulator core.) 
+## Upstream
 
-Many thanks to Daniel Noguerol for his hard work on the original and ported versions of the R: driver. 
+Upstream changes from [atari800/atari800](https://github.com/atari800/atari800) are integrated
+into `apps/fuji-foundation` only. Other apps inherit selectively from there.
 
-Also thanks to Al Yarusso at AtariAge for mirroring the binary and source for many years., 
+```
+git remote add upstream https://github.com/atari800/atari800.git
+git fetch upstream
+# merge into apps/fuji-foundation branch
+```
+
+## Heritage
+
+fuji-concepts is a fork of [Atari800MacX](http://atarimac.com) by David Whittington,
+itself a macOS port of the Atari800 emulator. Original SDL port by Jacek Poplawski.
+R: driver by Daniel Noguerol.
