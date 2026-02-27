@@ -1,5 +1,6 @@
 /* EmulatorMetalView.m
  * Phase 5: MTKView-based Metal renderer for Atari800MacX.
+ * Phase B: linear filter sampler + variable scanline transparency.
  *
  * Rendering model
  * ───────────────
@@ -16,6 +17,12 @@
 #import <Metal/Metal.h>
 #import <simd/simd.h>
 
+/* Must match FragParams in Shaders.metal */
+typedef struct {
+    int   scanlines;
+    float scanlineTransparency;
+} FragParams;
+
 /* ── Module-level singleton ─────────────────────────────────────────────── */
 
 static EmulatorMetalView *g_metalView = nil;
@@ -27,13 +34,17 @@ static EmulatorMetalView *g_metalView = nil;
     id<MTLCommandQueue>        _commandQueue;
     id<MTLRenderPipelineState> _pipeline;
     id<MTLTexture>             _texture;       // cached, recreated only on size change
+    id<MTLSamplerState>        _samplerNearest;
+    id<MTLSamplerState>        _samplerLinear;
 
     /* Current frame state written by presentPixels:, read by drawInMTKView: */
-    simd_float4  _quadRect;   /* { left, bottom, right, top } NDC */
-    int          _scanlines;  /* 0 = off, non-zero = on */
+    simd_float4  _quadRect;    /* { left, bottom, right, top } NDC */
+    FragParams   _fragParams;  /* scanlines flag + transparency */
 }
 
-@synthesize scanlinesEnabled = _scanlinesEnabled;
+@synthesize scanlinesEnabled      = _scanlinesEnabled;
+@synthesize scanlineTransparency  = _scanlineTransparency;
+@synthesize linearFilterEnabled   = _linearFilterEnabled;
 
 /* ── Initialization ─────────────────────────────────────────────────────── */
 
@@ -44,6 +55,7 @@ static EmulatorMetalView *g_metalView = nil;
     self = [super initWithFrame:frame device:_device];
     if (!self) return nil;
 
+    _scanlineTransparency = 0.9f;
     [self _setupMetal];
     return self;
 }
@@ -69,6 +81,18 @@ static EmulatorMetalView *g_metalView = nil;
     _pipeline = [_device newRenderPipelineStateWithDescriptor:rpd error:&err];
     NSAssert(_pipeline, @"EmulatorMetalView: pipeline creation failed: %@", err);
 
+    /* Create two samplers — nearest and linear — chosen per frame. */
+    MTLSamplerDescriptor *sd = [MTLSamplerDescriptor new];
+    sd.minFilter    = MTLSamplerMinMagFilterNearest;
+    sd.magFilter    = MTLSamplerMinMagFilterNearest;
+    sd.sAddressMode = MTLSamplerAddressModeClampToEdge;
+    sd.tAddressMode = MTLSamplerAddressModeClampToEdge;
+    _samplerNearest = [_device newSamplerStateWithDescriptor:sd];
+
+    sd.minFilter = MTLSamplerMinMagFilterLinear;
+    sd.magFilter = MTLSamplerMinMagFilterLinear;
+    _samplerLinear = [_device newSamplerStateWithDescriptor:sd];
+
     /* MTKView configuration: emulator loop drives rendering, not the display link. */
     self.device                  = _device;
     self.delegate                = self;
@@ -80,7 +104,8 @@ static EmulatorMetalView *g_metalView = nil;
 
     /* Initial quad: fill entire drawable. */
     _quadRect = (simd_float4){ -1.0f, -1.0f, 1.0f, 1.0f };
-    _scanlines = 0;
+    _fragParams.scanlines            = 0;
+    _fragParams.scanlineTransparency = _scanlineTransparency;
 }
 
 /* ── Frame upload + present ─────────────────────────────────────────────── */
@@ -113,8 +138,9 @@ static EmulatorMetalView *g_metalView = nil;
                 bytesPerRow:(NSUInteger)(srcW * 4)];
 
     /* Store rendering parameters for drawInMTKView:. */
-    _quadRect  = (simd_float4){ quadL, quadB, quadR, quadT };
-    _scanlines = _scanlinesEnabled ? 1 : 0;
+    _quadRect = (simd_float4){ quadL, quadB, quadR, quadT };
+    _fragParams.scanlines            = _scanlinesEnabled ? 1 : 0;
+    _fragParams.scanlineTransparency = _scanlineTransparency;
 
     /* Synchronous draw — we are already on the main thread. */
     [self draw];
@@ -142,8 +168,12 @@ static EmulatorMetalView *g_metalView = nil;
     /* Fragment texture 0: BGRA8 Atari frame. */
     [enc setFragmentTexture:_texture atIndex:0];
 
-    /* Fragment buffer 0: scanlines flag. */
-    [enc setFragmentBytes:&_scanlines length:sizeof(_scanlines) atIndex:0];
+    /* Fragment sampler 0: nearest or linear depending on user preference. */
+    [enc setFragmentSamplerState:(_linearFilterEnabled ? _samplerLinear : _samplerNearest)
+                         atIndex:0];
+
+    /* Fragment buffer 0: FragParams (scanlines + transparency). */
+    [enc setFragmentBytes:&_fragParams length:sizeof(_fragParams) atIndex:0];
 
     /* Draw a fullscreen quad as a triangle strip (4 vertices). */
     [enc drawPrimitives:MTLPrimitiveTypeTriangleStrip
@@ -189,6 +219,16 @@ void Mac_MetalPresent(const unsigned int *pixels,
 void Mac_MetalSetScanlines(int enabled) {
     if (g_metalView)
         g_metalView.scanlinesEnabled = (BOOL)enabled;
+}
+
+void Mac_MetalSetScanlineTransparency(double transparency) {
+    if (g_metalView)
+        g_metalView.scanlineTransparency = (float)transparency;
+}
+
+void Mac_MetalSetLinearFilter(int enabled) {
+    if (g_metalView)
+        g_metalView.linearFilterEnabled = (BOOL)enabled;
 }
 
 void Mac_MetalViewDestroy(void) {

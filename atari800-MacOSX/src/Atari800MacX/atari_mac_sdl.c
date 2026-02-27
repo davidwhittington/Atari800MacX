@@ -112,6 +112,9 @@ int SCALE_MODE;
 int linearFilterEnabled = FALSE;
 int pixelAspectEnabled = FALSE;
 double scanlineTransparency = 0.9;
+double pixelAspectRatio = 1.0;  /* Pixel Height / Pixel Width */
+#define PAL_REALISTIC_PIXEL_ASPECT  (25.0/26.0)
+#define NTSC_REALISTIC_PIXEL_ASPECT (7.0/6.0)
 double scaleFactor = 3;
 double scaleFactorFloat = 2.0;
 double scaleFactorRenderX;
@@ -238,6 +241,8 @@ extern int xep80ColorsChanged;
 extern int configurationChanged;
 extern int fullscreenOptsChanged;
 extern int vsyncOptsChanged;
+extern int linearFilterOptsChanged;
+extern int pixelAspectOptsChanged;
 extern int ultimateRomChanged;
 extern int side2RomChanged;
 extern int side2CFChanged;
@@ -295,6 +300,8 @@ extern void PasteManagerUpdateEscapeCopyMenu(void);
 extern void SetDisplayManagerWidthMode(int widthMode);
 extern void SetDisplayManagerFps(int fpsOn);
 extern void SetDisplayManagerVsyncEnabled(int vsyncEnabled);
+extern void SetDisplayManagerLinearFilterEnabled(int linearFilterEnabled);
+extern void SetDisplayManagerPixelAspectEnabled(int pixelAspectEnabled);
 extern void SetDisplayManagerScaleMode(int scaleMode);
 extern void SetDisplayManagerArtifactMode(int scaleMode);
 extern void SetDisplayManagerGrabMouse(int mouseOn);
@@ -1032,6 +1039,35 @@ void SwitchVsync()
     vsyncEnabled = 1 - vsyncEnabled;
     SetDisplayManagerVsyncEnabled(vsyncEnabled);
     HandleVsyncChange();
+}
+
+/*------------------------------------------------------------------------------
+*  SwitchLinearFilter - Toggle bilinear texture filtering on/off.
+*-----------------------------------------------------------------------------*/
+void SwitchLinearFilter()
+{
+    linearFilterEnabled = 1 - linearFilterEnabled;
+    SetDisplayManagerLinearFilterEnabled(linearFilterEnabled);
+    Mac_MetalSetLinearFilter(linearFilterEnabled);
+}
+
+/*------------------------------------------------------------------------------
+*  SwitchPixelAspect - Toggle realistic pixel aspect ratio on/off.
+*    NTSC pixels are wider (7:6 height:width), PAL pixels are narrower (25:26).
+*-----------------------------------------------------------------------------*/
+void SwitchPixelAspect()
+{
+    pixelAspectEnabled = 1 - pixelAspectEnabled;
+    if (pixelAspectEnabled) {
+        if (Atari800_tv_mode == Atari800_TV_PAL)
+            pixelAspectRatio = PAL_REALISTIC_PIXEL_ASPECT;
+        else
+            pixelAspectRatio = NTSC_REALISTIC_PIXEL_ASPECT;
+    } else {
+        pixelAspectRatio = 1.0;
+    }
+    SetDisplayManagerPixelAspectEnabled(pixelAspectEnabled);
+    Atari_DisplayScreen((UBYTE *) Screen_atari);
 }
 
 /*------------------------------------------------------------------------------
@@ -3074,12 +3110,17 @@ void Atari_DisplayScreen(UBYTE * screen)
 
     /* Scanline mode: toggle in the Metal fragment shader */
     Mac_MetalSetScanlines(SCALE_MODE == SCANLINE_SCALE);
+    Mac_MetalSetScanlineTransparency(scanlineTransparency);
 
     /* Compute NDC quad coordinates for the Metal renderer */
     float quadL, quadB, quadR, quadT;
     if (!FULLSCREEN_MACOS) {
-        /* Windowed: MTKView exactly matches the window — fill it entirely */
-        quadL = -1.0f; quadR = 1.0f; quadB = -1.0f; quadT = 1.0f;
+        /* Windowed: apply pixel aspect ratio by shrinking the quad height.
+         * pixelAspectRatio < 1 (PAL) shrinks height; > 1 (NTSC) expands it.
+         * We clamp to [-1,1] so the image never exceeds the drawable. */
+        float qH = (float)fmin(1.0, pixelAspectRatio);
+        float qW = (pixelAspectRatio > 1.0f) ? 1.0f / (float)pixelAspectRatio : 1.0f;
+        quadL = -qW; quadR = qW; quadB = -qH; quadT = qH;
     } else {
         /* Fullscreen: map Atari content into the letterbox sub-rect.
          * screen_x_offset / screen_y_offset are in pre-scale coordinates;
@@ -4373,6 +4414,14 @@ void ProcessMacMenus()
         SwitchVsync();
         requestVsyncChange = 0;
         }
+    if (requestLinearFilterChange) {
+        SwitchLinearFilter();
+        requestLinearFilterChange = 0;
+        }
+    if (requestPixelAspectChange) {
+        SwitchPixelAspect();
+        requestPixelAspectChange = 0;
+        }
     if (requestScaleModeChange) {
         SwitchScaleMode(requestScaleModeChange-1);
         requestScaleModeChange = 0;
@@ -4794,6 +4843,20 @@ void ProcessMacPrefsChange()
         if (vsyncOptsChanged) {
             SetDisplayManagerVsyncEnabled(vsyncEnabled);
             HandleVsyncChange();
+        }
+        if (linearFilterOptsChanged) {
+            SetDisplayManagerLinearFilterEnabled(linearFilterEnabled);
+            Mac_MetalSetLinearFilter(linearFilterEnabled);
+        }
+        if (pixelAspectOptsChanged) {
+            if (pixelAspectEnabled) {
+                pixelAspectRatio = (Atari800_tv_mode == Atari800_TV_PAL)
+                    ? PAL_REALISTIC_PIXEL_ASPECT : NTSC_REALISTIC_PIXEL_ASPECT;
+            } else {
+                pixelAspectRatio = 1.0;
+            }
+            SetDisplayManagerPixelAspectEnabled(pixelAspectEnabled);
+            Atari_DisplayScreen((UBYTE *) Screen_atari);
         }
         if (ultimateRomChanged) {
             int loaded;

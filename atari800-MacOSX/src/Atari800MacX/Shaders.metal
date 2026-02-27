@@ -1,8 +1,10 @@
 /*
  * Shaders.metal — Atari800MacX Phase 5 Metal renderer
+ *                 Phase B: linear filter + variable scanline transparency
  *
  * emulatorVertex : fullscreen quad driven by a packed NDC rect uniform
- * emulatorFragment: nearest-filter texture sample + optional scanline darkening
+ * emulatorFragment: switchable nearest/linear texture sample +
+ *                   optional CRT scanline darkening with configurable transparency
  */
 
 #include <metal_stdlib>
@@ -11,6 +13,11 @@ using namespace metal;
 struct VertexOut {
     float4 position [[position]];
     float2 uv;
+};
+
+struct FragParams {
+    int   scanlines;            /* non-zero → apply scanline effect */
+    float scanlineTransparency; /* 0.0 = fully dark, 1.0 = fully bright */
 };
 
 /*
@@ -44,17 +51,18 @@ vertex VertexOut emulatorVertex(uint vid [[vertex_id]],
 }
 
 /*
- * tex      : BGRA8Unorm texture containing the current Atari frame
- * scanlines: non-zero → darken every other output row to simulate CRT scanlines
+ * tex    : BGRA8Unorm texture containing the current Atari frame
+ * smp    : sampler passed from CPU (nearest or linear depending on user pref)
+ * params : FragParams — scanlines flag + scanline transparency
  */
-fragment float4 emulatorFragment(VertexOut         in        [[stage_in]],
-                                 texture2d<float>  tex       [[texture(0)]],
-                                 constant int     &scanlines [[buffer(0)]]) {
-    constexpr sampler s(filter::nearest, address::clamp_to_edge);
-    float4 color = tex.sample(s, in.uv);
+fragment float4 emulatorFragment(VertexOut             in     [[stage_in]],
+                                 texture2d<float>      tex    [[texture(0)]],
+                                 sampler               smp    [[sampler(0)]],
+                                 constant FragParams  &params [[buffer(0)]]) {
+    float4 color = tex.sample(smp, in.uv);
 
-    if (scanlines && fmod(floor(in.position.y), 2.0f) < 1.0f)
-        color.rgb *= 0.70f;
+    if (params.scanlines && fmod(floor(in.position.y), 2.0f) < 1.0f)
+        color.rgb *= params.scanlineTransparency;
 
     return color;
 }

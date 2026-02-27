@@ -14,8 +14,12 @@
 
 @interface EmulatorMetalView : MTKView <MTKViewDelegate>
 
-/** Toggle CRT-style scanline darkening (every other output row dims to 70%). */
-@property (nonatomic) BOOL scanlinesEnabled;
+/** Toggle CRT-style scanline darkening. */
+@property (nonatomic) BOOL   scanlinesEnabled;
+/** Scanline brightness (0.0 = fully dark, 1.0 = no darkening). Default 0.9. */
+@property (nonatomic) float  scanlineTransparency;
+/** Use bilinear texture filtering (YES) or nearest-neighbour (NO). Default NO. */
+@property (nonatomic) BOOL   linearFilterEnabled;
 
 /**
  * Upload a new Atari frame and render it immediately (synchronous).
@@ -72,6 +76,12 @@ void Mac_MetalPresent(const unsigned int *pixels,
 
 /** Enable (1) or disable (0) scanline darkening. */
 void Mac_MetalSetScanlines(int enabled);
+
+/** Set scanline transparency (0.0 = fully dark, 1.0 = fully bright). */
+void Mac_MetalSetScanlineTransparency(double transparency);
+
+/** Enable (1) or disable (0) bilinear texture filtering. */
+void Mac_MetalSetLinearFilter(int enabled);
 
 /** Destroy the view (called on app shutdown). */
 void Mac_MetalViewDestroy(void);
