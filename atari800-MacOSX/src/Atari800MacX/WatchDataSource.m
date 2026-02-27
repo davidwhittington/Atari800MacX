@@ -25,8 +25,9 @@
 -(id) init
 {
 	char filename[FILENAME_MAX];
-	
-	[super init];
+
+	self = [super init];
+	if (!self) return nil;
 
 	expressions = [NSMutableArray arrayWithCapacity:20];
 	numbers = [NSMutableArray arrayWithCapacity:20];

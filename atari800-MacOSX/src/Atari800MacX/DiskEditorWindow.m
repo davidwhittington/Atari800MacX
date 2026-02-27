@@ -62,7 +62,8 @@ static NSMutableArray *editorArray = nil;
 	(DiskEditorDataSource *)dataSource:
 	(NSString *)filename
 	{
-	[super initWithWindowNibName:windowNibName];
+	self = [super initWithWindowNibName:windowNibName];
+	if (!self) return nil;
 	directoryDataSource = dataSource;
 	diskImageReadWrite = 0;
 	diskImageSubdirs = 0;

@@ -13,8 +13,9 @@
 
 - (id)init
 {
-	[super init];
-	
+	self = [super init];
+	if (!self) return nil;
+
 	[[[self menu] itemAtIndex:ADD_BYTE_INDEX] setTarget:self];
 	[[[self menu] itemAtIndex:ADD_WORD_INDEX] setTarget:self];
 	[[[self menu] itemAtIndex:ADD_BYTE_INDEX] setEnabled:YES];

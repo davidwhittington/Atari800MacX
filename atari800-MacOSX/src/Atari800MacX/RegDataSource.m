@@ -14,8 +14,9 @@
 -(id) init
 {
 	int i;
-	
-	[super init];
+
+	self = [super init];
+	if (!self) return nil;
 	
 	// init colors
 	black = [NSColor labelColor];

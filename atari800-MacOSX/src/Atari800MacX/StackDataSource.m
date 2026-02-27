@@ -13,7 +13,8 @@
 
 -(id) init
 {
-	[super init];
+	self = [super init];
+	if (!self) return nil;
 	stackStrings = nil;
 	return self;
 }

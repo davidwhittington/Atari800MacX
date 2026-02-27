@@ -10,7 +10,8 @@
 @implementation ByteTextField
 - (id)init
 {
-	[super init];
+	self = [super init];
+	if (!self) return nil;
 	[self setStringValue:@""];
 	[self setEditable:YES];
 	[self setSelectable:YES];

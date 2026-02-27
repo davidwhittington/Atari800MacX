@@ -19,14 +19,16 @@
 
 -(BreakpointCondition *) initWithConditionIndex:(int) index
 {
-	[super init];
+	self = [super init];
+	if (!self) return nil;
 	memcpy(&cond, &MONITOR_breakpoint_table[index], sizeof(MONITOR_breakpoint_cond));
 	return(self);
 }
 
 -(BreakpointCondition *) initWithBreakpointCondition:(MONITOR_breakpoint_cond *) condition
 {
-	[super init];
+	self = [super init];
+	if (!self) return nil;
 	memcpy(&cond, condition, sizeof(MONITOR_breakpoint_cond));
 	return(self);
 }

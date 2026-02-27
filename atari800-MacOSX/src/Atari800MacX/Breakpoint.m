@@ -19,8 +19,9 @@
 	int i;
 	BreakpointCondition *newCondition;
 	MONITOR_breakpoint_cond *cond;
-	
-	[super init];
+
+	self = [super init];
+	if (!self) return nil;
 	startTableIndex = start;
 	endTableIndex = end;
 	pcMin = -1;
