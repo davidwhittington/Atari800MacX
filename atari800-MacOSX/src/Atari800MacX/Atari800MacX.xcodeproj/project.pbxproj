@@ -355,6 +355,10 @@
 		/* Phase 6: Swift/ObjC interoperability */
 		E5SWIFT06000000000000B001 /* Atari800App.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5SWIFT06000000000000A001 /* Atari800App.swift */; };
 		E5SWIFT06000000000000B002 /* PreferenceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5SWIFT06000000000000A002 /* PreferenceModel.swift */; };
+		/* Phase 7: SwiftUI panels */
+		E5SWUI07000000000000B001 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5SWUI07000000000000A001 /* PreferencesView.swift */; };
+		E5SWUI07000000000000B002 /* AboutBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5SWUI07000000000000A002 /* AboutBoxView.swift */; };
+		E5SWUI07000000000000B003 /* SwiftUIPanelCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5SWUI07000000000000A003 /* SwiftUIPanelCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -757,6 +761,10 @@
 		E5SWIFT06000000000000A001 /* Atari800App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atari800App.swift; sourceTree = "<group>"; };
 		E5SWIFT06000000000000A002 /* PreferenceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceModel.swift; sourceTree = "<group>"; };
 		E5SWIFT06000000000000A003 /* Atari800MacX-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Atari800MacX-Bridging-Header.h"; sourceTree = "<group>"; };
+		/* Phase 7: SwiftUI panels */
+		E5SWUI07000000000000A001 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
+		E5SWUI07000000000000A002 /* AboutBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutBoxView.swift; sourceTree = "<group>"; };
+		E5SWUI07000000000000A003 /* SwiftUIPanelCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIPanelCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -801,6 +809,9 @@
 				E5SWIFT06000000000000A001 /* Atari800App.swift */,
 				E5SWIFT06000000000000A002 /* PreferenceModel.swift */,
 				E5SWIFT06000000000000A003 /* Atari800MacX-Bridging-Header.h */,
+				E5SWUI07000000000000A001 /* PreferencesView.swift */,
+				E5SWUI07000000000000A002 /* AboutBoxView.swift */,
+				E5SWUI07000000000000A003 /* SwiftUIPanelCoordinator.swift */,
 				A8000000DEAD000100000001 /* Atari800Core.h */,
 				A8000000DEAD000600000006 /* Atari800Core.c */,
 				A8000000DEAD000200000002 /* Atari800Engine.h */,
@@ -1642,6 +1653,9 @@
 				E5METAL01000000000000B004 /* Shaders.metal in Sources */,
 				E5SWIFT06000000000000B001 /* Atari800App.swift in Sources */,
 				E5SWIFT06000000000000B002 /* PreferenceModel.swift in Sources */,
+				E5SWUI07000000000000B001 /* PreferencesView.swift in Sources */,
+				E5SWUI07000000000000B002 /* AboutBoxView.swift in Sources */,
+				E5SWUI07000000000000B003 /* SwiftUIPanelCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
