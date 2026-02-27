@@ -402,32 +402,20 @@ DQ
                                                 <rect key="frame" x="4" y="5" width="154" height="44"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="296">
-                                                        <rect key="frame" x="12" y="4" width="106" height="38"/>
+                                                                                                        <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="296">
+                                                        <rect key="frame" x="12" y="10" width="138" height="22"/>
                                                         <autoresizingMask key="autoresizingMask"/>
-                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        <size key="cellSize" width="106" height="18"/>
-                                                        <size key="intercellSpacing" width="4" height="2"/>
-                                                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="leading" alignment="left" inset="2" id="13272">
-                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <segmentedCell key="cell" trackingMode="selectOne" id="tvm-01-cel">
                                                             <font key="font" metaFont="system"/>
-                                                        </buttonCell>
-                                                        <cells>
-                                                            <column>
-                                                                <buttonCell type="radio" title="NTSC (60 Hz)" bezelStyle="regularSquare" imagePosition="leading" alignment="left" state="on" inset="2" id="297">
-                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                    <font key="font" metaFont="system"/>
-                                                                </buttonCell>
-                                                                <buttonCell type="radio" title="PAL (50 Hz)" bezelStyle="regularSquare" imagePosition="leading" alignment="left" tag="1" inset="2" id="298">
-                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                    <font key="font" metaFont="system"/>
-                                                                </buttonCell>
-                                                            </column>
-                                                        </cells>
+                                                            <segments>
+                                                                <segment title="NTSC (60 Hz)" selected="YES" id="tvm-01-s01"/>
+                                                                <segment title="PAL (50 Hz)" id="tvm-01-s02"/>
+                                                            </segments>
+                                                        </segmentedCell>
                                                         <connections>
                                                             <action selector="miscChanged:" target="-2" id="314"/>
                                                         </connections>
-                                                    </matrix>
+                                                    </segmentedControl>
                                                 </subviews>
                                             </view>
                                             <font key="titleFont" metaFont="system"/>
@@ -662,36 +650,21 @@ DQ
                                                 <rect key="frame" x="4" y="5" width="319" height="66"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="270">
-                                                        <rect key="frame" x="12" y="4" width="178" height="61"/>
+                                                                                                        <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="270">
+                                                        <rect key="frame" x="12" y="23" width="295" height="22"/>
                                                         <autoresizingMask key="autoresizingMask"/>
-                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        <size key="cellSize" width="178" height="19"/>
-                                                        <size key="intercellSpacing" width="4" height="2"/>
-                                                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="leading" alignment="left" inset="2" id="13269">
-                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <segmentedCell key="cell" trackingMode="selectOne" id="wdm-01-cel">
                                                             <font key="font" metaFont="system"/>
-                                                        </buttonCell>
-                                                        <cells>
-                                                            <column>
-                                                                <buttonCell type="radio" title="Narrow Width (320x240)" bezelStyle="regularSquare" imagePosition="leading" alignment="left" state="on" inset="2" id="274">
-                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                    <font key="font" metaFont="system"/>
-                                                                </buttonCell>
-                                                                <buttonCell type="radio" title="Default Width (336x240)" bezelStyle="regularSquare" imagePosition="leading" alignment="left" tag="1" inset="2" id="275">
-                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                    <font key="font" metaFont="system"/>
-                                                                </buttonCell>
-                                                                <buttonCell type="radio" title="Full Width (384x240)" bezelStyle="regularSquare" imagePosition="leading" alignment="left" tag="2" inset="2" id="276">
-                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                    <font key="font" metaFont="system"/>
-                                                                </buttonCell>
-                                                            </column>
-                                                        </cells>
+                                                            <segments>
+                                                                <segment title="Narrow" selected="YES" id="wdm-01-s01"/>
+                                                                <segment title="Default" id="wdm-01-s02"/>
+                                                                <segment title="Full" id="wdm-01-s03"/>
+                                                            </segments>
+                                                        </segmentedCell>
                                                         <connections>
                                                             <action selector="miscChanged:" target="-2" id="288"/>
                                                         </connections>
-                                                    </matrix>
+                                                    </segmentedControl>
                                                 </subviews>
                                             </view>
                                             <font key="titleFont" metaFont="system"/>
@@ -703,32 +676,20 @@ DQ
                                                 <rect key="frame" x="4" y="5" width="317" height="52"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3842">
-                                                        <rect key="frame" x="9" y="8" width="146" height="38"/>
+                                                                                                        <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3842">
+                                                        <rect key="frame" x="9" y="15" width="200" height="22"/>
                                                         <autoresizingMask key="autoresizingMask"/>
-                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        <size key="cellSize" width="146" height="18"/>
-                                                        <size key="intercellSpacing" width="4" height="2"/>
-                                                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="leading" alignment="left" inset="2" id="13268">
-                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <segmentedCell key="cell" trackingMode="selectOne" id="scm-01-cel">
                                                             <font key="font" metaFont="system"/>
-                                                        </buttonCell>
-                                                        <cells>
-                                                            <column>
-                                                                <buttonCell type="radio" title="Normal" bezelStyle="regularSquare" imagePosition="leading" alignment="left" state="on" inset="2" id="3845">
-                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                    <font key="font" metaFont="system"/>
-                                                                </buttonCell>
-                                                                <buttonCell type="radio" title="With Scanlines" bezelStyle="regularSquare" imagePosition="leading" alignment="left" tag="1" inset="2" id="3846">
-                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                    <font key="font" metaFont="system"/>
-                                                                </buttonCell>
-                                                            </column>
-                                                        </cells>
+                                                            <segments>
+                                                                <segment title="Normal" selected="YES" id="scm-01-s01"/>
+                                                                <segment title="With Scanlines" id="scm-01-s02"/>
+                                                            </segments>
+                                                        </segmentedCell>
                                                         <connections>
                                                             <action selector="miscChanged:" target="-2" id="3849"/>
                                                         </connections>
-                                                    </matrix>
+                                                    </segmentedControl>
                                                 </subviews>
                                             </view>
                                             <font key="titleFont" metaFont="system"/>
@@ -1324,35 +1285,20 @@ DQ
                                                             <action selector="miscChanged:" target="-2" id="3904"/>
                                                         </connections>
                                                     </button>
-                                                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4759">
-                                                        <rect key="frame" x="417" y="4" width="130" height="38"/>
+                                                                                                        <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4759">
+                                                        <rect key="frame" x="417" y="10" width="230" height="22"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        <size key="cellSize" width="130" height="18"/>
-                                                        <size key="intercellSpacing" width="4" height="2"/>
-                                                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="leading" alignment="left" inset="2" id="13266">
-                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <segmentedCell key="cell" trackingMode="selectOne" id="rps-01-cel">
                                                             <font key="font" metaFont="system"/>
-                                                        </buttonCell>
-                                                        <cells>
-                                                            <column>
-                                                                <buttonCell type="radio" title="R: Patch Network" imagePosition="leading" alignment="left" tag="1" inset="2" id="4760">
-                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                    <font key="font" metaFont="system"/>
-                                                                </buttonCell>
-                                                                <buttonCell type="radio" title="R: Patch Serial" imagePosition="leading" alignment="left" state="on" inset="2" id="4761">
-                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                    <font key="font" metaFont="system"/>
-                                                                    <connections>
-                                                                        <action selector="miscChanged:" target="-2" id="5150"/>
-                                                                    </connections>
-                                                                </buttonCell>
-                                                            </column>
-                                                        </cells>
+                                                            <segments>
+                                                                <segment title="R: Patch Serial" selected="YES" id="rps-01-s01"/>
+                                                                <segment title="R: Patch Network" id="rps-01-s02"/>
+                                                            </segments>
+                                                        </segmentedCell>
                                                         <connections>
                                                             <action selector="miscChanged:" target="-2" id="5529"/>
                                                         </connections>
-                                                    </matrix>
+                                                    </segmentedControl>
                                                     <popUpButton imageHugsTitle="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4765">
                                                         <rect key="frame" x="548" y="0.0" width="152" height="22"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -1871,36 +1817,21 @@ DQ
                                                                     <action selector="browseMioRom:" target="-2" id="m32-mt-SPo"/>
                                                                 </connections>
                                                             </button>
-                                                            <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7953">
-                                                                <rect key="frame" x="305" y="158" width="167" height="58"/>
+                                                                                                                        <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7953">
+                                                                <rect key="frame" x="305" y="165" width="280" height="22"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                <size key="cellSize" width="167" height="18"/>
-                                                                <size key="intercellSpacing" width="4" height="2"/>
-                                                                <buttonCell key="prototype" type="radio" title="Radio" imagePosition="leading" alignment="left" inset="2" id="13273">
-                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <segmentedCell key="cell" trackingMode="selectOne" id="pbi-01-cel">
                                                                     <font key="font" metaFont="system"/>
-                                                                </buttonCell>
-                                                                <cells>
-                                                                    <column>
-                                                                        <buttonCell type="radio" title="No PBI Expansion" imagePosition="leading" alignment="left" state="on" inset="2" id="7954">
-                                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                            <font key="font" metaFont="system"/>
-                                                                        </buttonCell>
-                                                                        <buttonCell type="radio" title="Black Box" imagePosition="leading" alignment="left" tag="1" inset="2" id="7955">
-                                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                            <font key="font" metaFont="system"/>
-                                                                        </buttonCell>
-                                                                        <buttonCell type="radio" title="MIO" imagePosition="leading" alignment="left" tag="2" inset="2" id="7957">
-                                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                            <font key="font" metaFont="system"/>
-                                                                        </buttonCell>
-                                                                    </column>
-                                                                </cells>
+                                                                    <segments>
+                                                                        <segment title="No PBI Expansion" selected="YES" id="pbi-01-s01"/>
+                                                                        <segment title="Black Box" id="pbi-01-s02"/>
+                                                                        <segment title="MIO" id="pbi-01-s03"/>
+                                                                    </segments>
+                                                                </segmentedCell>
                                                                 <connections>
                                                                     <action selector="miscChanged:" target="-2" id="8799"/>
                                                                 </connections>
-                                                            </matrix>
+                                                            </segmentedControl>
                                                         </subviews>
                                                     </view>
                                                 </tabViewItem>
@@ -6469,49 +6400,22 @@ Assignment
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0jb-cz-dnK">
-                        <rect key="frame" x="143" y="409" width="228" height="18"/>
+                                        <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0jb-cz-dnK">
+                        <rect key="frame" x="143" y="409" width="228" height="22"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        <size key="cellSize" width="54" height="18"/>
-                        <size key="intercellSpacing" width="4" height="2"/>
-                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="zVc-4F-yAM">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <segmentedCell key="cell" trackingMode="selectOne" id="gps-01-cel">
                             <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <cells>
-                            <column>
-                                <buttonCell type="radio" title="1" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="AYs-9E-Mgv">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </column>
-                            <column>
-                                <buttonCell type="radio" title="2" imagePosition="left" alignment="left" tag="1" inset="2" id="ij8-o4-ZrH">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                    <connections>
-                                        <action selector="identifyGamepadNew:" target="-1" id="Rsu-AT-8RQ"/>
-                                    </connections>
-                                </buttonCell>
-                            </column>
-                            <column>
-                                <buttonCell type="radio" title="3" imagePosition="left" alignment="left" tag="2" inset="2" id="3i7-6i-law">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </column>
-                            <column>
-                                <buttonCell type="radio" title="4" imagePosition="left" alignment="left" tag="3" inset="2" id="oS1-gz-SMz">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </column>
-                        </cells>
+                            <segments>
+                                <segment title="1" selected="YES" id="gps-01-s01"/>
+                                <segment title="2" id="gps-01-s02"/>
+                                <segment title="3" id="gps-01-s03"/>
+                                <segment title="4" id="gps-01-s04"/>
+                            </segments>
+                        </segmentedCell>
                         <connections>
                             <action selector="identifyGamepadNew:" target="-2" id="98m-Jd-0zj"/>
                         </connections>
-                    </matrix>
+                    </segmentedControl>
                 </subviews>
             </view>
             <point key="canvasLocation" x="193" y="706"/>

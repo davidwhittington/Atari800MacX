@@ -861,9 +861,9 @@ static Preferences *sharedInstance = nil;
 
     if (!prefTabView) return;	/* UI hasn't been loaded... */
 
-    [scaleModeMatrix  selectCellWithTag:[[displayedValues objectForKey:ScaleMode] intValue]];
-    [widthModeMatrix  selectCellWithTag:[[displayedValues objectForKey:WidthMode] intValue]];
-    [tvModeMatrix  selectCellWithTag:[[displayedValues objectForKey:TvMode] intValue]];
+    [scaleModeMatrix  setSelectedSegment:[[displayedValues objectForKey:ScaleMode] intValue]];
+    [widthModeMatrix  setSelectedSegment:[[displayedValues objectForKey:WidthMode] intValue]];
+    [tvModeMatrix  setSelectedSegment:[[displayedValues objectForKey:TvMode] intValue]];
     [spriteCollisionsButton setState:[[displayedValues objectForKey:SpriteCollisions] boolValue] ? NSOnState : NSOffState];
     index = [[displayedValues objectForKey:RefreshRatio] intValue] - 1;
     [refreshRatioPulldown  selectItemAtIndex:index];
@@ -905,10 +905,10 @@ static Preferences *sharedInstance = nil;
     [rPatchPortField setStringValue:[displayedValues objectForKey:RPatchPort]];
 	portName = [displayedValues objectForKey:RPatchSerialPort];	
 	if ([[displayedValues objectForKey:RPatchSerialEnabled] boolValue] == YES) {
-		[rPatchSerialMatrix selectCellWithTag:0];
+		[rPatchSerialMatrix setSelectedSegment:0];
   }
 	else {
-		[rPatchSerialMatrix selectCellWithTag:1];
+		[rPatchSerialMatrix setSelectedSegment:1];
   }
 	
 	[rPatchSerialPulldown removeAllItems];
@@ -986,13 +986,13 @@ static Preferences *sharedInstance = nil;
 	}
 	if (!foundMatch)
 		[mosaicMemSizePulldown selectItemAtIndex:0];
-	/* Update PBI expansion matrix (Black Box, MIO, None) */
+	/* Update PBI expansion segmented control (None=0, Black Box=1, MIO=2) */
 	if ([[displayedValues objectForKey:BlackBoxEnabled] boolValue] == YES)
-		[pbiExpansionMatrix selectCellWithTag:2];
+		[pbiExpansionMatrix setSelectedSegment:1];
 	else if ([[displayedValues objectForKey:MioEnabled] boolValue] == YES)
-		[pbiExpansionMatrix selectCellWithTag:3];
+		[pbiExpansionMatrix setSelectedSegment:2];
 	else
-		[pbiExpansionMatrix selectCellWithTag:1]; /* None */		
+		[pbiExpansionMatrix setSelectedSegment:0]; /* None */
 	/* Update FujiNet UI fields */
 	if ([displayedValues objectForKey:FujiNetEnabled] && [[displayedValues objectForKey:FujiNetEnabled] boolValue] == YES)
 		[fujiNetEnabledButton setState:NSOnState];
@@ -1688,7 +1688,7 @@ static Preferences *sharedInstance = nil;
         fourteen = [[NSNumber alloc] initWithInt:14];
     }
 
-	switch([[scaleModeMatrix selectedCell] tag]) {
+	switch([scaleModeMatrix selectedSegment]) {
         case 0:
 		default:
             [displayedValues setObject:zero forKey:ScaleMode];
@@ -1697,7 +1697,7 @@ static Preferences *sharedInstance = nil;
             [displayedValues setObject:one forKey:ScaleMode];
             break;
     }
-	switch([[widthModeMatrix selectedCell] tag]) {
+	switch([widthModeMatrix selectedSegment]) {
         case 0:
 		default:
             [displayedValues setObject:zero forKey:WidthMode];
@@ -1709,7 +1709,7 @@ static Preferences *sharedInstance = nil;
             [displayedValues setObject:two forKey:WidthMode];
             break;
     }
-    switch([[tvModeMatrix selectedCell] tag]) {
+    switch([tvModeMatrix selectedSegment]) {
         case 0:
 		default:
             [displayedValues setObject:zero forKey:TvMode];
@@ -2173,7 +2173,7 @@ static Preferences *sharedInstance = nil;
     else
         [displayedValues setObject:no forKey:EnableRPatch];
     [displayedValues setObject:[rPatchPortField stringValue] forKey:RPatchPort];
-	switch([[rPatchSerialMatrix selectedCell] tag]) {
+	switch([rPatchSerialMatrix selectedSegment]) {
         case 0:
 		default:
             [displayedValues setObject:yes forKey:RPatchSerialEnabled];
@@ -2310,17 +2310,17 @@ static Preferences *sharedInstance = nil;
 
 	[displayedValues setObject:[NSNumber numberWithInt:axlonBankMasks[[axlonMemSizePulldown indexOfSelectedItem]]] forKey:AxlonBankMask];
 	[displayedValues setObject:[NSNumber numberWithInt:mosaicBankMaxs[[mosaicMemSizePulldown indexOfSelectedItem]]] forKey:MosaicMaxBank];
-	switch([[pbiExpansionMatrix selectedCell] tag]) {
-        case 1:
+	switch([pbiExpansionMatrix selectedSegment]) {
+        case 0:
 		default:
             [displayedValues setObject:no forKey:BlackBoxEnabled];
             [displayedValues setObject:no forKey:MioEnabled];
             break;
-        case 2:
+        case 1:
             [displayedValues setObject:yes forKey:BlackBoxEnabled];
             [displayedValues setObject:no forKey:MioEnabled];
             break;
-        case 3:
+        case 2:
             [displayedValues setObject:no forKey:BlackBoxEnabled];
             [displayedValues setObject:yes forKey:MioEnabled];
             break;
@@ -4879,29 +4879,17 @@ static Preferences *sharedInstance = nil;
     int numButtons, numSticks, numHats, i;
     SDL_Joystick *joystick;
 
-    if (joystick0)
-        [[gamepadSelector cellAtRow:0 column:0] setEnabled:YES];
-    else
-        [[gamepadSelector cellAtRow:0 column:0] setEnabled:NO];
-    if (joystick1)
-        [[gamepadSelector cellAtRow:0 column:1] setEnabled:YES];
-    else
-        [[gamepadSelector cellAtRow:0 column:1] setEnabled:NO];
-    if (joystick2)
-        [[gamepadSelector cellAtRow:0 column:2] setEnabled:YES];
-    else
-        [[gamepadSelector cellAtRow:0 column:2] setEnabled:NO];
-    if (joystick3)
-        [[gamepadSelector cellAtRow:0 column:3] setEnabled:YES];
-    else
-        [[gamepadSelector cellAtRow:0 column:3] setEnabled:NO];
+    [gamepadSelector setEnabled:joystick0 ? YES : NO forSegment:0];
+    [gamepadSelector setEnabled:joystick1 ? YES : NO forSegment:1];
+    [gamepadSelector setEnabled:joystick2 ? YES : NO forSegment:2];
+    [gamepadSelector setEnabled:joystick3 ? YES : NO forSegment:3];
 
     if (sender == self || sender == 0) {
         padNum = 0;
-        [gamepadSelector selectCellWithTag:0];
+        [gamepadSelector setSelectedSegment:0];
     }
     else {
-        padNum = [gamepadSelector selectedTag];
+        padNum = [gamepadSelector selectedSegment];
     }
 
     if (padNum == 0) {

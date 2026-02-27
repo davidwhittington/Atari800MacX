@@ -34,3 +34,6 @@ DEAD_CODE_STRIPPING = YES
 // when Carbon is unavailable. Remove this setting once KeyMapper is ported to
 // the IOKit HID keyboard layout API (Phase 6/8 work).
 WEAK_FRAMEWORKS = $(inherited) Carbon
+
+// UniformTypeIdentifiers.framework required for UTType / UTTypePDF (Phase 4.2+).
+OTHER_LDFLAGS = $(inherited) -framework UniformTypeIdentifiers

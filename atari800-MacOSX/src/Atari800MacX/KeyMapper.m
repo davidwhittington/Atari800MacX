@@ -47,7 +47,11 @@ static KeyMapper *sharedInstance = nil;
                 const UCKeyboardLayout *layout = (const UCKeyboardLayout *)
                     CFDataGetBytePtr(data);
                 if (layout != NULL) {
+#if TARGET_CPU_ARM64
+                    const UInt32 kbdtype = 0; /* LMGetKbdType() unavailable on arm64 */
+#else
                     const UInt32 kbdtype = LMGetKbdType();
+#endif
                     saw_layout = YES;
 
                     /* Loop over all 127 possible scan codes */

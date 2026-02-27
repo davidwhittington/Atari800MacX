@@ -335,7 +335,6 @@
     IBOutlet id diskImageDirField;
     IBOutlet id diskSetDirField;
 	IBOutlet id spriteCollisionsButton;
-    IBOutlet id scaleFactorMatrix;
 	IBOutlet id scaleModeMatrix;
 	IBOutlet id ledStatusButton;
 	IBOutlet id ledSectorButton;

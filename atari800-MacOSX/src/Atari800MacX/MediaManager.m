@@ -857,52 +857,52 @@ NSImage *disketteImage;
     
     switch(cartSize) {
         case 2:
-            cartType = CART2KTYPES[[[cart2KMatrix selectedCell] tag]];
+            cartType = CART2KTYPES[[cart2KMatrix indexOfSelectedItem]];
             break;
         case 4:
-            cartType = CART4KTYPES[[[cart4KMatrix selectedCell] tag]];
+            cartType = CART4KTYPES[[cart4KMatrix indexOfSelectedItem]];
             break;
         case 8:
-            cartType = CART8KTYPES[[[cart8KMatrix selectedCell] tag]];
+            cartType = CART8KTYPES[[cart8KMatrix indexOfSelectedItem]];
             break;
         case 16:
-            cartType = CART16KTYPES[[[cart16KMatrix selectedCell] tag]];
+            cartType = CART16KTYPES[[cart16KMatrix indexOfSelectedItem]];
             break;
         case 32:
-            cartType = CART32KTYPES[[[cart32KMatrix selectedCell] tag]];
+            cartType = CART32KTYPES[[cart32KMatrix indexOfSelectedItem]];
             break;
         case 40:
-            cartType = CART40KTYPES[[[cart40KMatrix selectedCell] tag]];
+            cartType = CART40KTYPES[[cart40KMatrix indexOfSelectedItem]];
             break;
         case 64:
-            cartType = CART64KTYPES[[[cart64KMatrix selectedCell] tag]];
+            cartType = CART64KTYPES[[cart64KMatrix indexOfSelectedItem]];
             break;
         case 128:
-            cartType = CART128KTYPES[[[cart128KMatrix selectedCell] tag]];
+            cartType = CART128KTYPES[[cart128KMatrix indexOfSelectedItem]];
             break;
         case 256:
-            cartType = CART256KTYPES[[[cart256KMatrix selectedCell] tag]];
+            cartType = CART256KTYPES[[cart256KMatrix indexOfSelectedItem]];
             break;
         case 512:
-            cartType = CART512KTYPES[[[cart512KMatrix selectedCell] tag]];
+            cartType = CART512KTYPES[[cart512KMatrix indexOfSelectedItem]];
             break;
         case 1024:
-            cartType = CART1024KTYPES[[[cart1024KMatrix selectedCell] tag]];
+            cartType = CART1024KTYPES[[cart1024KMatrix indexOfSelectedItem]];
             break;
         case 2048:
-            cartType = CART2048KTYPES[[[cart2048KMatrix selectedCell] tag]];
+            cartType = CART2048KTYPES[[cart2048KMatrix indexOfSelectedItem]];
             break;
         case 4096:
-            cartType = CART4096KTYPES[[[cart4096KMatrix selectedCell] tag]];
+            cartType = CART4096KTYPES[[cart4096KMatrix indexOfSelectedItem]];
             break;
         case 32768:
-            cartType = CART32MTYPES[[[cart32MMatrix selectedCell] tag]];
+            cartType = CART32MTYPES[[cart32MMatrix indexOfSelectedItem]];
             break;
         case 65536:
-            cartType = CART64MTYPES[[[cart64MMatrix selectedCell] tag]];
+            cartType = CART64MTYPES[[cart64MMatrix indexOfSelectedItem]];
             break;
         case 131072:
-            cartType = CART128MTYPES[[[cart128MMatrix selectedCell] tag]];
+            cartType = CART128MTYPES[[cart128MMatrix indexOfSelectedItem]];
             break;
         default:
             cartType = 0;
@@ -1240,7 +1240,7 @@ NSImage *disketteImage;
     char cfilename[FILENAME_MAX];
     
     int sectors = [hardDiskFmtCusSecField intValue];
-    int type = [[hardDiskFmtMatrix selectedCell] tag];
+    int type = [hardDiskFmtMatrix selectedSegment];
     
     if (type == 0)
         fileType = @"raw";
@@ -1719,7 +1719,7 @@ NSImage *disketteImage;
 - (IBAction)miscUpdate:(id)sender
 {
     if (sender == diskFmtMatrix) {
-        switch([[diskFmtMatrix selectedCell] tag]) {
+        switch([diskFmtMatrix selectedSegment]) {
             case 0:
                 [diskFmtCusBytesPulldown selectItemAtIndex:0];
                 [diskFmtCusSecField setIntValue:720];
@@ -1795,7 +1795,7 @@ NSImage *disketteImage;
 {
     int driveNo;
 
-    [diskFmtMatrix selectCellWithTag:0];
+    [diskFmtMatrix setSelectedSegment:0];
     [diskFmtCusBytesPulldown setEnabled:NO];
     [diskFmtCusSecField setEnabled:NO];
     [diskFmtDDBytesPulldown setEnabled:NO];
@@ -1822,7 +1822,7 @@ NSImage *disketteImage;
 *-----------------------------------------------------------------------------*/
 - (IBAction)showHardCreatePanel:(id)sender
 {
-    [hardDiskFmtMatrix selectCellWithTag:1];
+    [hardDiskFmtMatrix setSelectedSegment:1];
     [hardDiskFmtCusSecField setIntValue:(64*2*1024)];
     [hardDiskFmtCusMBField setIntValue:64];
     [diskFmtInsertNewButton setState:NSOffState];
@@ -1954,7 +1954,7 @@ NSImage *disketteImage;
 *-----------------------------------------------------------------------------*/
 - (IBAction)diskDisplayChange:(id)sender
 {
-	showUpperDrives = [[driveSelectMatrix selectedCell] tag];
+	showUpperDrives = [driveSelectMatrix selectedSegment];
 	[d1DiskImageSectorField setStringValue:@""];
 	[d2DiskImageSectorField setStringValue:@""];
 	[d3DiskImageSectorField setStringValue:@""];
@@ -2074,10 +2074,10 @@ NSImage *disketteImage;
 	
 	if (Devices_enable_d_patch) {
 		showUpperDrives = FALSE;
-		[[driveSelectMatrix cellWithTag:1] setEnabled:NO];
-		[driveSelectMatrix selectCellWithTag:0];
+		[driveSelectMatrix setEnabled:NO forSegment:1];
+		[driveSelectMatrix setSelectedSegment:0];
 	} else {
-		[[driveSelectMatrix cellWithTag:1] setEnabled:YES];
+		[driveSelectMatrix setEnabled:YES forSegment:1];
 	}
 
 	if (Devices_enable_p_patch)

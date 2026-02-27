@@ -1670,6 +1670,10 @@
 					SDL2,
 					"-lm",
 					"-lz",
+					"-framework",
+					UniformTypeIdentifiers,
+					"-weak_framework",
+					Carbon,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.atarimac.atari800macx;
 				PRODUCT_NAME = Atari800MacX;
@@ -1682,6 +1686,7 @@
 					"-Wno-unknown-pragmas",
 					"-Wno-missing-selector-name",
 				);
+				WEAK_FRAMEWORKS = Carbon;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Development;
@@ -1725,6 +1730,10 @@
 					SDL2,
 					"-lm",
 					"-lz",
+					"-framework",
+					UniformTypeIdentifiers,
+					"-weak_framework",
+					Carbon,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.atarimac.atari800macx;
 				PRODUCT_NAME = Atari800MacX;
@@ -1737,6 +1746,7 @@
 					"-Wno-unknown-pragmas",
 					"-Wno-missing-selector-name",
 				);
+				WEAK_FRAMEWORKS = Carbon;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Deployment;
@@ -1779,6 +1789,10 @@
 					SDL2,
 					"-lm",
 					"-lz",
+					"-framework",
+					UniformTypeIdentifiers,
+					"-weak_framework",
+					Carbon,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.atarimac.atari800macx;
 				PRODUCT_NAME = Atari800MacX;
@@ -1791,6 +1805,7 @@
 					"-Wno-unknown-pragmas",
 					"-Wno-missing-selector-name",
 				);
+				WEAK_FRAMEWORKS = Carbon;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Default;

@@ -24,6 +24,7 @@
                 <outlet property="cart64KMatrix" destination="606" id="647"/>
                 <outlet property="cart64MMatrix" destination="gZN-Dy-emT" id="QLL-e6-yY8"/>
                 <outlet property="cart8KMatrix" destination="565" id="635"/>
+                <outlet property="cart1024KMatrix" destination="EOK-lR-bOj" id="crt-1k-out"/>
                 <outlet property="cartImageInsertButton" destination="924" id="932"/>
                 <outlet property="cartImageNameField" destination="926" id="931"/>
                 <outlet property="cartImageRomInsertButton" destination="Wl1-bJ-ce2" id="wdO-dy-qyM"/>
@@ -701,40 +702,23 @@ DQ
                             <rect key="frame" x="3" y="3" width="277" height="250"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="439">
-                                    <rect key="frame" x="12" y="79" width="176" height="162"/>
+                                                                <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="439">
+                                    <rect key="frame" x="12" y="79" width="176" height="22"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    <size key="cellSize" width="176" height="18"/>
-                                    <size key="intercellSpacing" width="4" height="30"/>
-                                    <buttonCell key="prototype" type="radio" title="Radio" imagePosition="leading" alignment="left" inset="2" id="1828">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <segmentedCell key="cell" trackingMode="selectOne" id="sc101-18-32">
                                         <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <cells>
-                                        <column>
-                                            <buttonCell type="radio" title="Single density (90KB)" imagePosition="leading" alignment="left" state="on" inset="2" id="442">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <buttonCell type="radio" title="Medium density (130KB)" imagePosition="leading" alignment="left" tag="1" inset="2" id="443">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <buttonCell type="radio" title="Double density (180KB)" imagePosition="leading" alignment="left" tag="2" inset="2" id="444">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <buttonCell type="radio" title="Custom" imagePosition="leading" alignment="left" tag="3" inset="2" id="445">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                        </column>
-                                    </cells>
+                                        <segments>
+                                            <segment title="Radio" selected="YES" id="sg102-25-45"/>
+                                            <segment title="Single density (90KB)" id="sg103-32-58"/>
+                                            <segment title="Medium density (130KB)" id="sg104-39-71"/>
+                                            <segment title="Double density (180KB)" id="sg105-46-84"/>
+                                            <segment title="Custom" id="sg106-53-97"/>
+                                        </segments>
+                                    </segmentedCell>
                                     <connections>
                                         <action selector="miscUpdate:" target="-2" id="485"/>
                                     </connections>
-                                </matrix>
+                                </segmentedControl>
                                 <popUpButton verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="446">
                                     <rect key="frame" x="42" y="100" width="86" height="26"/>
                                     <autoresizingMask key="autoresizingMask"/>
@@ -973,45 +957,25 @@ DQ
                             <action selector="cartSelectOK:" target="-2" id="633"/>
                         </connections>
                     </button>
-                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="565">
-                        <rect key="frame" x="64" y="62" width="206" height="118"/>
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="565">
+                        <rect key="frame" x="64" y="154" width="206" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        <size key="cellSize" width="206" height="18"/>
-                        <size key="intercellSpacing" width="4" height="2"/>
-                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="leading" alignment="left" inset="2" id="1829">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Radio" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="mi03-24-44" id="pc01-10-18">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <cells>
-                            <column>
-                                <buttonCell type="radio" title="Standard 8 KB Cartridge" imagePosition="leading" alignment="left" state="on" inset="2" id="732">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Standard 8 KB 5200 Cartridge" imagePosition="leading" alignment="left" tag="1" inset="2" id="733">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Right Slot 8 KB Cartridge" imagePosition="leading" alignment="left" tag="2" inset="2" id="734">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Phoenix 8 KB Cartridge" imagePosition="leading" alignment="left" tag="3" inset="2" id="735">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="OSS 8 KB Cartridge" imagePosition="leading" alignment="left" tag="4" inset="2" id="id6-6r-cC0">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Low Bank 8 KB Cartridge" imagePosition="leading" alignment="left" tag="5" inset="2" id="bMW-wz-ML9">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </column>
-                        </cells>
-                    </matrix>
+                            <menu key="menu" id="mn02-17-31">
+                                <items>
+                                    <menuItem title="Radio" state="on" id="mi03-24-44"/>
+                                    <menuItem title="Standard 8 KB Cartridge" id="mi04-31-57"/>
+                                    <menuItem title="Standard 8 KB 5200 Cartridge" id="mi05-38-70"/>
+                                    <menuItem title="Right Slot 8 KB Cartridge" id="mi06-45-83"/>
+                                    <menuItem title="Phoenix 8 KB Cartridge" id="mi07-52-96"/>
+                                    <menuItem title="OSS 8 KB Cartridge" id="mi08-59-09"/>
+                                    <menuItem title="Low Bank 8 KB Cartridge" id="mi09-66-22"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
                     <button verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="583">
                         <rect key="frame" x="60" y="16" width="84" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1054,53 +1018,27 @@ DQ
                             <action selector="cartSelectOK:" target="-2" id="636"/>
                         </connections>
                     </button>
-                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="576">
-                        <rect key="frame" x="63" y="59" width="212" height="158"/>
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="576">
+                        <rect key="frame" x="63" y="191" width="212" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        <size key="cellSize" width="212" height="18"/>
-                        <size key="intercellSpacing" width="4" height="2"/>
-                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="leading" alignment="left" inset="2" id="1830">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Radio" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="mi12-87-61" id="pc10-73-35">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <cells>
-                            <column>
-                                <buttonCell type="radio" title="Standard 16 KB Cartridge" imagePosition="leading" alignment="left" state="on" inset="2" id="736">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="OSS '034M' 16 KB Cartridge" imagePosition="leading" alignment="left" tag="1" inset="2" id="737">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Two chip 16 KB 5200 Cartridge" imagePosition="leading" alignment="left" tag="2" inset="2" id="738">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="OSS 'M091' 16 KB Cartridge" imagePosition="leading" alignment="left" tag="3" inset="2" id="739">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="One chip 16 KB 5200 Cartridge" imagePosition="leading" alignment="left" tag="4" inset="2" id="740">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Mega Cartridge 16KB" imagePosition="leading" alignment="left" tag="5" inset="2" id="741">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Blizzard 16 KB Cartridge" imagePosition="leading" alignment="left" tag="6" inset="2" id="742">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="OSS '043M' 16 KB Cartridge" imagePosition="leading" alignment="left" tag="7" inset="2" id="HIH-13-NLq">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </column>
-                        </cells>
-                    </matrix>
+                            <menu key="menu" id="mn11-80-48">
+                                <items>
+                                    <menuItem title="Radio" state="on" id="mi12-87-61"/>
+                                    <menuItem title="Standard 16 KB Cartridge" id="mi13-94-74"/>
+                                    <menuItem title="OSS '034M' 16 KB Cartridge" id="mi14-01-87"/>
+                                    <menuItem title="Two chip 16 KB 5200 Cartridge" id="mi15-08-00"/>
+                                    <menuItem title="OSS 'M091' 16 KB Cartridge" id="mi16-15-13"/>
+                                    <menuItem title="One chip 16 KB 5200 Cartridge" id="mi17-22-26"/>
+                                    <menuItem title="Mega Cartridge 16KB" id="mi18-29-39"/>
+                                    <menuItem title="Blizzard 16 KB Cartridge" id="mi19-36-52"/>
+                                    <menuItem title="OSS '043M' 16 KB Cartridge" id="mi20-43-65"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
                     <button verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="584">
                         <rect key="frame" x="59" y="18" width="84" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1143,61 +1081,29 @@ DQ
                             <action selector="cartSelectOK:" target="-2" id="639"/>
                         </connections>
                     </button>
-                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="590">
-                        <rect key="frame" x="63" y="53" width="228" height="198"/>
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="590">
+                        <rect key="frame" x="63" y="225" width="228" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        <size key="cellSize" width="228" height="18"/>
-                        <size key="intercellSpacing" width="4" height="2"/>
-                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="leading" alignment="left" inset="2" id="1831">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Radio" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="mi23-64-04" id="pc21-50-78">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <cells>
-                            <column>
-                                <buttonCell type="radio" title="Standard 32 KB 5200 Cartridge" imagePosition="leading" alignment="left" state="on" inset="2" id="679">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="DB 32 KB Cartridge" imagePosition="leading" alignment="left" tag="1" inset="2" id="680">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="XEGS 32 KB Cartridge" imagePosition="leading" alignment="left" tag="2" inset="2" id="681">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="32 KB Williams Cartridge" imagePosition="leading" alignment="left" tag="3" inset="2" id="682">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Mega Cartridge 32 KB" imagePosition="leading" alignment="left" tag="4" inset="2" id="704">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Switchable XEGS 32 KB Cartridge" imagePosition="leading" alignment="left" tag="5" inset="2" id="705">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="AST 32 KB Cartridge" imagePosition="leading" alignment="left" tag="6" inset="2" id="IzD-FL-zXj">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Ultracart 32 KB Cartridge" imagePosition="leading" alignment="left" tag="7" inset="2" id="rXf-BO-xuO">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Blizzard 32 KB Cartridge" imagePosition="leading" alignment="left" tag="8" inset="2" id="gFJ-6L-iHL">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="aDawliah 32 KB Cartridge" imagePosition="leading" alignment="left" tag="9" inset="2" id="dER-Jy-FJb">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </column>
-                        </cells>
-                    </matrix>
+                            <menu key="menu" id="mn22-57-91">
+                                <items>
+                                    <menuItem title="Radio" state="on" id="mi23-64-04"/>
+                                    <menuItem title="Standard 32 KB 5200 Cartridge" id="mi24-71-17"/>
+                                    <menuItem title="DB 32 KB Cartridge" id="mi25-78-30"/>
+                                    <menuItem title="XEGS 32 KB Cartridge" id="mi26-85-43"/>
+                                    <menuItem title="32 KB Williams Cartridge" id="mi27-92-56"/>
+                                    <menuItem title="Mega Cartridge 32 KB" id="mi28-99-69"/>
+                                    <menuItem title="Switchable XEGS 32 KB Cartridge" id="mi29-06-82"/>
+                                    <menuItem title="AST 32 KB Cartridge" id="mi30-13-95"/>
+                                    <menuItem title="Ultracart 32 KB Cartridge" id="mi31-20-08"/>
+                                    <menuItem title="Blizzard 32 KB Cartridge" id="mi32-27-21"/>
+                                    <menuItem title="aDawliah 32 KB Cartridge" id="mi33-34-34"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
                     <button verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="589">
                         <rect key="frame" x="59" y="12" width="84" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1240,65 +1146,30 @@ DQ
                             <action selector="cartSelectOK:" target="-2" id="645"/>
                         </connections>
                     </button>
-                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="606">
-                        <rect key="frame" x="63" y="52" width="237" height="218"/>
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="606">
+                        <rect key="frame" x="63" y="244" width="237" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        <size key="cellSize" width="237" height="18"/>
-                        <size key="intercellSpacing" width="4" height="2"/>
-                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="leading" alignment="left" inset="2" id="1832">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Radio" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="mi36-55-73" id="pc34-41-47">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <cells>
-                            <column>
-                                <buttonCell type="radio" title="Williams 64 KB Cartridge" imagePosition="leading" alignment="left" state="on" inset="2" id="683">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Express 64 KB Cartridge" imagePosition="leading" alignment="left" tag="1" inset="2" id="684">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Diamond 64KB Cartridge" imagePosition="leading" alignment="left" tag="2" inset="2" id="685">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Sparta DOS X 64 KB Cartridge" imagePosition="leading" alignment="left" tag="3" inset="2" id="686">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="XEGS 64 KB cartridge (banks 0-7)" imagePosition="leading" alignment="left" tag="4" inset="2" id="687">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Mega Cartridge 64 KB" imagePosition="leading" alignment="left" tag="5" inset="2" id="702">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Switchable XEGS 64 KB Cartridge" imagePosition="leading" alignment="left" tag="6" inset="2" id="703">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Atrax SDX 64 KB Cartridge" imagePosition="leading" alignment="left" tag="7" inset="2" id="zwp-jd-cFA">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Turbosoft 64 KB Cartridge" imagePosition="leading" alignment="left" tag="8" inset="2" id="pH8-Ns-r9Q">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="XEGS 64 KB cartridge (banks 8-15)" imagePosition="leading" alignment="left" tag="9" inset="2" id="k1T-Fq-8t8">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="aDawliah 64 KB Cartridge" imagePosition="leading" alignment="left" tag="10" inset="2" id="3fD-Hs-abb">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </column>
-                        </cells>
-                    </matrix>
+                            <menu key="menu" id="mn35-48-60">
+                                <items>
+                                    <menuItem title="Radio" state="on" id="mi36-55-73"/>
+                                    <menuItem title="Williams 64 KB Cartridge" id="mi37-62-86"/>
+                                    <menuItem title="Express 64 KB Cartridge" id="mi38-69-99"/>
+                                    <menuItem title="Diamond 64KB Cartridge" id="mi39-76-12"/>
+                                    <menuItem title="Sparta DOS X 64 KB Cartridge" id="mi40-83-25"/>
+                                    <menuItem title="XEGS 64 KB cartridge (banks 0-7)" id="mi41-90-38"/>
+                                    <menuItem title="Mega Cartridge 64 KB" id="mi42-97-51"/>
+                                    <menuItem title="Switchable XEGS 64 KB Cartridge" id="mi43-04-64"/>
+                                    <menuItem title="Atrax SDX 64 KB Cartridge" id="mi44-11-77"/>
+                                    <menuItem title="Turbosoft 64 KB Cartridge" id="mi45-18-90"/>
+                                    <menuItem title="XEGS 64 KB cartridge (banks 8-15)" id="mi46-25-03"/>
+                                    <menuItem title="aDawliah 64 KB Cartridge" id="mi47-32-16"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
                     <button verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="608">
                         <rect key="frame" x="59" y="12" width="84" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1341,29 +1212,21 @@ DQ
                             <action selector="cartSelectOK:" target="-2" id="642"/>
                         </connections>
                     </button>
-                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="611">
-                        <rect key="frame" x="64" y="58" width="230" height="38"/>
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="611">
+                        <rect key="frame" x="64" y="70" width="230" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        <size key="cellSize" width="230" height="18"/>
-                        <size key="intercellSpacing" width="4" height="2"/>
-                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="leading" alignment="left" inset="2" id="1833">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Radio" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="mi50-53-55" id="pc48-39-29">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <cells>
-                            <column>
-                                <buttonCell type="radio" title="Bounty Bob 40KB 5200 Cartridge" imagePosition="leading" alignment="left" state="on" inset="2" id="617">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Bounty Bob 40KB Cartridge" imagePosition="leading" alignment="left" tag="1" inset="2" id="618">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </column>
-                        </cells>
-                    </matrix>
+                            <menu key="menu" id="mn49-46-42">
+                                <items>
+                                    <menuItem title="Radio" state="on" id="mi50-53-55"/>
+                                    <menuItem title="Bounty Bob 40KB 5200 Cartridge" id="mi51-60-68"/>
+                                    <menuItem title="Bounty Bob 40KB Cartridge" id="mi52-67-81"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
                     <button verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="612">
                         <rect key="frame" x="60" y="12" width="84" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1406,37 +1269,23 @@ DQ
                             <action selector="cartSelectOK:" target="-2" id="648"/>
                         </connections>
                     </button>
-                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="621">
-                        <rect key="frame" x="64" y="49" width="236" height="78"/>
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="621">
+                        <rect key="frame" x="64" y="101" width="236" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        <size key="cellSize" width="236" height="18"/>
-                        <size key="intercellSpacing" width="4" height="2"/>
-                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="leading" alignment="left" inset="2" id="1834">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Radio" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="mi55-88-20" id="pc53-74-94">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <cells>
-                            <column>
-                                <buttonCell type="radio" title="XEGS 256 KB Cartridge" imagePosition="leading" alignment="left" state="on" inset="2" id="690">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Mega Cartridge 256 KB" imagePosition="leading" alignment="left" tag="1" inset="2" id="706">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Switchable XEGS 256 KB Cartridge" imagePosition="leading" alignment="left" tag="2" inset="2" id="707">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="SIC! 256 KB Cartridge" imagePosition="leading" alignment="left" tag="3" inset="2" id="aoc-lH-D0Y">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </column>
-                        </cells>
-                    </matrix>
+                            <menu key="menu" id="mn54-81-07">
+                                <items>
+                                    <menuItem title="Radio" state="on" id="mi55-88-20"/>
+                                    <menuItem title="XEGS 256 KB Cartridge" id="mi56-95-33"/>
+                                    <menuItem title="Mega Cartridge 256 KB" id="mi57-02-46"/>
+                                    <menuItem title="Switchable XEGS 256 KB Cartridge" id="mi58-09-59"/>
+                                    <menuItem title="SIC! 256 KB Cartridge" id="mi59-16-72"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
                     <button verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="623">
                         <rect key="frame" x="60" y="12" width="84" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1479,37 +1328,23 @@ DQ
                             <action selector="cartSelectOK:" target="-2" id="652"/>
                         </connections>
                     </button>
-                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="627">
-                        <rect key="frame" x="64" y="67" width="233" height="78"/>
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="627">
+                        <rect key="frame" x="64" y="119" width="233" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        <size key="cellSize" width="233" height="18"/>
-                        <size key="intercellSpacing" width="4" height="2"/>
-                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="leading" alignment="left" inset="2" id="1835">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Radio" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="mi62-37-11" id="pc60-23-85">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <cells>
-                            <column>
-                                <buttonCell type="radio" title="XEGS 512 KB Cartridge" imagePosition="leading" alignment="left" state="on" inset="2" id="691">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Mega Cartridge 512 KB" imagePosition="leading" alignment="left" tag="1" inset="2" id="708">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Switchable XEGS 512 KB Cartridge" imagePosition="leading" alignment="left" tag="2" inset="2" id="709">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="SIC! 512 KB Cartridge" imagePosition="leading" alignment="left" tag="3" inset="2" id="Rt5-3S-6Na">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </column>
-                        </cells>
-                    </matrix>
+                            <menu key="menu" id="mn61-30-98">
+                                <items>
+                                    <menuItem title="Radio" state="on" id="mi62-37-11"/>
+                                    <menuItem title="XEGS 512 KB Cartridge" id="mi63-44-24"/>
+                                    <menuItem title="Mega Cartridge 512 KB" id="mi64-51-37"/>
+                                    <menuItem title="Switchable XEGS 512 KB Cartridge" id="mi65-58-50"/>
+                                    <menuItem title="SIC! 512 KB Cartridge" id="mi66-65-63"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
                     <button verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="631">
                         <rect key="frame" x="60" y="22" width="84" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1552,61 +1387,29 @@ DQ
                             <action selector="cartSelectOK:" target="-2" id="661"/>
                         </connections>
                     </button>
-                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="656">
-                        <rect key="frame" x="64" y="49" width="234" height="198"/>
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="656">
+                        <rect key="frame" x="64" y="221" width="234" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        <size key="cellSize" width="234" height="18"/>
-                        <size key="intercellSpacing" width="4" height="2"/>
-                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="leading" alignment="left" inset="2" id="1836">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Radio" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="mi69-86-02" id="pc67-72-76">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <cells>
-                            <column>
-                                <buttonCell type="radio" title="XEGS 128 KB Cartridge" imagePosition="leading" alignment="left" state="on" inset="2" id="1252">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Atrax 128 KB Cartridge" imagePosition="leading" alignment="left" tag="1" inset="2" id="1253">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Mega Cartridge 128 KB" imagePosition="leading" alignment="left" tag="2" inset="2" id="1254">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Switchable XEGS 128 KB Cartridge" imagePosition="leading" alignment="left" tag="3" inset="2" id="1255">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="ATMAX 128 KB Cartridge" imagePosition="leading" alignment="left" tag="4" inset="2" id="1256">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Sparta DOS X 128 KB Cartridge" imagePosition="leading" alignment="left" tag="5" inset="2" id="1257">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Atrax SDX 128 KB Cartridge" imagePosition="leading" alignment="left" tag="6" inset="2" id="6se-Xd-F0e">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Turbosoft 128 KB Cartridge" imagePosition="leading" alignment="left" tag="7" inset="2" id="IOH-ur-H2T">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="SIC! 128 KB Cartridge" imagePosition="leading" alignment="left" tag="8" inset="2" id="ElE-mF-BNO">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Atrax 128 KB Cartridge" imagePosition="leading" alignment="left" tag="9" inset="2" id="uxS-E6-dku">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </column>
-                        </cells>
-                    </matrix>
+                            <menu key="menu" id="mn68-79-89">
+                                <items>
+                                    <menuItem title="Radio" state="on" id="mi69-86-02"/>
+                                    <menuItem title="XEGS 128 KB Cartridge" id="mi70-93-15"/>
+                                    <menuItem title="Atrax 128 KB Cartridge" id="mi71-00-28"/>
+                                    <menuItem title="Mega Cartridge 128 KB" id="mi72-07-41"/>
+                                    <menuItem title="Switchable XEGS 128 KB Cartridge" id="mi73-14-54"/>
+                                    <menuItem title="ATMAX 128 KB Cartridge" id="mi74-21-67"/>
+                                    <menuItem title="Sparta DOS X 128 KB Cartridge" id="mi75-28-80"/>
+                                    <menuItem title="Atrax SDX 128 KB Cartridge" id="mi76-35-93"/>
+                                    <menuItem title="Turbosoft 128 KB Cartridge" id="mi77-42-06"/>
+                                    <menuItem title="SIC! 128 KB Cartridge" id="mi78-49-19"/>
+                                    <menuItem title="Atrax 128 KB Cartridge" id="mi79-56-32"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
                     <button verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="658">
                         <rect key="frame" x="60" y="12" width="84" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1649,29 +1452,21 @@ DQ
                             <action selector="cartSelectOK:" target="-2" id="1526"/>
                         </connections>
                     </button>
-                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="694">
-                        <rect key="frame" x="64" y="51" width="176" height="38"/>
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="694">
+                        <rect key="frame" x="64" y="63" width="176" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        <size key="cellSize" width="176" height="18"/>
-                        <size key="intercellSpacing" width="4" height="2"/>
-                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="leading" alignment="left" inset="2" id="1837">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Radio" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="mi82-77-71" id="pc80-63-45">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <cells>
-                            <column>
-                                <buttonCell type="radio" title="MegaMax 2 MB cartridge" imagePosition="leading" alignment="left" state="on" inset="2" id="1188">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="MegaCart 2 MB cartridge" imagePosition="leading" alignment="left" tag="1" inset="2" id="1189">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </column>
-                        </cells>
-                    </matrix>
+                            <menu key="menu" id="mn81-70-58">
+                                <items>
+                                    <menuItem title="Radio" state="on" id="mi82-77-71"/>
+                                    <menuItem title="MegaMax 2 MB cartridge" id="mi83-84-84"/>
+                                    <menuItem title="MegaCart 2 MB cartridge" id="mi84-91-97"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
                     <button verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="693">
                         <rect key="frame" x="60" y="12" width="84" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1728,25 +1523,20 @@ Gw
                             <action selector="cartSelectCancel:" target="-2" id="1XI-g9-koP"/>
                         </connections>
                     </button>
-                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vVS-8y-i0n">
-                        <rect key="frame" x="66" y="71" width="212" height="18"/>
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vVS-8y-i0n">
+                        <rect key="frame" x="66" y="63" width="212" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        <size key="cellSize" width="212" height="18"/>
-                        <size key="intercellSpacing" width="4" height="2"/>
-                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="Fy7-ni-P1U">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Radio" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="mi87-12-36" id="pc85-98-10">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <cells>
-                            <column>
-                                <buttonCell type="radio" title="Flash MegaCart 4 MB cartridge" imagePosition="left" alignment="left" state="on" inset="2" id="sHv-rb-cQm">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </column>
-                        </cells>
-                    </matrix>
+                            <menu key="menu" id="mn86-05-23">
+                                <items>
+                                    <menuItem title="Radio" state="on" id="mi87-12-36"/>
+                                    <menuItem title="Flash MegaCart 4 MB cartridge" id="mi88-19-49"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
                 </subviews>
             </view>
             <point key="canvasLocation" x="-345" y="-2072.5"/>
@@ -2268,32 +2058,21 @@ DQ
                         <rect key="frame" x="98" y="20" width="5" height="102"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </box>
-                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1064">
-                        <rect key="frame" x="103" y="32" width="58" height="38"/>
+                                        <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1064">
+                        <rect key="frame" x="103" y="32" width="58" height="22"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        <size key="cellSize" width="58" height="18"/>
-                        <size key="intercellSpacing" width="4" height="2"/>
-                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="leading" alignment="left" inset="2" id="1838">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <segmentedCell key="cell" trackingMode="selectOne" id="sc112-95-76">
                             <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <cells>
-                            <column>
-                                <buttonCell type="radio" title="1-4" imagePosition="leading" alignment="left" controlSize="small" state="on" inset="2" id="1063">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="message" size="11"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="5-8" imagePosition="leading" alignment="left" controlSize="small" tag="1" inset="2" id="1062">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="message" size="11"/>
-                                </buttonCell>
-                            </column>
-                        </cells>
+                            <segments>
+                                <segment title="Radio" selected="YES" id="sg113-03-89"/>
+                                <segment title="1-4" id="sg114-10-03"/>
+                                <segment title="5-8" id="sg115-17-16"/>
+                            </segments>
+                        </segmentedCell>
                         <connections>
                             <action selector="diskDisplayChange:" target="-2" id="1069"/>
                         </connections>
-                    </matrix>
+                    </segmentedControl>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1065">
                         <rect key="frame" x="99" y="71" width="56" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -2693,7 +2472,7 @@ DQ
             <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
             <autoresizingMask key="autoresizingMask"/>
         </view>
-        <window title="Choose 128 KB Cartridge Type" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="FOE-zI-ti4" userLabel="Cart128KB">
+        <window title="Choose 1024 KB Cartridge Type" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="FOE-zI-ti4" userLabel="Cart1024KB">
             <windowStyleMask key="styleMask" titled="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="384" y="337" width="333" height="258"/>
@@ -2703,10 +2482,10 @@ DQ
                 <rect key="frame" x="0.0" y="0.0" width="333" height="258"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" tag="128" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mOw-7g-kSa">
+                    <button verticalHuggingPriority="750" fixedFrame="YES" tag="1024" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mOw-7g-kSa">
                         <rect key="frame" x="195" y="12" width="84" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" tag="128" inset="2" id="u0M-As-Ubz">
+                        <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" tag="1024" inset="2" id="u0M-As-Ubz">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                             <string key="keyEquivalent" base64-UTF8="YES">
@@ -2717,61 +2496,22 @@ DQ
                             <action selector="cartSelectOK:" target="-2" id="b1R-xL-EBC"/>
                         </connections>
                     </button>
-                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EOK-lR-bOj">
-                        <rect key="frame" x="64" y="49" width="234" height="198"/>
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EOK-lR-bOj">
+                        <rect key="frame" x="64" y="221" width="234" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        <size key="cellSize" width="234" height="18"/>
-                        <size key="intercellSpacing" width="4" height="2"/>
-                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="uxV-RA-DZV">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="XEGS 1024 KB Cartridge" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="mi113-94-74" id="pc111-80-48">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <cells>
-                            <column>
-                                <buttonCell type="radio" title="XEGS 128 KB Cartridge" imagePosition="left" alignment="left" state="on" inset="2" id="Yec-jI-upC">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Atrax 128 KB Cartridge" imagePosition="left" alignment="left" tag="1" inset="2" id="idO-9G-v5H">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Mega Cartridge 128 KB" imagePosition="left" alignment="left" tag="2" inset="2" id="C8f-cS-IXN">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Switchable XEGS 128 KB Cartridge" imagePosition="left" alignment="left" tag="3" inset="2" id="fwA-A9-01i">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="ATMAX 128 KB Cartridge" imagePosition="left" alignment="left" tag="4" inset="2" id="jeV-rl-8am">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Sparta DOS X 128 KB Cartridge" imagePosition="left" alignment="left" tag="5" inset="2" id="C40-H7-IP8">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Atrax SDX 128 KB Cartridge" imagePosition="left" alignment="left" tag="6" inset="2" id="YDa-RJ-FJI">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Turbosoft 128 KB Cartridge" imagePosition="left" alignment="left" tag="7" inset="2" id="cmP-3g-LwE">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="SIC! 128 KB Cartridge" imagePosition="left" alignment="left" tag="8" inset="2" id="uCk-Dp-Bjv">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Atrax 128 KB Cartridge" imagePosition="left" alignment="left" tag="9" inset="2" id="RSJ-LS-wKs">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </column>
-                        </cells>
-                    </matrix>
+                            <menu key="menu" id="mn112-87-61">
+                                <items>
+                                    <menuItem title="XEGS 1024 KB Cartridge" state="on" id="mi113-94-74"/>
+                                    <menuItem title="Mega Cartridge 1024 KB" id="mi114-01-87"/>
+                                    <menuItem title="Switchable XEGS 1024 KB Cartridge" id="mi115-08-00"/>
+                                    <menuItem title="ATMAX 1024 KB Cartridge" id="mi116-15-13"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
                     <button verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2SA-zH-EYf">
                         <rect key="frame" x="60" y="12" width="84" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -2814,33 +2554,22 @@ DQ
                             <action selector="cartSelectOK:" target="-2" id="M9c-A2-242"/>
                         </connections>
                     </button>
-                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pXX-eu-kjE">
-                        <rect key="frame" x="64" y="62" width="171" height="58"/>
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pXX-eu-kjE">
+                        <rect key="frame" x="64" y="94" width="171" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        <size key="cellSize" width="171" height="18"/>
-                        <size key="intercellSpacing" width="4" height="2"/>
-                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="eOf-Bw-q3J">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Radio" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="mi91-40-88" id="pc89-26-62">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <cells>
-                            <column>
-                                <buttonCell type="radio" title="Blizzard 4 KB Cartridge" imagePosition="left" alignment="left" state="on" inset="2" id="Nl0-sA-fw7">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Standard 4 KB Cartridge" imagePosition="left" alignment="left" tag="1" inset="2" id="lZY-iD-eJK">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <buttonCell type="radio" title="Right slot 4 KB cartridge" imagePosition="left" alignment="left" tag="2" inset="2" id="GdO-C3-Ajt">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </column>
-                        </cells>
-                    </matrix>
+                            <menu key="menu" id="mn90-33-75">
+                                <items>
+                                    <menuItem title="Radio" state="on" id="mi91-40-88"/>
+                                    <menuItem title="Blizzard 4 KB Cartridge" id="mi92-47-01"/>
+                                    <menuItem title="Standard 4 KB Cartridge" id="mi93-54-14"/>
+                                    <menuItem title="Right slot 4 KB cartridge" id="mi94-61-27"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
                     <button verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4YU-Wz-H34">
                         <rect key="frame" x="60" y="16" width="84" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -2883,25 +2612,20 @@ DQ
                             <action selector="cartSelectOK:" target="-2" id="ZFr-Xv-aCg"/>
                         </connections>
                     </button>
-                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OgV-oU-uTi">
-                        <rect key="frame" x="64" y="62" width="168" height="18"/>
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OgV-oU-uTi">
+                        <rect key="frame" x="64" y="54" width="168" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        <size key="cellSize" width="168" height="18"/>
-                        <size key="intercellSpacing" width="4" height="2"/>
-                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="xcW-Bh-OzB">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Radio" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="mi97-82-66" id="pc95-68-40">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <cells>
-                            <column>
-                                <buttonCell type="radio" title="Standard 2 KB cartridge" imagePosition="left" alignment="left" state="on" inset="2" id="wL7-zd-DQD">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </column>
-                        </cells>
-                    </matrix>
+                            <menu key="menu" id="mn96-75-53">
+                                <items>
+                                    <menuItem title="Radio" state="on" id="mi97-82-66"/>
+                                    <menuItem title="Standard 2 KB cartridge" id="mi98-89-79"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
                     <button verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3hW-F5-kSd">
                         <rect key="frame" x="60" y="16" width="84" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -2944,25 +2668,20 @@ DQ
                             <action selector="cartSelectOK:" target="-2" id="80a-cy-JCZ"/>
                         </connections>
                     </button>
-                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WTd-v1-gOP">
-                        <rect key="frame" x="64" y="51" width="178" height="18"/>
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WTd-v1-gOP">
+                        <rect key="frame" x="64" y="43" width="178" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        <size key="cellSize" width="178" height="18"/>
-                        <size key="intercellSpacing" width="4" height="2"/>
-                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="BFd-LE-fJn">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Radio" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="mi101-10-18" id="pc99-96-92">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <cells>
-                            <column>
-                                <buttonCell type="radio" title="The!Cart 32 MB cartridge" imagePosition="left" alignment="left" state="on" inset="2" id="0H1-gQ-B8j">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </column>
-                        </cells>
-                    </matrix>
+                            <menu key="menu" id="mn100-03-05">
+                                <items>
+                                    <menuItem title="Radio" state="on" id="mi101-10-18"/>
+                                    <menuItem title="The!Cart 32 MB cartridge" id="mi102-17-31"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
                     <button verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6j1-g6-Qg2">
                         <rect key="frame" x="60" y="12" width="84" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -3005,25 +2724,20 @@ DQ
                             <action selector="cartSelectOK:" target="-2" id="sTW-hT-goe"/>
                         </connections>
                     </button>
-                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gZN-Dy-emT">
-                        <rect key="frame" x="64" y="51" width="178" height="18"/>
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gZN-Dy-emT">
+                        <rect key="frame" x="64" y="43" width="178" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        <size key="cellSize" width="178" height="18"/>
-                        <size key="intercellSpacing" width="4" height="2"/>
-                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="5nS-ZN-6QW">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Radio" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="mi105-38-70" id="pc103-24-44">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <cells>
-                            <column>
-                                <buttonCell type="radio" title="The!Cart 64 MB cartridge" imagePosition="left" alignment="left" state="on" inset="2" id="L2b-0X-1Kt">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </column>
-                        </cells>
-                    </matrix>
+                            <menu key="menu" id="mn104-31-57">
+                                <items>
+                                    <menuItem title="Radio" state="on" id="mi105-38-70"/>
+                                    <menuItem title="The!Cart 64 MB cartridge" id="mi106-45-83"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
                     <button verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r8d-TQ-1gv">
                         <rect key="frame" x="60" y="12" width="84" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -3066,25 +2780,20 @@ DQ
                             <action selector="cartSelectOK:" target="-2" id="7Ad-aL-mmh"/>
                         </connections>
                     </button>
-                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iYT-yd-ET5">
-                        <rect key="frame" x="64" y="51" width="184" height="18"/>
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iYT-yd-ET5">
+                        <rect key="frame" x="64" y="43" width="184" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        <size key="cellSize" width="184" height="18"/>
-                        <size key="intercellSpacing" width="4" height="2"/>
-                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="1bN-M7-oNk">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Radio" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="mi109-66-22" id="pc107-52-96">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <cells>
-                            <column>
-                                <buttonCell type="radio" title="The!Cart 128 MB cartridge" imagePosition="left" alignment="left" state="on" inset="2" id="Y4V-me-KVd">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </column>
-                        </cells>
-                    </matrix>
+                            <menu key="menu" id="mn108-59-09">
+                                <items>
+                                    <menuItem title="Radio" state="on" id="mi109-66-22"/>
+                                    <menuItem title="The!Cart 128 MB cartridge" id="mi110-73-35"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
                     <button verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UKy-dS-DW5">
                         <rect key="frame" x="60" y="12" width="84" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -3120,33 +2829,19 @@ Gw
                             <rect key="frame" x="3" y="3" width="277" height="180"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5WA-zw-Ux3">
-                                    <rect key="frame" x="45" y="81" width="176" height="93"/>
+                                                                <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5WA-zw-Ux3">
+                                    <rect key="frame" x="45" y="81" width="176" height="22"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    <size key="cellSize" width="176" height="31"/>
-                                    <size key="intercellSpacing" width="4" height="0.0"/>
-                                    <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="Rdw-ar-RDS">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <segmentedCell key="cell" trackingMode="selectOne" id="sc107-60-11">
                                         <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <cells>
-                                        <column>
-                                            <buttonCell type="radio" title="Raw Image" imagePosition="left" alignment="left" state="on" inset="2" id="A2G-tX-FvM">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <buttonCell type="radio" title="Fixed VHD Image" imagePosition="left" alignment="left" tag="1" inset="2" id="wt5-Ie-Vje">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <buttonCell type="radio" title="Dynamic VHD Image" imagePosition="left" alignment="left" tag="2" inset="2" id="uIN-vN-OUW">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                        </column>
-                                    </cells>
-                                </matrix>
+                                        <segments>
+                                            <segment title="Radio" selected="YES" id="sg108-67-24"/>
+                                            <segment title="Raw Image" id="sg109-74-37"/>
+                                            <segment title="Fixed VHD Image" id="sg110-81-50"/>
+                                            <segment title="Dynamic VHD Image" id="sg111-88-63"/>
+                                        </segments>
+                                    </segmentedCell>
+                                </segmentedControl>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mja-WB-Xlb">
                                     <rect key="frame" x="45" y="44" width="80" height="22"/>
                                     <autoresizingMask key="autoresizingMask"/>
