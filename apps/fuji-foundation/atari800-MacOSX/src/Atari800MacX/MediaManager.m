@@ -1138,11 +1138,9 @@ NSImage *disketteImage;
             theWindow = [cart4096KMatrix window];
             break;
         case 8192:
-            theWindow = [cart8MMatrix window];
-            break;
+            return(CARTRIDGE_RAMCART_8M);  /* only one type — no picker needed */
         case 16384:
-            theWindow = [cart16MMatrix window];
-            break;
+            return(CARTRIDGE_RAMCART_16M); /* only one type — no picker needed */
         case 32768:
             theWindow = [cart32MMatrix window];
             break;
@@ -2107,36 +2105,29 @@ NSImage *disketteImage;
 }
 
 /*------------------------------------------------------------------------------
-*  dirtyNo - This method handles the No button press from the Dirty Cart window.
+*  dirtyNo - No button: cart is not saved (called from dirtyCartridgeSave NSAlert).
 *-----------------------------------------------------------------------------*/
 - (IBAction)dirtyNo:(id)sender;
 {
-    [NSApp stopModal];
-    [[dirtyCartLabel window] close];
+    /* Nothing to do — NSAlert handles its own dismissal. */
 }
 
 /*------------------------------------------------------------------------------
-*  dirtyYes - This method handles the Yes button press from the Dirty Cart window.
+*  dirtyYes - Yes button: save the dirty cartridge.
 *-----------------------------------------------------------------------------*/
 - (IBAction)dirtyYes:(id)sender;
 {
     NSString *filename;
     char cfilename[FILENAME_MAX+1];
-    
-    [NSApp stopModal];
-    [[dirtyCartLabel window] close];
 
     filename = [self saveFileInDirectoryFilename:[NSString stringWithCString:atari_diskset_dir encoding:NSUTF8StringEncoding]:@"car":
                 [NSString stringWithCString:dirtyCartridgeToSave->filename encoding:NSUTF8StringEncoding]];
 
-    if (filename == nil) {
+    if (filename == nil)
         return;
-        }
-                
+
     [filename getCString:cfilename maxLength:FILENAME_MAX encoding:NSUTF8StringEncoding];
-
     CARTRIDGE_WriteImage(cfilename, dirtyCartridgeToSave->type, dirtyCartridgeToSave->image, dirtyCartridgeToSave->size << 10, dirtyCartridgeToSave->raw, 0);
-
     dirtyCartridgeToSave->blank = FALSE;
     dirtyCartridgeToSave->dirty = FALSE;
 }
@@ -2148,7 +2139,14 @@ NSImage *disketteImage;
 - (IBAction)dirtyCartridgeSave:(void *)cart
 {
     dirtyCartridgeToSave = cart;
-    [NSApp runModalForWindow:[dirtyCartLabel window]];
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setMessageText:@"Unsaved Cartridge"];
+    [alert setInformativeText:[NSString stringWithFormat:@"The cartridge \u201c%@\u201d has unsaved changes. Save it now?",
+                               [NSString stringWithCString:dirtyCartridgeToSave->filename encoding:NSUTF8StringEncoding]]];
+    [alert addButtonWithTitle:@"Save"];
+    [alert addButtonWithTitle:@"Don\u2019t Save"];
+    if ([alert runModal] == NSAlertFirstButtonReturn)
+        [self dirtyYes:nil];
 }
 
 /*------------------------------------------------------------------------------
