@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="24412" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="24506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment version="101202" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24412"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -166,9 +166,6 @@
                 <outlet property="gamepadNumButtonsField" destination="3779" id="3783"/>
                 <outlet property="gamepadNumHatsField" destination="3781" id="3785"/>
                 <outlet property="gamepadNumSticksField" destination="3780" id="3784"/>
-                <outlet property="gamepadSelect1" destination="AYs-9E-Mgv" id="RDu-BW-57P"/>
-                <outlet property="gamepadSelect3" destination="3i7-6i-law" id="6g3-pH-ccN"/>
-                <outlet property="gamepadSelect4" destination="oS1-gz-SMz" id="yrm-sv-bvu"/>
                 <outlet property="gamepadSelector" destination="0jb-cz-dnK" id="cVR-Bq-05g"/>
                 <outlet property="hPathField" destination="3562" id="3563"/>
                 <outlet property="hardDiskDir1Field" destination="378" id="399"/>
@@ -318,7 +315,7 @@
             <windowStyleMask key="styleMask" titled="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="182" y="79" width="795" height="469"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1512" height="944"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1410"/>
             <value key="minSize" type="size" width="81" height="2"/>
             <view key="contentView" id="19">
                 <rect key="frame" x="0.0" y="0.0" width="795" height="469"/>
@@ -399,17 +396,17 @@ DQ
                                             <rect key="frame" x="389" y="315" width="162" height="66"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <view key="contentView" id="eLy-96-aMw">
-                                                <rect key="frame" x="4" y="5" width="154" height="44"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="162" height="52"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                                                                        <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="296">
+                                                    <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="296">
                                                         <rect key="frame" x="12" y="10" width="138" height="22"/>
                                                         <autoresizingMask key="autoresizingMask"/>
-                                                        <segmentedCell key="cell" trackingMode="selectOne" id="tvm-01-cel">
+                                                        <segmentedCell key="cell" style="rounded" trackingMode="selectOne" id="tvm-01-cel">
                                                             <font key="font" metaFont="system"/>
                                                             <segments>
-                                                                <segment title="NTSC (60 Hz)" selected="YES" id="tvm-01-s01"/>
-                                                                <segment title="PAL (50 Hz)" id="tvm-01-s02"/>
+                                                                <segment selected="YES"/>
+                                                                <segment/>
                                                             </segments>
                                                         </segmentedCell>
                                                         <connections>
@@ -424,7 +421,7 @@ DQ
                                             <rect key="frame" x="553" y="315" width="163" height="65"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <view key="contentView" id="dv0-cw-UUX">
-                                                <rect key="frame" x="4" y="5" width="155" height="43"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="163" height="51"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <popUpButton imageHugsTitle="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="310">
@@ -466,7 +463,7 @@ DQ
                                             <rect key="frame" x="43" y="5" width="327" height="153"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <view key="contentView" id="17C-6T-StZ">
-                                                <rect key="frame" x="4" y="5" width="319" height="131"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="327" height="139"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <button imageHugsTitle="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="787">
@@ -647,18 +644,18 @@ DQ
                                             <rect key="frame" x="43" y="292" width="327" height="88"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <view key="contentView" id="3N8-uw-QBS">
-                                                <rect key="frame" x="4" y="5" width="319" height="66"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="327" height="74"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                                                                        <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="270">
+                                                    <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="270">
                                                         <rect key="frame" x="12" y="23" width="295" height="22"/>
                                                         <autoresizingMask key="autoresizingMask"/>
-                                                        <segmentedCell key="cell" trackingMode="selectOne" id="wdm-01-cel">
+                                                        <segmentedCell key="cell" style="rounded" trackingMode="selectOne" id="wdm-01-cel">
                                                             <font key="font" metaFont="system"/>
                                                             <segments>
-                                                                <segment title="Narrow" selected="YES" id="wdm-01-s01"/>
-                                                                <segment title="Default" id="wdm-01-s02"/>
-                                                                <segment title="Full" id="wdm-01-s03"/>
+                                                                <segment selected="YES"/>
+                                                                <segment/>
+                                                                <segment/>
                                                             </segments>
                                                         </segmentedCell>
                                                         <connections>
@@ -673,17 +670,17 @@ DQ
                                             <rect key="frame" x="45" y="214" width="325" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <view key="contentView" id="JGY-kK-Scg">
-                                                <rect key="frame" x="4" y="5" width="317" height="52"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="325" height="60"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                                                                        <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3842">
+                                                    <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3842">
                                                         <rect key="frame" x="9" y="15" width="200" height="22"/>
                                                         <autoresizingMask key="autoresizingMask"/>
-                                                        <segmentedCell key="cell" trackingMode="selectOne" id="scm-01-cel">
+                                                        <segmentedCell key="cell" style="rounded" trackingMode="selectOne" id="scm-01-cel">
                                                             <font key="font" metaFont="system"/>
                                                             <segments>
-                                                                <segment title="Normal" selected="YES" id="scm-01-s01"/>
-                                                                <segment title="With Scanlines" id="scm-01-s02"/>
+                                                                <segment selected="YES"/>
+                                                                <segment/>
                                                             </segments>
                                                         </segmentedCell>
                                                         <connections>
@@ -709,7 +706,7 @@ DQ
                                             <rect key="frame" x="389" y="222" width="327" height="66"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <view key="contentView" id="rxO-zh-gA3">
-                                                <rect key="frame" x="4" y="5" width="319" height="44"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="327" height="52"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <popUpButton imageHugsTitle="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="320">
@@ -781,7 +778,7 @@ DQ
                                             <rect key="frame" x="389" y="5" width="327" height="168"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <view key="contentView" id="j5j-NJ-9Sj">
-                                                <rect key="frame" x="4" y="5" width="319" height="146"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="327" height="154"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <button imageHugsTitle="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3863">
@@ -829,7 +826,7 @@ DQ
                                                         </connections>
                                                     </button>
                                                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fr3-Su-Zp0">
-                                                        <rect key="frame" x="14" y="26" width="258" height="18"/>
+                                                        <rect key="frame" x="14" y="34" width="258" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="check" title="Show Hard Disk Sector on Atari Screen" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ozW-J1-2qa">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -840,7 +837,7 @@ DQ
                                                         </connections>
                                                     </button>
                                                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9yX-aZ-eEW">
-                                                        <rect key="frame" x="14" y="46" width="236" height="18"/>
+                                                        <rect key="frame" x="14" y="54" width="236" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="check" title="Show 1200XL LEDs on Atari Screen" bezelStyle="regularSquare" imagePosition="left" inset="2" id="cZC-gL-VKZ">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -851,7 +848,7 @@ DQ
                                                         </connections>
                                                     </button>
                                                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iCL-Aa-vuI">
-                                                        <rect key="frame" x="14" y="6" width="272" height="18"/>
+                                                        <rect key="frame" x="14" y="14" width="272" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="check" title="Show CapsLock indicator on Atari Screen" bezelStyle="regularSquare" imagePosition="left" inset="2" id="IgS-f8-yN2">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -888,7 +885,7 @@ DQ
                                             <rect key="frame" x="2" y="202" width="783" height="175"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <view key="contentView" id="oUF-xj-o9C">
-                                                <rect key="frame" x="4" y="5" width="775" height="155"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="783" height="163"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <button imageHugsTitle="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="768">
@@ -1020,7 +1017,7 @@ DQ
                                                         </textFieldCell>
                                                     </textField>
                                                     <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="12858">
-                                                        <rect key="frame" x="398" y="100" width="81" height="17"/>
+                                                        <rect key="frame" x="398" y="108" width="81" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Arrow Keys" id="12900">
                                                             <font key="font" metaFont="system"/>
@@ -1029,7 +1026,7 @@ DQ
                                                         </textFieldCell>
                                                     </textField>
                                                     <popUpButton imageHugsTitle="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="12860">
-                                                        <rect key="frame" x="473" y="93" width="180" height="26"/>
+                                                        <rect key="frame" x="473" y="101" width="180" height="26"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <popUpButtonCell key="cell" type="push" title="Ctrl + Arrow Keys" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="12863" id="12901">
                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -1124,7 +1121,7 @@ DQ
                                             <rect key="frame" x="2" y="-3" width="783" height="105"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <view key="contentView" id="wAh-OU-eqb">
-                                                <rect key="frame" x="4" y="5" width="775" height="85"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="783" height="93"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <button imageHugsTitle="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3876">
@@ -1172,7 +1169,7 @@ DQ
                                                         </connections>
                                                     </button>
                                                     <popUpButton imageHugsTitle="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="13274">
-                                                        <rect key="frame" x="36" y="40" width="179" height="26"/>
+                                                        <rect key="frame" x="36" y="48" width="179" height="26"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <popUpButtonCell key="cell" type="push" title="16 Bit Sound Quality" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="13277" id="13275">
                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -1206,7 +1203,7 @@ DQ
                                             <rect key="frame" x="2" y="142" width="783" height="65"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <view key="contentView" id="QzX-Tj-9gN">
-                                                <rect key="frame" x="4" y="5" width="775" height="45"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="783" height="53"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <button imageHugsTitle="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3880">
@@ -1285,14 +1282,14 @@ DQ
                                                             <action selector="miscChanged:" target="-2" id="3904"/>
                                                         </connections>
                                                     </button>
-                                                                                                        <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4759">
-                                                        <rect key="frame" x="417" y="10" width="230" height="22"/>
+                                                    <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4759">
+                                                        <rect key="frame" x="417" y="18" width="230" height="22"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <segmentedCell key="cell" trackingMode="selectOne" id="rps-01-cel">
+                                                        <segmentedCell key="cell" style="rounded" trackingMode="selectOne" id="rps-01-cel">
                                                             <font key="font" metaFont="system"/>
                                                             <segments>
-                                                                <segment title="R: Patch Serial" selected="YES" id="rps-01-s01"/>
-                                                                <segment title="R: Patch Network" id="rps-01-s02"/>
+                                                                <segment selected="YES"/>
+                                                                <segment/>
                                                             </segments>
                                                         </segmentedCell>
                                                         <connections>
@@ -1300,7 +1297,7 @@ DQ
                                                         </connections>
                                                     </segmentedControl>
                                                     <popUpButton imageHugsTitle="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4765">
-                                                        <rect key="frame" x="548" y="0.0" width="152" height="22"/>
+                                                        <rect key="frame" x="548" y="8" width="152" height="22"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="4768" id="12884">
                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -1361,7 +1358,7 @@ DQ
                                             <rect key="frame" x="2" y="98" width="783" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <view key="contentView" id="Sps-0r-Ypz">
-                                                <rect key="frame" x="4" y="5" width="775" height="30"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="783" height="38"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <popUpButton imageHugsTitle="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4363">
@@ -1485,11 +1482,11 @@ DQ
                                             <rect key="frame" x="8" y="270" width="467" height="114"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <view key="contentView" id="cOB-XZ-oWo">
-                                                <rect key="frame" x="4" y="5" width="459" height="94"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="467" height="102"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7145">
-                                                        <rect key="frame" x="4" y="19" width="146" height="17"/>
+                                                        <rect key="frame" x="4" y="27" width="146" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Mosaic Expansion Size" id="13139">
                                                             <font key="font" metaFont="system"/>
@@ -1498,7 +1495,7 @@ DQ
                                                         </textFieldCell>
                                                     </textField>
                                                     <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7147">
-                                                        <rect key="frame" x="11" y="62" width="146" height="17"/>
+                                                        <rect key="frame" x="11" y="70" width="146" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Axlon Expansion Size" id="13140">
                                                             <font key="font" metaFont="system"/>
@@ -1817,15 +1814,15 @@ DQ
                                                                     <action selector="browseMioRom:" target="-2" id="m32-mt-SPo"/>
                                                                 </connections>
                                                             </button>
-                                                                                                                        <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7953">
+                                                            <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7953">
                                                                 <rect key="frame" x="305" y="165" width="280" height="22"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                <segmentedCell key="cell" trackingMode="selectOne" id="pbi-01-cel">
+                                                                <segmentedCell key="cell" style="rounded" trackingMode="selectOne" id="pbi-01-cel">
                                                                     <font key="font" metaFont="system"/>
                                                                     <segments>
-                                                                        <segment title="No PBI Expansion" selected="YES" id="pbi-01-s01"/>
-                                                                        <segment title="Black Box" id="pbi-01-s02"/>
-                                                                        <segment title="MIO" id="pbi-01-s03"/>
+                                                                        <segment selected="YES"/>
+                                                                        <segment/>
+                                                                        <segment/>
                                                                     </segments>
                                                                 </segmentedCell>
                                                                 <connections>
@@ -1841,11 +1838,11 @@ DQ
                                             <rect key="frame" x="483" y="270" width="291" height="114"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <view key="contentView" id="3TP-6d-Jpd">
-                                                <rect key="frame" x="4" y="5" width="283" height="94"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="291" height="102"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GCk-6n-URz">
-                                                        <rect key="frame" x="8" y="68" width="114" height="18"/>
+                                                        <rect key="frame" x="8" y="76" width="114" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="check" title="Enable NetSIO" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="2Zs-e0-m5d">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -1856,7 +1853,7 @@ DQ
                                                         </connections>
                                                     </button>
                                                     <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6LS-it-RBE">
-                                                        <rect key="frame" x="44" y="24" width="96" height="24"/>
+                                                        <rect key="frame" x="44" y="32" width="96" height="24"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="9997" drawsBackground="YES" id="6iB-qO-mdf">
                                                             <font key="font" metaFont="system"/>
@@ -1865,7 +1862,7 @@ DQ
                                                         </textFieldCell>
                                                     </textField>
                                                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jBl-8T-fAC">
-                                                        <rect key="frame" x="8" y="28" width="30" height="16"/>
+                                                        <rect key="frame" x="8" y="36" width="30" height="16"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Port" id="I53-aU-ijo">
                                                             <font key="font" metaFont="system"/>
@@ -1874,7 +1871,7 @@ DQ
                                                         </textFieldCell>
                                                     </textField>
                                                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hwk-rj-Oei">
-                                                        <rect key="frame" x="57" y="4" width="96" height="16"/>
+                                                        <rect key="frame" x="57" y="12" width="96" height="16"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Not Connected" id="cT3-qN-ySh">
                                                             <font key="font" metaFont="system"/>
@@ -1883,7 +1880,7 @@ DQ
                                                         </textFieldCell>
                                                     </textField>
                                                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oHw-bw-19l">
-                                                        <rect key="frame" x="8" y="4" width="43" height="16"/>
+                                                        <rect key="frame" x="8" y="12" width="43" height="16"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Status" id="rga-Iz-EUa">
                                                             <font key="font" metaFont="system"/>
@@ -1892,7 +1889,7 @@ DQ
                                                         </textFieldCell>
                                                     </textField>
                                                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0fe-On-LsG">
-                                                        <rect key="frame" x="29" y="53" width="247" height="14"/>
+                                                        <rect key="frame" x="29" y="61" width="247" height="14"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="Connect to FujiNet-PC or other virtual devices" id="sUX-c9-9R1">
                                                             <font key="font" metaFont="smallSystem"/>
@@ -4724,7 +4721,7 @@ Command Path for Hx: Devices
                                             <rect key="frame" x="26" y="223" width="732" height="157"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <view key="contentView" id="pHP-ki-b67">
-                                                <rect key="frame" x="4" y="5" width="724" height="135"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="732" height="145"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="679">
@@ -4999,7 +4996,7 @@ Command Path for Hx: Devices
                                             <rect key="frame" x="26" y="53" width="572" height="169"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <view key="contentView" id="W4X-90-51H">
-                                                <rect key="frame" x="4" y="5" width="564" height="147"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="572" height="157"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="715">
@@ -5243,7 +5240,7 @@ Command Path for Hx: Devices
                                                         </textFieldCell>
                                                     </textField>
                                                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qav-7L-VF7">
-                                                        <rect key="frame" x="268" y="0.0" width="98" height="18"/>
+                                                        <rect key="frame" x="268" y="10" width="98" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="check" title="Invert Y Axis" bezelStyle="regularSquare" imagePosition="left" inset="2" id="k87-Nx-F7s">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -5261,7 +5258,7 @@ Command Path for Hx: Devices
                                             <rect key="frame" x="26" y="9" width="732" height="42"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <view key="contentView" id="SBs-Q7-aKb">
-                                                <rect key="frame" x="4" y="5" width="724" height="20"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="732" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <button imageHugsTitle="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1171">
@@ -5294,7 +5291,7 @@ Command Path for Hx: Devices
                                             <rect key="frame" x="600" y="55" width="158" height="164"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <view key="contentView" id="Dwd-XL-6Lz">
-                                                <rect key="frame" x="4" y="5" width="150" height="144"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="158" height="152"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <button imageHugsTitle="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6300">
@@ -5348,14 +5345,14 @@ Command Path for Hx: Devices
                                             <rect key="frame" x="20" y="190" width="747" height="184"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <view key="contentView" id="My3-oD-Mkc">
-                                                <rect key="frame" x="4" y="5" width="739" height="162"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="747" height="172"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <box fixedFrame="YES" title="Assignment:" translatesAutoresizingMaskIntoConstraints="NO" id="1176">
                                                         <rect key="frame" x="6" y="12" width="378" height="116"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <view key="contentView" id="gAx-6X-2Hu">
-                                                            <rect key="frame" x="4" y="5" width="370" height="94"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="378" height="104"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <popUpButton imageHugsTitle="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="933">
@@ -5559,7 +5556,7 @@ Assignment
                                             <rect key="frame" x="20" y="14" width="747" height="172"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <view key="contentView" id="kz5-fP-4bU">
-                                                <rect key="frame" x="4" y="5" width="739" height="150"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="747" height="160"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <popUpButton imageHugsTitle="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3672">
@@ -5892,7 +5889,7 @@ Assignment
             <windowStyleMask key="styleMask" titled="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="213" y="212" width="379" height="447"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1512" height="944"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1410"/>
             <value key="minSize" type="size" width="81" height="2"/>
             <view key="contentView" id="1062">
                 <rect key="frame" x="0.0" y="0.0" width="379" height="447"/>
@@ -6400,16 +6397,16 @@ Assignment
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                                        <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0jb-cz-dnK">
+                    <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0jb-cz-dnK">
                         <rect key="frame" x="143" y="409" width="228" height="22"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <segmentedCell key="cell" trackingMode="selectOne" id="gps-01-cel">
+                        <segmentedCell key="cell" style="rounded" trackingMode="selectOne" id="gps-01-cel">
                             <font key="font" metaFont="system"/>
                             <segments>
-                                <segment title="1" selected="YES" id="gps-01-s01"/>
-                                <segment title="2" id="gps-01-s02"/>
-                                <segment title="3" id="gps-01-s03"/>
-                                <segment title="4" id="gps-01-s04"/>
+                                <segment selected="YES"/>
+                                <segment/>
+                                <segment/>
+                                <segment/>
                             </segments>
                         </segmentedCell>
                         <connections>
@@ -6424,7 +6421,7 @@ Assignment
             <windowStyleMask key="styleMask" titled="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="320" y="201" width="386" height="122"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1512" height="944"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1410"/>
             <value key="minSize" type="size" width="81" height="2"/>
             <view key="contentView" id="1128">
                 <rect key="frame" x="0.0" y="0.0" width="386" height="122"/>
@@ -6477,7 +6474,7 @@ DQ
             <windowStyleMask key="styleMask" titled="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="90" y="168" width="386" height="122"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1512" height="944"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1410"/>
             <value key="minSize" type="size" width="81" height="2"/>
             <view key="contentView" id="1135">
                 <rect key="frame" x="0.0" y="0.0" width="386" height="122"/>
@@ -6519,7 +6516,7 @@ DQ
             <windowStyleMask key="styleMask" titled="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="287" y="230" width="720" height="421"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1512" height="944"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1410"/>
             <value key="minSize" type="size" width="81" height="2"/>
             <view key="contentView" id="1190">
                 <rect key="frame" x="0.0" y="0.0" width="720" height="421"/>
@@ -7580,7 +7577,7 @@ DQ
             <windowStyleMask key="styleMask" titled="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="167" y="392" width="720" height="421"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1512" height="944"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1410"/>
             <value key="minSize" type="size" width="81" height="2"/>
             <view key="contentView" id="3449">
                 <rect key="frame" x="0.0" y="0.0" width="720" height="421"/>
@@ -8644,7 +8641,7 @@ DQ
             <windowStyleMask key="styleMask" titled="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="90" y="168" width="478" height="295"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1512" height="944"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1410"/>
             <value key="minSize" type="size" width="81" height="2"/>
             <view key="contentView" id="W5O-IV-EP4">
                 <rect key="frame" x="0.0" y="0.0" width="478" height="295"/>
@@ -8798,7 +8795,7 @@ DQ
             <windowStyleMask key="styleMask" titled="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="320" y="201" width="546" height="243"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1512" height="944"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1410"/>
             <value key="minSize" type="size" width="81" height="2"/>
             <view key="contentView" id="uJn-1k-cbf">
                 <rect key="frame" x="0.0" y="0.0" width="546" height="243"/>
