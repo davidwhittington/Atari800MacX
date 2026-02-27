@@ -347,6 +347,11 @@
 		A8000000CAFE000300000003 /* Atari800Engine.m in Sources */ = {isa = PBXBuildFile; fileRef = A8000000DEAD000300000003 /* Atari800Engine.m */; };
 		A8000000CAFE000400000004 /* PreferenceKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = A8000000DEAD000400000004 /* PreferenceKeys.h */; };
 		A8000000CAFE000500000005 /* PreferenceKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = A8000000DEAD000500000005 /* PreferenceKeys.m */; };
+		/* Phase 5: Metal rendering pipeline */
+		E5METAL01000000000000B001 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5METAL01000000000000A001 /* MetalKit.framework */; };
+		E5METAL01000000000000B002 /* EmulatorMetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = E5METAL01000000000000A002 /* EmulatorMetalView.h */; };
+		E5METAL01000000000000B003 /* EmulatorMetalView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5METAL01000000000000A003 /* EmulatorMetalView.m */; };
+		E5METAL01000000000000B004 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = E5METAL01000000000000A004 /* Shaders.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -740,6 +745,11 @@
 		F5C68C3D032B1E4501A8C8B4 /* Fuji.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Fuji.icns; sourceTree = "<group>"; };
 		F5E6BF3A032D9AF501A8C8B4 /* SDLMain.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SDLMain.xib; sourceTree = "<group>"; };
 		F5E6BF3E032DA88501A8C8B4 /* Preferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
+		/* Phase 5: Metal rendering pipeline */
+		E5METAL01000000000000A001 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
+		E5METAL01000000000000A002 /* EmulatorMetalView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmulatorMetalView.h; sourceTree = "<group>"; };
+		E5METAL01000000000000A003 /* EmulatorMetalView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EmulatorMetalView.m; sourceTree = "<group>"; };
+		E5METAL01000000000000A004 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -751,6 +761,7 @@
 				2DAEDBC809B69AED005FF181 /* IOKit.framework in Frameworks */,
 				2D20134221D45A5B005793AE /* SDL2.framework in Frameworks */,
 				/* Carbon.framework removed from hard link — see WEAK_FRAMEWORKS in xcconfig (Phase 4) */
+				E5METAL01000000000000B001 /* MetalKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -777,6 +788,9 @@
 				2D52946308568B0E007B8F5F /* Atari800FunctionKeysWindow.m */,
 				2DBC742B05AD0334004925CD /* Atari800Window.m */,
 				2D003B9D21D70F5C003F6F94 /* Atari800Window.h */,
+				E5METAL01000000000000A002 /* EmulatorMetalView.h */,
+				E5METAL01000000000000A003 /* EmulatorMetalView.m */,
+				E5METAL01000000000000A004 /* Shaders.metal */,
 				A8000000DEAD000100000001 /* Atari800Core.h */,
 				A8000000DEAD000600000006 /* Atari800Core.c */,
 				A8000000DEAD000200000002 /* Atari800Engine.h */,
@@ -887,9 +901,11 @@
 				/* Carbon.framework removed from group (Phase 4) */
 				2D20134021D076AA005793AE /* SDL2.framework */,
 				2D9863E407BED49700596C6B /* IOKit.framework */,
+				/* OpenGL.framework removed from link phase (Phase 5) — dead file ref left for reference */
 				2DFB2BC808A99F86004EF21F /* OpenGL.framework */,
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				E5METAL01000000000000A001 /* MetalKit.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -1344,6 +1360,7 @@
 				A8000000CAFE000200000002 /* Atari800Engine.h in Headers */,
 				A8000000CAFE000400000004 /* PreferenceKeys.h in Headers */,
 				2DEDFBF511FE4C18008B815C /* emuio.h in Headers */,
+				E5METAL01000000000000B002 /* EmulatorMetalView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1611,6 +1628,8 @@
 				A8000000CAFE000600000006 /* Atari800Core.c in Sources */,
 				A8000000CAFE000500000005 /* PreferenceKeys.m in Sources */,
 				2DEDFBF411FE4C18008B815C /* emuio.c in Sources */,
+				E5METAL01000000000000B003 /* EmulatorMetalView.m in Sources */,
+				E5METAL01000000000000B004 /* Shaders.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1674,6 +1693,8 @@
 					UniformTypeIdentifiers,
 					"-weak_framework",
 					Carbon,
+					"-framework",
+					Metal,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.atarimac.atari800macx;
 				PRODUCT_NAME = Atari800MacX;
@@ -1734,6 +1755,8 @@
 					UniformTypeIdentifiers,
 					"-weak_framework",
 					Carbon,
+					"-framework",
+					Metal,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.atarimac.atari800macx;
 				PRODUCT_NAME = Atari800MacX;
@@ -1793,6 +1816,8 @@
 					UniformTypeIdentifiers,
 					"-weak_framework",
 					Carbon,
+					"-framework",
+					Metal,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.atarimac.atari800macx;
 				PRODUCT_NAME = Atari800MacX;
