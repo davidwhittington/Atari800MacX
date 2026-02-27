@@ -2,8 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<!-- Allow loading frameworks signed by a different Team ID (e.g. hidapi inside SDL2.framework) -->
+	<!-- Allow loading frameworks signed by a different Team ID (hidapi embedded in SDL2.framework) -->
 	<key>com.apple.security.cs.disable-library-validation</key>
+	<true/>
+
+	<!-- Read and write files opened via NSOpenPanel / NSSavePanel (ROM files, disk images, etc.) -->
+	<key>com.apple.security.files.user-selected.read-write</key>
+	<true/>
+
+	<!-- Outgoing network connections for FujiNet and network SIO emulation (netsio.c) -->
+	<key>com.apple.security.network.client</key>
 	<true/>
 </dict>
 </plist>
