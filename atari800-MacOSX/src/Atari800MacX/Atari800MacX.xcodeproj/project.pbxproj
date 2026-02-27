@@ -352,6 +352,9 @@
 		E5METAL01000000000000B002 /* EmulatorMetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = E5METAL01000000000000A002 /* EmulatorMetalView.h */; };
 		E5METAL01000000000000B003 /* EmulatorMetalView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5METAL01000000000000A003 /* EmulatorMetalView.m */; };
 		E5METAL01000000000000B004 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = E5METAL01000000000000A004 /* Shaders.metal */; };
+		/* Phase 6: Swift/ObjC interoperability */
+		E5SWIFT06000000000000B001 /* Atari800App.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5SWIFT06000000000000A001 /* Atari800App.swift */; };
+		E5SWIFT06000000000000B002 /* PreferenceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5SWIFT06000000000000A002 /* PreferenceModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -750,6 +753,10 @@
 		E5METAL01000000000000A002 /* EmulatorMetalView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmulatorMetalView.h; sourceTree = "<group>"; };
 		E5METAL01000000000000A003 /* EmulatorMetalView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EmulatorMetalView.m; sourceTree = "<group>"; };
 		E5METAL01000000000000A004 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		/* Phase 6: Swift/ObjC interoperability */
+		E5SWIFT06000000000000A001 /* Atari800App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atari800App.swift; sourceTree = "<group>"; };
+		E5SWIFT06000000000000A002 /* PreferenceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceModel.swift; sourceTree = "<group>"; };
+		E5SWIFT06000000000000A003 /* Atari800MacX-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Atari800MacX-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -791,6 +798,9 @@
 				E5METAL01000000000000A002 /* EmulatorMetalView.h */,
 				E5METAL01000000000000A003 /* EmulatorMetalView.m */,
 				E5METAL01000000000000A004 /* Shaders.metal */,
+				E5SWIFT06000000000000A001 /* Atari800App.swift */,
+				E5SWIFT06000000000000A002 /* PreferenceModel.swift */,
+				E5SWIFT06000000000000A003 /* Atari800MacX-Bridging-Header.h */,
 				A8000000DEAD000100000001 /* Atari800Core.h */,
 				A8000000DEAD000600000006 /* Atari800Core.c */,
 				A8000000DEAD000200000002 /* Atari800Engine.h */,
@@ -1630,6 +1640,8 @@
 				2DEDFBF411FE4C18008B815C /* emuio.c in Sources */,
 				E5METAL01000000000000B003 /* EmulatorMetalView.m in Sources */,
 				E5METAL01000000000000B004 /* Shaders.metal in Sources */,
+				E5SWIFT06000000000000B001 /* Atari800App.swift in Sources */,
+				E5SWIFT06000000000000B002 /* PreferenceModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1707,6 +1719,7 @@
 					"-Wno-unknown-pragmas",
 					"-Wno-missing-selector-name",
 				);
+				SWIFT_OBJC_BRIDGING_HEADER = "Atari800MacX-Bridging-Header.h";
 				WEAK_FRAMEWORKS = Carbon;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1769,6 +1782,7 @@
 					"-Wno-unknown-pragmas",
 					"-Wno-missing-selector-name",
 				);
+				SWIFT_OBJC_BRIDGING_HEADER = "Atari800MacX-Bridging-Header.h";
 				WEAK_FRAMEWORKS = Carbon;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1830,6 +1844,7 @@
 					"-Wno-unknown-pragmas",
 					"-Wno-missing-selector-name",
 				);
+				SWIFT_OBJC_BRIDGING_HEADER = "Atari800MacX-Bridging-Header.h";
 				WEAK_FRAMEWORKS = Carbon;
 				WRAPPER_EXTENSION = app;
 			};
