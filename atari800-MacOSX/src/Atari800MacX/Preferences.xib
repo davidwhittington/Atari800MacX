@@ -297,6 +297,9 @@
                 <outlet property="useAlitrraXLRomButton" destination="Ltf-sW-tEh" id="qsc-X7-BST"/>
                 <outlet property="useAtariCursorKeysPulldown" destination="12860" id="12867"/>
                 <outlet property="vsyncEnabledButton" destination="hRd-Pp-1WM" id="vH5-Tr-ud2"/>
+                <outlet property="linearFilterEnabledButton" destination="6Tn-9e-eyP" id="1vX-ph-JeL"/>
+                <outlet property="pixelAspectEnabledButton" destination="9UP-OJ-z0e" id="HOP-bM-1wS"/>
+                <outlet property="scanlineTransparencySlider" destination="som-vE-n0w" id="LYc-RE-ZyC"/>
                 <outlet property="whiteLevelField" destination="796" id="805"/>
                 <outlet property="widthModeMatrix" destination="270" id="291"/>
                 <outlet property="xegsGameRomFileField" destination="fqD-d4-OtW" id="PNl-bT-4v0"/>
@@ -774,6 +777,47 @@ DQ
                                                 <action selector="miscChanged:" target="-2" id="sEn-l6-N7x"/>
                                             </connections>
                                         </button>
+                                        <button imageHugsTitle="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Tn-9e-eyP">
+                                            <rect key="frame" x="58" y="145" width="319" height="18"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <buttonCell key="cell" type="check" title="Linear Smoothing Filter Enabled" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="zK7-H5-1ia">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="miscChanged:" target="-2" id="D0c-U6-dW6"/>
+                                            </connections>
+                                        </button>
+                                        <button imageHugsTitle="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9UP-OJ-z0e">
+                                            <rect key="frame" x="58" y="123" width="342" height="18"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <buttonCell key="cell" type="check" title="Realistic Pixel Aspect Ratio Enabled" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="5nj-pp-qat">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="miscChanged:" target="-2" id="z5i-sE-TAg"/>
+                                            </connections>
+                                        </button>
+                                        <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V87-K7-4zQ">
+                                            <rect key="frame" x="58" y="101" width="160" height="17"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Scanline Transparency" id="4Nz-65-PmQ">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="som-vE-n0w">
+                                            <rect key="frame" x="220" y="98" width="200" height="21"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <sliderCell key="cell" minValue="0.0" maxValue="1.0" doubleValue="0.9" tickMarkPosition="below" numberOfTickMarks="11" allowsTickMarkValuesOnly="NO" id="sTs-SL-cel">
+                                                <font key="font" metaFont="system"/>
+                                            </sliderCell>
+                                            <connections>
+                                                <action selector="miscChanged:" target="-2" id="sTs-SL-act"/>
+                                            </connections>
+                                        </slider>
                                         <box fixedFrame="YES" title="LEDs/Status Indicators" translatesAutoresizingMaskIntoConstraints="NO" id="3860">
                                             <rect key="frame" x="389" y="5" width="327" height="168"/>
                                             <autoresizingMask key="autoresizingMask"/>
