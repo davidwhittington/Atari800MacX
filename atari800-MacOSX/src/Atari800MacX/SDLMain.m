@@ -22,21 +22,6 @@
 /* Use this flag to determine whether we use SDLMain.nib or not */
 #define		SDL_USE_NIB_FILE	0
 
-/* Use this flag to determine whether we use CPS (docking) or not */
-#define		SDL_USE_CPS		1
-#ifdef SDL_USE_CPS
-/* Portions of CPS.h */
-typedef struct CPSProcessSerNum
-{
-	UInt32		lo;
-	UInt32		hi;
-} CPSProcessSerNum;
-
-extern OSErr	CPSGetCurrentProcess( CPSProcessSerNum *psn);
-extern OSErr 	CPSEnableForegroundOperation( CPSProcessSerNum *psn, UInt32 _arg2, UInt32 _arg3, UInt32 _arg4, UInt32 _arg5);
-extern OSErr	CPSSetFrontProcess( CPSProcessSerNum *psn);
-
-#endif /* SDL_USE_CPS */
 extern int Atari800_Exit(int run_monitor);
 
 static int    gArgc;
@@ -315,7 +300,15 @@ int main (int argc, char **argv)
        directories are set correctly */
     [Preferences setWorkingDirectory:gArgv[0]];
 
-    //[SDLApplication poseAsClass:[NSApplication class]];
-    NSApplicationMain (argc, (const char **) argv);
+    /* Modern replacement for deprecated NSApplicationMain().
+     * Loads NSMainNibFile ("SDLMain.xib") which instantiates the main menu
+     * and wires the SDLMain delegate, then runs the event loop. */
+    @autoreleasepool {
+        [NSApplication sharedApplication];
+        NSString *nibName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSMainNibFile"];
+        if (nibName.length > 0)
+            [[NSBundle mainBundle] loadNibNamed:nibName owner:NSApp topLevelObjects:nil];
+        [NSApp run];
+    }
     return 0;
 }
