@@ -111,7 +111,7 @@ static EmulatorMetalView *g_metalView = nil;
 /* ── Frame upload + present ─────────────────────────────────────────────── */
 
 - (void)presentPixels:(const unsigned int *)pixels
-                srcW:(int)srcW srcH:(int)srcH
+                srcW:(int)srcW srcH:(int)srcH srcRowPitch:(int)srcRowPitch
                quadL:(float)quadL quadB:(float)quadB
                quadR:(float)quadR quadT:(float)quadT {
     /* Recreate the texture only when dimensions change (rare: mode switches). */
@@ -130,12 +130,13 @@ static EmulatorMetalView *g_metalView = nil;
         NSAssert(_texture, @"EmulatorMetalView: texture allocation failed (%d×%d)", srcW, srcH);
     }
 
-    /* Upload pixels. */
+    /* Upload pixels.  srcRowPitch accounts for the case where MetalFrameBuffer
+     * rows are wider than srcW (e.g. Screen_WIDTH=384 with scaledWidth=336). */
     MTLRegion region = MTLRegionMake2D(0, 0, (NSUInteger)srcW, (NSUInteger)srcH);
     [_texture replaceRegion:region
                 mipmapLevel:0
                   withBytes:pixels
-                bytesPerRow:(NSUInteger)(srcW * 4)];
+                bytesPerRow:(NSUInteger)srcRowPitch];
 
     /* Store rendering parameters for drawInMTKView:. */
     _quadRect = (simd_float4){ quadL, quadB, quadR, quadT };
@@ -206,12 +207,12 @@ void Mac_MetalViewCreate(void *nsWindow, int w, int h) {
 }
 
 void Mac_MetalPresent(const unsigned int *pixels,
-                      int srcW, int srcH,
+                      int srcW, int srcH, int srcRowPitch,
                       float quadL, float quadB,
                       float quadR, float quadT) {
     if (!g_metalView) return;
     [g_metalView presentPixels:pixels
-                          srcW:srcW srcH:srcH
+                          srcW:srcW srcH:srcH srcRowPitch:srcRowPitch
                          quadL:quadL quadB:quadB
                          quadR:quadR quadT:quadT];
 }

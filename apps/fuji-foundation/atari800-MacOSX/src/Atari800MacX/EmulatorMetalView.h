@@ -67,10 +67,12 @@ void Mac_MetalViewCreate(void *nsWindow, int w, int h);
  *
  * @param pixels        BGRA8 pixel data (MetalFrameBuffer), srcW × srcH.
  * @param srcW / srcH   Atari screen dimensions for this frame.
+ * @param srcRowPitch   Bytes per source row in pixels buffer (may be > srcW*4
+ *                      when the buffer includes unrendered border columns).
  * @param quadL/B/R/T   NDC quad bounds — (-1,-1,1,1) fills the entire view.
  */
 void Mac_MetalPresent(const unsigned int *pixels,
-                      int srcW, int srcH,
+                      int srcW, int srcH, int srcRowPitch,
                       float quadL, float quadB,
                       float quadR, float quadT);
 

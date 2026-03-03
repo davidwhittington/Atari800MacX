@@ -3136,6 +3136,7 @@ void Atari_DisplayScreen(UBYTE * screen)
     }
 
     Mac_MetalPresent(MetalFrameBuffer, (int)scaledWidth, (int)scaledHeight,
+                     screen_width * 4,
                      quadL, quadB, quadR, quadT);
 }
 
