@@ -52,6 +52,7 @@
 #endif
 #ifdef ULTIMATE_1MB
 #include "ultimate1mb.h"
+#include "vbxe.h"
 #endif
 
 /* stores the current state of the D1FF register, real hardware has 1
@@ -270,6 +271,8 @@ void PBI_D1PutByte(UWORD addr, UBYTE byte)
 /* $D6xx */
 UBYTE PBI_D6GetByte(UWORD addr, int no_side_effects)
 {
+	if (VBXE_IsEnabled() && VBXE_GetBaseAddr() == 0xD640 && addr >= 0xD640)
+		return VBXE_RegisterGetByte(addr, no_side_effects);
 #ifdef AF80
 	if (AF80_enabled) return AF80_D6GetByte(addr, no_side_effects);
 #endif
@@ -293,6 +296,10 @@ UBYTE PBI_D6GetByte(UWORD addr, int no_side_effects)
 /* $D6xx */
 void PBI_D6PutByte(UWORD addr, UBYTE byte)
 {
+	if (VBXE_IsEnabled() && VBXE_GetBaseAddr() == 0xD640 && addr >= 0xD640) {
+		VBXE_RegisterPutByte(addr, byte);
+		return;
+	}
 #ifdef AF80
 	if (AF80_enabled) {
 		AF80_D6PutByte(addr,byte);
@@ -331,6 +338,8 @@ void PBI_D6PutByte(UWORD addr, UBYTE byte)
 /* XLD/1090 has ram here */
 UBYTE PBI_D7GetByte(UWORD addr, int no_side_effects)
 {
+	if (VBXE_IsEnabled() && VBXE_GetBaseAddr() == 0xD740 && addr >= 0xD740)
+		return VBXE_RegisterGetByte(addr, no_side_effects);
     #ifdef ULTIMATE_1MB
         if (ULTIMATE_enabled) return ULTIMATE_D6D7GetByte(addr, no_side_effects);
     #endif
@@ -343,6 +352,10 @@ UBYTE PBI_D7GetByte(UWORD addr, int no_side_effects)
 /* XLD/1090 has ram here */
 void PBI_D7PutByte(UWORD addr, UBYTE byte)
 {
+	if (VBXE_IsEnabled() && VBXE_GetBaseAddr() == 0xD740 && addr >= 0xD740) {
+		VBXE_RegisterPutByte(addr, byte);
+		return;
+	}
 #ifdef ULTIMATE_1MB
     if(ULTIMATE_enabled) {
         ULTIMATE_D6D7PutByte(addr,byte);

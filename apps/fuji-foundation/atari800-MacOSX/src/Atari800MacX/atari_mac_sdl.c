@@ -78,6 +78,7 @@
 #include "pclink.h"
 #include "preferences_c.h"
 #include "ultimate1mb.h"
+#include "vbxe.h"
 #include "side2.h"
 #include "util.h"
 #include "capslock.h"
@@ -3107,6 +3108,12 @@ void Atari_DisplayScreen(UBYTE * screen)
     
     scaledWidth = width;
     scaledHeight = screen_height;
+
+    /* VBXE overlay: render the XDL and composite onto MetalFrameBuffer */
+    if (VBXE_IsEnabled() && !PLATFORM_80col) {
+        VBXE_RenderFrame();
+        VBXE_Composite((uint32_t *)MetalFrameBuffer, screen_width, screen_height);
+    }
 
     /* Scanline mode: toggle in the Metal fragment shader */
     Mac_MetalSetScanlines(SCALE_MODE == SCANLINE_SCALE);

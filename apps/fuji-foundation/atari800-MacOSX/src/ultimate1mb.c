@@ -9,6 +9,7 @@
 
 #include "atari.h"
 #include "ultimate1mb.h"
+#include "vbxe.h"
 #include "cartridge.h"
 #include "util.h"
 #include "log.h"
@@ -215,14 +216,13 @@ void ULTIMATE_D3PutByte(UWORD addr, UBYTE byte)
                 }
             }
             else if (addr == 0xD381) {
-                if (byte & 0x20)
+                if (byte & 0x20) {
                     VBXE_enabled = FALSE;
-                else {
+                    VBXE_Disable();
+                } else {
                     VBXE_enabled = TRUE;
-                    if (byte & 0x10)
-                        VBXE_address = 0xD740;
-                    else
-                        VBXE_address = 0xD640;
+                    VBXE_address = (byte & 0x10) ? 0xD740 : 0xD640;
+                    VBXE_Enable((int)VBXE_address);
                 }
                 soundBoard_enable = (byte & 0x40) != 0;
                 flash_write_enable = !(byte & 0x80);
@@ -314,6 +314,7 @@ void ULTIMATE_ColdStart(void)
     
     VBXE_address = 0xD640;
     VBXE_enabled = FALSE;
+    VBXE_ColdStart();
     soundBoard_enable = FALSE;
     signal_outputs = 0;
     
