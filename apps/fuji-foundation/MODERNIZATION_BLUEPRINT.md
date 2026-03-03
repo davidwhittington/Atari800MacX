@@ -8,6 +8,28 @@
 
 ---
 
+## Implementation Status
+
+| Phase | Description | Status | Commit |
+|-------|-------------|--------|--------|
+| 1 | Xcode Project Modernization | ✅ Done | `c01803b` |
+| 2 | Emulation Core Isolation | ✅ Done | `c01803b` |
+| 3 | NIB → XIB Migration | ✅ Done | `88cac7a` |
+| 4.1 | Remove Carbon.framework hard-link | ✅ Done | `e8f3676` |
+| 4.2 | Modernize NSOpenPanel/NSSavePanel | ✅ Done | `e8f3676` |
+| 4.3 | ARC migration + NSZone cleanup | ✅ Done | `e8f3676` |
+| 4.4 | NSMatrix → modern controls | ✅ Done | `c27eb1a` |
+| ARC fix | Enable `CLANG_ENABLE_OBJC_ARC = YES` + fix init methods | ✅ Done | `9cb4725` |
+| 5 | Metal Rendering Pipeline (MTKView) | ✅ Done | `a9939f2` |
+| 5-fix | Fix MetalFrameBuffer stride mismatch (blank display) | ✅ Done | `b488f65` |
+| A–D | Upstream integration + display wiring | ✅ Done | `2fd91f6`–`8068a1e` |
+| 6 | Swift/ObjC Interoperability | ✅ Done | `6fbec8e` |
+| 7 | SwiftUI Panels | ✅ Done | `eead5e4` |
+| 8 | Dependency Modernization (SDL3) | ⏭ Skipped | — |
+| 9 | Code Signing & Notarization | ✅ Done | `7970466` |
+
+---
+
 ## Table of Contents
 
 1. [Executive Summary](#1-executive-summary)
