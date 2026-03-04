@@ -95,6 +95,7 @@ biteme!
 #include "side2.h"
 #include "ui.h"
 #include "ultimate1mb.h"
+#include "vbxe.h"
 #include "util.h"
 #include "colours.h"
 #include "screen.h"
@@ -708,6 +709,7 @@ int Atari800_Initialise(int *argc, char *argv[])
 	GTIA_Initialise(argc, argv);
 	PIA_Initialise(argc, argv);
 	POKEY_Initialise(argc, argv);
+	VBXE_Initialise();
 
 	/* Configure Atari System */
 	Atari800_InitialiseMachine();
@@ -820,6 +822,7 @@ int Atari800_Exit(int run_monitor)
 #endif
         AF80_Exit();
         BIT3_Exit();
+        VBXE_Exit();
         if (ULTIMATE_enabled)
             ULTIMATE_Exit();
         if (SIDE2_enabled)

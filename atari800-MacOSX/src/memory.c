@@ -41,6 +41,7 @@
 #include "pokey.h"
 #ifdef ULTIMATE_1MB
 #include "ultimate1mb.h"
+#include "vbxe.h"
 #endif
 #include "util.h"
 #ifndef BASIC
@@ -1184,6 +1185,9 @@ UBYTE MEMORY_HwGetByte(UWORD addr, int no_side_effects)
 		byte = PBI_D7GetByte(addr, no_side_effects);
 		break;
 	default:
+		/* VBXE MEMAC windows: CPU access to bank-switched VBXE VRAM */
+		if (VBXE_IsEnabled())
+			byte = VBXE_MEMACGetByte(addr, no_side_effects);
 		break;
 	}
 
@@ -1267,6 +1271,9 @@ void MEMORY_HwPutByte(UWORD addr, UBYTE byte)
 		PBI_D7PutByte(addr, byte);
 		break;
 	default:
+		/* VBXE MEMAC windows: CPU write to bank-switched VBXE VRAM */
+		if (VBXE_IsEnabled())
+			VBXE_MEMACPutByte(addr, byte);
 		break;
 	}
 }
