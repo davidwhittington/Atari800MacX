@@ -18,6 +18,11 @@ struct OnScreenControlsView: View {
     @State private var isFiring: Bool = false
     @State private var showConsoleKeys: Bool = false
 
+    // Console key bit masks (match INPUT_CONSOL_* in input.h)
+    private static let consolStart:  Int32 = 0x01
+    private static let consolSelect: Int32 = 0x02
+    private static let consolOption: Int32 = 0x04
+
     var body: some View {
         HStack(spacing: 40) {
             // D-pad (left side)
@@ -37,7 +42,6 @@ struct OnScreenControlsView: View {
         }
         .padding(.horizontal, 40)
         .overlay(alignment: .topTrailing) {
-            // Toggle console keys visibility
             Button(action: { showConsoleKeys.toggle() }) {
                 Image(systemName: "keyboard")
                     .font(.title3)
@@ -51,28 +55,22 @@ struct OnScreenControlsView: View {
 
     private var dpadView: some View {
         VStack(spacing: 4) {
-            // Up
             dpadButton(direction: .up, systemImage: "chevron.up")
 
             HStack(spacing: 4) {
-                // Left
                 dpadButton(direction: .left, systemImage: "chevron.left")
-                // Center (neutral)
                 Circle()
                     .fill(.ultraThinMaterial)
                     .frame(width: 44, height: 44)
-                // Right
                 dpadButton(direction: .right, systemImage: "chevron.right")
             }
 
-            // Down
             dpadButton(direction: .down, systemImage: "chevron.down")
         }
     }
 
     private func dpadButton(direction: JoystickDirection, systemImage: String) -> some View {
         Button {
-            // Tap toggles direction
             if joystickDirection == direction {
                 joystickDirection = .center
             } else {
@@ -111,30 +109,33 @@ struct OnScreenControlsView: View {
 
     private var consoleKeysView: some View {
         HStack(spacing: 12) {
-            consoleButton(label: "START", action: {
-                Atari800Core_KeyDown(0x23)  // AKEY_START
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    Atari800Core_KeyUp()
-                }
-            })
-            consoleButton(label: "SELECT", action: {
-                Atari800Core_KeyDown(0x63)  // AKEY_SELECT
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    Atari800Core_KeyUp()
-                }
-            })
-            consoleButton(label: "OPTION", action: {
-                Atari800Core_KeyDown(0x22)  // AKEY_OPTION
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    Atari800Core_KeyUp()
-                }
-            })
+            consoleButton(label: "START", key: Self.consolStart)
+            consoleButton(label: "SELECT", key: Self.consolSelect)
+            consoleButton(label: "OPTION", key: Self.consolOption)
             consoleButton(label: "RESET", action: {
                 session.warmReset()
             })
         }
     }
 
+    /// Console key button — uses INPUT_key_consol bit-clearing
+    private func consoleButton(label: String, key: Int32) -> some View {
+        Button {
+            // Press: clear bit, hold briefly, then release: set bit
+            Vision_Input_ConsoleKeyDown(key)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                Vision_Input_ConsoleKeyUp(key)
+            }
+        } label: {
+            Text(label)
+                .font(.caption2.bold())
+                .padding(.horizontal, 8)
+                .padding(.vertical, 6)
+        }
+        .buttonStyle(.bordered)
+    }
+
+    /// Reset button (no console key, just warm reset)
     private func consoleButton(label: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Text(label)

@@ -119,7 +119,7 @@ final class EmulatorRenderer {
         // Recreate texture only if dimensions changed
         if frameTexture == nil || textureWidth != width || textureHeight != height {
             let desc = MTLTextureDescriptor.texture2DDescriptor(
-                pixelFormat: .bgra8Unorm,
+                pixelFormat: .rgba8Unorm,
                 width: width,
                 height: height,
                 mipmapped: false

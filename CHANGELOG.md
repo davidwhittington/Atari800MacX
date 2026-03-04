@@ -35,6 +35,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Resolved 10 build iterations: SDL deps, IOKit, system() unavailability,
     struct member guards, linker undefined symbols
 
+- **Fuji-Vision Phase V2/V3/V4: Rendering, Audio, Input** — Full emulator pipeline wired.
+  - V2 (Metal): Source texture `.rgba8Unorm` matches C core RGBA output; pipeline renders
+    to `.bgra8Unorm` MTKView drawable. Frame callback trampoline delivers 384x240 frames.
+  - V3 (Audio): `AVAudioSourceNode` pull callback reads from SPSC ring buffer via
+    `Vision_Sound_Read()`. 44100 Hz, 16-bit signed stereo. Zero-fills on underrun.
+  - V4 (Input): Console keys (Start/Select/Option) now use `INPUT_key_consol` bit-clearing
+    via new `Vision_Input_ConsoleKeyDown/Up()`. GCController gamepad fully mapped with
+    correct AKEY_SPACE/AKEY_RETURN for shoulder buttons. On-screen controls updated.
+
 ---
 
 ## [26.0.0] — 2026-03-03

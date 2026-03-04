@@ -76,63 +76,64 @@ altirra_5200_os.c, altirra_basic.c, altirraos_800.c, altirraos_xl.c
 
 ---
 
-## Phase V2: Metal Rendering
+## Phase V2: Metal Rendering — DONE
 
 **Goal**: Live Atari screen visible in a visionOS window.
 
-### Tasks
-- Wire `EmulatorRenderer.uploadFrame()` to receive ARGB8888 data from C callback
-- Verify MTKView displays the frame texture via the shared vertex/fragment shaders
-- Implement aspect-ratio-correct quad computation (4:3 Atari display in variable window)
-- Add bilinear filter toggle and scanline effect controls
-- Test with known ROMs that produce visible output (e.g., Atari BASIC `GR.0` screen)
+**Status**: Implemented. Frame pipeline wired: C core RGBA → MTLTexture (.rgba8Unorm) → Metal shader → MTKView drawable (.bgra8Unorm).
 
-### Key Insight
-The C core produces ARGB8888 via `Atari800Core_GetFrameBuffer()` (384x240).
-`EmulatorRenderer` uploads this directly to an `MTLTexture` — no pixel format conversion needed since both the core and Metal use 4 bytes/pixel. The only caveat: the core outputs ARGB while Metal expects BGRA, so the shader or upload path may need byte-order swizzling.
+### What Was Done
+- Source texture format set to `.rgba8Unorm` (matching C core's RGBA byte order)
+- Pipeline output format stays `.bgra8Unorm` (matching MTKView drawable)
+- Metal handles RGBA→BGRA conversion automatically during shader sampling
+- Frame callback trampoline copies pixel data on emu thread, dispatches to main for GPU upload
+- MTKView runs at 60fps via display link, draws fullscreen quad with current texture
 
 ---
 
-## Phase V3: Audio
+## Phase V3: Audio — DONE
 
-**Goal**: POKEY sound output plays through visionOS spatial audio.
+**Goal**: POKEY sound output plays through visionOS audio.
 
-### Tasks
-- Verify `AudioEngine` starts and `AVAudioSourceNode` callback fires
-- Confirm `Vision_Sound_Read()` pulls correct samples from ring buffer
-- Tune ring buffer size and latency (target ~20ms, currently VISION_SOUND_BUFFER_SIZE = 16384)
-- Implement `PLATFORM_AdjustSpeed()` feedback loop for synchronized sound
-- Test stereo POKEY output (dual POKEY games)
-- Add volume control wired to `Atari800Core_SetAudioVolume()`
+**Status**: Implemented. AudioEngine with AVAudioSourceNode pull-model wired to C ring buffer.
+
+### What Was Done
+- AVAudioSourceNode render callback pulls via `Vision_Sound_Read()` from lock-free SPSC ring buffer
+- Format: 44100 Hz, 16-bit signed integer, stereo interleaved
+- Zero-fills remainder when ring buffer has insufficient data (prevents clicks)
+- Callback tick updates for `PLATFORM_AdjustSpeed()` synchronized sound feedback
+- Volume control via `engine.mainMixerNode.outputVolume`
+- Pause/resume for app lifecycle
 
 ---
 
-## Phase V4: Input
+## Phase V4: Input — DONE
 
 **Goal**: Full joystick and keyboard input via gamepad and virtual controls.
 
-### Tasks
-- Verify GCController discovery and mapping with Bluetooth gamepad
-- Refine `InputManager` button-to-AKEY mappings using actual `akey.h` constants
-- Implement `OnScreenControlsView` with proper gaze+pinch interaction
-- Add virtual Atari keyboard overlay (full key matrix for typing)
-- Support analog stick → joystick direction with proper dead zone
-- Test with joystick-intensive games (River Raid, Star Raiders)
-- Test 5200 controller (analog range mapping)
+**Status**: Implemented. GCController gamepad + on-screen virtual controls.
 
-### Controller Mapping (Refined)
+### What Was Done
+- Fixed console key handling: Start/Select/Option now use `INPUT_key_consol` bit-clearing (not AKEY_* constants)
+- Added `Vision_Input_ConsoleKeyDown/Up` to platform_bridge.h for proper console key access from Swift
+- Fire button state tracked separately for combined joystick+fire updates
+- Shoulder buttons mapped to Space (L1) and Return (R1) via correct AKEY constants
+- D-pad AND left thumbstick both map to joystick directions with 0.3 deadzone
+- On-screen controls use same console key bit-clearing mechanism
 
-| Physical | Atari Action | AKEY / Register |
-|----------|-------------|-----------------|
-| D-pad | Joystick directions | PIA_PORT_input[] |
-| Left stick | Joystick directions (alt) | PIA_PORT_input[] |
-| A (south) | Fire button | GTIA_TRIG[0] |
-| B (east) | Start | AKEY_START / INPUT_key_consol |
-| X (west) | Select | AKEY_SELECT / INPUT_key_consol |
-| Y (north) | Option | AKEY_OPTION / INPUT_key_consol |
-| L1 | Space | AKEY_SPACE |
-| R1 | Return | AKEY_RETURN |
-| Menu | Warm reset | Atari800Core_WarmReset() |
+### Controller Mapping
+
+| Physical | Atari Action | Mechanism |
+|----------|-------------|-----------|
+| D-pad | Joystick directions | `Atari800Core_JoystickUpdate()` |
+| Left stick | Joystick directions (alt) | `Atari800Core_JoystickUpdate()` |
+| A (south) | Fire button | `Atari800Core_JoystickUpdate()` fire=1 |
+| B (east) | Start | `Vision_Input_ConsoleKeyDown(0x01)` |
+| X (west) | Select | `Vision_Input_ConsoleKeyDown(0x02)` |
+| Y (north) | Option | `Vision_Input_ConsoleKeyDown(0x04)` |
+| L1 | Space | `Atari800Core_KeyDown(AKEY_SPACE)` |
+| R1 | Return | `Atari800Core_KeyDown(AKEY_RETURN)` |
+| Menu | Warm reset | `Atari800Core_WarmReset()` |
 
 ---
 

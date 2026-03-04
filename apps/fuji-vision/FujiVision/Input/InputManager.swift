@@ -4,13 +4,16 @@
  * maps physical controls to Atari joystick/keyboard events via the
  * Atari800Core C API.
  *
+ * Console keys (Start/Select/Option) use INPUT_key_consol bit-clearing,
+ * not AKEY constants, because that's how the Atari hardware works.
+ *
  * Mapping:
  *   D-pad / left thumbstick → Joystick directions (port 0)
  *   Button A (south)        → Fire button
  *   Button B (east)         → Start key
  *   Button X (west)         → Select key
  *   Button Y (north)        → Option key
- *   Left shoulder           → Space (jump in many games)
+ *   Left shoulder           → Space
  *   Right shoulder          → Return/Enter
  *   Menu button             → Warm reset
  */
@@ -19,15 +22,29 @@ import GameController
 
 final class InputManager {
 
+    // MARK: - Console key bit masks (match INPUT_CONSOL_* in input.h)
+
+    /// INPUT_CONSOL_START = 0x01
+    private static let consolStart:  Int32 = 0x01
+    /// INPUT_CONSOL_SELECT = 0x02
+    private static let consolSelect: Int32 = 0x02
+    /// INPUT_CONSOL_OPTION = 0x04
+    private static let consolOption: Int32 = 0x04
+
     // MARK: - State
 
     private var connectedController: GCController?
     private var notificationObservers: [NSObjectProtocol] = []
 
+    /// Current fire button state (tracked separately since joystick update is combined)
+    private var currentFire: Int32 = 0
+
+    /// Current joystick direction
+    private var currentDirection: Atari800Core_JoyDirection = Atari800Core_JoyCenter
+
     // MARK: - Monitoring
 
     func startMonitoring() {
-        // Watch for controller connect/disconnect
         let connectObserver = NotificationCenter.default.addObserver(
             forName: .GCControllerDidConnect,
             object: nil,
@@ -45,14 +62,14 @@ final class InputManager {
             guard let controller = notification.object as? GCController else { return }
             if self?.connectedController === controller {
                 self?.connectedController = nil
-                // Reset joystick to center when controller disconnects
+                self?.currentDirection = Atari800Core_JoyCenter
+                self?.currentFire = 0
                 Atari800Core_JoystickUpdate(0, Atari800Core_JoyCenter, 0)
             }
         }
 
         notificationObservers = [connectObserver, disconnectObserver]
 
-        // Start discovery
         GCController.startWirelessControllerDiscovery {}
 
         // Check for already-connected controllers
@@ -76,7 +93,6 @@ final class InputManager {
         connectedController = controller
 
         guard let gamepad = controller.extendedGamepad else {
-            // Try basic gamepad profile
             configureBasicGamepad(controller)
             return
         }
@@ -86,42 +102,58 @@ final class InputManager {
             self?.updateJoystickFromAxis(x: xValue, y: yValue)
         }
 
-        // Left thumbstick → joystick directions (alternative to d-pad)
+        // Left thumbstick → joystick directions (alternative)
         gamepad.leftThumbstick.valueChangedHandler = { [weak self] _, xValue, yValue in
             self?.updateJoystickFromAxis(x: xValue, y: yValue)
         }
 
         // Button A → Fire
-        gamepad.buttonA.pressedChangedHandler = { _, _, pressed in
-            Atari800Core_JoystickUpdate(
-                0,
-                Atari800Core_JoyCenter,  // direction unchanged; managed separately
-                pressed ? 1 : 0
-            )
+        gamepad.buttonA.pressedChangedHandler = { [weak self] _, _, pressed in
+            guard let self else { return }
+            self.currentFire = pressed ? 1 : 0
+            Atari800Core_JoystickUpdate(0, self.currentDirection, self.currentFire)
         }
 
-        // Button B → Start
+        // Button B → Start (console key, bit-clear mechanism)
         gamepad.buttonB.pressedChangedHandler = { _, _, pressed in
             if pressed {
-                Atari800Core_KeyDown(0x23)  // AKEY_START (approximate; refined in Phase V4)
+                Vision_Input_ConsoleKeyDown(InputManager.consolStart)
             } else {
-                Atari800Core_KeyUp()
+                Vision_Input_ConsoleKeyUp(InputManager.consolStart)
             }
         }
 
         // Button X → Select
         gamepad.buttonX.pressedChangedHandler = { _, _, pressed in
             if pressed {
-                Atari800Core_KeyDown(0x63)  // AKEY_SELECT (approximate)
+                Vision_Input_ConsoleKeyDown(InputManager.consolSelect)
             } else {
-                Atari800Core_KeyUp()
+                Vision_Input_ConsoleKeyUp(InputManager.consolSelect)
             }
         }
 
         // Button Y → Option
         gamepad.buttonY.pressedChangedHandler = { _, _, pressed in
             if pressed {
-                Atari800Core_KeyDown(0x22)  // AKEY_OPTION (approximate)
+                Vision_Input_ConsoleKeyDown(InputManager.consolOption)
+            } else {
+                Vision_Input_ConsoleKeyUp(InputManager.consolOption)
+            }
+        }
+
+        // Left shoulder → Space
+        gamepad.leftShoulder.pressedChangedHandler = { _, _, pressed in
+            if pressed {
+                Atari800Core_KeyDown(AKEY_SPACE)
+            } else {
+                Atari800Core_KeyUp()
+            }
+        }
+
+        // Right shoulder → Return
+        gamepad.rightShoulder.pressedChangedHandler = { _, _, pressed in
+            if pressed {
+                Atari800Core_KeyDown(AKEY_RETURN)
             } else {
                 Atari800Core_KeyUp()
             }
@@ -142,37 +174,36 @@ final class InputManager {
             self?.updateJoystickFromAxis(x: xValue, y: yValue)
         }
 
-        gamepad.buttonA.pressedChangedHandler = { _, _, pressed in
-            Atari800Core_JoystickUpdate(0, Atari800Core_JoyCenter, pressed ? 1 : 0)
+        gamepad.buttonA.pressedChangedHandler = { [weak self] _, _, pressed in
+            guard let self else { return }
+            self.currentFire = pressed ? 1 : 0
+            Atari800Core_JoystickUpdate(0, self.currentDirection, self.currentFire)
         }
     }
 
     // MARK: - Axis → Joystick Direction Mapping
 
-    /// Current fire state (tracked separately since joystick update is a combined call)
-    private var currentFire: Int32 = 0
-
     private func updateJoystickFromAxis(x: Float, y: Float) {
         let threshold: Float = 0.3
-        let direction: Atari800Core_JoyDirection
 
         let left  = x < -threshold
         let right = x >  threshold
         let up    = y >  threshold
         let down  = y < -threshold
 
-        switch (up, down, left, right) {
-        case (true,  false, false, false): direction = Atari800Core_JoyUp
-        case (false, true,  false, false): direction = Atari800Core_JoyDown
-        case (false, false, true,  false): direction = Atari800Core_JoyLeft
-        case (false, false, false, true):  direction = Atari800Core_JoyRight
-        case (true,  false, true,  false): direction = Atari800Core_JoyUpLeft
-        case (true,  false, false, true):  direction = Atari800Core_JoyUpRight
-        case (false, true,  true,  false): direction = Atari800Core_JoyDownLeft
-        case (false, true,  false, true):  direction = Atari800Core_JoyDownRight
-        default:                           direction = Atari800Core_JoyCenter
+        let direction: Atari800Core_JoyDirection = switch (up, down, left, right) {
+        case (true,  false, false, false): Atari800Core_JoyUp
+        case (false, true,  false, false): Atari800Core_JoyDown
+        case (false, false, true,  false): Atari800Core_JoyLeft
+        case (false, false, false, true):  Atari800Core_JoyRight
+        case (true,  false, true,  false): Atari800Core_JoyUpLeft
+        case (true,  false, false, true):  Atari800Core_JoyUpRight
+        case (false, true,  true,  false): Atari800Core_JoyDownLeft
+        case (false, true,  false, true):  Atari800Core_JoyDownRight
+        default:                           Atari800Core_JoyCenter
         }
 
+        currentDirection = direction
         Atari800Core_JoystickUpdate(0, direction, currentFire)
     }
 }

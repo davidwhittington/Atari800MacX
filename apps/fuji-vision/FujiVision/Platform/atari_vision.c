@@ -428,7 +428,24 @@ int Vision_Emulation_IsPaused(void)
 }
 
 /* =========================================================================
-   SECTION 8: UI stubs (the core calls UI_* functions we must provide)
+   SECTION 8: Console key helpers (called from Swift)
+   ========================================================================= */
+
+void Vision_Input_ConsoleKeyDown(int key)
+{
+    /* Console keys work by CLEARING bits: 0x07 = all released.
+     * key values match INPUT_CONSOL_* masks: 1=Start, 2=Select, 4=Option */
+    INPUT_key_consol &= ~key;
+}
+
+void Vision_Input_ConsoleKeyUp(int key)
+{
+    /* Release by SETTING the bit back */
+    INPUT_key_consol |= key;
+}
+
+/* =========================================================================
+   SECTION 9: UI stubs (the core calls UI_* functions we must provide)
    ========================================================================= */
 
 int UI_SelectCartType(int k)

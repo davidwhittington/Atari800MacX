@@ -62,6 +62,13 @@ int  Vision_Emulation_IsRunning(void);
 void Vision_Emulation_SetPaused(int paused);
 int  Vision_Emulation_IsPaused(void);
 
+/* ── Console key helpers (Swift → C) ───────────────────────────────────── */
+
+/* Press/release console keys (Start, Select, Option) by clearing/setting
+ * bits in INPUT_key_consol. key values: 1=Start, 2=Select, 4=Option. */
+void Vision_Input_ConsoleKeyDown(int key);
+void Vision_Input_ConsoleKeyUp(int key);
+
 /* ── Speed adjustment for synchronized sound ───────────────────────────── */
 
 /* Returns the current audio gap estimate for PLATFORM_AdjustSpeed().
