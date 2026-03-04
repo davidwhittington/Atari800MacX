@@ -61,6 +61,7 @@ struct VideoPreferencesTab: View {
                 .pickerStyle(.inline)
                 .labelsHidden()
 
+                Toggle("Realistic Pixel Aspect Ratio", isOn: $model.pixelAspectEnabled)
                 Toggle("Fix Aspect Ratio in Fullscreen", isOn: $model.fixAspectFullscreen)
                 Toggle("Integer Scaling Only", isOn: $model.onlyIntegralScaling)
             }
