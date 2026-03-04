@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join — Fuji Concepts</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #0a0a12;
+      color: #e0e0e8;
+    }
+
+    .container {
+      text-align: center;
+      padding: 2rem;
+      max-width: 380px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #c8c0f0, #8080e0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    input {
+      padding: 0.6rem 1rem;
+      border: 1px solid rgba(128, 128, 224, 0.2);
+      border-radius: 8px;
+      background: rgba(128, 128, 224, 0.06);
+      color: #e0e0e8;
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input::placeholder { color: #606078; }
+    input:focus { border-color: rgba(128, 128, 224, 0.5); }
+
+    button {
+      padding: 0.65rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #7060c0, #5050a0);
+      color: #e8e4f8;
+      font-size: 0.9rem;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    button:hover { opacity: 0.85; }
+
+    .success {
+      display: none;
+      padding: 0.75rem;
+      border: 1px solid rgba(100, 200, 120, 0.3);
+      border-radius: 8px;
+      background: rgba(100, 200, 120, 0.08);
+      color: #90d8a0;
+      font-size: 0.875rem;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 1.25rem;
+      font-size: 0.8rem;
+      color: #606078;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .back:hover { color: #a0a0c0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Fuji Concepts</h1>
+    <form id="signup-form" action="https://formspree.io/f/xykdrjvd" method="POST">
+      <input type="text" name="name" placeholder="Name" required>
+      <input type="email" name="email" placeholder="Email address" required>
+      <button type="submit">Join</button>
+    </form>
+    <div class="success" id="signup-success">Thanks! We'll keep you posted.</div>
+    <a href="/" class="back">fujiconcepts.com</a>
+  </div>
+
+  <script>
+    document.getElementById('signup-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var form = this;
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).then(function(res) {
+        if (res.ok) {
+          form.style.display = 'none';
+          document.getElementById('signup-success').style.display = 'block';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
