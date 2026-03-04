@@ -25,6 +25,6 @@ git fetch upstream
 
 ## Heritage
 
-fuji-concepts is a fork of [Atari800MacX](http://atarimac.com) by David Whittington,
-itself a macOS port of the Atari800 emulator. Original SDL port by Jacek Poplawski.
-R: driver by Daniel Noguerol.
+Fuji-concepts is a fork maintained by David Whittington, built on [Atari800MacX](http://atarimac.com), the macOS port of the Atari800 emulator created by Perry McFarlane. Atari800 is developed by the Atari800 open-source community. Additional components include the SDL port by Jacek Poplawski and the R: device driver by Daniel Noguerol.
+
+
