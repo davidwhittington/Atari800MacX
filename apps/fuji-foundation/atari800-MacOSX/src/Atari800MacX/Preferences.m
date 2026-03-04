@@ -4891,23 +4891,12 @@ static Preferences *sharedInstance = nil;
 }
 
 - (NSString *) removeUnicode:(NSString *) unicodeString {
-    NSUInteger len = [unicodeString length];
-    unichar buffer[len+1];
-
-    [unicodeString getCharacters:buffer range:NSMakeRange(0, len)];
-
-    unichar okBuffer[len+1];
-    int index = 0;
-    for(int i = 0; i < len; i++) {
-        if(buffer[i] < 128) {
-            okBuffer[index] = buffer[i];
-            index = index + 1;
-        }
-    }
-
-    NSString *removedUnicode = [[NSString alloc] initWithCharacters:okBuffer length:index];
-
-    return removedUnicode;
+    if (unicodeString == nil)
+        return @"";
+    NSData *asciiData = [unicodeString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    if (asciiData == nil)
+        return @"";
+    return [[NSString alloc] initWithData:asciiData encoding:NSASCIIStringEncoding];
 }
 
 - (IBAction)identifyGamepadNew:(id)sender {
@@ -4959,8 +4948,9 @@ static Preferences *sharedInstance = nil;
         [gamepadNumHatsField setStringValue:@"0"];
         }
     else {
-        NSString *name = [NSString stringWithCString:SDL_JoystickName(joystick) encoding:NSUTF8StringEncoding];
-        [gamepadNameField setStringValue:[self  removeUnicode:name]];
+        const char *cName = SDL_JoystickName(joystick);
+        NSString *name = cName ? [NSString stringWithCString:cName encoding:NSUTF8StringEncoding] : @"Unknown Controller";
+        [gamepadNameField setStringValue:[self removeUnicode:name]];
         [gamepadNumButtonsField setIntValue:numButtons];
         [gamepadNumSticksField setIntValue:numSticks];
         [gamepadNumHatsField setIntValue:numHats];
