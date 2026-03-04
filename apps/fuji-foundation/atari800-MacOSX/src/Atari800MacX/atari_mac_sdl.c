@@ -5411,19 +5411,24 @@ int SDL_main(int argc, char **argv)
 		SetControlManagerPBIExpansion(0);
 		
 #ifdef NETSIO
-    /* Initialize NetSIO for FujiNet connectivity if enabled in preferences */
-    /* This happens after machine type and SIO patches are properly set by loadMacPrefs() */
+    /* Initialize NetSIO for FujiNet connectivity if enabled in preferences.
+     * At startup, skip the blocking modal dialog — let the emulator start
+     * immediately.  The netsio connection will be retried when the user
+     * explicitly enables it via the menu. */
     {
         if (fujinet_enabled) {
-            if (fujinet_port <= 0 || fujinet_port > 65535) fujinet_port = 9997; // Default port if invalid
-            
-            Log_print("DEBUG: About to call netsio_init on port %d", fujinet_port);
+            if (fujinet_port <= 0 || fujinet_port > 65535) fujinet_port = 9997;
+
+            Log_print("NetSIO: initialising on port %d", fujinet_port);
             if (netsio_init(fujinet_port) == 0) {
-                Log_print("DEBUG: netsio_init succeeded");
-                if (!netsio_enabled)
-                    ControlManagerWaitingNetsio();
-          } else {
-                Log_print("DEBUG: netsio_init FAILED");
+                Log_print("NetSIO: init succeeded, netsio_enabled=%d", netsio_enabled);
+                /* Do NOT call ControlManagerWaitingNetsio() at startup —
+                 * it blocks the main thread with a modal dialog until the
+                 * FujiNet device responds.  If no device is present, the
+                 * emulator would hang forever.  Connection is still active
+                 * in the background; netsio_enabled will be set when ready. */
+            } else {
+                Log_print("NetSIO: init failed");
             }
         }
     }
@@ -5469,7 +5474,7 @@ int SDL_main(int argc, char **argv)
         pasteState = PASTE_START;
     }
 
-    while (!done) {        
+    while (!done) {
         /* Handle joysticks and paddles */
         SDL_Atari_PORT(&STICK[0], &STICK[1], &STICK[2], &STICK[3]);
         keycode = SDL_Atari_TRIG(&TRIG_input[0], &TRIG_input[1], &TRIG_input[2], &TRIG_input[3],

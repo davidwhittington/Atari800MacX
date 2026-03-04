@@ -792,9 +792,11 @@ static int monitorRunFirstTime = 1;
 
 /*------------------------------------------------------------------------------
  *  waitingNetsio - This method displays the waiting NetSIO dialogue box.
+ *     Auto-cancels after 10 seconds if no connection is established.
  *-----------------------------------------------------------------------------*/
 - (void)waitingNetsio
 {
+    netsioWaitTicks = 0;
     netsioTimer =
         [NSTimer scheduledTimerWithTimeInterval:0.5
                  target:self
@@ -803,13 +805,26 @@ static int monitorRunFirstTime = 1;
                  repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:netsioTimer
                                 forMode:NSModalPanelRunLoopMode];
-    [NSApp runModalForWindow:[waitingTextField window]];
+    /* Ensure the dialog is visible above the SDL/Metal window */
+    NSWindow *waitWin = [waitingTextField window];
+    [waitWin setHidesOnDeactivate:NO];
+    [waitWin setLevel:NSModalPanelWindowLevel];
+    [NSApp runModalForWindow:waitWin];
 }
 
 - (void)waitNetsioTimeout:(NSTimer*)timer
 {
+    netsioWaitTicks++;
     if (netsio_enabled)
     {
+        [netsioTimer invalidate];
+        netsioTimer = nil;
+        [NSApp stopModal];
+        [[waitingTextField window] close];
+    }
+    else if (netsioWaitTicks >= 20) /* 10 seconds at 0.5s intervals */
+    {
+        /* Timed out — close the dialog and let the emulator start without NetSIO */
         [netsioTimer invalidate];
         netsioTimer = nil;
         [NSApp stopModal];

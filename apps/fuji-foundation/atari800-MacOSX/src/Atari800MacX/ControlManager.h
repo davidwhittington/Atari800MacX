@@ -61,6 +61,7 @@
 	int foundMemoryIndex;
 	int memorySearchLength;
     NSTimer *netsioTimer;
+    int netsioWaitTicks;
     IBOutlet id coldResetItem;
     IBOutlet id limitItem;
     IBOutlet id disableBasicItem;

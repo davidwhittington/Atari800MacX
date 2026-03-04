@@ -24,16 +24,18 @@
 /**
  * Upload a new Atari frame and render it immediately (synchronous).
  *
- * @param pixels  BGRA8 pixel data, srcW × srcH packed rows (no padding).
- * @param srcW    Width of the Atari frame in pixels.
- * @param srcH    Height of the Atari frame in pixels.
- * @param quadL   NDC left   edge of the rendered quad (-1 = left of drawable).
- * @param quadB   NDC bottom edge of the rendered quad (-1 = bottom of drawable).
- * @param quadR   NDC right  edge of the rendered quad (+1 = right of drawable).
- * @param quadT   NDC top    edge of the rendered quad (+1 = top of drawable).
+ * @param pixels       BGRA8 pixel data (MetalFrameBuffer), srcW × srcH.
+ * @param srcW         Width of the Atari frame in pixels.
+ * @param srcH         Height of the Atari frame in pixels.
+ * @param srcRowPitch  Bytes per source row (may be > srcW*4 when the buffer
+ *                     includes unrendered border columns).
+ * @param quadL        NDC left   edge of the rendered quad (-1 = left of drawable).
+ * @param quadB        NDC bottom edge of the rendered quad (-1 = bottom of drawable).
+ * @param quadR        NDC right  edge of the rendered quad (+1 = right of drawable).
+ * @param quadT        NDC top    edge of the rendered quad (+1 = top of drawable).
  */
 - (void)presentPixels:(const unsigned int *)pixels
-                srcW:(int)srcW srcH:(int)srcH
+                srcW:(int)srcW srcH:(int)srcH srcRowPitch:(int)srcRowPitch
                quadL:(float)quadL quadB:(float)quadB
                quadR:(float)quadR quadT:(float)quadT;
 
