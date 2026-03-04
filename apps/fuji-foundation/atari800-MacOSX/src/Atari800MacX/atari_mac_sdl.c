@@ -544,18 +544,18 @@ static int scanline_counter;
 extern int prefsArgc;
 extern char *prefsArgv[];
 
-// sound 
+// sound
 #include "mzpokeysnd.h"
-#define FRAGSIZE       10      // 1<<FRAGSIZE is size of sound buffer
+#define FRAGSIZE       11      // 1<<FRAGSIZE is size of sound buffer (2048 samples ≈ 46ms at 44100Hz)
 static int frag_samps = (1 << FRAGSIZE);
 static int dsp_buffer_bytes;
 static Uint8 *dsp_buffer = NULL;
 static int dsprate = 44100;
 #ifdef SYNCHRONIZED_SOUND
 /* latency (in ms) and thus target buffer size */
-static int snddelay = 20;  /* TBD MDG - Should this vary with PAL vs NTSC? */
+static int snddelay = 40;  /* increased from 20ms for modern macOS CoreAudio scheduling */
 /* allowed "spread" between too many and too few samples in the buffer (ms) */
-static int sndspread = 7; /* TBD MDG - Should this vary with PAL vs NTSC? */;
+static int sndspread = 14; /* proportional to snddelay increase */
 /* estimated gap */
 static int gap_est = 0;
 /* cumulative audio difference */
@@ -1163,11 +1163,29 @@ static void SoundCallback(void *userdata, Uint8 *stream, int len)
 	if (gap >= bytes_per_sample) {
 		memcpy(last_bytes, stream + len - bytes_per_sample, bytes_per_sample);
 	}
-	/* Just repeat the last good sample if underflow */
-	if (underflow_amount > 0 ) {
+	/* Fade the last good sample toward silence on underflow to avoid pops */
+	if (underflow_amount > 0) {
 		int i;
-		for (i = 0; i < underflow_amount/bytes_per_sample; i++) {
-			memcpy(stream + len +i*bytes_per_sample, last_bytes, bytes_per_sample);
+		int total_fill = underflow_amount / bytes_per_sample;
+		for (i = 0; i < total_fill; i++) {
+			float fade = 1.0f - (float)(i + 1) / (float)(total_fill > 0 ? total_fill : 1);
+			if (sound_bits == 16) {
+				int ch, nch = POKEYSND_stereo_enabled ? 2 : 1;
+				for (ch = 0; ch < nch; ch++) {
+					int16_t s;
+					memcpy(&s, last_bytes + ch * 2, 2);
+					s = (int16_t)(s * fade);
+					memcpy(stream + len + i * bytes_per_sample + ch * 2, &s, 2);
+				}
+			}
+			else {
+				int ch, nch = POKEYSND_stereo_enabled ? 2 : 1;
+				for (ch = 0; ch < nch; ch++) {
+					uint8_t sample = last_bytes[ch];
+					stream[len + i * bytes_per_sample + ch] =
+						(uint8_t)(128 + (int)(((int)sample - 128) * fade));
+				}
+			}
 		}
 	}
 	dsp_read_pos = newpos;
