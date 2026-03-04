@@ -154,6 +154,19 @@ struct ContentView: View {
             SaveStateView()
                 .environment(session)
         }
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { _ in
+                    guard let compositor = session.renderer?.compositor,
+                          !compositor.peekActive else { return }
+                    compositor.setPeekActive(true)
+                }
+                .onEnded { _ in
+                    guard let compositor = session.renderer?.compositor,
+                          compositor.peekActive else { return }
+                    compositor.setPeekActive(false)
+                }
+        )
         .onAppear {
             session.start()
         }

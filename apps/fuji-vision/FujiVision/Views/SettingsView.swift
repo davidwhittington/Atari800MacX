@@ -27,10 +27,22 @@ struct SettingsView: View {
     @AppStorage("FV_SpeedLimit") private var speedLimit: Bool = true
     @AppStorage("FV_EmulationSpeed") private var emulationSpeed: Double = 1.0
 
+    // Visibility
+    @AppStorage("FV_VisibilityMode") private var visibilityMode: Int = 0
+    @AppStorage("FV_KeyEnabled") private var keyEnabled: Bool = false
+    @AppStorage("FV_KeyThreshold") private var keyThreshold: Double = 0.1
+    @AppStorage("FV_KeySoftEdge") private var keySoftEdge: Double = 0.05
+    @AppStorage("FV_KeyInvert") private var keyInvert: Bool = false
+    @AppStorage("FV_AutoDetect") private var autoDetect: Bool = false
+    @AppStorage("FV_AutoDetectSensitivity") private var autoDetectSensitivity: Double = 0.5
+    @AppStorage("FV_DetectedColorLocked") private var detectedColorLocked: Bool = false
+    @AppStorage("FV_EdgeEnhance") private var edgeEnhance: Bool = false
+
     var body: some View {
         NavigationStack {
             Form {
                 displaySection
+                visibilitySection
                 audioSection
                 speedSection
                 machineSection
@@ -86,6 +98,76 @@ struct SettingsView: View {
                     session.renderer?.scanlineTransparency = Float(newValue)
                 }
             }
+        }
+    }
+
+    // MARK: - Visibility
+
+    private var visibilitySection: some View {
+        Section("Visibility") {
+            Picker("Mode", selection: $visibilityMode) {
+                Text("Solid").tag(0)
+                Text("Dim").tag(1)
+                Text("Ghost").tag(2)
+            }
+            .onChange(of: visibilityMode) { _, newValue in
+                if let mode = VisibilityMode(rawValue: newValue) {
+                    session.renderer?.compositor.mode = mode
+                }
+            }
+
+            Toggle("Chroma Key", isOn: $keyEnabled)
+                .onChange(of: keyEnabled) { _, newValue in
+                    session.renderer?.compositor.keyEnabled = newValue
+                }
+
+            if keyEnabled {
+                HStack {
+                    Text("Threshold")
+                    Slider(value: $keyThreshold, in: 0.0...0.5)
+                }
+                .onChange(of: keyThreshold) { _, newValue in
+                    session.renderer?.compositor.keyThreshold = Float(newValue)
+                }
+
+                HStack {
+                    Text("Soft Edge")
+                    Slider(value: $keySoftEdge, in: 0.0...0.3)
+                }
+                .onChange(of: keySoftEdge) { _, newValue in
+                    session.renderer?.compositor.keySoftEdge = Float(newValue)
+                }
+
+                Toggle("Invert Key", isOn: $keyInvert)
+                    .onChange(of: keyInvert) { _, newValue in
+                        session.renderer?.compositor.keyInvert = newValue
+                    }
+            }
+
+            Toggle("Auto-Detect Background", isOn: $autoDetect)
+                .onChange(of: autoDetect) { _, newValue in
+                    session.renderer?.compositor.autoDetectEnabled = newValue
+                }
+
+            if autoDetect {
+                HStack {
+                    Text("Sensitivity")
+                    Slider(value: $autoDetectSensitivity, in: 0.0...1.0)
+                }
+                .onChange(of: autoDetectSensitivity) { _, newValue in
+                    session.renderer?.compositor.autoDetectSensitivity = Float(newValue)
+                }
+
+                Toggle("Lock Detected Color", isOn: $detectedColorLocked)
+                    .onChange(of: detectedColorLocked) { _, newValue in
+                        session.renderer?.compositor.detectedColorLocked = newValue
+                    }
+            }
+
+            Toggle("Edge Enhance", isOn: $edgeEnhance)
+                .onChange(of: edgeEnhance) { _, newValue in
+                    session.renderer?.compositor.edgeEnhanceEnabled = newValue
+                }
         }
     }
 

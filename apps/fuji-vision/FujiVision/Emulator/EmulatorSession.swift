@@ -97,6 +97,9 @@ final class EmulatorSession {
         EmulatorSession.shared = self
         Vision_Platform_SetFrameCallback(EmulatorSession.frameCallbackTrampoline)
 
+        // Apply stored visibility settings before emulation starts
+        applyStoredVisibilitySettings()
+
         Vision_Emulation_Start()
         isRunning = true
 
@@ -233,6 +236,36 @@ final class EmulatorSession {
         try? FileManager.default.removeItem(at: destURL)
         try? FileManager.default.copyItem(at: url, to: destURL)
         return destURL
+    }
+
+    // MARK: - Visibility Settings Restore
+
+    private func applyStoredVisibilitySettings() {
+        guard let compositor = renderer?.compositor else { return }
+        let defaults = UserDefaults.standard
+
+        if let mode = VisibilityMode(rawValue: defaults.integer(forKey: "FV_VisibilityMode")) {
+            compositor.mode = mode
+        }
+        compositor.keyEnabled = defaults.bool(forKey: "FV_KeyEnabled")
+        compositor.keyThreshold = Float(defaults.double(forKey: "FV_KeyThreshold"))
+        compositor.keySoftEdge = Float(defaults.double(forKey: "FV_KeySoftEdge"))
+        compositor.keyInvert = defaults.bool(forKey: "FV_KeyInvert")
+        compositor.autoDetectEnabled = defaults.bool(forKey: "FV_AutoDetect")
+        compositor.autoDetectSensitivity = Float(defaults.double(forKey: "FV_AutoDetectSensitivity"))
+        compositor.detectedColorLocked = defaults.bool(forKey: "FV_DetectedColorLocked")
+        compositor.edgeEnhanceEnabled = defaults.bool(forKey: "FV_EdgeEnhance")
+
+        // Apply defaults for unset keys (UserDefaults returns 0.0 for unregistered doubles)
+        if compositor.keyThreshold == 0 && !defaults.bool(forKey: "FV_KeyEnabled") {
+            compositor.keyThreshold = 0.1
+        }
+        if compositor.keySoftEdge == 0 && !defaults.bool(forKey: "FV_KeyEnabled") {
+            compositor.keySoftEdge = 0.05
+        }
+        if compositor.autoDetectSensitivity == 0 && !defaults.bool(forKey: "FV_AutoDetect") {
+            compositor.autoDetectSensitivity = 0.5
+        }
     }
 
     // MARK: - Persistence

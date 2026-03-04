@@ -4,7 +4,8 @@
  *
  * emulatorVertex : fullscreen quad driven by a packed NDC rect uniform
  * emulatorFragment: switchable nearest/linear texture sample +
- *                   optional CRT scanline darkening with configurable transparency
+ *                   optional CRT scanline darkening, visibility alpha,
+ *                   chroma key transparency, and edge enhancement
  */
 
 #include <metal_stdlib>
@@ -18,6 +19,13 @@ struct VertexOut {
 struct FragParams {
     int   scanlines;            /* non-zero -> apply scanline effect */
     float scanlineTransparency; /* 0.0 = fully dark, 1.0 = fully bright */
+    float globalAlpha;          /* 0.0–1.0, mode-driven, lerped */
+    int   keyEnabled;           /* non-zero -> apply chroma key */
+    float keyR, keyG, keyB;     /* key color (normalized 0–1) */
+    float keyThreshold;         /* color distance tolerance */
+    float keySoftEdge;          /* feathering width */
+    int   keyInvert;            /* invert transparency */
+    float edgeEnhance;          /* edge brightness boost (0 = off) */
 };
 
 /*
@@ -49,9 +57,9 @@ vertex VertexOut emulatorVertex(uint vid [[vertex_id]],
 }
 
 /*
- * tex    : BGRA8Unorm texture containing the current Atari frame
+ * tex    : RGBA8Unorm texture containing the current Atari frame
  * smp    : sampler passed from CPU (nearest or linear depending on user pref)
- * params : FragParams -- scanlines flag + scanline transparency
+ * params : FragParams -- scanlines, visibility, chroma key, edge enhance
  */
 fragment float4 emulatorFragment(VertexOut             in     [[stage_in]],
                                  texture2d<float>      tex    [[texture(0)]],
@@ -59,8 +67,32 @@ fragment float4 emulatorFragment(VertexOut             in     [[stage_in]],
                                  constant FragParams  &params [[buffer(0)]]) {
     float4 color = tex.sample(smp, in.uv);
 
+    // CRT scanline darkening
     if (params.scanlines && fmod(floor(in.position.y), 2.0f) < 1.0f)
         color.rgb *= params.scanlineTransparency;
 
+    // Compute output alpha from visibility mode
+    float alpha = params.globalAlpha;
+
+    // Chroma key transparency
+    if (params.keyEnabled) {
+        float3 keyColor = float3(params.keyR, params.keyG, params.keyB);
+        float dist = distance(color.rgb, keyColor);
+        float keyAlpha = smoothstep(params.keyThreshold,
+                                     params.keyThreshold + params.keySoftEdge,
+                                     dist);
+        if (params.keyInvert) keyAlpha = 1.0 - keyAlpha;
+        alpha *= keyAlpha;
+
+        // Edge enhancement at key boundary
+        if (params.edgeEnhance > 0.0) {
+            float edgeFactor = 1.0 - abs(dist - params.keyThreshold)
+                               / max(params.keySoftEdge, 0.001);
+            edgeFactor = saturate(edgeFactor) * params.edgeEnhance;
+            color.rgb += edgeFactor * 0.3;
+        }
+    }
+
+    color.a = alpha;
     return color;
 }

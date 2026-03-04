@@ -37,16 +37,29 @@ final class EmulatorRenderer {
     /// Scanline transparency (0.0 = fully dark, 1.0 = fully bright)
     var scanlineTransparency: Float = 0.9
 
+    /// Visibility compositor (mode-driven alpha, chroma key, background detection)
+    let compositor = VisibilityCompositor()
+
     // MARK: - Frame Texture State
 
     private var textureWidth: Int = 0
     private var textureHeight: Int = 0
+    private var lastDrawTime: CFAbsoluteTime = 0
 
-    // MARK: - FragParams (matches Shaders.metal)
+    // MARK: - FragParams (matches Shaders.metal — must be identical layout)
 
     struct FragParams {
         var scanlines: Int32
         var scanlineTransparency: Float
+        var globalAlpha: Float
+        var keyEnabled: Int32
+        var keyR: Float
+        var keyG: Float
+        var keyB: Float
+        var keyThreshold: Float
+        var keySoftEdge: Float
+        var keyInvert: Int32
+        var edgeEnhance: Float
     }
 
     // MARK: - Initialization
@@ -76,11 +89,16 @@ final class EmulatorRenderer {
             return nil
         }
 
-        // Create render pipeline
+        // Create render pipeline with alpha blending for visibility compositor
         let pipelineDesc = MTLRenderPipelineDescriptor()
         pipelineDesc.vertexFunction = vertexFunc
         pipelineDesc.fragmentFunction = fragmentFunc
         pipelineDesc.colorAttachments[0].pixelFormat = .bgra8Unorm
+        pipelineDesc.colorAttachments[0].isBlendingEnabled = true
+        pipelineDesc.colorAttachments[0].sourceRGBBlendFactor = .sourceAlpha
+        pipelineDesc.colorAttachments[0].destinationRGBBlendFactor = .oneMinusSourceAlpha
+        pipelineDesc.colorAttachments[0].sourceAlphaBlendFactor = .one
+        pipelineDesc.colorAttachments[0].destinationAlphaBlendFactor = .oneMinusSourceAlpha
 
         do {
             self.pipelineState = try device.makeRenderPipelineState(descriptor: pipelineDesc)
@@ -148,6 +166,9 @@ final class EmulatorRenderer {
             withBytes: pixels,
             bytesPerRow: bytesPerRow
         )
+
+        // Background detection — pixel pointer is still valid here
+        compositor.analyzeFrame(pixels: pixels, width: width, height: height)
     }
 
     // MARK: - Rendering
@@ -160,6 +181,12 @@ final class EmulatorRenderer {
               let renderPassDesc = view.currentRenderPassDescriptor,
               let encoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDesc)
         else { return }
+
+        // Advance compositor animation
+        let now = CFAbsoluteTimeGetCurrent()
+        let deltaTime = lastDrawTime > 0 ? Float(now - lastDrawTime) : 0
+        lastDrawTime = now
+        compositor.update(deltaTime: deltaTime)
 
         encoder.setRenderPipelineState(pipelineState)
 
@@ -174,9 +201,9 @@ final class EmulatorRenderer {
         let sampler = linearFilterEnabled ? samplerLinear : samplerNearest
         encoder.setFragmentSamplerState(sampler, index: 0)
 
-        // Fragment buffer 0: scanline params
-        var params = FragParams(
-            scanlines: scanlinesEnabled ? 1 : 0,
+        // Fragment buffer 0: params from compositor (includes scanline + visibility + key)
+        var params = compositor.currentFragParams(
+            scanlines: scanlinesEnabled,
             scanlineTransparency: scanlineTransparency
         )
         encoder.setFragmentBytes(&params, length: MemoryLayout<FragParams>.size, index: 0)

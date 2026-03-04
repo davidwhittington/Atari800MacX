@@ -28,8 +28,12 @@ struct EmulatorView: UIViewRepresentable {
         mtkView.device = renderer.device
         mtkView.delegate = context.coordinator
         mtkView.colorPixelFormat = .bgra8Unorm
-        mtkView.clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 1)
-        mtkView.framebufferOnly = true
+
+        // Transparent background for visionOS pass-through visibility modes
+        mtkView.isOpaque = false
+        mtkView.clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 0)
+        mtkView.framebufferOnly = false
+        mtkView.layer.isOpaque = false
 
         // Emulator drives rendering, not the display link
         mtkView.isPaused = false

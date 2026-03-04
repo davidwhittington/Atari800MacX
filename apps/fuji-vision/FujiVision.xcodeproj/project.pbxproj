@@ -15,6 +15,7 @@
 		1112FA64EEE0BBD070AAED28 /* rtcds1305.c in Sources */ = {isa = PBXBuildFile; fileRef = B33203AC5AE7AC29198D2B44 /* rtcds1305.c */; };
 		13DFE05DB2174C0BD9398A8C /* OnScreenControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C26C9B05E1C477BA60F83E /* OnScreenControlsView.swift */; };
 		16F83BD7DD47024E8DF8F46E /* xep80.c in Sources */ = {isa = PBXBuildFile; fileRef = 325876494330495907224596 /* xep80.c */; };
+		1A52B9344A94BBC57AA0B42B /* VisibilityCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C86CB645A08C1255F23456 /* VisibilityCompositor.swift */; };
 		1CF17914A117EA186420D29C /* capslock_vision.c in Sources */ = {isa = PBXBuildFile; fileRef = 99058B6FF6EBA618B6F8277E /* capslock_vision.c */; };
 		1E79B8663B12C567847EA7E7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F95D00D1C4A26199FCC1035 /* ContentView.swift */; };
 		1F1802231470B78466405280 /* antic.c in Sources */ = {isa = PBXBuildFile; fileRef = 38ECDB584B08442DE7651E5F /* antic.c */; };
@@ -176,6 +177,7 @@
 		E0C371878C7D5DE199F98B99 /* log.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = log.c; path = "../fuji-foundation/atari800-MacOSX/src/log.c"; sourceTree = "<group>"; };
 		E10CC173AE9016EB23AEEC1D /* gtia.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = gtia.c; path = "../fuji-foundation/atari800-MacOSX/src/gtia.c"; sourceTree = "<group>"; };
 		E3D334B1F90848660E5FF9D5 /* pbi_bb.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = pbi_bb.c; path = "../fuji-foundation/atari800-MacOSX/src/pbi_bb.c"; sourceTree = "<group>"; };
+		E6C86CB645A08C1255F23456 /* VisibilityCompositor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisibilityCompositor.swift; sourceTree = "<group>"; };
 		E778FB5B72BA60062960A8F3 /* altirra_basic.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = altirra_basic.c; path = "../fuji-foundation/atari800-MacOSX/src/roms/altirra_basic.c"; sourceTree = "<group>"; };
 		E81FBF4480E3380272817802 /* mac_colours.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = mac_colours.c; path = "../fuji-foundation/atari800-MacOSX/src/Atari800MacX/mac_colours.c"; sourceTree = "<group>"; };
 		E892921E8211436E9EC604E2 /* atari.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = atari.c; path = "../fuji-foundation/atari800-MacOSX/src/atari.c"; sourceTree = "<group>"; };
@@ -317,6 +319,7 @@
 				C3C2378BE7489EB260511BAF /* AudioEngine.swift */,
 				0EC4FB68FE2A6EC7B705F57B /* EmulatorRenderer.swift */,
 				C36BADF9A9ECE6E07553DD54 /* EmulatorSession.swift */,
+				E6C86CB645A08C1255F23456 /* VisibilityCompositor.swift */,
 			);
 			path = Emulator;
 			sourceTree = "<group>";
@@ -474,6 +477,7 @@
 				B9CCE7D12F3197255E5A3763 /* SaveStateView.swift in Sources */,
 				00CA155E7963F9BE00554372 /* SettingsView.swift in Sources */,
 				BDF5DB0A4F9135A9747F6064 /* Shaders.metal in Sources */,
+				1A52B9344A94BBC57AA0B42B /* VisibilityCompositor.swift in Sources */,
 				012B39E6B9979BBA8AA8E4AB /* af80.c in Sources */,
 				9670E9DF6068C9A91D3EAA7B /* afile.c in Sources */,
 				29C9203CD2395E54E03AE7EE /* altirra_5200_os.c in Sources */,
