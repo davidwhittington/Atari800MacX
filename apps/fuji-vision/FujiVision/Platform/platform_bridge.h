@@ -58,6 +58,10 @@ void Vision_Emulation_Start(void);
 void Vision_Emulation_Stop(void);
 int  Vision_Emulation_IsRunning(void);
 
+/* Pause/unpause the emulation loop (1 = paused, 0 = running). */
+void Vision_Emulation_SetPaused(int paused);
+int  Vision_Emulation_IsPaused(void);
+
 /* ── Speed adjustment for synchronized sound ───────────────────────────── */
 
 /* Returns the current audio gap estimate for PLATFORM_AdjustSpeed().

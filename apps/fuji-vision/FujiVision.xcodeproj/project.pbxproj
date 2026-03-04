@@ -1,0 +1,757 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00908302E6FDB54E302C5BFA /* atari_vision.c in Sources */ = {isa = PBXBuildFile; fileRef = CB28BB9CA32658B23C5BF488 /* atari_vision.c */; };
+		012B39E6B9979BBA8AA8E4AB /* af80.c in Sources */ = {isa = PBXBuildFile; fileRef = AD14F18968D946F2FC4BF7F7 /* af80.c */; };
+		0355B4C0A9DB4531A2C2E1CB /* sic.c in Sources */ = {isa = PBXBuildFile; fileRef = 44F711E611A931EDBE31C141 /* sic.c */; };
+		0AEBEC9E982C3436CBC78CE8 /* pclink.c in Sources */ = {isa = PBXBuildFile; fileRef = 6024D85A6B33AC370B03DCB3 /* pclink.c */; };
+		1112FA64EEE0BBD070AAED28 /* rtcds1305.c in Sources */ = {isa = PBXBuildFile; fileRef = B33203AC5AE7AC29198D2B44 /* rtcds1305.c */; };
+		13DFE05DB2174C0BD9398A8C /* OnScreenControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C26C9B05E1C477BA60F83E /* OnScreenControlsView.swift */; };
+		16F83BD7DD47024E8DF8F46E /* xep80.c in Sources */ = {isa = PBXBuildFile; fileRef = 325876494330495907224596 /* xep80.c */; };
+		1CF17914A117EA186420D29C /* capslock_vision.c in Sources */ = {isa = PBXBuildFile; fileRef = 99058B6FF6EBA618B6F8277E /* capslock_vision.c */; };
+		1E79B8663B12C567847EA7E7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F95D00D1C4A26199FCC1035 /* ContentView.swift */; };
+		1F1802231470B78466405280 /* antic.c in Sources */ = {isa = PBXBuildFile; fileRef = 38ECDB584B08442DE7651E5F /* antic.c */; };
+		1F562D3BA3981204252AF57F /* EmulatorRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC4FB68FE2A6EC7B705F57B /* EmulatorRenderer.swift */; };
+		29C9203CD2395E54E03AE7EE /* altirra_5200_os.c in Sources */ = {isa = PBXBuildFile; fileRef = 9E2F16CD3E2DC379795A9FD9 /* altirra_5200_os.c */; };
+		2B3F530E28C194D39FE0FEF9 /* xep80_fonts.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A0A7D3BCA6E18297EB5461 /* xep80_fonts.c */; };
+		2C11183CF8D29D80C71FD1A3 /* gtia.c in Sources */ = {isa = PBXBuildFile; fileRef = E10CC173AE9016EB23AEEC1D /* gtia.c */; };
+		3056E654F4C3F3AA5300CBB3 /* img_disk.c in Sources */ = {isa = PBXBuildFile; fileRef = 9B2CFCE9A26BEFCBFD738C91 /* img_disk.c */; };
+		33EBF4EF2BB11D634A6A704E /* pbi_mio.c in Sources */ = {isa = PBXBuildFile; fileRef = 4378F7BBDCC18C1DABC391DD /* pbi_mio.c */; };
+		395DEBEB6CAA96DCFC13BAA7 /* altirra_basic.c in Sources */ = {isa = PBXBuildFile; fileRef = E778FB5B72BA60062960A8F3 /* altirra_basic.c */; };
+		3BCD0D1E5C42583F2E813A5B /* atari.c in Sources */ = {isa = PBXBuildFile; fileRef = E892921E8211436E9EC604E2 /* atari.c */; };
+		3E162D75A6977682CED6D761 /* cartridge.c in Sources */ = {isa = PBXBuildFile; fileRef = A90484C0FF1E2E22C2A23ACD /* cartridge.c */; };
+		409A13D7EC0AB5F3C9354264 /* mac_colours.c in Sources */ = {isa = PBXBuildFile; fileRef = E81FBF4480E3380272817802 /* mac_colours.c */; };
+		509087E06AF41AEBB50D919A /* cpu.c in Sources */ = {isa = PBXBuildFile; fileRef = DAED2C0296FA3A320FBF770A /* cpu.c */; };
+		509A29467E05A6AB2F9CF4C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC65F3698871508AFDCF927A /* Assets.xcassets */; };
+		573EDB244107C0F2BAD521DF /* ui_basic.c in Sources */ = {isa = PBXBuildFile; fileRef = 824A5F06A5DC877C2D4E4D46 /* ui_basic.c */; };
+		586B007E67CD3F87D296AFAE /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = BE871AF897E0C9D641FE3970 /* crc32.c */; };
+		5DDBFB171039CA973FC13606 /* mac_monitor.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC91216E6E1F75F2C05D18 /* mac_monitor.c */; };
+		5E3DBAC34648DDAC00C6A36C /* preferences_vision.c in Sources */ = {isa = PBXBuildFile; fileRef = 06604FC5037CEAA1E645B72D /* preferences_vision.c */; };
+		5F95219A66D313BA8564DDEB /* pbi_bb.c in Sources */ = {isa = PBXBuildFile; fileRef = E3D334B1F90848660E5FF9D5 /* pbi_bb.c */; };
+		60F595331C31B01E65FE24FA /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2D7E9516E2D3485EE61A8A /* util.c */; };
+		613669210360EBDBA5ECBE88 /* thecart.c in Sources */ = {isa = PBXBuildFile; fileRef = 0A8DC074CA9E9F175027FF56 /* thecart.c */; };
+		66A17339245941A2E6E645BD /* mzpokeysnd.c in Sources */ = {isa = PBXBuildFile; fileRef = 46E44FAD58A3D00870504F7B /* mzpokeysnd.c */; };
+		66A9BEA79F998C3EAE632300 /* mac_diskled.c in Sources */ = {isa = PBXBuildFile; fileRef = F7E880282CB97A1F22B524B8 /* mac_diskled.c */; };
+		78BC99D78A39A75AB5909634 /* side2.c in Sources */ = {isa = PBXBuildFile; fileRef = 4290EE860CEFFFE0FEFCBAC8 /* side2.c */; };
+		7BD4B7389CA2644E02FD2658 /* cartridge_info.c in Sources */ = {isa = PBXBuildFile; fileRef = F6E31AECA6ACB467F337BE2A /* cartridge_info.c */; };
+		7CADA0AF2C43DB8FBDE4D457 /* eeprom.c in Sources */ = {isa = PBXBuildFile; fileRef = 048EC13D5918481F1150AFBB /* eeprom.c */; };
+		7D7D486C5E9820F6348F23AB /* pokeysnd.c in Sources */ = {isa = PBXBuildFile; fileRef = 8572666FA2D5E702402011F8 /* pokeysnd.c */; };
+		85CCE1A36E71801E67B15328 /* sysrom.c in Sources */ = {isa = PBXBuildFile; fileRef = C88156A4A65E1BD80E2275F5 /* sysrom.c */; };
+		8AB59C0D0F673EFFF2FC6FAB /* altirraos_xl.c in Sources */ = {isa = PBXBuildFile; fileRef = E8BE99CD089B1F1F0FAF3278 /* altirraos_xl.c */; };
+		8AC8D8B2F47F38D1F42042BA /* votrax.c in Sources */ = {isa = PBXBuildFile; fileRef = CEE9BC6F477CF82EC136078D /* votrax.c */; };
+		8E7C546168BD6BFC5651A6A5 /* rtime.c in Sources */ = {isa = PBXBuildFile; fileRef = 9788FA5950BFD0912705927B /* rtime.c */; };
+		8E841354BE818B546E858AA6 /* pokey_resample.c in Sources */ = {isa = PBXBuildFile; fileRef = 7847173CD252C57E0531BD2D /* pokey_resample.c */; };
+		8F9D1BB62644ACE5F86AB967 /* memory.c in Sources */ = {isa = PBXBuildFile; fileRef = 8454306B602CF08915C10BEA /* memory.c */; };
+		912ACEFB27A747A7FC3CD778 /* sndsave.c in Sources */ = {isa = PBXBuildFile; fileRef = CD3126A7BA32593E60A3445D /* sndsave.c */; };
+		936181F26BD63BDA1ED14BBC /* list.c in Sources */ = {isa = PBXBuildFile; fileRef = D97DA4F38293A125FFA83528 /* list.c */; };
+		9670E9DF6068C9A91D3EAA7B /* afile.c in Sources */ = {isa = PBXBuildFile; fileRef = 7400F3131CA3A410ECFE31ED /* afile.c */; };
+		97D904715DC2A0E741B62F6E /* img_tape.c in Sources */ = {isa = PBXBuildFile; fileRef = 30DE8756D108C5949BCE53C7 /* img_tape.c */; };
+		9A5F28D43815A25EA356B810 /* emuio.c in Sources */ = {isa = PBXBuildFile; fileRef = 1065939B6C3DC2B466D2BDB0 /* emuio.c */; };
+		A2660476CF668BB50EC596EB /* prompts.c in Sources */ = {isa = PBXBuildFile; fileRef = C3B3F549028587F3B230B0AD /* prompts.c */; };
+		A4B8BEF82DEB8534B1BF75D2 /* megacart.c in Sources */ = {isa = PBXBuildFile; fileRef = B2A4746539B8B19226B02525 /* megacart.c */; };
+		A70622FC45B344925076A9C2 /* pbi_scsi.c in Sources */ = {isa = PBXBuildFile; fileRef = 90BF038D6E1E72205DA598BB /* pbi_scsi.c */; };
+		A821B816D9B1E95E1591391E /* altirraos_800.c in Sources */ = {isa = PBXBuildFile; fileRef = 4CAC91DEAFB978320E534F1B /* altirraos_800.c */; };
+		A846014F54F361706FDA801D /* vec.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A1D675ACC20405F3AB570BD /* vec.c */; };
+		AB4C7605E12EB89ABE0FE919 /* binload.c in Sources */ = {isa = PBXBuildFile; fileRef = 3E44CC4FA4A3CE14577363B7 /* binload.c */; };
+		AEE6BCC1B27C89B4F922DB32 /* netsio.c in Sources */ = {isa = PBXBuildFile; fileRef = B2AD09A43424E3AEFAC240A9 /* netsio.c */; };
+		B1CDF6EB44C7EAFF807121E8 /* img_vhd.c in Sources */ = {isa = PBXBuildFile; fileRef = 7BDE4C9F5ABF6EE8082BB073 /* img_vhd.c */; };
+		B7F4A1E9A41EF940E6151E5C /* flash.c in Sources */ = {isa = PBXBuildFile; fileRef = 841493AC250FE060EB310A88 /* flash.c */; };
+		BACFFB17C745FA2735BD4686 /* bit3.c in Sources */ = {isa = PBXBuildFile; fileRef = 068013B96CE57ED90E41E7DC /* bit3.c */; };
+		BDF5DB0A4F9135A9747F6064 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 4DC3FD27DC1C66D6A2036CE7 /* Shaders.metal */; };
+		BF99201E83CD4459C8AC5946 /* ultimate1mb.c in Sources */ = {isa = PBXBuildFile; fileRef = 9EE8A592EF7048DD5C5F468D /* ultimate1mb.c */; };
+		C194C87E8CA1669685635C4E /* esc.c in Sources */ = {isa = PBXBuildFile; fileRef = 12D5A9283334CE43EB77BEF4 /* esc.c */; };
+		C364114C92CEDBBE52D39DE9 /* pbi.c in Sources */ = {isa = PBXBuildFile; fileRef = D3836A30C867D50F12B46648 /* pbi.c */; };
+		C3D43A1066805885A9B64860 /* log.c in Sources */ = {isa = PBXBuildFile; fileRef = E0C371878C7D5DE199F98B99 /* log.c */; };
+		C57222AADCAA4E9F0FC6EE2B /* Atari800Core.c in Sources */ = {isa = PBXBuildFile; fileRef = 3C5EB5C1AB88CF304907D255 /* Atari800Core.c */; };
+		C75DC95A6A2EC66294FB7C7A /* compfile.c in Sources */ = {isa = PBXBuildFile; fileRef = 60D1DE4EAEA62037AC3C4AE0 /* compfile.c */; };
+		C7AF06F2CB68D72301D45D4E /* cycle_map.c in Sources */ = {isa = PBXBuildFile; fileRef = AF26F5BFAABE96A822C83176 /* cycle_map.c */; };
+		C93FD1BF7D901FC30FEBCEBE /* remez.c in Sources */ = {isa = PBXBuildFile; fileRef = 12283D2787A8CC3EED63A18B /* remez.c */; };
+		CDA84948A4D4EE9A978FE32B /* EmulatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188096DCA38CA8814DCC71BC /* EmulatorView.swift */; };
+		D3C12C296A01487372E0777B /* pokey.c in Sources */ = {isa = PBXBuildFile; fileRef = 499D27EAD152C79CCCF50EB4 /* pokey.c */; };
+		D3C2A390834CF1072E6B3DD1 /* cfg.c in Sources */ = {isa = PBXBuildFile; fileRef = BF04AE15D5ED7FC1F4D47F09 /* cfg.c */; };
+		D42C4FE5E24FDFA5926DD775 /* AudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C2378BE7489EB260511BAF /* AudioEngine.swift */; };
+		D46EF7B05FA59A1573973AF0 /* statesav.c in Sources */ = {isa = PBXBuildFile; fileRef = 0AAD347B3A0E7978411A90D4 /* statesav.c */; };
+		D494886A2FF967460CD38EEA /* img_raw.c in Sources */ = {isa = PBXBuildFile; fileRef = FDF663B674E16D05012F50AF /* img_raw.c */; };
+		DCD1CB2FC7AE698E15A6329D /* vision_stubs.c in Sources */ = {isa = PBXBuildFile; fileRef = 568A11A6717708EB24A6B65A /* vision_stubs.c */; };
+		DF0958517F6B41F21D42D387 /* ide.c in Sources */ = {isa = PBXBuildFile; fileRef = C38A23AFBD270FC26864D124 /* ide.c */; };
+		E3D12AB16281D614DAA1B3A9 /* devices.c in Sources */ = {isa = PBXBuildFile; fileRef = 3E37D595B3B37833186D81B4 /* devices.c */; };
+		E660F5BF1B80625BD8277CDF /* sio.c in Sources */ = {isa = PBXBuildFile; fileRef = FCA6151769C208EAFE12C72E /* sio.c */; };
+		E6ECB8C0F68D210E6C6FD4D1 /* cassette.c in Sources */ = {isa = PBXBuildFile; fileRef = B67414797FEC0296486AE7B9 /* cassette.c */; };
+		EE10B8F42206F211E980F301 /* FujiVisionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFE3DB72264A48884768630 /* FujiVisionApp.swift */; };
+		EFAD0781CB5AD2B16B7367A1 /* maxflash.c in Sources */ = {isa = PBXBuildFile; fileRef = 9EA575B364CEB2BD466AC153 /* maxflash.c */; };
+		F175674D77440AB763700BD2 /* EmulatorSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36BADF9A9ECE6E07553DD54 /* EmulatorSession.swift */; };
+		F21C38D639BF0244A72AD87E /* pia.c in Sources */ = {isa = PBXBuildFile; fileRef = 05F4556C37BC8A3134460FA7 /* pia.c */; };
+		F51571FD352E6CA4F87306D1 /* mac_screen.c in Sources */ = {isa = PBXBuildFile; fileRef = 5ACB590852B08E7F12807727 /* mac_screen.c */; };
+		FD74B35771305ACEC84975C3 /* InputManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB99A58DEA2D041B2F28C5EB /* InputManager.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		048EC13D5918481F1150AFBB /* eeprom.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = eeprom.c; path = "../fuji-foundation/atari800-MacOSX/src/eeprom.c"; sourceTree = "<group>"; };
+		05F4556C37BC8A3134460FA7 /* pia.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = pia.c; path = "../fuji-foundation/atari800-MacOSX/src/pia.c"; sourceTree = "<group>"; };
+		06604FC5037CEAA1E645B72D /* preferences_vision.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = preferences_vision.c; sourceTree = "<group>"; };
+		068013B96CE57ED90E41E7DC /* bit3.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = bit3.c; path = "../fuji-foundation/atari800-MacOSX/src/bit3.c"; sourceTree = "<group>"; };
+		0A8DC074CA9E9F175027FF56 /* thecart.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = thecart.c; path = "../fuji-foundation/atari800-MacOSX/src/thecart.c"; sourceTree = "<group>"; };
+		0AAD347B3A0E7978411A90D4 /* statesav.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = statesav.c; path = "../fuji-foundation/atari800-MacOSX/src/statesav.c"; sourceTree = "<group>"; };
+		0EC4FB68FE2A6EC7B705F57B /* EmulatorRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmulatorRenderer.swift; sourceTree = "<group>"; };
+		1065939B6C3DC2B466D2BDB0 /* emuio.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = emuio.c; path = "../fuji-foundation/atari800-MacOSX/src/emuio.c"; sourceTree = "<group>"; };
+		12283D2787A8CC3EED63A18B /* remez.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = remez.c; path = "../fuji-foundation/atari800-MacOSX/src/remez.c"; sourceTree = "<group>"; };
+		12D5A9283334CE43EB77BEF4 /* esc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = esc.c; path = "../fuji-foundation/atari800-MacOSX/src/esc.c"; sourceTree = "<group>"; };
+		12FCA88C0AF22F6F086D8D95 /* platform_bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = platform_bridge.h; sourceTree = "<group>"; };
+		188096DCA38CA8814DCC71BC /* EmulatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmulatorView.swift; sourceTree = "<group>"; };
+		18A0A7D3BCA6E18297EB5461 /* xep80_fonts.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = xep80_fonts.c; path = "../fuji-foundation/atari800-MacOSX/src/xep80_fonts.c"; sourceTree = "<group>"; };
+		1BDC91216E6E1F75F2C05D18 /* mac_monitor.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = mac_monitor.c; path = "../fuji-foundation/atari800-MacOSX/src/Atari800MacX/mac_monitor.c"; sourceTree = "<group>"; };
+		30DE8756D108C5949BCE53C7 /* img_tape.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = img_tape.c; path = "../fuji-foundation/atari800-MacOSX/src/img_tape.c"; sourceTree = "<group>"; };
+		325876494330495907224596 /* xep80.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = xep80.c; path = "../fuji-foundation/atari800-MacOSX/src/xep80.c"; sourceTree = "<group>"; };
+		33309F79E65C93ADFFBC5989 /* FujiVision.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = FujiVision.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		38ECDB584B08442DE7651E5F /* antic.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = antic.c; path = "../fuji-foundation/atari800-MacOSX/src/antic.c"; sourceTree = "<group>"; };
+		3C5EB5C1AB88CF304907D255 /* Atari800Core.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = Atari800Core.c; path = "../fuji-foundation/atari800-MacOSX/src/Atari800MacX/Atari800Core.c"; sourceTree = "<group>"; };
+		3E37D595B3B37833186D81B4 /* devices.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = devices.c; path = "../fuji-foundation/atari800-MacOSX/src/devices.c"; sourceTree = "<group>"; };
+		3E44CC4FA4A3CE14577363B7 /* binload.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = binload.c; path = "../fuji-foundation/atari800-MacOSX/src/binload.c"; sourceTree = "<group>"; };
+		4290EE860CEFFFE0FEFCBAC8 /* side2.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = side2.c; path = "../fuji-foundation/atari800-MacOSX/src/side2.c"; sourceTree = "<group>"; };
+		4378F7BBDCC18C1DABC391DD /* pbi_mio.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = pbi_mio.c; path = "../fuji-foundation/atari800-MacOSX/src/pbi_mio.c"; sourceTree = "<group>"; };
+		44F711E611A931EDBE31C141 /* sic.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = sic.c; path = "../fuji-foundation/atari800-MacOSX/src/sic.c"; sourceTree = "<group>"; };
+		46E44FAD58A3D00870504F7B /* mzpokeysnd.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = mzpokeysnd.c; path = "../fuji-foundation/atari800-MacOSX/src/mzpokeysnd.c"; sourceTree = "<group>"; };
+		499D27EAD152C79CCCF50EB4 /* pokey.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = pokey.c; path = "../fuji-foundation/atari800-MacOSX/src/pokey.c"; sourceTree = "<group>"; };
+		4A1D675ACC20405F3AB570BD /* vec.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = vec.c; path = "../fuji-foundation/atari800-MacOSX/src/vec.c"; sourceTree = "<group>"; };
+		4CAC91DEAFB978320E534F1B /* altirraos_800.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = altirraos_800.c; path = "../fuji-foundation/atari800-MacOSX/src/roms/altirraos_800.c"; sourceTree = "<group>"; };
+		4DC3FD27DC1C66D6A2036CE7 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		568A11A6717708EB24A6B65A /* vision_stubs.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vision_stubs.c; sourceTree = "<group>"; };
+		5ACB590852B08E7F12807727 /* mac_screen.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = mac_screen.c; path = "../fuji-foundation/atari800-MacOSX/src/Atari800MacX/mac_screen.c"; sourceTree = "<group>"; };
+		5F95D00D1C4A26199FCC1035 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		6024D85A6B33AC370B03DCB3 /* pclink.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = pclink.c; path = "../fuji-foundation/atari800-MacOSX/src/pclink.c"; sourceTree = "<group>"; };
+		60D1DE4EAEA62037AC3C4AE0 /* compfile.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = compfile.c; path = "../fuji-foundation/atari800-MacOSX/src/compfile.c"; sourceTree = "<group>"; };
+		7400F3131CA3A410ECFE31ED /* afile.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = afile.c; path = "../fuji-foundation/atari800-MacOSX/src/afile.c"; sourceTree = "<group>"; };
+		7847173CD252C57E0531BD2D /* pokey_resample.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = pokey_resample.c; path = "../fuji-foundation/atari800-MacOSX/src/pokey_resample.c"; sourceTree = "<group>"; };
+		7BDE4C9F5ABF6EE8082BB073 /* img_vhd.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = img_vhd.c; path = "../fuji-foundation/atari800-MacOSX/src/img_vhd.c"; sourceTree = "<group>"; };
+		824A5F06A5DC877C2D4E4D46 /* ui_basic.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = ui_basic.c; path = "../fuji-foundation/atari800-MacOSX/src/ui_basic.c"; sourceTree = "<group>"; };
+		841493AC250FE060EB310A88 /* flash.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = flash.c; path = "../fuji-foundation/atari800-MacOSX/src/flash.c"; sourceTree = "<group>"; };
+		8454306B602CF08915C10BEA /* memory.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = memory.c; path = "../fuji-foundation/atari800-MacOSX/src/memory.c"; sourceTree = "<group>"; };
+		8572666FA2D5E702402011F8 /* pokeysnd.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = pokeysnd.c; path = "../fuji-foundation/atari800-MacOSX/src/pokeysnd.c"; sourceTree = "<group>"; };
+		8FFE3DB72264A48884768630 /* FujiVisionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FujiVisionApp.swift; sourceTree = "<group>"; };
+		90BF038D6E1E72205DA598BB /* pbi_scsi.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = pbi_scsi.c; path = "../fuji-foundation/atari800-MacOSX/src/pbi_scsi.c"; sourceTree = "<group>"; };
+		96C26C9B05E1C477BA60F83E /* OnScreenControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnScreenControlsView.swift; sourceTree = "<group>"; };
+		9788FA5950BFD0912705927B /* rtime.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = rtime.c; path = "../fuji-foundation/atari800-MacOSX/src/rtime.c"; sourceTree = "<group>"; };
+		99058B6FF6EBA618B6F8277E /* capslock_vision.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = capslock_vision.c; sourceTree = "<group>"; };
+		9B2CFCE9A26BEFCBFD738C91 /* img_disk.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = img_disk.c; path = "../fuji-foundation/atari800-MacOSX/src/img_disk.c"; sourceTree = "<group>"; };
+		9E2F16CD3E2DC379795A9FD9 /* altirra_5200_os.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = altirra_5200_os.c; path = "../fuji-foundation/atari800-MacOSX/src/roms/altirra_5200_os.c"; sourceTree = "<group>"; };
+		9EA575B364CEB2BD466AC153 /* maxflash.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = maxflash.c; path = "../fuji-foundation/atari800-MacOSX/src/maxflash.c"; sourceTree = "<group>"; };
+		9EE8A592EF7048DD5C5F468D /* ultimate1mb.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = ultimate1mb.c; path = "../fuji-foundation/atari800-MacOSX/src/ultimate1mb.c"; sourceTree = "<group>"; };
+		A90484C0FF1E2E22C2A23ACD /* cartridge.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = cartridge.c; path = "../fuji-foundation/atari800-MacOSX/src/cartridge.c"; sourceTree = "<group>"; };
+		AD14F18968D946F2FC4BF7F7 /* af80.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = af80.c; path = "../fuji-foundation/atari800-MacOSX/src/af80.c"; sourceTree = "<group>"; };
+		AF26F5BFAABE96A822C83176 /* cycle_map.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = cycle_map.c; path = "../fuji-foundation/atari800-MacOSX/src/cycle_map.c"; sourceTree = "<group>"; };
+		B2A4746539B8B19226B02525 /* megacart.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = megacart.c; path = "../fuji-foundation/atari800-MacOSX/src/megacart.c"; sourceTree = "<group>"; };
+		B2AD09A43424E3AEFAC240A9 /* netsio.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = netsio.c; path = "../fuji-foundation/atari800-MacOSX/src/netsio.c"; sourceTree = "<group>"; };
+		B33203AC5AE7AC29198D2B44 /* rtcds1305.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = rtcds1305.c; path = "../fuji-foundation/atari800-MacOSX/src/rtcds1305.c"; sourceTree = "<group>"; };
+		B67414797FEC0296486AE7B9 /* cassette.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = cassette.c; path = "../fuji-foundation/atari800-MacOSX/src/cassette.c"; sourceTree = "<group>"; };
+		BE871AF897E0C9D641FE3970 /* crc32.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = crc32.c; path = "../fuji-foundation/atari800-MacOSX/src/crc32.c"; sourceTree = "<group>"; };
+		BF04AE15D5ED7FC1F4D47F09 /* cfg.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = cfg.c; path = "../fuji-foundation/atari800-MacOSX/src/cfg.c"; sourceTree = "<group>"; };
+		C36BADF9A9ECE6E07553DD54 /* EmulatorSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmulatorSession.swift; sourceTree = "<group>"; };
+		C38A23AFBD270FC26864D124 /* ide.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = ide.c; path = "../fuji-foundation/atari800-MacOSX/src/ide.c"; sourceTree = "<group>"; };
+		C3B3F549028587F3B230B0AD /* prompts.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = prompts.c; path = "../fuji-foundation/atari800-MacOSX/src/prompts.c"; sourceTree = "<group>"; };
+		C3C2378BE7489EB260511BAF /* AudioEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEngine.swift; sourceTree = "<group>"; };
+		C88156A4A65E1BD80E2275F5 /* sysrom.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = sysrom.c; path = "../fuji-foundation/atari800-MacOSX/src/sysrom.c"; sourceTree = "<group>"; };
+		CB28BB9CA32658B23C5BF488 /* atari_vision.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = atari_vision.c; sourceTree = "<group>"; };
+		CC4421E1DF783CB94955BD7C /* FujiVision-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FujiVision-Bridging-Header.h"; sourceTree = "<group>"; };
+		CD3126A7BA32593E60A3445D /* sndsave.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = sndsave.c; path = "../fuji-foundation/atari800-MacOSX/src/sndsave.c"; sourceTree = "<group>"; };
+		CEE9BC6F477CF82EC136078D /* votrax.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = votrax.c; path = "../fuji-foundation/atari800-MacOSX/src/votrax.c"; sourceTree = "<group>"; };
+		D3836A30C867D50F12B46648 /* pbi.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = pbi.c; path = "../fuji-foundation/atari800-MacOSX/src/pbi.c"; sourceTree = "<group>"; };
+		D97DA4F38293A125FFA83528 /* list.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = list.c; path = "../fuji-foundation/atari800-MacOSX/src/list.c"; sourceTree = "<group>"; };
+		D9F1C6FD5B5E1B42033528B8 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		DAED2C0296FA3A320FBF770A /* cpu.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = cpu.c; path = "../fuji-foundation/atari800-MacOSX/src/cpu.c"; sourceTree = "<group>"; };
+		DC65F3698871508AFDCF927A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DD2D7E9516E2D3485EE61A8A /* util.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = util.c; path = "../fuji-foundation/atari800-MacOSX/src/util.c"; sourceTree = "<group>"; };
+		E0577700DE766FEE303F3F42 /* FujiVision.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FujiVision.entitlements; sourceTree = "<group>"; };
+		E0C371878C7D5DE199F98B99 /* log.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = log.c; path = "../fuji-foundation/atari800-MacOSX/src/log.c"; sourceTree = "<group>"; };
+		E10CC173AE9016EB23AEEC1D /* gtia.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = gtia.c; path = "../fuji-foundation/atari800-MacOSX/src/gtia.c"; sourceTree = "<group>"; };
+		E3D334B1F90848660E5FF9D5 /* pbi_bb.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = pbi_bb.c; path = "../fuji-foundation/atari800-MacOSX/src/pbi_bb.c"; sourceTree = "<group>"; };
+		E778FB5B72BA60062960A8F3 /* altirra_basic.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = altirra_basic.c; path = "../fuji-foundation/atari800-MacOSX/src/roms/altirra_basic.c"; sourceTree = "<group>"; };
+		E81FBF4480E3380272817802 /* mac_colours.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = mac_colours.c; path = "../fuji-foundation/atari800-MacOSX/src/Atari800MacX/mac_colours.c"; sourceTree = "<group>"; };
+		E892921E8211436E9EC604E2 /* atari.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = atari.c; path = "../fuji-foundation/atari800-MacOSX/src/atari.c"; sourceTree = "<group>"; };
+		E8BE99CD089B1F1F0FAF3278 /* altirraos_xl.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = altirraos_xl.c; path = "../fuji-foundation/atari800-MacOSX/src/roms/altirraos_xl.c"; sourceTree = "<group>"; };
+		F601B320C0B58D1112A5DBC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		F6E31AECA6ACB467F337BE2A /* cartridge_info.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = cartridge_info.c; path = "../fuji-foundation/atari800-MacOSX/src/cartridge_info.c"; sourceTree = "<group>"; };
+		F7E880282CB97A1F22B524B8 /* mac_diskled.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = mac_diskled.c; path = "../fuji-foundation/atari800-MacOSX/src/Atari800MacX/mac_diskled.c"; sourceTree = "<group>"; };
+		FB99A58DEA2D041B2F28C5EB /* InputManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputManager.swift; sourceTree = "<group>"; };
+		FCA6151769C208EAFE12C72E /* sio.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = sio.c; path = "../fuji-foundation/atari800-MacOSX/src/sio.c"; sourceTree = "<group>"; };
+		FDF663B674E16D05012F50AF /* img_raw.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = img_raw.c; path = "../fuji-foundation/atari800-MacOSX/src/img_raw.c"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		05FC00C58471BE489000D255 /* FujiVision */ = {
+			isa = PBXGroup;
+			children = (
+				CC4421E1DF783CB94955BD7C /* FujiVision-Bridging-Header.h */,
+				E0577700DE766FEE303F3F42 /* FujiVision.entitlements */,
+				E9E981392C432DBF56557AC4 /* App */,
+				A5526996B6C2E891050F8E70 /* Emulator */,
+				C789638959D144C9774FE5A3 /* Input */,
+				F23F6FC62362FFDEE536A468 /* Platform */,
+				32CD03EA045879CA3B55BABA /* Resources */,
+				D0F60D758660139F2A43F2F0 /* Shaders */,
+				D0DAD998ECFAF75E267E44EF /* Views */,
+			);
+			path = FujiVision;
+			sourceTree = "<group>";
+		};
+		075B4A0191465A7AAE0640DE /* CoreEmulator */ = {
+			isa = PBXGroup;
+			children = (
+				3E76619A95D4ED2E2B92A308 /* Bridge */,
+				738EE7881925E379AB3B57EE /* Portable */,
+				E8967820BDA6FCB33383B8DE /* ROMs */,
+			);
+			name = CoreEmulator;
+			sourceTree = "<group>";
+		};
+		32CD03EA045879CA3B55BABA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DC65F3698871508AFDCF927A /* Assets.xcassets */,
+				F601B320C0B58D1112A5DBC4 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		3E76619A95D4ED2E2B92A308 /* Bridge */ = {
+			isa = PBXGroup;
+			children = (
+				3C5EB5C1AB88CF304907D255 /* Atari800Core.c */,
+				E81FBF4480E3380272817802 /* mac_colours.c */,
+				F7E880282CB97A1F22B524B8 /* mac_diskled.c */,
+				1BDC91216E6E1F75F2C05D18 /* mac_monitor.c */,
+				5ACB590852B08E7F12807727 /* mac_screen.c */,
+			);
+			name = Bridge;
+			sourceTree = "<group>";
+		};
+		5F2047BA1712A77BE3B0027C = {
+			isa = PBXGroup;
+			children = (
+				075B4A0191465A7AAE0640DE /* CoreEmulator */,
+				05FC00C58471BE489000D255 /* FujiVision */,
+				CCFE6A24C7719C66D38834D6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		738EE7881925E379AB3B57EE /* Portable */ = {
+			isa = PBXGroup;
+			children = (
+				AD14F18968D946F2FC4BF7F7 /* af80.c */,
+				7400F3131CA3A410ECFE31ED /* afile.c */,
+				38ECDB584B08442DE7651E5F /* antic.c */,
+				E892921E8211436E9EC604E2 /* atari.c */,
+				3E44CC4FA4A3CE14577363B7 /* binload.c */,
+				068013B96CE57ED90E41E7DC /* bit3.c */,
+				F6E31AECA6ACB467F337BE2A /* cartridge_info.c */,
+				A90484C0FF1E2E22C2A23ACD /* cartridge.c */,
+				B67414797FEC0296486AE7B9 /* cassette.c */,
+				BF04AE15D5ED7FC1F4D47F09 /* cfg.c */,
+				60D1DE4EAEA62037AC3C4AE0 /* compfile.c */,
+				DAED2C0296FA3A320FBF770A /* cpu.c */,
+				BE871AF897E0C9D641FE3970 /* crc32.c */,
+				AF26F5BFAABE96A822C83176 /* cycle_map.c */,
+				3E37D595B3B37833186D81B4 /* devices.c */,
+				048EC13D5918481F1150AFBB /* eeprom.c */,
+				1065939B6C3DC2B466D2BDB0 /* emuio.c */,
+				12D5A9283334CE43EB77BEF4 /* esc.c */,
+				841493AC250FE060EB310A88 /* flash.c */,
+				E10CC173AE9016EB23AEEC1D /* gtia.c */,
+				C38A23AFBD270FC26864D124 /* ide.c */,
+				9B2CFCE9A26BEFCBFD738C91 /* img_disk.c */,
+				FDF663B674E16D05012F50AF /* img_raw.c */,
+				30DE8756D108C5949BCE53C7 /* img_tape.c */,
+				7BDE4C9F5ABF6EE8082BB073 /* img_vhd.c */,
+				D97DA4F38293A125FFA83528 /* list.c */,
+				E0C371878C7D5DE199F98B99 /* log.c */,
+				9EA575B364CEB2BD466AC153 /* maxflash.c */,
+				B2A4746539B8B19226B02525 /* megacart.c */,
+				8454306B602CF08915C10BEA /* memory.c */,
+				46E44FAD58A3D00870504F7B /* mzpokeysnd.c */,
+				B2AD09A43424E3AEFAC240A9 /* netsio.c */,
+				E3D334B1F90848660E5FF9D5 /* pbi_bb.c */,
+				4378F7BBDCC18C1DABC391DD /* pbi_mio.c */,
+				90BF038D6E1E72205DA598BB /* pbi_scsi.c */,
+				D3836A30C867D50F12B46648 /* pbi.c */,
+				6024D85A6B33AC370B03DCB3 /* pclink.c */,
+				05F4556C37BC8A3134460FA7 /* pia.c */,
+				7847173CD252C57E0531BD2D /* pokey_resample.c */,
+				499D27EAD152C79CCCF50EB4 /* pokey.c */,
+				8572666FA2D5E702402011F8 /* pokeysnd.c */,
+				C3B3F549028587F3B230B0AD /* prompts.c */,
+				12283D2787A8CC3EED63A18B /* remez.c */,
+				B33203AC5AE7AC29198D2B44 /* rtcds1305.c */,
+				9788FA5950BFD0912705927B /* rtime.c */,
+				44F711E611A931EDBE31C141 /* sic.c */,
+				4290EE860CEFFFE0FEFCBAC8 /* side2.c */,
+				FCA6151769C208EAFE12C72E /* sio.c */,
+				CD3126A7BA32593E60A3445D /* sndsave.c */,
+				0AAD347B3A0E7978411A90D4 /* statesav.c */,
+				C88156A4A65E1BD80E2275F5 /* sysrom.c */,
+				0A8DC074CA9E9F175027FF56 /* thecart.c */,
+				824A5F06A5DC877C2D4E4D46 /* ui_basic.c */,
+				9EE8A592EF7048DD5C5F468D /* ultimate1mb.c */,
+				DD2D7E9516E2D3485EE61A8A /* util.c */,
+				4A1D675ACC20405F3AB570BD /* vec.c */,
+				CEE9BC6F477CF82EC136078D /* votrax.c */,
+				18A0A7D3BCA6E18297EB5461 /* xep80_fonts.c */,
+				325876494330495907224596 /* xep80.c */,
+			);
+			name = Portable;
+			sourceTree = "<group>";
+		};
+		A5526996B6C2E891050F8E70 /* Emulator */ = {
+			isa = PBXGroup;
+			children = (
+				C3C2378BE7489EB260511BAF /* AudioEngine.swift */,
+				0EC4FB68FE2A6EC7B705F57B /* EmulatorRenderer.swift */,
+				C36BADF9A9ECE6E07553DD54 /* EmulatorSession.swift */,
+			);
+			path = Emulator;
+			sourceTree = "<group>";
+		};
+		C789638959D144C9774FE5A3 /* Input */ = {
+			isa = PBXGroup;
+			children = (
+				FB99A58DEA2D041B2F28C5EB /* InputManager.swift */,
+			);
+			path = Input;
+			sourceTree = "<group>";
+		};
+		CCFE6A24C7719C66D38834D6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				33309F79E65C93ADFFBC5989 /* FujiVision.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D0DAD998ECFAF75E267E44EF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				188096DCA38CA8814DCC71BC /* EmulatorView.swift */,
+				96C26C9B05E1C477BA60F83E /* OnScreenControlsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D0F60D758660139F2A43F2F0 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				4DC3FD27DC1C66D6A2036CE7 /* Shaders.metal */,
+			);
+			path = Shaders;
+			sourceTree = "<group>";
+		};
+		E8967820BDA6FCB33383B8DE /* ROMs */ = {
+			isa = PBXGroup;
+			children = (
+				9E2F16CD3E2DC379795A9FD9 /* altirra_5200_os.c */,
+				E778FB5B72BA60062960A8F3 /* altirra_basic.c */,
+				4CAC91DEAFB978320E534F1B /* altirraos_800.c */,
+				E8BE99CD089B1F1F0FAF3278 /* altirraos_xl.c */,
+			);
+			name = ROMs;
+			sourceTree = "<group>";
+		};
+		E9E981392C432DBF56557AC4 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				5F95D00D1C4A26199FCC1035 /* ContentView.swift */,
+				8FFE3DB72264A48884768630 /* FujiVisionApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		F23F6FC62362FFDEE536A468 /* Platform */ = {
+			isa = PBXGroup;
+			children = (
+				CB28BB9CA32658B23C5BF488 /* atari_vision.c */,
+				99058B6FF6EBA618B6F8277E /* capslock_vision.c */,
+				D9F1C6FD5B5E1B42033528B8 /* config.h */,
+				12FCA88C0AF22F6F086D8D95 /* platform_bridge.h */,
+				06604FC5037CEAA1E645B72D /* preferences_vision.c */,
+				568A11A6717708EB24A6B65A /* vision_stubs.c */,
+			);
+			path = Platform;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A6D74BC508AD434EB0B43C95 /* FujiVision */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EBCFCC0BA6749CCB5654B588 /* Build configuration list for PBXNativeTarget "FujiVision" */;
+			buildPhases = (
+				1F2595CE1642E860E16A1D1F /* Sources */,
+				50E73B8221A09A65CF456675 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FujiVision;
+			packageProductDependencies = (
+			);
+			productName = FujiVision;
+			productReference = 33309F79E65C93ADFFBC5989 /* FujiVision.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B27085EFD95692E65FB2EDB8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					A6D74BC508AD434EB0B43C95 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = AECE5AEDD06E2E697EAF6098 /* Build configuration list for PBXProject "FujiVision" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 5F2047BA1712A77BE3B0027C;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A6D74BC508AD434EB0B43C95 /* FujiVision */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		50E73B8221A09A65CF456675 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				509A29467E05A6AB2F9CF4C1 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1F2595CE1642E860E16A1D1F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C57222AADCAA4E9F0FC6EE2B /* Atari800Core.c in Sources */,
+				D42C4FE5E24FDFA5926DD775 /* AudioEngine.swift in Sources */,
+				1E79B8663B12C567847EA7E7 /* ContentView.swift in Sources */,
+				1F562D3BA3981204252AF57F /* EmulatorRenderer.swift in Sources */,
+				F175674D77440AB763700BD2 /* EmulatorSession.swift in Sources */,
+				CDA84948A4D4EE9A978FE32B /* EmulatorView.swift in Sources */,
+				EE10B8F42206F211E980F301 /* FujiVisionApp.swift in Sources */,
+				FD74B35771305ACEC84975C3 /* InputManager.swift in Sources */,
+				13DFE05DB2174C0BD9398A8C /* OnScreenControlsView.swift in Sources */,
+				BDF5DB0A4F9135A9747F6064 /* Shaders.metal in Sources */,
+				012B39E6B9979BBA8AA8E4AB /* af80.c in Sources */,
+				9670E9DF6068C9A91D3EAA7B /* afile.c in Sources */,
+				29C9203CD2395E54E03AE7EE /* altirra_5200_os.c in Sources */,
+				395DEBEB6CAA96DCFC13BAA7 /* altirra_basic.c in Sources */,
+				A821B816D9B1E95E1591391E /* altirraos_800.c in Sources */,
+				8AB59C0D0F673EFFF2FC6FAB /* altirraos_xl.c in Sources */,
+				1F1802231470B78466405280 /* antic.c in Sources */,
+				3BCD0D1E5C42583F2E813A5B /* atari.c in Sources */,
+				00908302E6FDB54E302C5BFA /* atari_vision.c in Sources */,
+				AB4C7605E12EB89ABE0FE919 /* binload.c in Sources */,
+				BACFFB17C745FA2735BD4686 /* bit3.c in Sources */,
+				1CF17914A117EA186420D29C /* capslock_vision.c in Sources */,
+				3E162D75A6977682CED6D761 /* cartridge.c in Sources */,
+				7BD4B7389CA2644E02FD2658 /* cartridge_info.c in Sources */,
+				E6ECB8C0F68D210E6C6FD4D1 /* cassette.c in Sources */,
+				D3C2A390834CF1072E6B3DD1 /* cfg.c in Sources */,
+				C75DC95A6A2EC66294FB7C7A /* compfile.c in Sources */,
+				509087E06AF41AEBB50D919A /* cpu.c in Sources */,
+				586B007E67CD3F87D296AFAE /* crc32.c in Sources */,
+				C7AF06F2CB68D72301D45D4E /* cycle_map.c in Sources */,
+				E3D12AB16281D614DAA1B3A9 /* devices.c in Sources */,
+				7CADA0AF2C43DB8FBDE4D457 /* eeprom.c in Sources */,
+				9A5F28D43815A25EA356B810 /* emuio.c in Sources */,
+				C194C87E8CA1669685635C4E /* esc.c in Sources */,
+				B7F4A1E9A41EF940E6151E5C /* flash.c in Sources */,
+				2C11183CF8D29D80C71FD1A3 /* gtia.c in Sources */,
+				DF0958517F6B41F21D42D387 /* ide.c in Sources */,
+				3056E654F4C3F3AA5300CBB3 /* img_disk.c in Sources */,
+				D494886A2FF967460CD38EEA /* img_raw.c in Sources */,
+				97D904715DC2A0E741B62F6E /* img_tape.c in Sources */,
+				B1CDF6EB44C7EAFF807121E8 /* img_vhd.c in Sources */,
+				936181F26BD63BDA1ED14BBC /* list.c in Sources */,
+				C3D43A1066805885A9B64860 /* log.c in Sources */,
+				409A13D7EC0AB5F3C9354264 /* mac_colours.c in Sources */,
+				66A9BEA79F998C3EAE632300 /* mac_diskled.c in Sources */,
+				5DDBFB171039CA973FC13606 /* mac_monitor.c in Sources */,
+				F51571FD352E6CA4F87306D1 /* mac_screen.c in Sources */,
+				EFAD0781CB5AD2B16B7367A1 /* maxflash.c in Sources */,
+				A4B8BEF82DEB8534B1BF75D2 /* megacart.c in Sources */,
+				8F9D1BB62644ACE5F86AB967 /* memory.c in Sources */,
+				66A17339245941A2E6E645BD /* mzpokeysnd.c in Sources */,
+				AEE6BCC1B27C89B4F922DB32 /* netsio.c in Sources */,
+				C364114C92CEDBBE52D39DE9 /* pbi.c in Sources */,
+				5F95219A66D313BA8564DDEB /* pbi_bb.c in Sources */,
+				33EBF4EF2BB11D634A6A704E /* pbi_mio.c in Sources */,
+				A70622FC45B344925076A9C2 /* pbi_scsi.c in Sources */,
+				0AEBEC9E982C3436CBC78CE8 /* pclink.c in Sources */,
+				F21C38D639BF0244A72AD87E /* pia.c in Sources */,
+				D3C12C296A01487372E0777B /* pokey.c in Sources */,
+				8E841354BE818B546E858AA6 /* pokey_resample.c in Sources */,
+				7D7D486C5E9820F6348F23AB /* pokeysnd.c in Sources */,
+				5E3DBAC34648DDAC00C6A36C /* preferences_vision.c in Sources */,
+				A2660476CF668BB50EC596EB /* prompts.c in Sources */,
+				C93FD1BF7D901FC30FEBCEBE /* remez.c in Sources */,
+				1112FA64EEE0BBD070AAED28 /* rtcds1305.c in Sources */,
+				8E7C546168BD6BFC5651A6A5 /* rtime.c in Sources */,
+				0355B4C0A9DB4531A2C2E1CB /* sic.c in Sources */,
+				78BC99D78A39A75AB5909634 /* side2.c in Sources */,
+				E660F5BF1B80625BD8277CDF /* sio.c in Sources */,
+				912ACEFB27A747A7FC3CD778 /* sndsave.c in Sources */,
+				D46EF7B05FA59A1573973AF0 /* statesav.c in Sources */,
+				85CCE1A36E71801E67B15328 /* sysrom.c in Sources */,
+				613669210360EBDBA5ECBE88 /* thecart.c in Sources */,
+				573EDB244107C0F2BAD521DF /* ui_basic.c in Sources */,
+				BF99201E83CD4459C8AC5946 /* ultimate1mb.c in Sources */,
+				60F595331C31B01E65FE24FA /* util.c in Sources */,
+				A846014F54F361706FDA801D /* vec.c in Sources */,
+				DCD1CB2FC7AE698E15A6329D /* vision_stubs.c in Sources */,
+				8AC8D8B2F47F38D1F42042BA /* votrax.c in Sources */,
+				16F83BD7DD47024E8DF8F46E /* xep80.c in Sources */,
+				2B3F530E28C194D39FE0FEF9 /* xep80_fonts.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		16A890FBD3FB22CCB0C35C1C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		AD6622E5F8A8EDE367436B24 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = FujiVision/FujiVision.entitlements;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"HAVE_CONFIG_H=1",
+					"$(inherited)",
+				);
+				GCC_WARN_INHIBIT_ALL_WARNINGS = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/FujiVision/Platform",
+					"$(SRCROOT)/../fuji-foundation/atari800-MacOSX/src",
+					"$(SRCROOT)/../fuji-foundation/atari800-MacOSX/src/Atari800MacX",
+					"$(SRCROOT)/../fuji-foundation/atari800-MacOSX/src/roms",
+				);
+				INFOPLIST_FILE = FujiVision/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.fujiconcepts.FujiVision;
+				SDKROOT = xros;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "FujiVision/FujiVision-Bridging-Header.h";
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = 7;
+			};
+			name = Release;
+		};
+		D7F1B366CBAF2F10ACD2B17B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		E505FA285FC07FF96FA34DFB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = FujiVision/FujiVision.entitlements;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"HAVE_CONFIG_H=1",
+					"$(inherited)",
+				);
+				GCC_WARN_INHIBIT_ALL_WARNINGS = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/FujiVision/Platform",
+					"$(SRCROOT)/../fuji-foundation/atari800-MacOSX/src",
+					"$(SRCROOT)/../fuji-foundation/atari800-MacOSX/src/Atari800MacX",
+					"$(SRCROOT)/../fuji-foundation/atari800-MacOSX/src/roms",
+				);
+				INFOPLIST_FILE = FujiVision/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.fujiconcepts.FujiVision;
+				SDKROOT = xros;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "FujiVision/FujiVision-Bridging-Header.h";
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = 7;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AECE5AEDD06E2E697EAF6098 /* Build configuration list for PBXProject "FujiVision" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16A890FBD3FB22CCB0C35C1C /* Debug */,
+				D7F1B366CBAF2F10ACD2B17B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		EBCFCC0BA6749CCB5654B588 /* Build configuration list for PBXNativeTarget "FujiVision" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E505FA285FC07FF96FA34DFB /* Debug */,
+				AD6622E5F8A8EDE367436B24 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B27085EFD95692E65FB2EDB8 /* Project object */;
+}

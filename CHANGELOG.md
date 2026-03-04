@@ -21,7 +21,19 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Shaders.metal (shared with fuji-foundation), Assets.xcassets, Info.plist, entitlements
   - Documentation: `README.md`, `BUILDOUT_PLAN.md` (7-phase roadmap V1–V7)
   - Architecture: Pure Swift ↔ C via bridging header (no ObjC layer needed)
-  - Xcode project creation deferred until visionOS SDK is installed
+
+- **Fuji-Vision Phase V1: C Core Compiling** — All 69 C core files compile and link
+  for visionOS arm64. BUILD SUCCEEDED on xrsimulator (visionOS SDK 26.2).
+  - XcodeGen project (`project.yml`) with 60 portable C files + 5 bridge files + 4 ROM files
+  - `preferences_vision.c`: SDL-free replacement for `preferences_c.c`
+  - `capslock_vision.c`: IOKit-free replacement for `capslock.c`
+  - `vision_stubs.c`: stubs for 16 macOS ObjC symbols (ControlManager, MediaManager,
+    DisplayManager, etc.)
+  - Added `mac_monitor.c` to build (MONITOR_* symbols for CPU debugger)
+  - Added 4 Altirra built-in ROM .c files (800 OS, XL OS, BASIC, 5200 OS)
+  - config.h: `VISIONOS 1` + `ATARI800MACX` + `MACOSX` (core needs all three)
+  - Resolved 10 build iterations: SDL deps, IOKit, system() unavailability,
+    struct member guards, linker undefined symbols
 
 ---
 

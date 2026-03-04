@@ -16,6 +16,14 @@
 /* ── visionOS platform identifier ──────────────────────────────────────── */
 #define VISIONOS 1
 
+/* ATARI800MACX and MACOSX are needed because many C core files (cartridge.h,
+ * devices.h, gtia.c, sio.c, etc.) use these guards for features and struct
+ * members specific to the Mac port family. Both must be defined for the
+ * portable C core to compile with all expected code paths enabled.
+ * visionOS-specific behavior diverges via #ifdef VISIONOS where needed. */
+#define ATARI800MACX
+#define MACOSX
+
 /* ── POSIX / C library feature tests ───────────────────────────────────── */
 
 #define HAVE_MKSTEMP 1
@@ -31,6 +39,11 @@
 #undef WORDS_BIGENDIAN
 
 #define SIZEOF_LONG 4
+
+/* system() is unavailable on visionOS — stub it out via macro.
+ * devices.c calls system() unconditionally in its print handler. */
+static inline int vision_system_stub(const char *cmd) { (void)cmd; return -1; }
+#define system(cmd) vision_system_stub(cmd)
 
 /* Standard POSIX functions available on visionOS */
 #define HAVE_GETCWD 1
@@ -53,7 +66,7 @@
 #define HAVE_FSTAT 1
 #define HAVE_STAT 1
 #define HAVE_CHMOD 1
-#define HAVE_SYSTEM 1
+/* HAVE_SYSTEM intentionally omitted — system() unavailable on visionOS */
 #define HAVE_REWIND 1
 #define HAVE_SYS_STAT_H 1
 #define HAVE_ERRNO_H 1

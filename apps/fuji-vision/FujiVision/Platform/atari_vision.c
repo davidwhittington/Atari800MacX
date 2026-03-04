@@ -107,8 +107,7 @@ int    paletteWhite       = 0xf0;
 int    paletteIntensity   = 80;
 int    paletteColorShift  = 40;
 
-/* Preferences sync flag */
-int clearCurrentMedia = 0;
+/* clearCurrentMedia is defined in preferences_vision.c */
 
 /* Request flags — the visionOS port handles most of these through
  * direct Atari800Core_* calls, but the core may reference some. */
@@ -295,11 +294,10 @@ void INPUT_Frame(void)
     /* No-op: joystick state is pushed into PIA/GTIA by Atari800Core_RunFrame */
 }
 
-int INPUT_Initialise(int *argc, char *argv[])
+void INPUT_Initialise(int *argc, char *argv[])
 {
     (void)argc;
     (void)argv;
-    return TRUE;
 }
 
 void INPUT_Exit(void)
@@ -352,15 +350,8 @@ void Sound_Update(void)
     Vision_Sound_Write(tempbuf, nbytes);
 }
 
-void Sound_Pause(void)
-{
-    /* Handled by Swift AudioEngine */
-}
-
-void Sound_Continue(void)
-{
-    /* Handled by Swift AudioEngine */
-}
+/* NOTE: Sound_Pause() and Sound_Continue() are defined in mac_screen.c
+ * (as empty stubs). We do NOT redefine them here to avoid duplicate symbols. */
 
 void Sound_Exit(void)
 {
@@ -424,6 +415,16 @@ void Vision_Emulation_Stop(void)
 int Vision_Emulation_IsRunning(void)
 {
     return atomic_load(&s_emu_running);
+}
+
+void Vision_Emulation_SetPaused(int paused)
+{
+    pauseEmulator = paused;
+}
+
+int Vision_Emulation_IsPaused(void)
+{
+    return pauseEmulator;
 }
 
 /* =========================================================================

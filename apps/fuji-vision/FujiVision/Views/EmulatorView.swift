@@ -61,19 +61,4 @@ struct EmulatorView: UIViewRepresentable {
     }
 }
 
-// Private access to EmulatorSession.renderer for the view
-extension EmulatorSession {
-    /// Internal accessor for the renderer (used by EmulatorView)
-    var renderer: EmulatorRenderer? {
-        // Access the private renderer through a computed property
-        // This is a workaround; in production, expose via a proper internal API
-        return _renderer
-    }
-
-    /// Internal storage accessor — set during init
-    fileprivate var _renderer: EmulatorRenderer? {
-        // This will be properly wired when the renderer is initialized
-        // For now, returns nil until start() is called
-        return nil  // TODO: Phase V2 — wire to actual renderer instance
-    }
-}
+// renderer is now exposed as private(set) on EmulatorSession directly

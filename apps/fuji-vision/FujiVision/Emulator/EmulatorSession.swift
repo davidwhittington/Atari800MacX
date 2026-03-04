@@ -20,6 +20,33 @@ import Observation
 @MainActor
 final class EmulatorSession {
 
+    // MARK: - Global Singleton (for C callback trampoline)
+
+    /// Weak global reference used by the C frame callback trampoline.
+    /// C function pointers cannot capture Swift context, so we route through this.
+    nonisolated(unsafe) static weak var shared: EmulatorSession?
+
+    /// C-compatible frame callback that routes to the shared session.
+    nonisolated static let frameCallbackTrampoline: VisionFrameReadyCallback = {
+        pixels, width, height in
+        guard let pixels = pixels else { return }
+        let byteCount = Int(width) * Int(height) * 4
+        let copy = UnsafeMutablePointer<UInt8>.allocate(capacity: byteCount)
+        copy.initialize(from: pixels, count: byteCount)
+        let w = Int(width)
+        let h = Int(height)
+        DispatchQueue.main.async {
+            guard let session = EmulatorSession.shared else {
+                copy.deallocate()
+                return
+            }
+            session.renderer?.uploadFrame(pixels: UnsafePointer(copy), width: w, height: h)
+            session.currentTexture = session.renderer?.frameTexture
+            session.diskLEDStatus = Int(Atari800Core_GetDiskLEDStatus())
+            copy.deallocate()
+        }
+    }
+
     // MARK: - Published State
 
     /// Current frame texture, updated ~60fps by the renderer
@@ -36,7 +63,7 @@ final class EmulatorSession {
 
     // MARK: - Internal Components
 
-    private var renderer: EmulatorRenderer?
+    private(set) var renderer: EmulatorRenderer?
     private var audioEngine: AudioEngine?
     private var inputManager: InputManager?
     private var isRunning: Bool = false
@@ -62,30 +89,9 @@ final class EmulatorSession {
         inputManager?.startMonitoring()
 
         // Register the frame callback before starting the emulation thread.
-        // The callback is invoked on the emulation thread; we dispatch to main.
-        let weakSelf = Weak(self)
-        Vision_Platform_SetFrameCallback { pixels, width, height in
-            guard let pixels = pixels else { return }
-            // Copy pixel data on the emulation thread (it's invalidated after callback returns)
-            let byteCount = Int(width) * Int(height) * 4
-            let copy = UnsafeMutablePointer<UInt8>.allocate(capacity: byteCount)
-            copy.initialize(from: pixels, count: byteCount)
-
-            DispatchQueue.main.async { [copy] in
-                guard let session = weakSelf.value else {
-                    copy.deallocate()
-                    return
-                }
-                session.renderer?.uploadFrame(
-                    pixels: UnsafePointer(copy),
-                    width: Int(width),
-                    height: Int(height)
-                )
-                session.currentTexture = session.renderer?.frameTexture
-                session.diskLEDStatus = Int(Atari800Core_GetDiskLEDStatus())
-                copy.deallocate()
-            }
-        }
+        // C function pointers can't capture Swift context, so we use a global.
+        EmulatorSession.shared = self
+        Vision_Platform_SetFrameCallback(EmulatorSession.frameCallbackTrampoline)
 
         // Start emulation thread
         Vision_Emulation_Start()
@@ -106,11 +112,7 @@ final class EmulatorSession {
 
     func togglePause() {
         isPaused.toggle()
-        // pauseEmulator is an extern int in atari_vision.c
-        // We access it through a direct C global write
-        withUnsafeMutablePointer(to: &pauseEmulator) { ptr in
-            ptr.pointee = isPaused ? 1 : 0
-        }
+        Vision_Emulation_SetPaused(isPaused ? 1 : 0)
     }
 
     func warmReset() {
@@ -185,16 +187,5 @@ enum MachineModel {
     }
 }
 
-// MARK: - Weak Reference Helper
-
-/// Non-retaining wrapper for use in C callbacks
-private final class Weak<T: AnyObject> {
-    weak var value: T?
-    init(_ value: T) { self.value = value }
-}
-
-// MARK: - C Global Access
-
-// These are defined in atari_vision.c and need to be accessible from Swift
-@_silgen_name("pauseEmulator")
-private var pauseEmulator: Int32
+// C global access is now through Vision_Emulation_SetPaused() / Vision_Emulation_IsPaused()
+// defined in platform_bridge.h and implemented in atari_vision.c
