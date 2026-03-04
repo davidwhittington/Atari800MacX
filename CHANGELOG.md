@@ -8,6 +8,20 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- **Fuji-Vision Phase V7a: Visibility Compositor** — Transparency modes, chroma keying,
+  background detection, and comfort transitions for spatial pass-through rendering.
+  Branch: `fuji-vision-compositor`.
+  - `VisibilityCompositor.swift`: Mode-driven alpha (Solid/Dim/Ghost/Peek), chroma key with
+    configurable threshold and soft-edge feathering, background auto-detection via border
+    pixel sampling (4-bit histogram, 3-scan hysteresis), edge enhancement at key boundaries
+  - FragParams expansion in `Shaders.metal` and `EmulatorRenderer.swift` with globalAlpha,
+    key color/threshold/softEdge/invert, and edgeEnhance parameters
+  - Fragment shader: `smoothstep`-based chroma key, edge brightness boost, global alpha output
+  - Alpha blending enabled on Metal pipeline; MTKView configured for visionOS pass-through
+  - SettingsView: Visibility section with mode picker, chroma key controls, auto-detect, edge enhance
+  - Peek gesture: hold-to-peek-through on ContentView with smooth return
+  - All transitions lerp over 0.3s for visual comfort (Section 11 compliance)
+
 - **Fuji-Vision scaffold** — Complete visionOS app structure under `apps/fuji-vision/`
   for Apple Vision Pro Atari 800 emulator. Branch: `fuji-vision-framework`.
   - Platform layer: `config.h` (visionOS feature flags), `atari_vision.c` (PLATFORM_* stubs,

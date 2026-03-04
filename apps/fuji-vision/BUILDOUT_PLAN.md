@@ -189,17 +189,55 @@ altirra_5200_os.c, altirra_basic.c, altirraos_800.c, altirraos_xl.c
 
 ---
 
-## Phase V7: Spatial Features (Future)
+## Phase V7a: Visibility Compositor — DONE
+
+**Goal**: Transparency modes, chroma keying, background detection, and comfort transitions for spatial pass-through rendering.
+
+**Status**: Implemented. VisibilityCompositor class with mode-driven alpha, chroma key, auto-detect, edge enhance, peek gesture, and smooth lerp transitions.
+
+**Spec Reference**: Feature Addendum sections 7–11 (Visibility, Compositor, Background Detection, Edge Enhancement, Comfort Design).
+
+### What Was Done
+- **VisibilityCompositor.swift**: Standalone data processor class
+  - Visibility modes: Solid (1.0), Dim (0.6), Ghost (0.2), Peek (0.15 while held)
+  - Chroma key transparency with configurable color, threshold, soft-edge feathering
+  - Background auto-detection: border pixel sampling every 30 frames with 4-bit histogram quantization and 3-scan hysteresis (1.5s)
+  - Edge enhancement at key boundaries
+  - All alpha transitions lerp over 0.3s for comfort (no snaps)
+- **FragParams expansion** in both `Shaders.metal` and `EmulatorRenderer.swift`:
+  - Added `globalAlpha`, `keyEnabled`, `keyR/G/B`, `keyThreshold`, `keySoftEdge`, `keyInvert`, `edgeEnhance`
+  - Default values preserve V6 behavior (alpha=1.0, keying off)
+- **Fragment shader**: `smoothstep`-based chroma key with soft-edge feathering, edge brightness boost at key boundaries, global alpha output
+- **Alpha blending** enabled on render pipeline (source-alpha / one-minus-source-alpha)
+- **EmulatorView**: `isOpaque=false`, `clearColor` alpha=0, `framebufferOnly=false` — enables visionOS pass-through behind transparent pixels
+- **SettingsView**: New Visibility section with mode picker (Solid/Dim/Ghost), chroma key toggle + threshold/soft-edge sliders, auto-detect toggle + sensitivity, edge enhance toggle. All persisted via @AppStorage.
+- **Peek gesture**: `DragGesture` on ContentView — hold to peek through, release returns smoothly to previous mode
+- **EmulatorSession**: `applyStoredVisibilitySettings()` restores visibility state on launch
+
+### Architecture
+- `VisibilityCompositor` is a pure data processor — ingests frame pixels and settings, runs background detection, manages lerp animations, emits shader parameters
+- `EmulatorRenderer` owns the compositor instance and queries it for `FragParams` each frame
+- Compositor does NOT own Metal objects or pipeline state
+
+### Comfort Design (Section 11 compliance)
+- All opacity transitions lerp over 0.3s
+- Background detection uses 3-scan hysteresis (1.5s) to prevent flicker
+- Default state: Solid with all transparency OFF
+- Peek returns smoothly to previous mode on release
+
+---
+
+## Phase V7b–V7d: Spatial Features (Future)
 
 **Goal**: Leverage visionOS spatial computing capabilities.
 
 ### Tasks
-- **Immersive Space**: 3D CRT television model floating in the user's space
+- **V7b — Immersive Space**: 3D CRT television model floating in the user's space
   - CompositorServices for custom Metal rendering in immersive mode
   - RealityKit entity with CRT mesh + emulator texture as material
-- **Spatial Audio**: Position POKEY audio to emanate from the virtual CRT
+- **V7c — Spatial Audio**: Position POKEY audio to emanate from the virtual CRT
   - `PHASESpatialMixerDefinition` for head-tracked audio
-- **Hand Tracking**: Map hand gestures to joystick/keyboard input
+- **V7d — Hand Tracking**: Map hand gestures to joystick/keyboard input
   - ARKit hand tracking API for gesture recognition
   - Pinch → fire, swipe → joystick directions
 - **Multi-Window**: Open multiple emulator instances in separate windows
@@ -211,17 +249,18 @@ altirra_5200_os.c, altirra_basic.c, altirraos_800.c, altirraos_xl.c
 ## Dependencies Between Phases
 
 ```
-V1 (C Core) ──→ V2 (Metal) ──→ V6 (Polish)
-     │               │
-     └──→ V3 (Audio) │
+V1 (C Core) ──→ V2 (Metal) ──→ V6 (Polish) ──→ V7a (Visibility)
+     │               │                              │
+     └──→ V3 (Audio) │                              └──→ V7b-d (Spatial)
      │               │
      └──→ V4 (Input) │
                       │
-              V5 (Files) ──→ V6 (Polish) ──→ V7 (Spatial)
+              V5 (Files) ──→ V6 (Polish)
 ```
 
 V1 must complete first. V2, V3, V4 can proceed in parallel after V1.
-V5 and V6 build on the earlier phases. V7 is a future enhancement.
+V5 and V6 build on the earlier phases. V7a builds on the Metal pipeline from V2/V6.
+V7b–V7d are future spatial enhancements.
 
 ---
 
