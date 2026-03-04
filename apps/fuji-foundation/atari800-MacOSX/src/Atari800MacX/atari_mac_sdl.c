@@ -418,6 +418,7 @@ SDL_Joystick *joystick1 = NULL;
 SDL_Joystick *joystick2 = NULL;
 SDL_Joystick *joystick3 = NULL;
 SDL_Joystick *joysticks[4];
+static SDL_GameController *gameControllers[4] = {NULL, NULL, NULL, NULL};
 int joystick0_nbuttons, joystick1_nbuttons;
 int joystick2_nbuttons, joystick3_nbuttons;
 int joystick0_nsticks, joystick0_nhats;
@@ -2600,22 +2601,34 @@ void Check_SDL_Joysticks()
 *-----------------------------------------------------------------------------*/
 void Open_SDL_Joysticks()
 {
-    if (joystick0)
-        SDL_JoystickClose(joystick0);
-    joystick0 = SDL_JoystickOpen(0);
-    joysticks[0] = joystick0;
-    if (joystick1)
-        SDL_JoystickClose(joystick1);
-    joystick1 = SDL_JoystickOpen(1);
-    joysticks[1] = joystick1;
-    if (joystick2)
-        SDL_JoystickClose(joystick2);
-    joystick2 = SDL_JoystickOpen(2);
-    joysticks[2] = joystick2;
-    if (joystick3)
-        SDL_JoystickClose(joystick3);
-    joystick3 = SDL_JoystickOpen(3);
-    joysticks[3] = joystick3;
+    SDL_Joystick **joyPtrs[4] = {&joystick0, &joystick1, &joystick2, &joystick3};
+    int idx;
+    for (idx = 0; idx < 4; idx++) {
+        /* Close any previously opened game controller or joystick */
+        if (gameControllers[idx]) {
+            SDL_GameControllerClose(gameControllers[idx]);
+            gameControllers[idx] = NULL;
+        }
+        else if (*joyPtrs[idx]) {
+            SDL_JoystickClose(*joyPtrs[idx]);
+        }
+        /* Use Game Controller API for recognized controllers (MFi, etc.) */
+        if (SDL_IsGameController(idx)) {
+            gameControllers[idx] = SDL_GameControllerOpen(idx);
+            if (gameControllers[idx]) {
+                *joyPtrs[idx] = SDL_GameControllerGetJoystick(gameControllers[idx]);
+                Log_print("Joystick %d opened as Game Controller: %s", idx,
+                          SDL_GameControllerName(gameControllers[idx]));
+            }
+            else {
+                *joyPtrs[idx] = SDL_JoystickOpen(idx);
+            }
+        }
+        else {
+            *joyPtrs[idx] = SDL_JoystickOpen(idx);
+        }
+        joysticks[idx] = *joyPtrs[idx];
+    }
     Check_SDL_Joysticks();
 }
 
@@ -2781,7 +2794,7 @@ void PLATFORM_Initialise(int *argc, char *argv[])
     }
     *argc = j;
 
-    i = SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO;
+    i = SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER | SDL_INIT_AUDIO;
     if (SDL_Init(i) != 0) {
         Log_print("SDL_Init FAILED");
         Log_print((char *) SDL_GetError());
