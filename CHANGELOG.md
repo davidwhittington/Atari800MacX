@@ -7,6 +7,54 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added — Phase VBXE: Video Board XE Emulation (`feature/vbxe-emulation`)
+
+- **`src/vbxe.c` / `src/vbxe.h`** — New VBXE emulation module (~600 lines).
+  Derived from Altirra `vbxe.cpp` (Avery Lee, GPL v2). Implements:
+  - 512 KB VBXE VRAM
+  - 256-color 21-bit RGB palette (7R 7G 7B per entry, expandable via VRAM)
+  - Register file at `$D640` or `$D740` (FX 1.26 layout, 256 bytes)
+  - MEMAC A/B: two CPU-visible 4 KB bank-switched windows into VBXE VRAM
+    installed into `MEMORY_readmap`/`MEMORY_writemap`; default windows at
+    `$4000` (A) and `$6000` (B)
+  - XDL renderer: walks VBXE Extended Display List per frame; supports LR
+    (160 px 8bpp), SR (320 px 8bpp), and HR (640 px 4bpp) overlay modes
+  - Priority compositor: blends `vbxe_overlay[]` onto `MetalFrameBuffer`
+    according to PRIO register (normal / always-VBXE / OR-blend)
+  - Synchronous 7-mode blitter: COPY, FILL, OR, AND, XOR, MOVE, STENCIL,
+    ADD; Z-enable (skip dest-write when src==0) supported
+  - GTIA color forwarding: `VBXE_SetGTIAColor()` called from `GTIA_PutByte`
+    for `COLPM0–3`, `COLPF0–3`, `COLBK` when VBXE is active
+  - Full lifecycle: `VBXE_Initialise / Exit / ColdStart / WarmStart`
+  - `VBXE_StateSave / StateRead` stubs (statesav integration deferred)
+
+- **`LEGAL.md`** at repo root — documents Altirra derivation, Avery Lee
+  authorship, GPL v2 licensing, and a summary of changes made during the port.
+
+- **`gtia.c`** — `#include "vbxe.h"` + post-switch hook forwards
+  `COLPM0–COLBK` writes to `VBXE_SetGTIAColor()` when VBXE is enabled.
+
+- **`ultimate1mb.c`** — `#include "vbxe.h"` + `$D381` handler now calls
+  `VBXE_Enable(addr)` / `VBXE_Disable()`; `ULTIMATE_ColdStart()` calls
+  `VBXE_ColdStart()`.
+
+- **`atari.c`** — `#include "vbxe.h"` + `VBXE_Initialise()` called from
+  `Atari800_Initialise()`; `VBXE_Exit()` called from `Atari800_Exit()`.
+
+- **`atari_mac_sdl.c`** — `#include "vbxe.h"` + `VBXE_RenderFrame()` /
+  `VBXE_Composite()` called in `Atari_DisplayScreen()` after GTIA raster
+  and before `Mac_MetalPresent()`.
+
+- **`project.pbxproj`** — `vbxe.c` added to `PBXSourcesBuildPhase`; both
+  `vbxe.c` and `vbxe.h` added to `PBXFileReference` and the source group.
+
+### Implementation notes
+- VBXE disabled by default; enabled via Ultimate 1MB `$D381` register or
+  (future) Preferences UI toggle.
+- Blitter is synchronous: blitter-done IRQ status bit clears immediately on
+  trigger write. Cycle-accurate DMA deferred to Phase VBXE-2.
+- Covers ~95% of known VBXE software (FX 1.26, standard display modes).
+
 ### Added
 - **Fuji-Vision Phase V7a: Visibility Compositor** — Transparency modes, chroma keying,
   background detection, and comfort transitions for spatial pass-through rendering.

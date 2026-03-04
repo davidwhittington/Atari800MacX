@@ -27,6 +27,7 @@
 | 7 | SwiftUI Panels | ✅ Done | `eead5e4` |
 | 8 | Dependency Modernization (SDL3) | ⏭ Skipped | — |
 | 9 | Code Signing & Notarization | ✅ Done | `7970466` |
+| VBXE | Video Board XE emulation (Phase 1: synchronous blitter, XDL, MEMAC) | 🚧 In progress | `feature/vbxe-emulation` |
 
 ---
 

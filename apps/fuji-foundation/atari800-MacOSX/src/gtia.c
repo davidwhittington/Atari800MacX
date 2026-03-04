@@ -30,6 +30,9 @@
 #include "cassette.h"
 #include "cpu.h"
 #include "gtia.h"
+#ifdef ATARI800MACX
+#include "vbxe.h"
+#endif
 #include "input.h"
 #ifndef BASIC
 #include "statesav.h"
@@ -1201,6 +1204,15 @@ void GTIA_PutByte(UWORD addr, UBYTE byte)
 
 #endif /* defined(BASIC) || defined(CURSES_BASIC) */
 	}
+#ifdef ATARI800MACX
+	/* Forward color register writes to VBXE overlay when VBXE is active.
+	 * GTIA_OFFSET_COLPM0 = 0x12 ... GTIA_OFFSET_COLBK = 0x1A */
+	{
+		int r = (int)(addr & 0x1f);
+		if (VBXE_IsEnabled() && r >= (int)GTIA_OFFSET_COLPM0 && r <= (int)GTIA_OFFSET_COLBK)
+			VBXE_SetGTIAColor(r, byte);
+	}
+#endif /* ATARI800MACX */
 }
 
 /* State ------------------------------------------------------------------- */
