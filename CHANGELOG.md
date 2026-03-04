@@ -7,6 +7,22 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- **Fuji-Vision scaffold** — Complete visionOS app structure under `apps/fuji-vision/`
+  for Apple Vision Pro Atari 800 emulator. Branch: `fuji-vision-framework`.
+  - Platform layer: `config.h` (visionOS feature flags), `atari_vision.c` (PLATFORM_* stubs,
+    sound ring buffer, emulation thread), `platform_bridge.h` (C↔Swift callbacks)
+  - Swift app: `FujiVisionApp.swift` (@main), `ContentView.swift` (toolbar + media management)
+  - Emulator layer: `EmulatorSession.swift` (@Observable lifecycle), `EmulatorRenderer.swift`
+    (Metal pipeline), `AudioEngine.swift` (AVAudioSourceNode pull-model audio)
+  - Input: `InputManager.swift` (GCController gamepad mapping)
+  - Views: `EmulatorView.swift` (UIViewRepresentable MTKView), `OnScreenControlsView.swift`
+    (virtual joystick + console keys)
+  - Shaders.metal (shared with fuji-foundation), Assets.xcassets, Info.plist, entitlements
+  - Documentation: `README.md`, `BUILDOUT_PLAN.md` (7-phase roadmap V1–V7)
+  - Architecture: Pure Swift ↔ C via bridging header (no ObjC layer needed)
+  - Xcode project creation deferred until visionOS SDK is installed
+
 ---
 
 ## [26.0.0] — 2026-03-03
