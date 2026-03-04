@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Guide &mdash; Fuji-Vision</title>
+    <link rel="stylesheet" href="docs.css">
+</head>
+<body>
+
+<button class="sidebar-toggle" onclick="document.querySelector('.docs-sidebar').classList.toggle('open')" aria-label="Toggle navigation">&#9776;</button>
+
+<nav class="docs-sidebar">
+    <a href="../../index.html" class="sidebar-home">
+        <strong>Fuji Concepts</strong>
+        fujiconcepts.com
+    </a>
+
+    <div class="sidebar-section">Getting Started</div>
+    <a href="getting-started.html" class="sidebar-link">What is Fuji-Vision?</a>
+    <a href="getting-started.html#requirements" class="sidebar-link sidebar-sub">Requirements</a>
+    <a href="getting-started.html#first-launch" class="sidebar-link sidebar-sub">First Launch</a>
+    <a href="getting-started.html#loading-a-game" class="sidebar-link sidebar-sub">Loading a Game</a>
+    <a href="getting-started.html#game-controller" class="sidebar-link sidebar-sub">Game Controller</a>
+    <a href="getting-started.html#on-screen-controls" class="sidebar-link sidebar-sub">On-Screen Controls</a>
+    <a href="getting-started.html#machine-type" class="sidebar-link sidebar-sub">Machine Type</a>
+    <a href="getting-started.html#quick-settings" class="sidebar-link sidebar-sub">Quick Settings</a>
+
+    <div class="sidebar-section">User Guide</div>
+    <a href="user-guide.html" class="sidebar-link active">Media Management</a>
+    <a href="#display" class="sidebar-link sidebar-sub">Display Settings</a>
+    <a href="#visibility" class="sidebar-link sidebar-sub">Visibility</a>
+    <a href="#audio" class="sidebar-link sidebar-sub">Audio</a>
+    <a href="#speed" class="sidebar-link sidebar-sub">Speed Control</a>
+    <a href="#save-states" class="sidebar-link sidebar-sub">Save States</a>
+    <a href="#input" class="sidebar-link sidebar-sub">Input</a>
+    <a href="#lifecycle" class="sidebar-link sidebar-sub">App Lifecycle</a>
+
+    <div class="sidebar-section">Technical Reference</div>
+    <a href="technical-reference.html" class="sidebar-link">Architecture</a>
+    <a href="technical-reference.html#rendering" class="sidebar-link sidebar-sub">Rendering Pipeline</a>
+    <a href="technical-reference.html#audio-pipeline" class="sidebar-link sidebar-sub">Audio Pipeline</a>
+    <a href="technical-reference.html#input-system" class="sidebar-link sidebar-sub">Input System</a>
+    <a href="technical-reference.html#compositor" class="sidebar-link sidebar-sub">Visibility Compositor</a>
+    <a href="technical-reference.html#file-types" class="sidebar-link sidebar-sub">File Types</a>
+    <a href="technical-reference.html#settings-keys" class="sidebar-link sidebar-sub">Settings Keys</a>
+    <a href="technical-reference.html#build" class="sidebar-link sidebar-sub">Build Info</a>
+</nav>
+
+<main class="docs-main">
+    <div class="docs-content">
+
+        <nav class="docs-breadcrumb">
+            <a href="../../index.html">Fuji Concepts</a>
+            <span class="sep">&rsaquo;</span>
+            <a href="index.html">Docs</a>
+            <span class="sep">&rsaquo;</span>
+            User Guide
+        </nav>
+
+        <h1>User Guide</h1>
+        <p class="subtitle">Complete feature reference for Fuji-Vision.</p>
+
+        <!-- ==================== Media Management ==================== -->
+        <h2 id="media">Media Management</h2>
+
+        <h3>Supported File Types</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Media</th><th>Extensions</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Disk Image</td><td><code>.atr</code> <code>.atz</code> <code>.xfd</code> <code>.dcm</code></td><td>Floppy disk images (single/double density)</td></tr>
+                <tr><td>Cartridge</td><td><code>.car</code> <code>.rom</code> <code>.bin</code></td><td>ROM cartridge images (various bank-switching types)</td></tr>
+                <tr><td>Executable</td><td><code>.xex</code> <code>.com</code> <code>.exe</code> <code>.obx</code></td><td>Atari binary load files</td></tr>
+                <tr><td>Cassette</td><td><code>.cas</code></td><td>Cassette tape images</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Mounting Media</h3>
+
+        <p>Use the toolbar buttons to mount media into the emulator:</p>
+
+        <ul>
+            <li><strong>Disks</strong> &mdash; Insert a disk image into Drive D1: or D2:. Each drive has its own Insert and Eject options.</li>
+            <li><strong>Cartridge</strong> &mdash; Insert or remove a cartridge ROM.</li>
+            <li><strong>More</strong> &mdash; Load an executable file or mount/eject a cassette tape.</li>
+        </ul>
+
+        <p>When you select a file, it is copied into the app's sandboxed <code>Documents/Media/</code> folder. The original file on your device is never modified.</p>
+
+        <h3>Media Status Ornament</h3>
+
+        <p>When media is mounted, a glass-style status bar appears along the bottom of the emulator window showing the filenames of all currently loaded media. This ornament automatically hides when no media is mounted.</p>
+
+        <h3>Disk LED Indicator</h3>
+
+        <p>A small circle appears in the top-right corner of the emulator display during disk access:</p>
+
+        <ul>
+            <li><strong>Green</strong> &mdash; disk read operation</li>
+            <li><strong>Red</strong> &mdash; disk write operation</li>
+        </ul>
+
+        <h3>Media Persistence</h3>
+
+        <p>Mounted media is remembered across app launches. When you reopen Fuji-Vision, the same disks, cartridges, and cassettes will be loaded automatically.</p>
+
+        <!-- ==================== Display Settings ==================== -->
+        <h2 id="display">Display Settings</h2>
+
+        <p>Open <strong>Settings</strong> (gear icon) to access display options.</p>
+
+        <h3>TV Mode</h3>
+
+        <p>Choose between <strong>NTSC</strong> and <strong>PAL</strong> video standards. NTSC runs at 60 Hz with North American color palettes. PAL runs at 50 Hz with European colors. Most North American software expects NTSC.</p>
+
+        <h3>Artifacting</h3>
+
+        <p>The Atari's NTSC video output produced color artifacts from high-resolution pixel patterns. Fuji-Vision can simulate this effect:</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Mode</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>None</td><td>Clean pixel output, no artifact simulation</td></tr>
+                <tr><td>NTSC Old</td><td>Classic NTSC artifact coloring</td></tr>
+                <tr><td>NTSC New</td><td>Improved artifact algorithm</td></tr>
+                <tr><td>NTSC New Hi-Fi</td><td>Highest-quality NTSC simulation</td></tr>
+            </tbody>
+        </table>
+
+        <div class="docs-callout tip">
+            <div class="docs-callout-label">Tip</div>
+            <p>Some games (like <em>Karateka</em> or <em>Drol</em>) were designed with NTSC artifacting in mind and will look correct only with an artifact mode enabled.</p>
+        </div>
+
+        <h3>Bilinear Filter</h3>
+
+        <p>When enabled, applies a smooth (bilinear) filter to the display instead of sharp nearest-neighbor pixels. This softens the image, resembling how the picture looked on an analog TV.</p>
+
+        <h3>CRT Scanlines</h3>
+
+        <p>Simulates the visible horizontal scan lines of a CRT television. When enabled, a <strong>Scanline Intensity</strong> slider appears (range 50%&ndash;100%) controlling how prominent the dark lines are. Higher values make the lines less visible.</p>
+
+        <!-- ==================== Visibility & Transparency ==================== -->
+        <h2 id="visibility">Visibility &amp; Transparency</h2>
+
+        <p>Fuji-Vision's visibility compositor lets you control how opaque the emulator window appears in your spatial environment, and optionally key out background colors so the real world shows through.</p>
+
+        <h3>Visibility Modes</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Mode</th><th>Opacity</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Solid</td><td>100%</td><td>Fully opaque, traditional display</td></tr>
+                <tr><td>Dim</td><td>60%</td><td>Semi-transparent, see-through background</td></tr>
+                <tr><td>Ghost</td><td>20%</td><td>Mostly transparent, faint overlay</td></tr>
+            </tbody>
+        </table>
+
+        <p>Mode transitions are animated over 0.3 seconds for visual comfort.</p>
+
+        <h3>Peek Gesture</h3>
+
+        <p>Press and hold anywhere on the emulator display to temporarily reduce opacity to 15%. Release to return to your selected visibility mode. This lets you quickly glance at your surroundings without changing settings.</p>
+
+        <h3>Chroma Key</h3>
+
+        <p>When enabled, the chroma key removes a specific color from the display and makes those pixels transparent&mdash;similar to a green screen effect. This is useful for making the Atari's solid background color disappear so only the game graphics float in space.</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Setting</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Chroma Key</td><td>Master toggle for color keying</td></tr>
+                <tr><td>Threshold</td><td>How closely a pixel must match the key color to be removed (0.0&ndash;0.5)</td></tr>
+                <tr><td>Soft Edge</td><td>Width of the gradual blend between keyed and non-keyed areas (0.0&ndash;0.3)</td></tr>
+                <tr><td>Invert Key</td><td>Reverses the key: keeps only pixels matching the key color, removes everything else</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Auto-Detect Background</h3>
+
+        <p>When enabled, the compositor automatically samples the border pixels of the display every half-second to detect the dominant background color. Once a stable color is detected (consistent across three consecutive samples), it is automatically set as the chroma key color.</p>
+
+        <ul>
+            <li><strong>Sensitivity</strong> &mdash; Controls how tolerant the detection is to color variation (0.0&ndash;1.0). Higher values require a more exact match.</li>
+            <li><strong>Lock Detected Color</strong> &mdash; Freezes the currently detected key color so it won't change as screen content changes.</li>
+        </ul>
+
+        <h3>Edge Enhancement</h3>
+
+        <p>Sharpens the edges of game graphics when chroma keying is active, reducing halo artifacts at the boundary between keyed and non-keyed regions.</p>
+
+        <!-- ==================== Audio ==================== -->
+        <h2 id="audio">Audio</h2>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Setting</th><th>Default</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Sound Enabled</td><td>On</td><td>Master audio toggle</td></tr>
+                <tr><td>Volume</td><td>100%</td><td>Output volume (0%&ndash;100%)</td></tr>
+                <tr><td>Stereo POKEY</td><td>Off</td><td>Enables dual-POKEY stereo output for software that supports it</td></tr>
+            </tbody>
+        </table>
+
+        <div class="docs-callout note">
+            <div class="docs-callout-label">Note</div>
+            <p>Stereo POKEY mode doubles the number of sound channels but only matters for software specifically written for dual-POKEY hardware. Most games use a single (mono) POKEY.</p>
+        </div>
+
+        <!-- ==================== Speed Control ==================== -->
+        <h2 id="speed">Speed Control</h2>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Setting</th><th>Default</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Speed Limit</td><td>On</td><td>Caps emulation at the selected speed. Disable to run as fast as possible.</td></tr>
+                <tr><td>Speed</td><td>100%</td><td>Emulation speed multiplier: 50%, 75%, 100%, 125% &hellip; up to 400%, in 25% steps</td></tr>
+            </tbody>
+        </table>
+
+        <div class="docs-callout tip">
+            <div class="docs-callout-label">Tip</div>
+            <p>Reducing speed to 50% can help with games that are too fast. Increasing to 200%&ndash;400% is useful for speeding through loading screens or slow simulations.</p>
+        </div>
+
+        <!-- ==================== Save States ==================== -->
+        <h2 id="save-states">Save States</h2>
+
+        <p>Fuji-Vision provides <strong>10 save slots</strong> that capture the complete emulator state, letting you save and resume from any point in a game.</p>
+
+        <h3>Using Save States</h3>
+
+        <ol>
+            <li>Tap the <strong>save icon</strong> in the toolbar to open the Save States panel.</li>
+            <li>Each slot shows its number and the date/time of the last save (or "Empty" if unused).</li>
+            <li>Tap <strong>Save</strong> to capture the current state into that slot.</li>
+            <li>Tap <strong>Load</strong> to restore a previously saved state.</li>
+            <li>Tap the <strong>trash icon</strong> to delete a saved state.</li>
+        </ol>
+
+        <h3>Storage</h3>
+
+        <p>Save state files use the <code>.a8s</code> extension and are stored in the app's <code>Documents/SaveStates/</code> directory. Files are named <code>state_1.a8s</code> through <code>state_10.a8s</code>.</p>
+
+        <!-- ==================== Input ==================== -->
+        <h2 id="input">Input</h2>
+
+        <h3>Game Controller</h3>
+
+        <p>See the <a href="getting-started.html#game-controller">Getting Started controller section</a> for the full button mapping table.</p>
+
+        <p>Key details:</p>
+
+        <ul>
+            <li>Both the D-pad and left analog stick control the joystick (8-way directional, including diagonals).</li>
+            <li>Dead zone of 30% on the analog stick prevents drift.</li>
+            <li>Only the first connected controller is used.</li>
+            <li>If a controller disconnects mid-game, the joystick resets to centered with fire released.</li>
+        </ul>
+
+        <h3>On-Screen Controls</h3>
+
+        <p>See the <a href="getting-started.html#on-screen-controls">Getting Started on-screen controls section</a> for layout details.</p>
+
+        <h3>Console Keys</h3>
+
+        <p>The Atari's front-panel console keys serve specific functions:</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Key</th><th>Function</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><kbd>Start</kbd></td><td>Starts a game or confirms a menu selection. Mapped to controller <kbd>B</kbd>.</td></tr>
+                <tr><td><kbd>Select</kbd></td><td>Cycles through game options (number of players, difficulty, etc.). Mapped to controller <kbd>X</kbd>.</td></tr>
+                <tr><td><kbd>Option</kbd></td><td>Selects sub-options in some games. On XL/XE, holding Option during boot disables BASIC. Mapped to controller <kbd>Y</kbd>.</td></tr>
+                <tr><td><kbd>Reset</kbd></td><td>Warm resets the emulator (soft reboot without power-cycling). Mapped to controller <kbd>Menu</kbd>.</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Keyboard Shortcuts (Shoulder Buttons)</h3>
+
+        <p>The left and right shoulder buttons on a game controller provide quick access to commonly needed keys:</p>
+
+        <ul>
+            <li><strong>Left Shoulder</strong> &rarr; <kbd>Space</kbd> (useful for advancing text or pausing in many games)</li>
+            <li><strong>Right Shoulder</strong> &rarr; <kbd>Return</kbd> (confirms input in BASIC and many programs)</li>
+        </ul>
+
+        <!-- ==================== App Lifecycle ==================== -->
+        <h2 id="lifecycle">App Lifecycle</h2>
+
+        <h3>Background &amp; Foreground</h3>
+
+        <p>When Fuji-Vision moves to the background (e.g., you switch to another app), emulation pauses automatically. When you return to Fuji-Vision, emulation resumes&mdash;unless you had manually paused it before leaving, in which case it stays paused.</p>
+
+        <h3>Settings Persistence</h3>
+
+        <p>All settings are saved automatically via <code>@AppStorage</code> and persist across app launches. There is no "save settings" button&mdash;changes take effect immediately and are remembered.</p>
+
+        <h3>Pause &amp; Resume</h3>
+
+        <p>Tap the <strong>Pause/Resume</strong> button in the toolbar to manually pause or resume emulation at any time. The pause state is indicated by the toolbar button icon changing between pause and play symbols.</p>
+
+        <div class="docs-footer">
+            <p>Next: <a href="technical-reference.html">Technical Reference &rarr;</a></p>
+            <p><a href="getting-started.html">&larr; Getting Started</a> &ensp;|&ensp; <a href="index.html">Documentation home</a></p>
+        </div>
+
+    </div>
+</main>
+
+</body>
+</html>

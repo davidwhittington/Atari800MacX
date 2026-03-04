@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Reference &mdash; Fuji-Vision</title>
+    <link rel="stylesheet" href="docs.css">
+</head>
+<body>
+
+<button class="sidebar-toggle" onclick="document.querySelector('.docs-sidebar').classList.toggle('open')" aria-label="Toggle navigation">&#9776;</button>
+
+<nav class="docs-sidebar">
+    <a href="../../index.html" class="sidebar-home">
+        <strong>Fuji Concepts</strong>
+        fujiconcepts.com
+    </a>
+
+    <div class="sidebar-section">Getting Started</div>
+    <a href="getting-started.html" class="sidebar-link">What is Fuji-Vision?</a>
+    <a href="getting-started.html#requirements" class="sidebar-link sidebar-sub">Requirements</a>
+    <a href="getting-started.html#first-launch" class="sidebar-link sidebar-sub">First Launch</a>
+    <a href="getting-started.html#loading-a-game" class="sidebar-link sidebar-sub">Loading a Game</a>
+    <a href="getting-started.html#game-controller" class="sidebar-link sidebar-sub">Game Controller</a>
+    <a href="getting-started.html#on-screen-controls" class="sidebar-link sidebar-sub">On-Screen Controls</a>
+    <a href="getting-started.html#machine-type" class="sidebar-link sidebar-sub">Machine Type</a>
+    <a href="getting-started.html#quick-settings" class="sidebar-link sidebar-sub">Quick Settings</a>
+
+    <div class="sidebar-section">User Guide</div>
+    <a href="user-guide.html" class="sidebar-link">Media Management</a>
+    <a href="user-guide.html#display" class="sidebar-link sidebar-sub">Display Settings</a>
+    <a href="user-guide.html#visibility" class="sidebar-link sidebar-sub">Visibility</a>
+    <a href="user-guide.html#audio" class="sidebar-link sidebar-sub">Audio</a>
+    <a href="user-guide.html#speed" class="sidebar-link sidebar-sub">Speed Control</a>
+    <a href="user-guide.html#save-states" class="sidebar-link sidebar-sub">Save States</a>
+    <a href="user-guide.html#input" class="sidebar-link sidebar-sub">Input</a>
+    <a href="user-guide.html#lifecycle" class="sidebar-link sidebar-sub">App Lifecycle</a>
+
+    <div class="sidebar-section">Technical Reference</div>
+    <a href="technical-reference.html" class="sidebar-link active">Architecture</a>
+    <a href="#rendering" class="sidebar-link sidebar-sub">Rendering Pipeline</a>
+    <a href="#audio-pipeline" class="sidebar-link sidebar-sub">Audio Pipeline</a>
+    <a href="#input-system" class="sidebar-link sidebar-sub">Input System</a>
+    <a href="#compositor" class="sidebar-link sidebar-sub">Visibility Compositor</a>
+    <a href="#file-types" class="sidebar-link sidebar-sub">File Types</a>
+    <a href="#settings-keys" class="sidebar-link sidebar-sub">Settings Keys</a>
+    <a href="#build" class="sidebar-link sidebar-sub">Build Info</a>
+</nav>
+
+<main class="docs-main">
+    <div class="docs-content">
+
+        <nav class="docs-breadcrumb">
+            <a href="../../index.html">Fuji Concepts</a>
+            <span class="sep">&rsaquo;</span>
+            <a href="index.html">Docs</a>
+            <span class="sep">&rsaquo;</span>
+            Technical Reference
+        </nav>
+
+        <h1>Technical Reference</h1>
+        <p class="subtitle">Architecture, internals, and developer information.</p>
+
+        <!-- ==================== Architecture ==================== -->
+        <h2 id="architecture">Architecture Overview</h2>
+
+        <p>Fuji-Vision is built as a <strong>pure Swift + C</strong> application with no Objective-C layer. The C emulation core comes from the <a href="https://atari800.github.io/">Atari800</a> open-source project, compiled directly into the visionOS app via a bridging header.</p>
+
+        <h3>Layer Diagram</h3>
+
+<pre><code>┌──────────────────────────────────┐
+│   SwiftUI Views &amp; App Lifecycle  │  Swift / visionOS SDK
+├──────────────────────────────────┤
+│   EmulatorRenderer (Metal)       │  MTKView + Metal shaders
+│   AudioManager (AVAudioEngine)   │  AVAudioSourceNode pull model
+│   InputManager (GameController)  │  GCController framework
+│   VisibilityCompositor           │  Data processor (pure Swift)
+├──────────────────────────────────┤
+│   Platform Bridge (C)            │  atari_vision.c, stubs
+├──────────────────────────────────┤
+│   Atari800 C Core                │  ~57 source files from atari800
+│   Altirra ROMs                   │  Built-in OS/BASIC/5200 ROMs
+└──────────────────────────────────┘</code></pre>
+
+        <h3>Key Design Decisions</h3>
+
+        <ul>
+            <li><strong>No ObjC</strong> &mdash; visionOS uses UIKit (not AppKit), and all platform glue is done through a C bridging header, avoiding the need for an Objective-C bridge.</li>
+            <li><strong>Dedicated emulation thread</strong> &mdash; The C core runs on its own <code>pthread</code>, decoupled from the main/render thread. Frame data is copied to a shared buffer and uploaded to a Metal texture on the main thread.</li>
+            <li><strong>Pull-model audio</strong> &mdash; Audio samples are produced by the emulation thread into a lock-free ring buffer and pulled by <code>AVAudioSourceNode</code>'s render callback, avoiding audio glitches from thread contention.</li>
+            <li><strong>Built-in ROMs</strong> &mdash; Altirra OS, BASIC, and 5200 ROMs are compiled directly into the binary as C arrays, so no external ROM files are required.</li>
+        </ul>
+
+        <!-- ==================== Rendering Pipeline ==================== -->
+        <h2 id="rendering">Rendering Pipeline</h2>
+
+        <h3>Frame Production (C Core)</h3>
+
+        <ol>
+            <li>The emulation core writes pixel data to <code>Screen_atari</code> (the standard Atari800 frame buffer).</li>
+            <li><code>PLATFORM_DisplayScreen()</code> calls <code>Atari800Core_GetFrameBuffer(&amp;w, &amp;h)</code>, which converts <code>Screen_atari</code> into an RGBA8888 pixel buffer (typically 384&times;240 pixels) using the active color lookup table.</li>
+            <li>A registered frame callback copies the pixel data and notifies the renderer.</li>
+        </ol>
+
+        <h3>Frame Upload (Metal)</h3>
+
+        <ol>
+            <li><code>EmulatorRenderer.uploadFrame()</code> receives the RGBA pixel data on the main thread.</li>
+            <li>Pixels are uploaded to an <code>MTLTexture</code> with pixel format <code>.rgba8Unorm</code>.</li>
+            <li>Before returning, <code>uploadFrame()</code> also calls <code>compositor.analyzeFrame()</code> for background detection (if auto-detect is enabled).</li>
+        </ol>
+
+        <h3>Shader Pipeline</h3>
+
+        <p>The render pipeline uses a vertex shader (<code>emulatorVertex</code>) and fragment shader (<code>emulatorFragment</code>) loaded from the app's default Metal library.</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Property</th><th>Value</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Source texture format</td><td><code>.rgba8Unorm</code></td></tr>
+                <tr><td>Drawable format</td><td><code>.bgra8Unorm</code></td></tr>
+                <tr><td>Vertex topology</td><td>Triangle strip, 4 vertices (fullscreen quad)</td></tr>
+                <tr><td>Vertex data</td><td><code>SIMD4&lt;Float&gt;(-1, -1, 1, 1)</code> (NDC: L, B, R, T)</td></tr>
+                <tr><td>Blend mode (RGB)</td><td>Source alpha / One minus source alpha</td></tr>
+                <tr><td>Blend mode (Alpha)</td><td>One / One minus source alpha</td></tr>
+                <tr><td>Frame rate</td><td>60 fps preferred</td></tr>
+            </tbody>
+        </table>
+
+        <h3>MTKView Configuration</h3>
+
+        <p>For visionOS pass-through transparency, the <code>MTKView</code> is configured with:</p>
+
+        <ul>
+            <li><code>isOpaque = false</code></li>
+            <li><code>clearColor</code> alpha = 0 (fully transparent background)</li>
+            <li><code>framebufferOnly = false</code> (required for compositor frame reads)</li>
+            <li><code>layer.isOpaque = false</code></li>
+        </ul>
+
+        <h3>Texture Sampling</h3>
+
+        <p>Two sampler states are maintained: <strong>nearest-neighbor</strong> (sharp pixels) and <strong>linear</strong> (bilinear filtering). The active sampler is selected by the <code>FV_LinearFilter</code> setting. Both use clamp-to-edge addressing.</p>
+
+        <h3>FragParams Struct</h3>
+
+        <p>Per-frame parameters passed to the fragment shader via a constant buffer:</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>scanlines</code></td><td><code>Int32</code></td><td>1 = CRT scanline effect on, 0 = off</td></tr>
+                <tr><td><code>scanlineTransparency</code></td><td><code>Float</code></td><td>Scanline intensity (0.5&ndash;1.0, higher = less visible)</td></tr>
+                <tr><td><code>globalAlpha</code></td><td><code>Float</code></td><td>Overall window opacity from visibility compositor</td></tr>
+                <tr><td><code>keyEnabled</code></td><td><code>Int32</code></td><td>1 = chroma key active, 0 = off</td></tr>
+                <tr><td><code>keyR</code></td><td><code>Float</code></td><td>Chroma key color, red channel (0&ndash;1)</td></tr>
+                <tr><td><code>keyG</code></td><td><code>Float</code></td><td>Chroma key color, green channel (0&ndash;1)</td></tr>
+                <tr><td><code>keyB</code></td><td><code>Float</code></td><td>Chroma key color, blue channel (0&ndash;1)</td></tr>
+                <tr><td><code>keyThreshold</code></td><td><code>Float</code></td><td>Key match radius</td></tr>
+                <tr><td><code>keySoftEdge</code></td><td><code>Float</code></td><td>Soft edge blend width</td></tr>
+                <tr><td><code>keyInvert</code></td><td><code>Int32</code></td><td>1 = invert key (key-in mode)</td></tr>
+                <tr><td><code>edgeEnhance</code></td><td><code>Float</code></td><td>1.0 = edge enhancement on, 0.0 = off</td></tr>
+            </tbody>
+        </table>
+
+        <!-- ==================== Audio Pipeline ==================== -->
+        <h2 id="audio-pipeline">Audio Pipeline</h2>
+
+        <h3>Signal Flow</h3>
+
+<pre><code>POKEY emulation (C core)
+    ↓
+Sound_Update() → 16-bit PCM samples
+    ↓
+SPSC ring buffer (16,384 bytes ≈ 185 ms)
+    ↓
+AVAudioSourceNode render callback (pull)
+    ↓
+Audio output</code></pre>
+
+        <h3>Parameters</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Parameter</th><th>Value</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Sample rate</td><td>44,100 Hz</td></tr>
+                <tr><td>Bit depth</td><td>16-bit signed PCM</td></tr>
+                <tr><td>Channels</td><td>Mono (1) or Stereo (2) if Stereo POKEY enabled</td></tr>
+                <tr><td>Samples per frame</td><td>735 (mono) / 1,470 (stereo) at 60 fps</td></tr>
+                <tr><td>Ring buffer size</td><td>16,384 bytes (power of 2)</td></tr>
+                <tr><td>Fill target</td><td>25% (~4,096 bytes)</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Buffer Management</h3>
+
+        <p>The ring buffer uses a single-producer, single-consumer (SPSC) lock-free design. The emulation thread writes samples; the audio render callback reads them.</p>
+
+        <ul>
+            <li><strong>Underrun</strong> &mdash; If the buffer runs dry, the render callback fills with silence (zero samples). The emulation speed is adjusted to 105% to catch up.</li>
+            <li><strong>Overrun</strong> &mdash; If the buffer exceeds its fill target by more than 12.5%, emulation speed is reduced to 95% to let audio drain.</li>
+        </ul>
+
+        <h3>Volume Control</h3>
+
+        <p>Volume scaling is applied in <code>Sound_Update()</code> on the emulation thread. Each <code>int16_t</code> sample is multiplied by the <code>sound_volume</code> factor (0.0&ndash;1.0) before being written to the ring buffer.</p>
+
+        <!-- ==================== Input System ==================== -->
+        <h2 id="input-system">Input System</h2>
+
+        <h3>GCController Framework</h3>
+
+        <p>Fuji-Vision uses Apple's <code>GameController</code> framework to interface with Bluetooth controllers. Controller discovery starts on app launch via <code>GCController.startWirelessControllerDiscovery()</code>. Only the first connected controller is tracked.</p>
+
+        <h3>Joystick Interface</h3>
+
+        <p>Joystick state is written directly to the Atari800 core's hardware registers:</p>
+
+        <ul>
+            <li><code>PIA_PORT_input[0]</code> &mdash; joystick direction bits (port 0)</li>
+            <li><code>GTIA_TRIG[0]</code> &mdash; fire button state (0 = pressed, 1 = released)</li>
+        </ul>
+
+        <p><code>INPUT_Frame()</code> is a no-op stub; input state is updated directly by the controller handlers rather than being polled per frame.</p>
+
+        <h3>Console Key Interface</h3>
+
+        <p>Console keys (Start, Select, Option) use bit-clearing on <code>INPUT_key_consol</code>:</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Key</th><th>Bit Mask</th><th>Function</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Start</td><td><code>0x01</code></td><td>Clear bit to press, set to release</td></tr>
+                <tr><td>Select</td><td><code>0x02</code></td><td>Clear bit to press, set to release</td></tr>
+                <tr><td>Option</td><td><code>0x04</code></td><td>Clear bit to press, set to release</td></tr>
+            </tbody>
+        </table>
+
+        <h3>AKEY Constants</h3>
+
+        <p>Keyboard and console keys use AKEY codes passed to <code>Atari800Core_KeyDown()</code>:</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Key</th><th>AKEY Value</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Space</td><td><code>0x21</code></td><td>Left shoulder button</td></tr>
+                <tr><td>Return</td><td><code>0x0C</code></td><td>Right shoulder button</td></tr>
+                <tr><td>Start</td><td><code>-10</code></td><td>Console key (negative = console)</td></tr>
+                <tr><td>Select</td><td><code>-11</code></td><td>Console key</td></tr>
+                <tr><td>Option</td><td><code>-12</code></td><td>Console key</td></tr>
+            </tbody>
+        </table>
+
+        <!-- ==================== Visibility Compositor ==================== -->
+        <h2 id="compositor">Visibility Compositor</h2>
+
+        <p><code>VisibilityCompositor</code> is a pure data processor&mdash;it holds no Metal objects and produces a <code>FragParams</code> struct consumed by the renderer each frame.</p>
+
+        <h3>Visibility Modes &amp; Alpha Values</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Mode</th><th>Raw Value</th><th>Target Alpha</th><th>User-Selectable</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Solid</td><td>0</td><td>1.0</td><td>Yes</td></tr>
+                <tr><td>Dim</td><td>1</td><td>0.6</td><td>Yes</td></tr>
+                <tr><td>Ghost</td><td>2</td><td>0.2</td><td>Yes</td></tr>
+                <tr><td>Peek</td><td>3</td><td>0.15</td><td>No (gesture only)</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Alpha Transitions</h3>
+
+        <p>All mode changes animate via linear interpolation over <strong>0.3 seconds</strong> (lerp duration). The <code>update(deltaTime:)</code> method is called once per Metal draw call, advancing the current alpha toward the target at approximately 3.33 alpha units per second.</p>
+
+        <h3>Background Detection Algorithm</h3>
+
+        <ol>
+            <li><strong>Guard</strong> &mdash; Only runs when <code>autoDetectEnabled == true</code> and <code>detectedColorLocked == false</code>.</li>
+            <li><strong>Interval</strong> &mdash; Runs every 30 frames (~0.5 seconds at 60 fps).</li>
+            <li><strong>Sampling</strong> &mdash; Reads border pixels from the top row, bottom row, left column, and right column of the RGBA frame buffer, sampling every 4th pixel.</li>
+            <li><strong>Quantization</strong> &mdash; Each sampled pixel's RGB channels are quantized to 4-bit precision (16 levels per channel) and combined into a 12-bit key: <code>(qR &lt;&lt; 8) | (qG &lt;&lt; 4) | qB</code>.</li>
+            <li><strong>Histogram</strong> &mdash; A frequency histogram is built from the quantized keys. The dominant color is the key with the highest count.</li>
+            <li><strong>Dequantization</strong> &mdash; The winning key is converted back to floating-point RGB by centering within each bucket: <code>(nibble + 0.5) / 16.0</code>.</li>
+            <li><strong>Hysteresis</strong> &mdash; The detected color must remain stable for 3 consecutive detection cycles before it is adopted as the new key color. Stability is measured as <code>simd_distance(detected, candidate) &lt; threshold</code>.</li>
+            <li><strong>Sensitivity mapping</strong> &mdash; The sensitivity slider (0.0&ndash;1.0) maps to a distance threshold via: <code>threshold = 0.1 &times; (1.0 - sensitivity) + 0.02</code>.
+                <ul>
+                    <li>Sensitivity 0.0 &rarr; threshold 0.12 (most tolerant)</li>
+                    <li>Sensitivity 0.5 &rarr; threshold 0.07</li>
+                    <li>Sensitivity 1.0 &rarr; threshold 0.02 (most strict)</li>
+                </ul>
+            </li>
+            <li><strong>Auto-enable</strong> &mdash; When hysteresis is satisfied and chroma key is currently off, the compositor automatically enables keying.</li>
+        </ol>
+
+        <!-- ==================== File Types ==================== -->
+        <h2 id="file-types">File Types &amp; UTType Declarations</h2>
+
+        <p>Fuji-Vision declares imported Uniform Type Identifiers for all supported Atari file formats:</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>UTType Identifier</th><th>Extensions</th><th>Swift Constant</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>com.fujiconcepts.atari-disk-atr</code></td><td><code>.atr</code> <code>.atz</code></td><td><code>.atariDiskATR</code></td></tr>
+                <tr><td><code>com.fujiconcepts.atari-disk-xfd</code></td><td><code>.xfd</code> <code>.dcm</code></td><td><code>.atariDiskXFD</code></td></tr>
+                <tr><td><code>com.fujiconcepts.atari-cartridge</code></td><td><code>.car</code> <code>.rom</code> <code>.bin</code></td><td><code>.atariCartridge</code></td></tr>
+                <tr><td><code>com.fujiconcepts.atari-executable</code></td><td><code>.xex</code> <code>.com</code> <code>.exe</code> <code>.obx</code></td><td><code>.atariExecutable</code></td></tr>
+                <tr><td><code>com.fujiconcepts.atari-cassette</code></td><td><code>.cas</code></td><td><code>.atariCassette</code></td></tr>
+                <tr><td><code>com.fujiconcepts.atari-savestate</code></td><td><code>.a8s</code></td><td><code>.atariSaveState</code></td></tr>
+            </tbody>
+        </table>
+
+        <p>The file importer always includes <code>.data</code> (generic binary) as a fallback type for each media category. Save states are managed exclusively through the Save States panel, not the file importer.</p>
+
+        <!-- ==================== Settings Keys ==================== -->
+        <h2 id="settings-keys">Settings Keys Reference</h2>
+
+        <p>All persistent settings use <code>@AppStorage</code> with the following keys:</p>
+
+        <h3>Display</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>FV_TVMode</code></td><td><code>Int</code></td><td><code>0</code></td><td>0 = NTSC, 1 = PAL</td></tr>
+                <tr><td><code>FV_ArtifactingMode</code></td><td><code>Int</code></td><td><code>0</code></td><td>0 = None, 1 = Old, 2 = New, 3 = Hi-Fi</td></tr>
+                <tr><td><code>FV_LinearFilter</code></td><td><code>Bool</code></td><td><code>false</code></td><td>Bilinear texture filtering</td></tr>
+                <tr><td><code>FV_Scanlines</code></td><td><code>Bool</code></td><td><code>false</code></td><td>CRT scanline effect</td></tr>
+                <tr><td><code>FV_ScanlineTransparency</code></td><td><code>Double</code></td><td><code>0.9</code></td><td>Scanline intensity (0.5&ndash;1.0)</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Visibility</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>FV_VisibilityMode</code></td><td><code>Int</code></td><td><code>0</code></td><td>0 = Solid, 1 = Dim, 2 = Ghost</td></tr>
+                <tr><td><code>FV_KeyEnabled</code></td><td><code>Bool</code></td><td><code>false</code></td><td>Chroma key master toggle</td></tr>
+                <tr><td><code>FV_KeyThreshold</code></td><td><code>Double</code></td><td><code>0.1</code></td><td>Key match radius (0.0&ndash;0.5)</td></tr>
+                <tr><td><code>FV_KeySoftEdge</code></td><td><code>Double</code></td><td><code>0.05</code></td><td>Soft edge width (0.0&ndash;0.3)</td></tr>
+                <tr><td><code>FV_KeyInvert</code></td><td><code>Bool</code></td><td><code>false</code></td><td>Invert chroma key</td></tr>
+                <tr><td><code>FV_AutoDetect</code></td><td><code>Bool</code></td><td><code>false</code></td><td>Auto-detect background color</td></tr>
+                <tr><td><code>FV_AutoDetectSensitivity</code></td><td><code>Double</code></td><td><code>0.5</code></td><td>Detection sensitivity (0.0&ndash;1.0)</td></tr>
+                <tr><td><code>FV_DetectedColorLocked</code></td><td><code>Bool</code></td><td><code>false</code></td><td>Lock detected key color</td></tr>
+                <tr><td><code>FV_EdgeEnhance</code></td><td><code>Bool</code></td><td><code>false</code></td><td>Edge enhancement for keying</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Audio</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>FV_AudioEnabled</code></td><td><code>Bool</code></td><td><code>true</code></td><td>Master audio toggle</td></tr>
+                <tr><td><code>FV_AudioVolume</code></td><td><code>Double</code></td><td><code>1.0</code></td><td>Output volume (0.0&ndash;1.0)</td></tr>
+                <tr><td><code>FV_StereoEnabled</code></td><td><code>Bool</code></td><td><code>false</code></td><td>Dual POKEY stereo mode</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Speed</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>FV_SpeedLimit</code></td><td><code>Bool</code></td><td><code>true</code></td><td>Cap emulation at selected speed</td></tr>
+                <tr><td><code>FV_EmulationSpeed</code></td><td><code>Double</code></td><td><code>1.0</code></td><td>Speed multiplier (0.5&ndash;4.0, step 0.25)</td></tr>
+            </tbody>
+        </table>
+
+        <!-- ==================== Build Information ==================== -->
+        <h2 id="build">Build Information</h2>
+
+        <h3>Project Generation</h3>
+
+        <p>The Xcode project is generated from <code>project.yml</code> using <a href="https://github.com/yonaskolb/XcodeGen">XcodeGen</a>:</p>
+
+<pre><code>/opt/homebrew/bin/xcodegen generate</code></pre>
+
+        <p>Run this from the <code>apps/fuji-vision/</code> directory whenever <code>project.yml</code> changes.</p>
+
+        <h3>Build Command</h3>
+
+<pre><code>xcodebuild -scheme FujiVision \
+  -destination 'generic/platform=xrsimulator' \
+  build</code></pre>
+
+        <h3>Configuration</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Property</th><th>Value</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Bundle ID</td><td><code>com.fujiconcepts.FujiVision</code></td></tr>
+                <tr><td>Deployment target</td><td>visionOS 2.0</td></tr>
+                <tr><td>visionOS SDK</td><td>26.2</td></tr>
+                <tr><td>Swift version</td><td>5.9</td></tr>
+                <tr><td>C standard</td><td>gnu11</td></tr>
+                <tr><td>Bridging header</td><td><code>FujiVision/FujiVision-Bridging-Header.h</code></td></tr>
+            </tbody>
+        </table>
+
+        <h3>Header Search Path Ordering</h3>
+
+        <p>The <code>FujiVision/Platform/</code> directory is listed first in the header search paths. This ensures the visionOS-specific <code>config.h</code> (which defines <code>VISIONOS 1</code>, <code>ATARI800MACX</code>, and <code>MACOSX</code>) takes precedence over the fuji-foundation macOS <code>config.h</code>.</p>
+
+        <h3>C Core Sources</h3>
+
+        <p>Approximately 57 C source files from the Atari800 core are included, plus 5 platform bridge files and 4 Altirra ROM data files. The following files are <strong>excluded</strong> from the visionOS build due to SDL, IOKit, or other macOS-specific dependencies:</p>
+
+        <ul>
+            <li><code>preferences_c.c</code> (requires SDL)</li>
+            <li><code>capslock.c</code> (requires IOKit)</li>
+            <li><code>rdevice.c</code> (requires R_SERIAL/R_NETWORK)</li>
+            <li><code>input.c</code>, <code>screen.c</code>, <code>colours.c</code>, <code>sound.c</code>, <code>monitor.c</code> (replaced by platform-specific implementations)</li>
+            <li><code>atari_mac_sdl.c</code> (SDL main loop)</li>
+        </ul>
+
+        <p>Replacement files: <code>atari_vision.c</code>, <code>preferences_vision.c</code>, <code>capslock_vision.c</code>, <code>vision_stubs.c</code>, and <code>mac_monitor.c</code>.</p>
+
+        <div class="docs-footer">
+            <p><a href="user-guide.html">&larr; User Guide</a> &ensp;|&ensp; <a href="index.html">Documentation home</a></p>
+        </div>
+
+    </div>
+</main>
+
+</body>
+</html>

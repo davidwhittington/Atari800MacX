@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started &mdash; Fuji-Vision</title>
+    <link rel="stylesheet" href="docs.css">
+</head>
+<body>
+
+<button class="sidebar-toggle" onclick="document.querySelector('.docs-sidebar').classList.toggle('open')" aria-label="Toggle navigation">&#9776;</button>
+
+<nav class="docs-sidebar">
+    <a href="../../index.html" class="sidebar-home">
+        <strong>Fuji Concepts</strong>
+        fujiconcepts.com
+    </a>
+
+    <div class="sidebar-section">Getting Started</div>
+    <a href="getting-started.html" class="sidebar-link active">What is Fuji-Vision?</a>
+    <a href="#requirements" class="sidebar-link sidebar-sub">Requirements</a>
+    <a href="#first-launch" class="sidebar-link sidebar-sub">First Launch</a>
+    <a href="#loading-a-game" class="sidebar-link sidebar-sub">Loading a Game</a>
+    <a href="#game-controller" class="sidebar-link sidebar-sub">Game Controller</a>
+    <a href="#on-screen-controls" class="sidebar-link sidebar-sub">On-Screen Controls</a>
+    <a href="#machine-type" class="sidebar-link sidebar-sub">Machine Type</a>
+    <a href="#quick-settings" class="sidebar-link sidebar-sub">Quick Settings</a>
+
+    <div class="sidebar-section">User Guide</div>
+    <a href="user-guide.html" class="sidebar-link">Media Management</a>
+    <a href="user-guide.html#display" class="sidebar-link sidebar-sub">Display Settings</a>
+    <a href="user-guide.html#visibility" class="sidebar-link sidebar-sub">Visibility</a>
+    <a href="user-guide.html#audio" class="sidebar-link sidebar-sub">Audio</a>
+    <a href="user-guide.html#speed" class="sidebar-link sidebar-sub">Speed Control</a>
+    <a href="user-guide.html#save-states" class="sidebar-link sidebar-sub">Save States</a>
+    <a href="user-guide.html#input" class="sidebar-link sidebar-sub">Input</a>
+    <a href="user-guide.html#lifecycle" class="sidebar-link sidebar-sub">App Lifecycle</a>
+
+    <div class="sidebar-section">Technical Reference</div>
+    <a href="technical-reference.html" class="sidebar-link">Architecture</a>
+    <a href="technical-reference.html#rendering" class="sidebar-link sidebar-sub">Rendering Pipeline</a>
+    <a href="technical-reference.html#audio-pipeline" class="sidebar-link sidebar-sub">Audio Pipeline</a>
+    <a href="technical-reference.html#input-system" class="sidebar-link sidebar-sub">Input System</a>
+    <a href="technical-reference.html#compositor" class="sidebar-link sidebar-sub">Visibility Compositor</a>
+    <a href="technical-reference.html#file-types" class="sidebar-link sidebar-sub">File Types</a>
+    <a href="technical-reference.html#settings-keys" class="sidebar-link sidebar-sub">Settings Keys</a>
+    <a href="technical-reference.html#build" class="sidebar-link sidebar-sub">Build Info</a>
+</nav>
+
+<main class="docs-main">
+    <div class="docs-content">
+
+        <nav class="docs-breadcrumb">
+            <a href="../../index.html">Fuji Concepts</a>
+            <span class="sep">&rsaquo;</span>
+            <a href="index.html">Docs</a>
+            <span class="sep">&rsaquo;</span>
+            Getting Started
+        </nav>
+
+        <h1>Getting Started</h1>
+        <p class="subtitle">Your first steps with Fuji-Vision on Apple Vision Pro.</p>
+
+        <!-- What is Fuji-Vision? -->
+        <h2 id="what-is-fuji-vision">What is Fuji-Vision?</h2>
+
+        <p>Fuji-Vision is an Atari 800/XL/XE/5200 emulator designed from the ground up for Apple Vision Pro. It brings the full 8-bit Atari experience into your spatial computing environment&mdash;complete with Metal-accelerated rendering, spatial audio, game controller support, and a visibility compositor that lets the Atari display float transparently over your real-world surroundings.</p>
+
+        <!-- Requirements -->
+        <h2 id="requirements">Requirements</h2>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Requirement</th><th>Details</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Device</td><td>Apple Vision Pro</td></tr>
+                <tr><td>Operating System</td><td>visionOS 2.0 or later</td></tr>
+                <tr><td>Controller</td><td>Bluetooth game controller recommended (MFi or Xbox/PlayStation)</td></tr>
+                <tr><td>Storage</td><td>Minimal&mdash;the app is under 20 MB; game files vary</td></tr>
+            </tbody>
+        </table>
+
+        <div class="docs-callout tip">
+            <div class="docs-callout-label">Tip</div>
+            <p>A game controller is highly recommended for the best experience. While on-screen touch controls are available, a physical controller is much more comfortable for extended play.</p>
+        </div>
+
+        <!-- First Launch -->
+        <h2 id="first-launch">First Launch</h2>
+
+        <p>When you first open Fuji-Vision, you will see a blue Atari BASIC screen with the <code>READY</code> prompt. This is the built-in Altirra BASIC ROM&mdash;no external ROM files are needed to get started.</p>
+
+        <p>The emulator defaults to the <strong>Atari XL/XE</strong> machine type with NTSC video mode. You can type BASIC commands directly using the on-screen keyboard or a connected Bluetooth keyboard.</p>
+
+        <div class="docs-callout note">
+            <div class="docs-callout-label">Note</div>
+            <p>Fuji-Vision includes built-in Altirra OS and BASIC ROMs. You do not need to supply your own ROM files, although original Atari ROMs can be used if you have them.</p>
+        </div>
+
+        <!-- Loading a Game -->
+        <h2 id="loading-a-game">Loading Your First Game</h2>
+
+        <p>To load a game from a disk image:</p>
+
+        <ol>
+            <li>Tap the <strong>Disks</strong> button in the toolbar (disc icon).</li>
+            <li>Select <strong>Insert Disk</strong> under <strong>Drive D1:</strong>.</li>
+            <li>Browse to your <code>.atr</code> or <code>.xfd</code> disk image file and select it.</li>
+            <li>The disk will mount automatically. Many games boot immediately; others may require you to press the <strong>Reset</strong> button or power-cycle the emulated machine.</li>
+        </ol>
+
+        <p>You can also load other media types from the toolbar:</p>
+
+        <ul>
+            <li><strong>Cartridge</strong> (chip icon) &mdash; insert <code>.car</code>, <code>.rom</code>, or <code>.bin</code> cartridge files</li>
+            <li><strong>More</strong> (ellipsis icon) &mdash; load executables (<code>.xex</code>) or mount cassettes (<code>.cas</code>)</li>
+        </ul>
+
+        <div class="docs-callout tip">
+            <div class="docs-callout-label">Tip</div>
+            <p>Files you import are copied into the app's sandboxed Documents folder. Your originals are never modified.</p>
+        </div>
+
+        <!-- Game Controller -->
+        <h2 id="game-controller">Using a Game Controller</h2>
+
+        <p>Pair a Bluetooth game controller through <strong>Settings &gt; Bluetooth</strong> on your Apple Vision Pro. Fuji-Vision automatically detects the first connected controller.</p>
+
+        <h3>Button Mapping</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Controller Button</th><th>Atari Function</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>D-pad / Left Stick</td><td>Joystick directions (8-way)</td></tr>
+                <tr><td><kbd>A</kbd> (south)</td><td>Fire button</td></tr>
+                <tr><td><kbd>B</kbd> (east)</td><td>Start</td></tr>
+                <tr><td><kbd>X</kbd> (west)</td><td>Select</td></tr>
+                <tr><td><kbd>Y</kbd> (north)</td><td>Option</td></tr>
+                <tr><td>Left Shoulder</td><td><kbd>Space</kbd></td></tr>
+                <tr><td>Right Shoulder</td><td><kbd>Return</kbd></td></tr>
+                <tr><td>Menu</td><td>Warm Reset</td></tr>
+            </tbody>
+        </table>
+
+        <div class="docs-callout note">
+            <div class="docs-callout-label">Note</div>
+            <p>The analog stick has a dead zone of 30%. Small stick movements near center are ignored to prevent drift.</p>
+        </div>
+
+        <!-- On-Screen Controls -->
+        <h2 id="on-screen-controls">Using On-Screen Controls</h2>
+
+        <p>If you don't have a game controller, Fuji-Vision provides on-screen touch controls:</p>
+
+        <ul>
+            <li><strong>D-pad</strong> (left side) &mdash; four directional buttons for joystick movement</li>
+            <li><strong>Fire</strong> (right side) &mdash; large red circle button</li>
+            <li><strong>Console keys</strong> (top center, hidden by default) &mdash; tap the keyboard icon in the top-right corner to reveal <kbd>Start</kbd>, <kbd>Select</kbd>, <kbd>Option</kbd>, and <kbd>Reset</kbd></li>
+        </ul>
+
+        <p>Console key presses are momentary&mdash;the key is held for a brief instant then released automatically, matching how the original Atari console keys work.</p>
+
+        <!-- Machine Type -->
+        <h2 id="machine-type">Changing the Machine Type</h2>
+
+        <p>Fuji-Vision emulates three Atari machine families:</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Machine</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Atari 800</td><td>Original 1979 home computer (48K RAM, no built-in BASIC)</td></tr>
+                <tr><td>Atari XL/XE</td><td>Enhanced 1983+ models (64K RAM, built-in BASIC)</td></tr>
+                <tr><td>Atari 5200</td><td>Game console variant (analog joystick)</td></tr>
+            </tbody>
+        </table>
+
+        <p>To switch machines, tap the <strong>Machine</strong> button in the toolbar (desktop computer icon) and pick your target. The emulator will reset to the new machine type immediately.</p>
+
+        <p>You can also change the machine type from <strong>Settings &gt; Machine</strong>.</p>
+
+        <!-- Quick Settings -->
+        <h2 id="quick-settings">Quick Settings</h2>
+
+        <p>Tap the <strong>gear icon</strong> in the toolbar to open Settings. The most commonly adjusted options:</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Setting</th><th>What it does</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>TV Mode</td><td>Switch between <strong>NTSC</strong> (60 Hz, North American colors) and <strong>PAL</strong> (50 Hz, European colors)</td></tr>
+                <tr><td>Sound Enabled</td><td>Toggle audio output on or off</td></tr>
+                <tr><td>Speed Limit</td><td>When enabled, caps emulation at real-time speed. Disable to run as fast as possible.</td></tr>
+                <tr><td>Speed</td><td>Adjust emulation speed from 50% to 400% (when speed limit is on)</td></tr>
+            </tbody>
+        </table>
+
+        <h3 id="where-to-find-games">Where to Find Games</h3>
+
+        <p>The Atari 8-bit platform has a rich library of thousands of commercial and homebrew titles. Many classic games and demos are available from community software archives on the web. Search for "Atari 8-bit disk images" or "Atari 800 software archive" to find collections of <code>.atr</code> disk images compatible with Fuji-Vision.</p>
+
+        <div class="docs-footer">
+            <p>Next: <a href="user-guide.html">User Guide &rarr;</a></p>
+            <p><a href="index.html">&larr; Documentation home</a></p>
+        </div>
+
+    </div>
+</main>
+
+</body>
+</html>
