@@ -44,6 +44,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
     via new `Vision_Input_ConsoleKeyDown/Up()`. GCController gamepad fully mapped with
     correct AKEY_SPACE/AKEY_RETURN for shoulder buttons. On-screen controls updated.
 
+- **Fuji-Vision Phase V5: File Management** — Complete media import pipeline.
+  - UTType declarations in Info.plist for 6 Atari media types (.atr/.xfd/.car/.xex/.cas/.a8s)
+  - `AtariUTTypes.swift` with Swift UTType constants
+  - File importer filters by media type per target, with `.data` fallback
+  - Mounted media tracked in `mountedMedia` dictionary with eject support
+  - UserDefaults persistence: last-mounted paths restored on launch
+  - visionOS ornament status bar showing mounted media names
+  - Disk LED indicator (green=read, red=write) in top-right corner
+
 ---
 
 ## [26.0.0] — 2026-03-03

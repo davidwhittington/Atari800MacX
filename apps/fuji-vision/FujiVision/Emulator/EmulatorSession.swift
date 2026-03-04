@@ -5,6 +5,7 @@
  *   - Receives frame callbacks from the C layer
  *   - Publishes the current MTLTexture for EmulatorView to display
  *   - Bridges media operations to Atari800Core_* C functions
+ *   - Tracks mounted media and persists across launches
  *
  * THREADING:
  *   - The C emulation thread calls the frame callback (~60 Hz)
@@ -58,8 +59,11 @@ final class EmulatorSession {
     /// Current machine model name for display
     private(set) var machineModelName: String = "Atari XL/XE"
 
-    /// Disk LED status (0 = off)
+    /// Disk LED status (0 = off, 1-9 = read, 10-18 = write)
     private(set) var diskLEDStatus: Int = 0
+
+    /// Currently mounted media — maps target to display name
+    private(set) var mountedMedia: [MediaImportTarget: String] = [:]
 
     // MARK: - Internal Components
 
@@ -68,34 +72,36 @@ final class EmulatorSession {
     private var inputManager: InputManager?
     private var isRunning: Bool = false
 
+    // MARK: - Persistence Keys
+
+    private enum PrefKeys {
+        static let disk1Path = "FV_Disk1Path"
+        static let disk2Path = "FV_Disk2Path"
+        static let cartridgePath = "FV_CartridgePath"
+        static let cassettePath = "FV_CassettePath"
+    }
+
     // MARK: - Lifecycle
 
-    init() {
-        // Renderer and audio are initialized on start()
-    }
+    init() {}
 
     func start() {
         guard !isRunning else { return }
 
-        // Initialize Metal renderer
         renderer = EmulatorRenderer()
-
-        // Initialize audio engine
         audioEngine = AudioEngine()
         audioEngine?.start()
-
-        // Initialize input
         inputManager = InputManager()
         inputManager?.startMonitoring()
 
-        // Register the frame callback before starting the emulation thread.
-        // C function pointers can't capture Swift context, so we use a global.
         EmulatorSession.shared = self
         Vision_Platform_SetFrameCallback(EmulatorSession.frameCallbackTrampoline)
 
-        // Start emulation thread
         Vision_Emulation_Start()
         isRunning = true
+
+        // Restore previously mounted media
+        restoreMedia()
     }
 
     func stop() {
@@ -113,6 +119,11 @@ final class EmulatorSession {
     func togglePause() {
         isPaused.toggle()
         Vision_Emulation_SetPaused(isPaused ? 1 : 0)
+        if isPaused {
+            audioEngine?.pause()
+        } else {
+            audioEngine?.resume()
+        }
     }
 
     func warmReset() {
@@ -131,27 +142,51 @@ final class EmulatorSession {
     // MARK: - Media Management
 
     func importMedia(url: URL, target: MediaImportTarget) {
-        // Start accessing security-scoped resource
         guard url.startAccessingSecurityScopedResource() else { return }
         defer { url.stopAccessingSecurityScopedResource() }
 
-        // Copy to app sandbox for persistent access
         let sandboxURL = copyToSandbox(url: url)
         let path = sandboxURL.path
+        let name = sandboxURL.lastPathComponent
 
+        var success = false
         switch target {
         case .disk1:
-            Atari800Core_MountDisk(1, path)
+            success = Atari800Core_MountDisk(1, path) != 0
         case .disk2:
-            Atari800Core_MountDisk(2, path)
+            success = Atari800Core_MountDisk(2, path) != 0
         case .cartridge:
-            Atari800Core_InsertCartridge(path)
+            success = Atari800Core_InsertCartridge(path) != 0
         case .executable:
-            Atari800Core_LoadExecutable(path)
+            success = Atari800Core_LoadExecutable(path) != 0
         case .cassette:
-            Atari800Core_MountCassette(path)
+            success = Atari800Core_MountCassette(path) != 0
+        }
+
+        if success {
+            mountedMedia[target] = name
+            persistMediaPath(path, for: target)
         }
     }
+
+    func ejectMedia(_ target: MediaImportTarget) {
+        switch target {
+        case .disk1:
+            Atari800Core_UnmountDisk(1)
+        case .disk2:
+            Atari800Core_UnmountDisk(2)
+        case .cartridge:
+            Atari800Core_RemoveCartridge()
+        case .executable:
+            break // executables can't be "ejected"
+        case .cassette:
+            Atari800Core_UnmountCassette()
+        }
+        mountedMedia.removeValue(forKey: target)
+        persistMediaPath(nil, for: target)
+    }
+
+    // MARK: - Sandbox File Copy
 
     private func copyToSandbox(url: URL) -> URL {
         let docsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -159,9 +194,42 @@ final class EmulatorSession {
         try? FileManager.default.createDirectory(at: mediaDir, withIntermediateDirectories: true)
 
         let destURL = mediaDir.appendingPathComponent(url.lastPathComponent)
-        try? FileManager.default.removeItem(at: destURL)  // overwrite if exists
+        try? FileManager.default.removeItem(at: destURL)
         try? FileManager.default.copyItem(at: url, to: destURL)
         return destURL
+    }
+
+    // MARK: - Persistence
+
+    private func persistMediaPath(_ path: String?, for target: MediaImportTarget) {
+        let key: String? = switch target {
+        case .disk1:     PrefKeys.disk1Path
+        case .disk2:     PrefKeys.disk2Path
+        case .cartridge: PrefKeys.cartridgePath
+        case .cassette:  PrefKeys.cassettePath
+        case .executable: nil
+        }
+        guard let key else { return }
+        UserDefaults.standard.set(path, forKey: key)
+    }
+
+    private func restoreMedia() {
+        let defaults = UserDefaults.standard
+        let restoreTargets: [(MediaImportTarget, String, (String) -> Int32)] = [
+            (.disk1, PrefKeys.disk1Path, { Atari800Core_MountDisk(1, $0) }),
+            (.disk2, PrefKeys.disk2Path, { Atari800Core_MountDisk(2, $0) }),
+            (.cartridge, PrefKeys.cartridgePath, { Atari800Core_InsertCartridge($0) }),
+            (.cassette, PrefKeys.cassettePath, { Atari800Core_MountCassette($0) }),
+        ]
+
+        for (target, key, mountFn) in restoreTargets {
+            guard let path = defaults.string(forKey: key),
+                  FileManager.default.fileExists(atPath: path) else { continue }
+            if mountFn(path) != 0 {
+                let name = URL(fileURLWithPath: path).lastPathComponent
+                mountedMedia[target] = name
+            }
+        }
     }
 }
 
@@ -186,6 +254,3 @@ enum MachineModel {
         }
     }
 }
-
-// C global access is now through Vision_Emulation_SetPaused() / Vision_Emulation_IsPaused()
-// defined in platform_bridge.h and implemented in atari_vision.c

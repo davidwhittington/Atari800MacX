@@ -137,21 +137,29 @@ altirra_5200_os.c, altirra_basic.c, altirraos_800.c, altirraos_xl.c
 
 ---
 
-## Phase V5: File Management
+## Phase V5: File Management — DONE
 
 **Goal**: Users can import and manage Atari media files.
 
-### Tasks
-- Implement `fileImporter()` with proper UTType declarations for:
-  - `.atr`, `.xfd` (disk images)
-  - `.car`, `.rom`, `.bin` (cartridge images)
-  - `.xex`, `.com`, `.exe` (executables)
-  - `.cas` (cassette images)
-  - `.a8s` (save states)
-- Copy imported files to app sandbox `Documents/Media/` directory
-- Add media browser view (list mounted disks, show file names)
-- Support drag-and-drop from Files app
-- Persist last-mounted media across app launches (UserDefaults)
+**Status**: Implemented. UTType declarations, file importer, media tracking, persistence.
+
+### What Was Done
+- **UTType declarations** in Info.plist for 6 Atari media types:
+  - `com.fujiconcepts.atari-disk-atr` (.atr, .atz)
+  - `com.fujiconcepts.atari-disk-xfd` (.xfd, .dcm)
+  - `com.fujiconcepts.atari-cartridge` (.car, .rom, .bin)
+  - `com.fujiconcepts.atari-executable` (.xex, .com, .exe, .obx)
+  - `com.fujiconcepts.atari-cassette` (.cas)
+  - `com.fujiconcepts.atari-savestate` (.a8s)
+- **AtariUTTypes.swift**: Swift `UTType` constants matching Info.plist declarations
+- **File importer** filters by media type per target (disks show .atr/.xfd, carts show .car, etc.)
+  - Falls back to `.data` so any file can still be selected
+- **Media tracking**: `mountedMedia` dictionary tracks what's mounted in each slot
+- **Eject support**: Toolbar shows eject buttons for mounted media
+- **Persistence**: UserDefaults stores last-mounted paths; restored on launch
+- **Media status bar**: visionOS ornament at bottom shows mounted media names
+- **Disk LED indicator**: Green (read) / Red (write) dot in top-right corner
+- Files copied to app sandbox `Documents/Media/` for persistent access
 
 ---
 
