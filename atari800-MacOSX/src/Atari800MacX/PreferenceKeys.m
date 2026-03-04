@@ -32,6 +32,7 @@ NSString * const PrefKeyOnlyIntegralScaling  = @"OnlyIntegralScaling";
 NSString * const PrefKeyFixAspectFullscreen  = @"FixAspectFullscreen";
 NSString * const PrefKeyVsyncDisabled        = @"VsyncDisabled";
 NSString * const PrefKeyShowFPS              = @"ShowFPS";
+NSString * const PrefKeyPixelAspectEnabled   = @"PixelAspectEnabled";
 
 /* -------------------------------------------------------------------------
    LED / HUD indicators

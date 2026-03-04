@@ -48,6 +48,7 @@ extern NSString * const PrefKeyOnlyIntegralScaling;  // @"OnlyIntegralScaling"
 extern NSString * const PrefKeyFixAspectFullscreen;  // @"FixAspectFullscreen"
 extern NSString * const PrefKeyVsyncDisabled;        // @"VsyncDisabled"
 extern NSString * const PrefKeyShowFPS;              // @"ShowFPS"
+extern NSString * const PrefKeyPixelAspectEnabled;   // @"PixelAspectEnabled"
 
 /* -------------------------------------------------------------------------
    LED / HUD indicators
