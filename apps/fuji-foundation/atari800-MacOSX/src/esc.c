@@ -256,7 +256,18 @@ void ESC_PatchOS(void)
 				ESC_Add(addr_s, ESC_COPENSAVE, CassetteLeaderSave);
 			}
 		}
-		ESC_AddEscRts(0xe459, ESC_SIOV, SIO_Handler);
+		/* Validate ROM bytes at $E459 before patching SIO handler.
+		   Standard XL/XE OS has JSR $E971 (0x20 0x71 0xe9) at $E459.
+		   Standard 800 OS has JSR $E944 (0x20 0x44 0xe9) at $E459.
+		   Skip patch for custom ROMs that differ. */
+		if (MEMORY_dGetByte(0xe459) == 0x20 &&
+		    ((MEMORY_dGetByte(0xe45a) == 0x71 && MEMORY_dGetByte(0xe45b) == 0xe9) ||
+		     (MEMORY_dGetByte(0xe45a) == 0x44 && MEMORY_dGetByte(0xe45b) == 0xe9))) {
+			ESC_AddEscRts(0xe459, ESC_SIOV, SIO_Handler);
+		}
+		else {
+			Log_print("ESC_PatchOS: SIO patch skipped — ROM bytes at $E459 don't match standard OS");
+		}
 		patched = TRUE;
 	}
 	else {
@@ -295,9 +306,16 @@ void ESC_PatchOS(void)
 			/* Don't disable checksum test. */
 			return;
 		}
-		/* Disable setting NGFLAG on wrong OS checksum. */
-		MEMORY_dPutByte(addr, 0xea);
-		MEMORY_dPutByte(addr+1, 0xea);
+		/* Disable setting NGFLAG on wrong OS checksum.
+		   Validate that the bytes at addr are STA (0x8d) before NOP-ing,
+		   to avoid corrupting non-standard custom ROMs. */
+		if (MEMORY_dGetByte(addr) == 0x8d) {
+			MEMORY_dPutByte(addr, 0xea);
+			MEMORY_dPutByte(addr+1, 0xea);
+		}
+		else {
+			Log_print("ESC_PatchOS: checksum disable skipped — ROM byte at $%04X doesn't match expected STA", addr);
+		}
 	}
 }
 
