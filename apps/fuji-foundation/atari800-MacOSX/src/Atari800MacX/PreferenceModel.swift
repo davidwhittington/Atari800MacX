@@ -39,6 +39,7 @@ final class PreferenceModel: ObservableObject {
     @Published var fixAspectFullscreen: Bool     = true
     @Published var onlyIntegralScaling: Bool     = false
     @Published var showFPS: Bool                 = false
+    @Published var pixelAspectEnabled: Bool      = true
     @Published var artifactingMode: Int          = 0
 
     // MARK: Audio
@@ -65,6 +66,7 @@ final class PreferenceModel: ObservableObject {
         fixAspectFullscreen = d.bool(forKey: PrefKeyFixAspectFullscreen)
         onlyIntegralScaling = d.bool(forKey: PrefKeyOnlyIntegralScaling)
         showFPS             = d.bool(forKey: PrefKeyShowFPS)
+        pixelAspectEnabled  = d.bool(forKey: PrefKeyPixelAspectEnabled)
         artifactingMode     = d.integer(forKey: PrefKeyArtifactingMode)
         audioEnabled        = d.bool(forKey: PrefKeyEnableSound)
         audioVolume         = d.double(forKey: PrefKeySoundVolume)
@@ -82,6 +84,7 @@ final class PreferenceModel: ObservableObject {
         d.set(fixAspectFullscreen,   forKey: PrefKeyFixAspectFullscreen)
         d.set(onlyIntegralScaling,   forKey: PrefKeyOnlyIntegralScaling)
         d.set(showFPS,               forKey: PrefKeyShowFPS)
+        d.set(pixelAspectEnabled,    forKey: PrefKeyPixelAspectEnabled)
         d.set(artifactingMode,       forKey: PrefKeyArtifactingMode)
         d.set(audioEnabled,          forKey: PrefKeyEnableSound)
         d.set(audioVolume,           forKey: PrefKeySoundVolume)
