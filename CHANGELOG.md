@@ -53,6 +53,17 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - visionOS ornament status bar showing mounted media names
   - Disk LED indicator (green=read, red=write) in top-right corner
 
+- **Fuji-Vision Phase V6: Polish** — Production-quality user experience.
+  - `SettingsView.swift`: Form-based settings with @AppStorage persistence
+    - Display: TV mode (NTSC/PAL), artifacting (4 modes), bilinear filter, CRT scanlines with intensity
+    - Audio: sound enable, volume slider, stereo POKEY toggle
+    - Speed: speed limit toggle, multiplier slider (50%–400%)
+    - Machine: model selection (800/XL-XE/5200) with current indicator
+  - `SaveStateView.swift`: 10-slot save state manager with save/load/delete and modification dates
+    - States stored in Documents/SaveStates/state_N.a8s
+  - App lifecycle: scenePhase monitoring pauses emulation+audio on background, resumes on foreground
+  - Toolbar additions: Settings gear button, Save States button
+
 ---
 
 ## [26.0.0] — 2026-03-03

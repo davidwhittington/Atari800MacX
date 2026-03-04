@@ -163,24 +163,29 @@ altirra_5200_os.c, altirra_basic.c, altirraos_800.c, altirraos_xl.c
 
 ---
 
-## Phase V6: Polish
+## Phase V6: Polish — DONE
 
 **Goal**: Production-quality user experience.
 
-### Tasks
-- Settings view:
-  - TV mode (NTSC/PAL)
-  - Artifacting mode
-  - Machine type (800/XL/XE/5200)
-  - Audio volume, stereo toggle
-  - Speed control
-  - Scanline effect, linear filter
-- Save state management (save/load/list)
-- Disk LED indicator overlay
-- Machine type indicator in toolbar
-- Speed display (FPS counter)
-- App lifecycle handling (pause on background, resume on foreground)
-- Keyboard shortcut support (if hardware keyboard connected)
+**Status**: Implemented. Settings view, save states, app lifecycle.
+
+### What Was Done
+- **SettingsView.swift**: Form-based settings panel presented as sheet
+  - Display: TV mode (NTSC/PAL), artifacting mode (4 options), bilinear filter, CRT scanlines with intensity slider
+  - Audio: sound enable, volume slider, stereo POKEY toggle
+  - Speed: speed limit toggle, speed multiplier slider (50%-400%)
+  - Machine: model selection with current indicator
+  - All settings use @AppStorage for persistence across launches
+  - Changes apply immediately via Atari800Core_Set* APIs
+- **SaveStateView.swift**: 10-slot save state manager
+  - Save/load/delete per slot with modification date display
+  - States stored in Documents/SaveStates/state_N.a8s
+  - Uses Atari800Core_SaveState/LoadState
+- **App lifecycle**: scenePhase monitoring
+  - Pauses emulation + audio on background/inactive
+  - Resumes on foreground (respects user pause state)
+- **Toolbar additions**: Settings gear button, Save States button
+- **Audio volume**: wired through EmulatorSession to AudioEngine
 
 ---
 

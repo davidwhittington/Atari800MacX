@@ -12,6 +12,9 @@ struct ContentView: View {
 
     @State private var showFileImporter = false
     @State private var importTarget: MediaImportTarget = .disk1
+    @State private var showSettings = false
+    @State private var showSaveStates = false
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         ZStack {
@@ -117,6 +120,18 @@ struct ContentView: View {
                 } label: {
                     Label(session.machineModelName, systemImage: "desktopcomputer")
                 }
+
+                Divider()
+
+                // Save states
+                Button(action: { showSaveStates = true }) {
+                    Label("Save States", systemImage: "square.and.arrow.down")
+                }
+
+                // Settings
+                Button(action: { showSettings = true }) {
+                    Label("Settings", systemImage: "gearshape")
+                }
             }
         }
         .fileImporter(
@@ -131,11 +146,29 @@ struct ContentView: View {
         .ornament(attachmentAnchor: .scene(.bottom)) {
             mediaStatusBar
         }
+        .sheet(isPresented: $showSettings) {
+            SettingsView()
+                .environment(session)
+        }
+        .sheet(isPresented: $showSaveStates) {
+            SaveStateView()
+                .environment(session)
+        }
         .onAppear {
             session.start()
         }
         .onDisappear {
             session.stop()
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            switch newPhase {
+            case .background, .inactive:
+                session.handleBackground()
+            case .active:
+                session.handleForeground()
+            @unknown default:
+                break
+            }
         }
     }
 

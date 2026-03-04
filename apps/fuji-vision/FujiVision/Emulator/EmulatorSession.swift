@@ -139,6 +139,42 @@ final class EmulatorSession {
         machineModelName = model.displayName
     }
 
+    func setAudioVolume(_ volume: Float) {
+        audioEngine?.setVolume(volume)
+    }
+
+    // MARK: - Save States
+
+    func saveState(slot: Int) {
+        let url = SaveStateView.stateURL(slot: slot)
+        Atari800Core_SaveState(url.path)
+    }
+
+    func loadState(slot: Int) {
+        let url = SaveStateView.stateURL(slot: slot)
+        guard FileManager.default.fileExists(atPath: url.path) else { return }
+        Atari800Core_LoadState(url.path)
+    }
+
+    func deleteState(slot: Int) {
+        let url = SaveStateView.stateURL(slot: slot)
+        try? FileManager.default.removeItem(at: url)
+    }
+
+    // MARK: - App Lifecycle
+
+    func handleBackground() {
+        guard isRunning, !isPaused else { return }
+        Vision_Emulation_SetPaused(1)
+        audioEngine?.pause()
+    }
+
+    func handleForeground() {
+        guard isRunning, !isPaused else { return }
+        Vision_Emulation_SetPaused(0)
+        audioEngine?.resume()
+    }
+
     // MARK: - Media Management
 
     func importMedia(url: URL, target: MediaImportTarget) {
