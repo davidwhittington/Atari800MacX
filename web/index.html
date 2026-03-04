@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fuji Concepts</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #0a0a12;
+      color: #e0e0e8;
+      overflow: hidden;
+    }
+
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(90, 60, 180, 0.15), transparent),
+        radial-gradient(ellipse 60% 50% at 20% 80%, rgba(40, 100, 200, 0.10), transparent),
+        radial-gradient(ellipse 50% 40% at 80% 70%, rgba(200, 60, 100, 0.08), transparent);
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .fuji-mark {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 2rem;
+    }
+
+    .fuji-mark svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .teaser {
+      margin: 2rem auto 2.5rem;
+      max-width: min(90vw, 520px);
+    }
+
+    .teaser img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      border: 1px solid rgba(128, 128, 224, 0.15);
+      box-shadow:
+        0 0 40px rgba(100, 80, 200, 0.15),
+        0 0 80px rgba(100, 80, 200, 0.08);
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #c8c0f0, #8080e0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tagline {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: #8888a0;
+      margin-bottom: 2.5rem;
+      font-weight: 400;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1.25rem;
+      border: 1px solid rgba(128, 128, 224, 0.25);
+      border-radius: 999px;
+      font-size: 0.875rem;
+      color: #a0a0c0;
+      background: rgba(128, 128, 224, 0.06);
+    }
+
+    .status .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #7070e0;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.03) 2px,
+        rgba(0, 0, 0, 0.03) 4px
+      );
+    }
+
+    .signup {
+      margin: 2rem auto 0;
+      max-width: 400px;
+    }
+
+    .signup h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #c0b8e8;
+      margin-bottom: 0.25rem;
+    }
+
+    .signup p {
+      font-size: 0.8rem;
+      color: #686880;
+      margin-bottom: 1rem;
+    }
+
+    .signup form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .signup input {
+      padding: 0.6rem 1rem;
+      border: 1px solid rgba(128, 128, 224, 0.2);
+      border-radius: 8px;
+      background: rgba(128, 128, 224, 0.06);
+      color: #e0e0e8;
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .signup input::placeholder {
+      color: #606078;
+    }
+
+    .signup input:focus {
+      border-color: rgba(128, 128, 224, 0.5);
+    }
+
+    .signup button {
+      padding: 0.65rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #7060c0, #5050a0);
+      color: #e8e4f8;
+      font-size: 0.9rem;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .signup button:hover {
+      opacity: 0.85;
+    }
+
+    .signup .success {
+      display: none;
+      padding: 0.75rem;
+      border: 1px solid rgba(100, 200, 120, 0.3);
+      border-radius: 8px;
+      background: rgba(100, 200, 120, 0.08);
+      color: #90d8a0;
+      font-size: 0.875rem;
+    }
+
+    .social {
+      margin-top: 1.5rem;
+    }
+
+    .social a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #8888a0;
+      text-decoration: none;
+      font-size: 0.875rem;
+      padding: 0.4rem 1rem;
+      border: 1px solid rgba(128, 128, 224, 0.15);
+      border-radius: 999px;
+      background: rgba(128, 128, 224, 0.04);
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+
+    .social a:hover {
+      color: #c0c0e0;
+      border-color: rgba(128, 128, 224, 0.4);
+      background: rgba(128, 128, 224, 0.1);
+    }
+
+    .social svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 1.5rem;
+      z-index: 1;
+      font-size: 0.75rem;
+      color: #505068;
+    }
+  </style>
+</head>
+<body>
+  <div class="backdrop"></div>
+  <div class="scanlines"></div>
+
+  <div class="container">
+    <div class="fuji-mark">
+      <!-- Stylized Fuji mountain / Atari fuji logo mashup -->
+      <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="fujiGrad" x1="60" y1="10" x2="60" y2="110" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#b0a0e8"/>
+            <stop offset="100%" stop-color="#5050a0"/>
+          </linearGradient>
+        </defs>
+        <!-- Left slope -->
+        <polygon points="60,15 10,105 45,105" fill="url(#fujiGrad)" opacity="0.9"/>
+        <!-- Right slope -->
+        <polygon points="60,15 75,105 110,105" fill="url(#fujiGrad)" opacity="0.9"/>
+        <!-- Center gap creates the Fuji/Atari feel -->
+      </svg>
+    </div>
+
+    <h1>Fuji Concepts</h1>
+    <p class="tagline">Atari 8-bit emulation, reimagined for modern platforms.</p>
+
+    <div class="teaser">
+      <img src="fuji_concepts.png" alt="Fuji Concepts — wireframe Atari fuji logo on a grid">
+    </div>
+
+    <div class="signup">
+      <h2>Stay in the loop</h2>
+      <p>Sign up for updates on Fuji Concepts.</p>
+      <!-- TODO: Replace YOUR_FORM_ID with your Formspree endpoint ID -->
+      <form id="signup-form" action="https://formspree.io/f/xykdrjvd" method="POST">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="Email address" required>
+        <button type="submit">Join</button>
+      </form>
+      <div class="success" id="signup-success">Thanks! We'll keep you posted.</div>
+    </div>
+
+    <div class="social">
+      <a href="https://www.facebook.com/profile.php?id=61588534725650" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12S0 5.446 0 12.073c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        Follow us on Facebook
+      </a>
+    </div>
+  </div>
+
+  <footer>&copy; 2026 Fuji Concepts</footer>
+
+  <script>
+    document.getElementById('signup-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var form = this;
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).then(function(res) {
+        if (res.ok) {
+          form.style.display = 'none';
+          document.getElementById('signup-success').style.display = 'block';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

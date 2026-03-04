@@ -7,6 +7,77 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- **Fuji-Vision Phase V7a: Visibility Compositor** — Transparency modes, chroma keying,
+  background detection, and comfort transitions for spatial pass-through rendering.
+  Branch: `fuji-vision-compositor`.
+  - `VisibilityCompositor.swift`: Mode-driven alpha (Solid/Dim/Ghost/Peek), chroma key with
+    configurable threshold and soft-edge feathering, background auto-detection via border
+    pixel sampling (4-bit histogram, 3-scan hysteresis), edge enhancement at key boundaries
+  - FragParams expansion in `Shaders.metal` and `EmulatorRenderer.swift` with globalAlpha,
+    key color/threshold/softEdge/invert, and edgeEnhance parameters
+  - Fragment shader: `smoothstep`-based chroma key, edge brightness boost, global alpha output
+  - Alpha blending enabled on Metal pipeline; MTKView configured for visionOS pass-through
+  - SettingsView: Visibility section with mode picker, chroma key controls, auto-detect, edge enhance
+  - Peek gesture: hold-to-peek-through on ContentView with smooth return
+  - All transitions lerp over 0.3s for visual comfort (Section 11 compliance)
+
+- **Fuji-Vision scaffold** — Complete visionOS app structure under `apps/fuji-vision/`
+  for Apple Vision Pro Atari 800 emulator. Branch: `fuji-vision-framework`.
+  - Platform layer: `config.h` (visionOS feature flags), `atari_vision.c` (PLATFORM_* stubs,
+    sound ring buffer, emulation thread), `platform_bridge.h` (C↔Swift callbacks)
+  - Swift app: `FujiVisionApp.swift` (@main), `ContentView.swift` (toolbar + media management)
+  - Emulator layer: `EmulatorSession.swift` (@Observable lifecycle), `EmulatorRenderer.swift`
+    (Metal pipeline), `AudioEngine.swift` (AVAudioSourceNode pull-model audio)
+  - Input: `InputManager.swift` (GCController gamepad mapping)
+  - Views: `EmulatorView.swift` (UIViewRepresentable MTKView), `OnScreenControlsView.swift`
+    (virtual joystick + console keys)
+  - Shaders.metal (shared with fuji-foundation), Assets.xcassets, Info.plist, entitlements
+  - Documentation: `README.md`, `BUILDOUT_PLAN.md` (7-phase roadmap V1–V7)
+  - Architecture: Pure Swift ↔ C via bridging header (no ObjC layer needed)
+
+- **Fuji-Vision Phase V1: C Core Compiling** — All 69 C core files compile and link
+  for visionOS arm64. BUILD SUCCEEDED on xrsimulator (visionOS SDK 26.2).
+  - XcodeGen project (`project.yml`) with 60 portable C files + 5 bridge files + 4 ROM files
+  - `preferences_vision.c`: SDL-free replacement for `preferences_c.c`
+  - `capslock_vision.c`: IOKit-free replacement for `capslock.c`
+  - `vision_stubs.c`: stubs for 16 macOS ObjC symbols (ControlManager, MediaManager,
+    DisplayManager, etc.)
+  - Added `mac_monitor.c` to build (MONITOR_* symbols for CPU debugger)
+  - Added 4 Altirra built-in ROM .c files (800 OS, XL OS, BASIC, 5200 OS)
+  - config.h: `VISIONOS 1` + `ATARI800MACX` + `MACOSX` (core needs all three)
+  - Resolved 10 build iterations: SDL deps, IOKit, system() unavailability,
+    struct member guards, linker undefined symbols
+
+- **Fuji-Vision Phase V2/V3/V4: Rendering, Audio, Input** — Full emulator pipeline wired.
+  - V2 (Metal): Source texture `.rgba8Unorm` matches C core RGBA output; pipeline renders
+    to `.bgra8Unorm` MTKView drawable. Frame callback trampoline delivers 384x240 frames.
+  - V3 (Audio): `AVAudioSourceNode` pull callback reads from SPSC ring buffer via
+    `Vision_Sound_Read()`. 44100 Hz, 16-bit signed stereo. Zero-fills on underrun.
+  - V4 (Input): Console keys (Start/Select/Option) now use `INPUT_key_consol` bit-clearing
+    via new `Vision_Input_ConsoleKeyDown/Up()`. GCController gamepad fully mapped with
+    correct AKEY_SPACE/AKEY_RETURN for shoulder buttons. On-screen controls updated.
+
+- **Fuji-Vision Phase V5: File Management** — Complete media import pipeline.
+  - UTType declarations in Info.plist for 6 Atari media types (.atr/.xfd/.car/.xex/.cas/.a8s)
+  - `AtariUTTypes.swift` with Swift UTType constants
+  - File importer filters by media type per target, with `.data` fallback
+  - Mounted media tracked in `mountedMedia` dictionary with eject support
+  - UserDefaults persistence: last-mounted paths restored on launch
+  - visionOS ornament status bar showing mounted media names
+  - Disk LED indicator (green=read, red=write) in top-right corner
+
+- **Fuji-Vision Phase V6: Polish** — Production-quality user experience.
+  - `SettingsView.swift`: Form-based settings with @AppStorage persistence
+    - Display: TV mode (NTSC/PAL), artifacting (4 modes), bilinear filter, CRT scanlines with intensity
+    - Audio: sound enable, volume slider, stereo POKEY toggle
+    - Speed: speed limit toggle, multiplier slider (50%–400%)
+    - Machine: model selection (800/XL-XE/5200) with current indicator
+  - `SaveStateView.swift`: 10-slot save state manager with save/load/delete and modification dates
+    - States stored in Documents/SaveStates/state_N.a8s
+  - App lifecycle: scenePhase monitoring pauses emulation+audio on background, resumes on foreground
+  - Toolbar additions: Settings gear button, Save States button
+
 ---
 
 ## [26.0.0] — 2026-03-03
