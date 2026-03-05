@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Downloads — Fuji Concepts</title>
+  <meta name="description" content="Download Fuji-Foundation (Atari800MacX) for macOS and Fuji-Vision for Apple Vision Pro.">
+  <link rel="stylesheet" href="beta.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="fujiGrad" x1="60" y1="10" x2="60" y2="110" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#b0a0e8"/>
+              <stop offset="100%" stop-color="#5050a0"/>
+            </linearGradient>
+          </defs>
+          <polygon points="60,15 10,105 45,105" fill="url(#fujiGrad)" opacity="0.9"/>
+          <polygon points="60,15 75,105 110,105" fill="url(#fujiGrad)" opacity="0.9"/>
+        </svg>
+        Fuji Concepts
+      </a>
+
+      <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+
+      <ul class="nav-links">
+        <li class="nav-dropdown">
+          <a href="#">Products</a>
+          <ul class="nav-dropdown-menu">
+            <li><a href="fuji-foundation.html">Fuji-Foundation</a></li>
+            <li><a href="fuji-vision.html">Fuji-Vision</a></li>
+            <li><a href="fuji-swift.html">Fuji-Swift</a></li>
+            <li><a href="fuji-dynasty.html">Fuji-Dynasty</a></li>
+            <li><a href="fuji-services.html">Fuji-Services</a></li>
+          </ul>
+        </li>
+        <li><a href="downloads.html" class="active">Downloads</a></li>
+        <li><a href="../docs/fuji-foundation/">Docs</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+
+      <div class="nav-cta">
+        <a href="../index.html#signup-form" class="btn btn-primary">Join</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Downloads</h1>
+    <p>Get the latest releases of Fuji Concepts emulators.</p>
+  </section>
+
+  <!-- Current Releases -->
+  <section class="section">
+    <div class="section-header">
+      <h2>Current Releases</h2>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Application</th>
+            <th>Version</th>
+            <th>Platform</th>
+            <th>Architecture</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="color: var(--heading-light);">Fuji-Foundation (Atari800MacX)</strong></td>
+            <td>7.0-beta</td>
+            <td>macOS 13.0+</td>
+            <td>Universal (x86_64 + arm64)</td>
+            <td><a href="#" class="btn btn-primary" style="font-size: 0.8rem; padding: 0.4rem 1rem;">Download DMG</a></td>
+          </tr>
+          <tr>
+            <td><strong style="color: var(--heading-light);">Fuji-Vision</strong></td>
+            <td>1.0-beta</td>
+            <td>visionOS 2.0+</td>
+            <td>arm64</td>
+            <td><span class="badge">Coming Soon</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- System Requirements -->
+  <section class="section">
+    <div class="section-header">
+      <h2>System Requirements</h2>
+    </div>
+
+    <div class="product-grid">
+      <div class="product-card">
+        <h3>Fuji-Foundation</h3>
+        <p class="subtitle">macOS</p>
+        <ul>
+          <li>macOS 13.0 Ventura or later</li>
+          <li>Apple Silicon or Intel Mac</li>
+          <li>Metal-capable GPU (all Macs since 2012)</li>
+          <li>64 MB RAM (for emulation)</li>
+          <li>50 MB disk space</li>
+        </ul>
+      </div>
+
+      <div class="product-card">
+        <h3>Fuji-Vision</h3>
+        <p class="subtitle">visionOS</p>
+        <ul>
+          <li>visionOS 2.0 or later</li>
+          <li>Apple Vision Pro</li>
+          <li>Bluetooth game controller (recommended)</li>
+          <li>50 MB available storage</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Changelog -->
+  <section class="section section-narrow">
+    <div class="cta-section" style="padding: 0;">
+      <h2>Changelog</h2>
+      <p>See what's new in each release.</p>
+      <div class="cta-actions" style="margin-top: 1.5rem;">
+        <a href="../docs/fuji-foundation/" class="btn btn-outline">Foundation Release Notes</a>
+        <a href="../docs/fuji-vision/" class="btn btn-outline">Vision Release Notes</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="fuji-foundation.html">Fuji-Foundation</a></li>
+          <li><a href="fuji-vision.html">Fuji-Vision</a></li>
+          <li><a href="fuji-swift.html">Fuji-Swift</a></li>
+          <li><a href="fuji-dynasty.html">Fuji-Dynasty</a></li>
+          <li><a href="fuji-services.html">Fuji-Services</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="../docs/fuji-foundation/">Documentation</a></li>
+          <li><a href="downloads.html">Downloads</a></li>
+          <li><a href="https://github.com/fujiconcepts" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://www.facebook.com/profile.php?id=61588534725650" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="../index.html">Sign up for updates</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Fuji Concepts</span>
+      <a href="../index.html">fujiconcepts.com</a>
+    </div>
+  </footer>
+
+</body>
+</html>

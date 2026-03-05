@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fuji Concepts — Atari 8-bit Emulation, Reimagined</title>
+  <meta name="description" content="Modern Atari 8-bit emulators for macOS and Apple Vision Pro. Metal-accelerated, cycle-accurate, built for today's hardware.">
+  <link rel="stylesheet" href="beta.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="fujiGrad" x1="60" y1="10" x2="60" y2="110" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#b0a0e8"/>
+              <stop offset="100%" stop-color="#5050a0"/>
+            </linearGradient>
+          </defs>
+          <polygon points="60,15 10,105 45,105" fill="url(#fujiGrad)" opacity="0.9"/>
+          <polygon points="60,15 75,105 110,105" fill="url(#fujiGrad)" opacity="0.9"/>
+        </svg>
+        Fuji Concepts
+      </a>
+
+      <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+
+      <ul class="nav-links">
+        <li class="nav-dropdown">
+          <a href="#">Products</a>
+          <ul class="nav-dropdown-menu">
+            <li><a href="fuji-foundation.html">Fuji-Foundation</a></li>
+            <li><a href="fuji-vision.html">Fuji-Vision</a></li>
+            <li><a href="fuji-swift.html">Fuji-Swift</a></li>
+            <li><a href="fuji-dynasty.html">Fuji-Dynasty</a></li>
+            <li><a href="fuji-services.html">Fuji-Services</a></li>
+          </ul>
+        </li>
+        <li><a href="downloads.html">Downloads</a></li>
+        <li><a href="../docs/fuji-foundation/">Docs</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+
+      <div class="nav-cta">
+        <a href="../index.html#signup-form" class="btn btn-primary">Join</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-logo">
+      <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="heroGrad" x1="60" y1="10" x2="60" y2="110" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#b0a0e8"/>
+            <stop offset="100%" stop-color="#5050a0"/>
+          </linearGradient>
+        </defs>
+        <polygon points="60,15 10,105 45,105" fill="url(#heroGrad)" opacity="0.9"/>
+        <polygon points="60,15 75,105 110,105" fill="url(#heroGrad)" opacity="0.9"/>
+      </svg>
+    </div>
+    <h1>Fuji Concepts</h1>
+    <p>Atari 8-bit emulation, reimagined for modern platforms.</p>
+    <div class="hero-actions">
+      <a href="#products" class="btn btn-primary">Explore Products</a>
+      <a href="../docs/fuji-foundation/" class="btn btn-outline">Get Started</a>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section class="section" id="products">
+    <div class="section-header">
+      <h2>Products</h2>
+      <p>Two emulators, two platforms, one mission: faithful Atari 8-bit emulation.</p>
+    </div>
+
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="product-card-icon">&#9000;</div>
+        <h3>Fuji-Foundation</h3>
+        <p class="subtitle">Classic Atari 8-bit emulator for macOS</p>
+        <ul>
+          <li>Metal-accelerated rendering pipeline</li>
+          <li>25 machine configurations, 160+ cartridge types</li>
+          <li>Built-in CPU monitor and debugger</li>
+          <li>Universal binary — Apple Silicon native</li>
+        </ul>
+        <a href="fuji-foundation.html" class="card-link">Learn more &rarr;</a>
+      </div>
+
+      <div class="product-card">
+        <div class="product-card-icon">&#128374;</div>
+        <h3>Fuji-Vision</h3>
+        <p class="subtitle">Atari emulation for Apple Vision Pro</p>
+        <ul>
+          <li>Spatial display with visibility compositor</li>
+          <li>Bluetooth game controller support</li>
+          <li>10 save state slots with persistence</li>
+          <li>Built for visionOS from the ground up</li>
+        </ul>
+        <a href="fuji-vision.html" class="card-link">Learn more &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section" id="features">
+    <div class="section-header">
+      <h2>Core Capabilities</h2>
+      <p>Built on decades of emulation research, running on today's hardware.</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-card-icon">&#9670;</div>
+        <h3>Metal Rendering</h3>
+        <p>GPU-accelerated display pipeline for smooth, tear-free output on every frame.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">&#8987;</div>
+        <h3>Cycle-Accurate</h3>
+        <p>Faithful hardware emulation — every scanline, every cycle, every quirk.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">&#128190;</div>
+        <h3>160+ Cartridges</h3>
+        <p>Every known bank-switching scheme supported, from 8 KB to megabyte flash carts.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">&#128268;</div>
+        <h3>Built-in ROMs</h3>
+        <p>Altirra OS and BASIC ROMs included — no ROM files needed to get started.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">&#128296;</div>
+        <h3>Expansion Hardware</h3>
+        <p>SIDE2, Ultimate 1MB, VBXE, BlackBox, MIO — real hardware, fully emulated.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">&#128270;</div>
+        <h3>Full Debugger</h3>
+        <p>Built-in CPU monitor with breakpoints, hardware register viewer, and memory inspection.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Docs -->
+  <section class="section">
+    <div class="section-header">
+      <h2>Documentation</h2>
+      <p>Comprehensive guides to get you up and running.</p>
+    </div>
+
+    <div class="docs-grid">
+      <a href="../docs/fuji-foundation/" class="docs-card">
+        <h3>Fuji-Foundation Docs</h3>
+        <p>Installation, configuration, hardware emulation, and developer tools for macOS.</p>
+      </a>
+      <a href="../docs/fuji-vision/" class="docs-card">
+        <h3>Fuji-Vision Docs</h3>
+        <p>Getting started, spatial display, controller setup, and media management for visionOS.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Signup CTA -->
+  <section class="section section-narrow">
+    <div class="signup-section">
+      <h2>Stay in the loop</h2>
+      <p>Sign up for updates on Fuji Concepts.</p>
+      <form class="signup-form" id="signup-form" action="https://formspree.io/f/xykdrjvd" method="POST">
+        <input type="email" name="email" placeholder="Email address" required>
+        <button type="submit" class="btn btn-primary">Join</button>
+      </form>
+      <div class="signup-success" id="signup-success">Thanks! We'll keep you posted.</div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="fuji-foundation.html">Fuji-Foundation</a></li>
+          <li><a href="fuji-vision.html">Fuji-Vision</a></li>
+          <li><a href="fuji-swift.html">Fuji-Swift</a></li>
+          <li><a href="fuji-dynasty.html">Fuji-Dynasty</a></li>
+          <li><a href="fuji-services.html">Fuji-Services</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="../docs/fuji-foundation/">Documentation</a></li>
+          <li><a href="downloads.html">Downloads</a></li>
+          <li><a href="https://github.com/fujiconcepts" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://www.facebook.com/profile.php?id=61588534725650" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="../index.html">Sign up for updates</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Fuji Concepts</span>
+      <a href="../index.html">fujiconcepts.com</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('signup-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var form = this;
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).then(function(res) {
+        if (res.ok) {
+          form.style.display = 'none';
+          document.getElementById('signup-success').style.display = 'block';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

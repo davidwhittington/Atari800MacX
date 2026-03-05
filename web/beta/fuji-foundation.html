@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fuji-Foundation (Atari800MacX) — Fuji Concepts</title>
+  <meta name="description" content="The classic Atari 8-bit emulator for macOS. Metal rendering, 25 machine configs, 160+ cartridge types, built-in debugger.">
+  <link rel="stylesheet" href="beta.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="fujiGrad" x1="60" y1="10" x2="60" y2="110" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#b0a0e8"/>
+              <stop offset="100%" stop-color="#5050a0"/>
+            </linearGradient>
+          </defs>
+          <polygon points="60,15 10,105 45,105" fill="url(#fujiGrad)" opacity="0.9"/>
+          <polygon points="60,15 75,105 110,105" fill="url(#fujiGrad)" opacity="0.9"/>
+        </svg>
+        Fuji Concepts
+      </a>
+
+      <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+
+      <ul class="nav-links">
+        <li class="nav-dropdown">
+          <a href="#" class="active">Products</a>
+          <ul class="nav-dropdown-menu">
+            <li><a href="fuji-foundation.html">Fuji-Foundation</a></li>
+            <li><a href="fuji-vision.html">Fuji-Vision</a></li>
+            <li><a href="fuji-swift.html">Fuji-Swift</a></li>
+            <li><a href="fuji-dynasty.html">Fuji-Dynasty</a></li>
+            <li><a href="fuji-services.html">Fuji-Services</a></li>
+          </ul>
+        </li>
+        <li><a href="downloads.html">Downloads</a></li>
+        <li><a href="../docs/fuji-foundation/">Docs</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+
+      <div class="nav-cta">
+        <a href="../index.html#signup-form" class="btn btn-primary">Join</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Atari800MacX</h1>
+    <p>The classic Atari 8-bit emulator for macOS. Cycle-accurate emulation with a modern Metal rendering pipeline.</p>
+    <div class="badge-group">
+      <span class="badge">macOS 13+</span>
+      <span class="badge">Universal Binary</span>
+      <span class="badge">Apple Silicon Native</span>
+    </div>
+    <div class="hero-actions" style="margin-top: 2rem;">
+      <a href="downloads.html" class="btn btn-primary">Download</a>
+      <a href="../docs/fuji-foundation/" class="btn btn-outline">Read the Docs</a>
+    </div>
+  </section>
+
+  <!-- Feature Sections -->
+  <div class="section">
+
+    <div class="feature-section">
+      <div class="feature-section-text">
+        <h3>Display &amp; Video</h3>
+        <p>GPU-accelerated rendering through Apple's Metal framework, with full control over how the Atari's display reaches your screen.</p>
+        <ul>
+          <li>Metal rendering pipeline — no SDL dependency for display</li>
+          <li>Three width modes: narrow, default, and full overscan</li>
+          <li>Five NTSC artifact color modes</li>
+          <li>80-column display cards: Bit3 and XEP80</li>
+          <li>Pixel aspect ratio toggle for authentic 4:3 output</li>
+        </ul>
+      </div>
+      <div class="feature-section-visual">&#9724;</div>
+    </div>
+
+    <div class="feature-section">
+      <div class="feature-section-text">
+        <h3>Media &amp; Storage</h3>
+        <p>Comprehensive media support covering every storage device the Atari platform ever used.</p>
+        <ul>
+          <li>8 simultaneous disk drives (D1: through D8:)</li>
+          <li>160+ cartridge bank-switching schemes</li>
+          <li>Cassette tape emulation with motor control</li>
+          <li>Hard disk and PCLink host device emulation</li>
+          <li>ATR, XFD, ATX, CAS, XEX, CAR format support</li>
+        </ul>
+      </div>
+      <div class="feature-section-visual">&#128190;</div>
+    </div>
+
+    <div class="feature-section">
+      <div class="feature-section-text">
+        <h3>Sound</h3>
+        <p>Accurate POKEY sound generation with support for dual-POKEY stereo and audio capture.</p>
+        <ul>
+          <li>Full POKEY audio emulation</li>
+          <li>Stereo POKEY (dual chip) support</li>
+          <li>Console speaker and SIO motor sounds</li>
+          <li>AIFF audio recording to file</li>
+        </ul>
+      </div>
+      <div class="feature-section-visual">&#127925;</div>
+    </div>
+
+    <div class="feature-section">
+      <div class="feature-section-text">
+        <h3>Machine Variants</h3>
+        <p>25 machine configurations spanning the full Atari 8-bit product line and popular hardware modifications.</p>
+        <ul>
+          <li>Atari 400/800 with 8 KB to 48 KB RAM</li>
+          <li>Atari 600XL, 800XL, 1200XL, 65XE, 130XE</li>
+          <li>Atari 320XE and expanded RAM configurations</li>
+          <li>Ultimate 1MB — up to 1024 KB with SIDE2</li>
+          <li>Custom OS ROM and BASIC ROM loading</li>
+        </ul>
+      </div>
+      <div class="feature-section-visual">&#128421;</div>
+    </div>
+
+    <div class="feature-section">
+      <div class="feature-section-text">
+        <h3>Expansion Hardware</h3>
+        <p>Faithful emulation of the most popular expansion devices from the Atari ecosystem.</p>
+        <ul>
+          <li>SIDE2 cartridge interface with CompactFlash</li>
+          <li>Ultimate 1MB memory expansion</li>
+          <li>BlackBox and MIO hard disk interfaces</li>
+          <li>VBXE — Video Board XE with 512 KB VRAM</li>
+          <li>R-Time 8 clock cartridge</li>
+        </ul>
+      </div>
+      <div class="feature-section-visual">&#128296;</div>
+    </div>
+
+    <div class="feature-section">
+      <div class="feature-section-text">
+        <h3>Developer Tools</h3>
+        <p>A complete debugging environment for Atari software development and reverse engineering.</p>
+        <ul>
+          <li>Built-in 6502 CPU monitor</li>
+          <li>Breakpoints with address and condition support</li>
+          <li>Hardware register viewer (ANTIC, GTIA, POKEY, PIA)</li>
+          <li>Memory browser with hex/ASCII display</li>
+          <li>Instruction-level single stepping</li>
+        </ul>
+      </div>
+      <div class="feature-section-visual">&#128270;</div>
+    </div>
+
+  </div>
+
+  <!-- Bottom CTA -->
+  <section class="cta-section">
+    <h2>Get Atari800MacX</h2>
+    <p>Download the latest release or read the full documentation.</p>
+    <div class="cta-actions">
+      <a href="downloads.html" class="btn btn-primary">Download</a>
+      <a href="../docs/fuji-foundation/" class="btn btn-outline">Read the Docs</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="fuji-foundation.html">Fuji-Foundation</a></li>
+          <li><a href="fuji-vision.html">Fuji-Vision</a></li>
+          <li><a href="fuji-swift.html">Fuji-Swift</a></li>
+          <li><a href="fuji-dynasty.html">Fuji-Dynasty</a></li>
+          <li><a href="fuji-services.html">Fuji-Services</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="../docs/fuji-foundation/">Documentation</a></li>
+          <li><a href="downloads.html">Downloads</a></li>
+          <li><a href="https://github.com/fujiconcepts" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://www.facebook.com/profile.php?id=61588534725650" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="../index.html">Sign up for updates</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Fuji Concepts</span>
+      <a href="../index.html">fujiconcepts.com</a>
+    </div>
+  </footer>
+
+</body>
+</html>

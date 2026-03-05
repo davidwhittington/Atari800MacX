@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fuji-Services — Fuji Concepts</title>
+  <meta name="description" content="Secure networking infrastructure for Atari 8-bit emulators. FSSP protocol for Telnet, TNFS, netplay, and remote services.">
+  <link rel="stylesheet" href="beta.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="fujiGrad" x1="60" y1="10" x2="60" y2="110" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#b0a0e8"/>
+              <stop offset="100%" stop-color="#5050a0"/>
+            </linearGradient>
+          </defs>
+          <polygon points="60,15 10,105 45,105" fill="url(#fujiGrad)" opacity="0.9"/>
+          <polygon points="60,15 75,105 110,105" fill="url(#fujiGrad)" opacity="0.9"/>
+        </svg>
+        Fuji Concepts
+      </a>
+
+      <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+
+      <ul class="nav-links">
+        <li class="nav-dropdown">
+          <a href="#" class="active">Products</a>
+          <ul class="nav-dropdown-menu">
+            <li><a href="fuji-foundation.html">Fuji-Foundation</a></li>
+            <li><a href="fuji-vision.html">Fuji-Vision</a></li>
+            <li><a href="fuji-swift.html">Fuji-Swift</a></li>
+            <li><a href="fuji-dynasty.html">Fuji-Dynasty</a></li>
+          </ul>
+        </li>
+        <li><a href="downloads.html">Downloads</a></li>
+        <li><a href="../docs/fuji-foundation/">Docs</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+
+      <div class="nav-cta">
+        <a href="../index.html#signup-form" class="btn btn-primary">Join</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Fuji-Services</h1>
+    <p>Secure networking infrastructure for Atari 8-bit emulators. Telnet BBS access, TNFS file servers, and multiplayer netplay — all over encrypted transports.</p>
+    <div class="badge-group">
+      <span class="badge">Draft Specification</span>
+      <span class="badge">FSSP v0.1</span>
+      <span class="badge">TLS 1.3</span>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <div class="section section-narrow">
+
+    <div class="about-section">
+      <h2>What is Fuji-Services?</h2>
+      <p>Fuji-Services is a secure, multiplexed session protocol (FSSP) designed to transport legacy and modern protocols unchanged over encrypted connections. It enables Atari emulators to access BBS systems, remote file servers, and multiplayer sessions without exposing raw network traffic.</p>
+      <p>The protocol is transport-agnostic — it runs over WebSocket/TLS on port 443, making it NAT-friendly and firewall-safe. Legacy protocols like Telnet and TNFS travel inside encrypted FSSP channels, preserving their original behavior while adding security, authentication, and multiplexing.</p>
+    </div>
+
+  </div>
+
+  <!-- Architecture -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Architecture</h2>
+      <p>Three components connect retro systems to modern services.</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-card-icon">&#128205;</div>
+        <h3>Bridge</h3>
+        <p>Local endpoint near the emulator or retro system. Opens FSSP sessions and maps local protocols to channels.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">&#9729;</div>
+        <h3>Edge</h3>
+        <p>Remote endpoint near target services. Terminates FSSP sessions and connects channels to BBS, TNFS, or game servers.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">&#128260;</div>
+        <h3>Relay</h3>
+        <p>Optional neutral router for NAT traversal. Forwards encrypted frames between Bridge and Edge without inspecting payloads.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Channel Types -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Channel Types</h2>
+      <p>FSSP multiplexes multiple protocol streams over a single session.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>ID</th>
+            <th>Behavior</th>
+            <th>Use Cases</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="color: var(--heading-light);">CONTROL</strong></td>
+            <td>0x00</td>
+            <td>Session control plane</td>
+            <td>Capabilities negotiation, channel open/close, errors</td>
+          </tr>
+          <tr>
+            <td><strong style="color: var(--heading-light);">DATAGRAM</strong></td>
+            <td>0x01</td>
+            <td>Unordered, best effort</td>
+            <td>TNFS file access, service discovery</td>
+          </tr>
+          <tr>
+            <td><strong style="color: var(--heading-light);">STREAM</strong></td>
+            <td>0x02</td>
+            <td>Ordered, reliable</td>
+            <td>Telnet BBS, serial COM streams</td>
+          </tr>
+          <tr>
+            <td><strong style="color: var(--heading-light);">INPUT</strong></td>
+            <td>0x03</td>
+            <td>Prioritized delivery</td>
+            <td>Joystick and keyboard input for netplay</td>
+          </tr>
+          <tr>
+            <td><strong style="color: var(--heading-light);">VIDEO</strong></td>
+            <td>0x04</td>
+            <td>Optional streaming</td>
+            <td>Framebuffer streaming, spectator mode</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Well-Known Channels -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Well-Known Channels</h2>
+      <p>16 reserved channel IDs for common use cases.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Channel</th>
+            <th>Purpose</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>0</td><td>Control Plane</td><td>CONTROL</td></tr>
+          <tr><td>1</td><td>Telnet / BBS</td><td>STREAM</td></tr>
+          <tr><td>2 – 3</td><td>Modem / COM A &amp; B</td><td>STREAM</td></tr>
+          <tr><td>4 – 5</td><td>TNFS / UDP A &amp; B</td><td>DATAGRAM</td></tr>
+          <tr><td>6 – 9</td><td>Joystick P1 – P4</td><td>INPUT</td></tr>
+          <tr><td>10</td><td>Keyboard</td><td>INPUT</td></tr>
+          <tr><td>11</td><td>Video Primary</td><td>VIDEO</td></tr>
+          <tr><td>12</td><td>Video Secondary / Spectator</td><td>VIDEO</td></tr>
+          <tr><td>13 – 15</td><td>Reserved / Plugin Lanes</td><td>Any</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Use Cases -->
+  <div class="section">
+
+    <div class="feature-section">
+      <div class="feature-section-text">
+        <h3>BBS Access</h3>
+        <p>Connect to Atari BBS systems over encrypted Telnet. The STREAM channel carries raw Telnet bytes while FSSP handles TLS encryption and authentication.</p>
+        <ul>
+          <li>ATASCII-compatible terminal streams</li>
+          <li>Transparent to existing BBS software</li>
+          <li>Encrypted end-to-end via TLS 1.3</li>
+        </ul>
+      </div>
+      <div class="feature-section-visual">&#128187;</div>
+    </div>
+
+    <div class="feature-section">
+      <div class="feature-section-text">
+        <h3>TNFS File Servers</h3>
+        <p>Access remote disk images and software libraries via TNFS, tunneled through DATAGRAM channels. Compatible with FujiNet and other TNFS clients.</p>
+        <ul>
+          <li>TNFS protocol carried unchanged</li>
+          <li>NAT-friendly — no port forwarding needed</li>
+          <li>Multiple concurrent file server connections</li>
+        </ul>
+      </div>
+      <div class="feature-section-visual">&#128193;</div>
+    </div>
+
+    <div class="feature-section">
+      <div class="feature-section-text">
+        <h3>Multiplayer Netplay</h3>
+        <p>Connect emulated machines for multiplayer gaming. INPUT channels deliver joystick and keyboard events with priority scheduling for low-latency gameplay.</p>
+        <ul>
+          <li>4-player joystick input channels</li>
+          <li>State hash verification for deterministic sync</li>
+          <li>Resync request frames for recovery</li>
+          <li>Spectator mode via VIDEO channels</li>
+        </ul>
+      </div>
+      <div class="feature-section-visual">&#127918;</div>
+    </div>
+
+  </div>
+
+  <!-- Security -->
+  <div class="section section-narrow">
+    <div class="about-section">
+      <h2>Security</h2>
+      <p>FSSP is secure by default. All sessions require TLS 1.3 encryption. Authentication uses bearer tokens with short-lived credentials recommended. The relay never sees plaintext payloads — it forwards encrypted frames without inspection.</p>
+      <ul>
+        <li>TLS 1.3 mandatory for all transports</li>
+        <li>Bearer token authentication</li>
+        <li>Session-level and channel-level permissions</li>
+        <li>Rate limiting encouraged at all endpoints</li>
+      </ul>
+    </div>
+
+    <div class="about-section">
+      <h2>Status</h2>
+      <p>FSSP is at version 0.1-draft. The protocol specification is complete but reference implementations have not yet begun. The protocol is designed to be implemented in Go (Bridge, Edge, Relay) with a Swift client integration for Fuji emulators.</p>
+      <p>The full specification is available in the project repository.</p>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Stay Updated</h2>
+    <p>Sign up to be notified when Fuji-Services development begins.</p>
+    <div class="cta-actions">
+      <a href="../index.html" class="btn btn-primary">Sign Up for Updates</a>
+      <a href="about.html" class="btn btn-outline">About Fuji Concepts</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="fuji-foundation.html">Fuji-Foundation</a></li>
+          <li><a href="fuji-vision.html">Fuji-Vision</a></li>
+          <li><a href="fuji-swift.html">Fuji-Swift</a></li>
+          <li><a href="fuji-dynasty.html">Fuji-Dynasty</a></li>
+          <li><a href="fuji-services.html">Fuji-Services</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="../docs/fuji-foundation/">Documentation</a></li>
+          <li><a href="downloads.html">Downloads</a></li>
+          <li><a href="https://github.com/fujiconcepts" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://www.facebook.com/profile.php?id=61588534725650" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="../index.html">Sign up for updates</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Fuji Concepts</span>
+      <a href="../index.html">fujiconcepts.com</a>
+    </div>
+  </footer>
+
+</body>
+</html>

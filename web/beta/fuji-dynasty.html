@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fuji-Dynasty — Fuji Concepts</title>
+  <meta name="description" content="The modular, feature-rich Atari 8-bit emulator. Plugin architecture, advanced debugging, and community extensions.">
+  <link rel="stylesheet" href="beta.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="fujiGrad" x1="60" y1="10" x2="60" y2="110" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#b0a0e8"/>
+              <stop offset="100%" stop-color="#5050a0"/>
+            </linearGradient>
+          </defs>
+          <polygon points="60,15 10,105 45,105" fill="url(#fujiGrad)" opacity="0.9"/>
+          <polygon points="60,15 75,105 110,105" fill="url(#fujiGrad)" opacity="0.9"/>
+        </svg>
+        Fuji Concepts
+      </a>
+
+      <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+
+      <ul class="nav-links">
+        <li class="nav-dropdown">
+          <a href="#" class="active">Products</a>
+          <ul class="nav-dropdown-menu">
+            <li><a href="fuji-foundation.html">Fuji-Foundation</a></li>
+            <li><a href="fuji-vision.html">Fuji-Vision</a></li>
+            <li><a href="fuji-swift.html">Fuji-Swift</a></li>
+            <li><a href="fuji-dynasty.html">Fuji-Dynasty</a></li>
+          </ul>
+        </li>
+        <li><a href="downloads.html">Downloads</a></li>
+        <li><a href="../docs/fuji-foundation/">Docs</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+
+      <div class="nav-cta">
+        <a href="../index.html#signup-form" class="btn btn-primary">Join</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Fuji-Dynasty</h1>
+    <p>The modular, feature-rich Atari 8-bit emulator. Plugin architecture for expansion hardware, advanced debugging, and community-contributed extensions.</p>
+    <div class="badge-group">
+      <span class="badge">Planned</span>
+      <span class="badge">macOS</span>
+      <span class="badge">Modular Architecture</span>
+    </div>
+  </section>
+
+  <!-- Vision -->
+  <div class="section section-narrow">
+
+    <div class="about-section">
+      <h2>What is Fuji-Dynasty?</h2>
+      <p>Fuji-Dynasty is the ambitious, extensible variant of the Fuji emulator family. Where Foundation is a faithful port and Swift is a streamlined experience, Dynasty is designed from the ground up for modularity — every expansion device, every peripheral, every debug tool is a plugin.</p>
+      <p>Dynasty targets power users, hardware developers, and the Atari homebrew community who need deep control over emulated hardware configurations and the ability to extend the emulator with custom modules.</p>
+    </div>
+
+    <div class="about-section">
+      <h2>Planned Architecture</h2>
+      <ul>
+        <li>Plugin system for expansion hardware modules</li>
+        <li>Hot-swappable device configurations at runtime</li>
+        <li>Swift Package Manager for community plugin distribution</li>
+        <li>Scriptable automation via embedded scripting engine</li>
+        <li>Multi-window workspace — debugger, memory, registers, display</li>
+      </ul>
+    </div>
+
+    <div class="about-section">
+      <h2>Planned Features</h2>
+      <ul>
+        <li>All Fuji-Foundation capabilities as baseline</li>
+        <li>Advanced 6502 debugger with conditional breakpoints and watchpoints</li>
+        <li>Memory heatmap visualization</li>
+        <li>ANTIC/GTIA display list explorer</li>
+        <li>POKEY audio waveform monitor</li>
+        <li>Network play — connect emulated machines via TCP</li>
+        <li>Automated testing harness for Atari software</li>
+        <li>Custom hardware device API for community plugins</li>
+      </ul>
+    </div>
+
+    <div class="about-section">
+      <h2>Status</h2>
+      <p>Fuji-Dynasty is in early concept stage. The app scaffold exists in the monorepo at <code style="background: var(--code-bg); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--code-border);">apps/fuji-dynasty/</code>, but design work on the plugin architecture has not yet begun. This is the longest-horizon project in the Fuji family.</p>
+    </div>
+
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Stay Updated</h2>
+    <p>Sign up to be notified when Fuji-Dynasty development begins.</p>
+    <div class="cta-actions">
+      <a href="../index.html" class="btn btn-primary">Sign Up for Updates</a>
+      <a href="about.html" class="btn btn-outline">About Fuji Concepts</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="fuji-foundation.html">Fuji-Foundation</a></li>
+          <li><a href="fuji-vision.html">Fuji-Vision</a></li>
+          <li><a href="fuji-swift.html">Fuji-Swift</a></li>
+          <li><a href="fuji-dynasty.html">Fuji-Dynasty</a></li>
+          <li><a href="fuji-services.html">Fuji-Services</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="../docs/fuji-foundation/">Documentation</a></li>
+          <li><a href="downloads.html">Downloads</a></li>
+          <li><a href="https://github.com/fujiconcepts" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://www.facebook.com/profile.php?id=61588534725650" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="../index.html">Sign up for updates</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Fuji Concepts</span>
+      <a href="../index.html">fujiconcepts.com</a>
+    </div>
+  </footer>
+
+</body>
+</html>

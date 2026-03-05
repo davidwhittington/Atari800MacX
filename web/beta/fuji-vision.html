@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fuji-Vision — Fuji Concepts</title>
+  <meta name="description" content="Atari 8-bit emulation for Apple Vision Pro. Spatial display, game controller support, and immersive audio.">
+  <link rel="stylesheet" href="beta.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="fujiGrad" x1="60" y1="10" x2="60" y2="110" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#b0a0e8"/>
+              <stop offset="100%" stop-color="#5050a0"/>
+            </linearGradient>
+          </defs>
+          <polygon points="60,15 10,105 45,105" fill="url(#fujiGrad)" opacity="0.9"/>
+          <polygon points="60,15 75,105 110,105" fill="url(#fujiGrad)" opacity="0.9"/>
+        </svg>
+        Fuji Concepts
+      </a>
+
+      <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+
+      <ul class="nav-links">
+        <li class="nav-dropdown">
+          <a href="#" class="active">Products</a>
+          <ul class="nav-dropdown-menu">
+            <li><a href="fuji-foundation.html">Fuji-Foundation</a></li>
+            <li><a href="fuji-vision.html">Fuji-Vision</a></li>
+            <li><a href="fuji-swift.html">Fuji-Swift</a></li>
+            <li><a href="fuji-dynasty.html">Fuji-Dynasty</a></li>
+            <li><a href="fuji-services.html">Fuji-Services</a></li>
+          </ul>
+        </li>
+        <li><a href="downloads.html">Downloads</a></li>
+        <li><a href="../docs/fuji-vision/">Docs</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+
+      <div class="nav-cta">
+        <a href="../index.html#signup-form" class="btn btn-primary">Join</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Fuji-Vision</h1>
+    <p>Atari 8-bit emulation for Apple Vision Pro. Your favorite 8-bit games and software, floating in your space.</p>
+    <div class="badge-group">
+      <span class="badge">visionOS 2.0+</span>
+      <span class="badge">Apple Vision Pro</span>
+    </div>
+  </section>
+
+  <!-- Feature Sections -->
+  <div class="section">
+
+    <div class="feature-section">
+      <div class="feature-section-text">
+        <h3>Spatial Display</h3>
+        <p>The Atari's display rendered via Metal into your spatial environment, with full control over how it blends with your surroundings.</p>
+        <ul>
+          <li>Metal-accelerated rendering in a resizable window</li>
+          <li>Visibility compositor with multiple blend modes</li>
+          <li>Chroma key — make backgrounds transparent</li>
+          <li>Auto-detect background color for seamless keying</li>
+          <li>Edge enhancement for crisp pixel edges</li>
+        </ul>
+      </div>
+      <div class="feature-section-visual">&#128374;</div>
+    </div>
+
+    <div class="feature-section">
+      <div class="feature-section-text">
+        <h3>Game Controller</h3>
+        <p>Bring your own controller. Fuji-Vision supports Bluetooth game controllers for authentic joystick gameplay.</p>
+        <ul>
+          <li>Bluetooth controller support via Game Controller framework</li>
+          <li>D-pad and thumbstick input mapping</li>
+          <li>Console key buttons (Start, Select, Option, Reset)</li>
+          <li>On-screen virtual controls as fallback</li>
+        </ul>
+      </div>
+      <div class="feature-section-visual">&#127918;</div>
+    </div>
+
+    <div class="feature-section">
+      <div class="feature-section-text">
+        <h3>Authentic Audio</h3>
+        <p>Full POKEY sound emulation through AVAudioEngine for low-latency spatial audio output.</p>
+        <ul>
+          <li>POKEY sound chip emulation</li>
+          <li>Stereo POKEY support</li>
+          <li>Low-latency pull-model audio via AVAudioSourceNode</li>
+          <li>Spatial audio ready for future immersive modes</li>
+        </ul>
+      </div>
+      <div class="feature-section-visual">&#127925;</div>
+    </div>
+
+    <div class="feature-section">
+      <div class="feature-section-text">
+        <h3>Media Management</h3>
+        <p>Load disk images, cartridges, cassettes, and executables through the native visionOS file system.</p>
+        <ul>
+          <li>Disk images: ATR, XFD, ATX, PRO, DCM</li>
+          <li>Cartridges: CAR, ROM, BIN (160+ types)</li>
+          <li>Cassettes: CAS format</li>
+          <li>Executables: XEX, COM, EXE</li>
+          <li>Persistent recently-used media tracking</li>
+        </ul>
+      </div>
+      <div class="feature-section-visual">&#128190;</div>
+    </div>
+
+    <div class="feature-section">
+      <div class="feature-section-text">
+        <h3>Save States</h3>
+        <p>Save and restore your emulation state at any time with 10 independent save slots.</p>
+        <ul>
+          <li>10 save state slots</li>
+          <li>Persistent across app launches</li>
+          <li>Full machine state capture</li>
+          <li>Settings persistence via @AppStorage</li>
+        </ul>
+      </div>
+      <div class="feature-section-visual">&#128190;</div>
+    </div>
+
+  </div>
+
+  <!-- Bottom CTA -->
+  <section class="cta-section">
+    <h2>Explore Fuji-Vision</h2>
+    <p>Read the full documentation for setup, configuration, and usage guides.</p>
+    <div class="cta-actions">
+      <a href="../docs/fuji-vision/" class="btn btn-primary">Read the Docs</a>
+      <a href="downloads.html" class="btn btn-outline">Downloads</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="fuji-foundation.html">Fuji-Foundation</a></li>
+          <li><a href="fuji-vision.html">Fuji-Vision</a></li>
+          <li><a href="fuji-swift.html">Fuji-Swift</a></li>
+          <li><a href="fuji-dynasty.html">Fuji-Dynasty</a></li>
+          <li><a href="fuji-services.html">Fuji-Services</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="../docs/fuji-vision/">Documentation</a></li>
+          <li><a href="downloads.html">Downloads</a></li>
+          <li><a href="https://github.com/fujiconcepts" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://www.facebook.com/profile.php?id=61588534725650" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="../index.html">Sign up for updates</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Fuji Concepts</span>
+      <a href="../index.html">fujiconcepts.com</a>
+    </div>
+  </footer>
+
+</body>
+</html>
