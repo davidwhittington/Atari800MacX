@@ -1,0 +1,3 @@
+[submodule "apps/fuji-foundation"]
+	path = apps/fuji-foundation
+	url = https://github.com/davidwhittington/FujiFoundation.git

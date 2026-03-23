@@ -1,30 +1,49 @@
-# fuji-concepts
+# FujiConcepts (private)
 
-A monorepo for the **Fuji** family of Atari 800 emulators for macOS — modernized, arm64-native,
-and built on the [atari800](https://atari800.github.io) core.
+A private monorepo for the **Fuji** family of Atari 800 emulators for macOS — modernized,
+arm64-native, and built on the [atari800](https://atari800.github.io) core.
+
+## Structure
+
+```
+apps/
+  fuji-foundation/   ← git submodule → github.com/davidwhittington/FujiFoundation (public, GPL v2)
+  fuji-vision/       ← visionOS app
+  fuji-swift/        ← lightweight macOS variant (scaffold)
+  fuji-dynasty/      ← modular feature-rich variant (scaffold)
+  fuji-services/     ← Go backend services (FSSP, bridge, edge, TNFS proxy)
+web/                 ← beta.fujiconcepts.com site
+docs/                ← shared documentation
+```
+
+## Submodule: fuji-foundation
+
+`apps/fuji-foundation` is a git submodule pointing to the public
+[FujiFoundation](https://github.com/davidwhittington/FujiFoundation) repo — the
+modernized macOS fork of [atarimacosx/Atari800MacX](https://github.com/atarimacosx/Atari800MacX).
+
+After cloning FujiConcepts:
+
+```bash
+git submodule update --init --recursive
+```
 
 ## Apps
 
 | App | Description |
 |-----|-------------|
-| [fuji-foundation](apps/fuji-foundation) | **Atari800MacOS** — the modernized core. Full-featured Cocoa + Metal emulator. Tracks upstream atari800. |
-| [fuji-swift](apps/fuji-swift) | Streamlined, lightweight variant derived from fuji-foundation. |
-| [fuji-vision](apps/fuji-vision) | Display-focused variant with enhanced rendering fidelity. |
-| [fuji-dynasty](apps/fuji-dynasty) | Feature-rich modular variant — opt-in modules extend the core. |
-
-## Upstream
-
-Upstream changes from [atari800/atari800](https://github.com/atari800/atari800) are integrated
-into `apps/fuji-foundation` only. Other apps inherit selectively from there.
-
-```
-git remote add upstream https://github.com/atari800/atari800.git
-git fetch upstream
-# merge into apps/fuji-foundation branch
-```
+| [fuji-foundation](apps/fuji-foundation) | **Atari800MacOS** — modernized core emulator. Public GPL v2 submodule. |
+| [fuji-vision](apps/fuji-vision) | visionOS spatial emulator (Swift + Metal). |
+| [fuji-swift](apps/fuji-swift) | Lightweight macOS variant (scaffold). |
+| [fuji-dynasty](apps/fuji-dynasty) | Feature-rich modular variant (scaffold). |
+| [fuji-services](apps/fuji-services) | Go backend: FSSP, Telnet proxy, relay, INPUT, VIDEO. |
 
 ## Heritage
 
-Fuji-concepts is a fork maintained by David Whittington, built on [Atari800MacX](http://atarimac.com), the macOS port of the Atari800 emulator created by Perry McFarlane. Atari800 is developed by the Atari800 open-source community. Additional components include the SDL port by Jacek Poplawski and the R: device driver by Daniel Noguerol.
+FujiConcepts is maintained by David Whittington. The emulator core is based on
+[Atari800MacX](http://atarimac.com) by Perry McFarlane, which ports the
+[Atari800](https://atari800.github.io) open-source emulator to macOS.
 
+## Changelog
 
+See [CHANGELOG.md](./CHANGELOG.md) for the full change history.

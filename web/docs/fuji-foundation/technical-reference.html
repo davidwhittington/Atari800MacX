@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Reference &mdash; Atari800MacX</title>
+    <link rel="stylesheet" href="../docs.css">
+</head>
+<body>
+
+<button class="sidebar-toggle" onclick="document.querySelector('.docs-sidebar').classList.toggle('open')" aria-label="Toggle navigation">&#9776;</button>
+
+<nav class="docs-sidebar">
+    <a href="../../index.html" class="sidebar-home">
+        <strong>Fuji Concepts</strong>
+        fujiconcepts.com
+    </a>
+
+    <div class="sidebar-section">Getting Started</div>
+    <a href="getting-started.html" class="sidebar-link">What is Atari800MacX?</a>
+    <a href="getting-started.html#requirements" class="sidebar-link sidebar-sub">Requirements</a>
+    <a href="getting-started.html#first-launch" class="sidebar-link sidebar-sub">First Launch</a>
+    <a href="getting-started.html#loading-a-game" class="sidebar-link sidebar-sub">Loading a Game</a>
+    <a href="getting-started.html#other-media" class="sidebar-link sidebar-sub">Other Media</a>
+    <a href="getting-started.html#gamepad" class="sidebar-link sidebar-sub">Gamepad</a>
+    <a href="getting-started.html#machine-type" class="sidebar-link sidebar-sub">Machine Type</a>
+    <a href="getting-started.html#display-modes" class="sidebar-link sidebar-sub">Display Modes</a>
+    <a href="getting-started.html#quick-settings" class="sidebar-link sidebar-sub">Quick Settings</a>
+
+    <div class="sidebar-section">User Guide</div>
+    <a href="user-guide.html" class="sidebar-link">Floppy Disks</a>
+    <a href="user-guide.html#cartridges" class="sidebar-link sidebar-sub">Cartridges</a>
+    <a href="user-guide.html#cassettes" class="sidebar-link sidebar-sub">Cassettes</a>
+    <a href="user-guide.html#hard-disks" class="sidebar-link sidebar-sub">Hard Disks</a>
+    <a href="user-guide.html#display" class="sidebar-link sidebar-sub">Display &amp; Video</a>
+    <a href="user-guide.html#80-column" class="sidebar-link sidebar-sub">80-Column Display</a>
+    <a href="user-guide.html#audio" class="sidebar-link sidebar-sub">Sound &amp; Audio</a>
+    <a href="user-guide.html#machine-types" class="sidebar-link sidebar-sub">Machine Types</a>
+    <a href="user-guide.html#expansion" class="sidebar-link sidebar-sub">Expansion Hardware</a>
+    <a href="user-guide.html#input" class="sidebar-link sidebar-sub">Input &amp; Controllers</a>
+    <a href="user-guide.html#printers" class="sidebar-link sidebar-sub">Printers</a>
+    <a href="user-guide.html#save-state" class="sidebar-link sidebar-sub">Save &amp; Load State</a>
+    <a href="user-guide.html#preferences" class="sidebar-link sidebar-sub">Preferences</a>
+
+    <div class="sidebar-section">Technical Reference</div>
+    <a href="technical-reference.html" class="sidebar-link active">Architecture</a>
+    <a href="#hardware" class="sidebar-link sidebar-sub">Emulated Hardware</a>
+    <a href="#rendering" class="sidebar-link sidebar-sub">Rendering Pipeline</a>
+    <a href="#audio-system" class="sidebar-link sidebar-sub">Audio System</a>
+    <a href="#cartridge-types" class="sidebar-link sidebar-sub">Cartridge Types</a>
+    <a href="#disk-formats" class="sidebar-link sidebar-sub">Disk Formats</a>
+    <a href="#os-roms" class="sidebar-link sidebar-sub">OS ROMs</a>
+    <a href="#expansion-internals" class="sidebar-link sidebar-sub">Expansion Internals</a>
+    <a href="#debugger" class="sidebar-link sidebar-sub">Debugger</a>
+    <a href="#build" class="sidebar-link sidebar-sub">Build Info</a>
+</nav>
+
+<main class="docs-main">
+    <div class="docs-content">
+
+        <nav class="docs-breadcrumb">
+            <a href="../../index.html">Fuji Concepts</a>
+            <span class="sep">&rsaquo;</span>
+            <a href="index.html">Docs</a>
+            <span class="sep">&rsaquo;</span>
+            Technical Reference
+        </nav>
+
+        <h1>Technical Reference</h1>
+        <p class="subtitle">Architecture, internals, and developer information.</p>
+
+        <!-- ==================== Architecture ==================== -->
+        <h2 id="architecture">Architecture Overview</h2>
+
+        <p>Atari800MacX is built as an <strong>Objective-C + Swift + C</strong> application. The C emulation core comes from the <a href="https://atari800.github.io/">Atari800</a> open-source project. The macOS UI layer uses AppKit (Objective-C) with a modern SwiftUI preferences panel. Rendering uses Metal via an MTKView subclass, and audio/HID input use SDL2.</p>
+
+        <h3>Layer Diagram</h3>
+
+<pre><code>┌──────────────────────────────────────┐
+│   SwiftUI Preferences / About Box    │  Swift / AppKit bridge
+├──────────────────────────────────────┤
+│   AppKit UI (ObjC)                   │  Menus, panels, controllers
+│   ControlManager, MediaManager       │  Disk/cart/cassette management
+│   DisplayManager, SoundManager       │  Display &amp; audio coordination
+│   Preferences, PrintOutputController │  Settings &amp; printer output
+├──────────────────────────────────────┤
+│   EmulatorMetalView (MTKView)        │  Metal rendering pipeline
+│   Shaders.metal                      │  Vertex + fragment shaders
+├──────────────────────────────────────┤
+│   SDL2 Framework                     │  Audio output, HID input
+├──────────────────────────────────────┤
+│   Atari800 C Core (~70 source files) │  CPU, ANTIC, GTIA, POKEY, PIA
+│   Expansion modules (C)             │  SIDE2, U1MB, BB, MIO, VBXE
+│   Altirra ROMs (built-in)           │  OS, BASIC, 5200 BIOS
+└──────────────────────────────────────┘</code></pre>
+
+        <h3>Key Design Decisions</h3>
+
+        <ul>
+            <li><strong>ObjC + Swift coexistence</strong> &mdash; the bridging header (<code>Atari800MacX-Bridging-Header.h</code>) exposes key ObjC classes to Swift. Swift code uses <code>ObservableObject</code>/<code>@Published</code> (not <code>@Observable</code>) for macOS 13+ compatibility.</li>
+            <li><strong>Metal rendering</strong> &mdash; replaced the original SDL renderer. <code>EmulatorMetalView</code> (MTKView subclass) draws emulator output via a Metal render pipeline with custom shaders.</li>
+            <li><strong>SDL2 for audio &amp; HID</strong> &mdash; SDL2 v2.0.14 (universal binary) handles audio output and game controller input. The SDL window/surface/texture path has been removed.</li>
+            <li><strong>ARC enabled</strong> &mdash; Objective-C code uses ARC (<code>CLANG_ENABLE_OBJC_ARC = YES</code>) across all build configurations.</li>
+            <li><strong>Carbon weak-linked</strong> &mdash; <code>-weak_framework Carbon</code> in <code>OTHER_LDFLAGS</code> for TIS keyboard layout functions, with NULL guards for graceful degradation.</li>
+        </ul>
+
+        <!-- ==================== Emulated Hardware ==================== -->
+        <h2 id="hardware">Emulated Hardware</h2>
+
+        <h3>CPU &mdash; MOS 6502C</h3>
+
+        <ul>
+            <li>Full 6502 instruction set with cycle-accurate timing option</li>
+            <li>All official and undocumented opcodes supported</li>
+            <li>Cycle-stealing by ANTIC DMA accurately emulated</li>
+        </ul>
+
+        <h3>ANTIC &mdash; Display Controller</h3>
+
+        <ul>
+            <li>All 16 display modes (modes 2&ndash;F, plus blank lines and jump instructions)</li>
+            <li>Display List Interrupts (DLI)</li>
+            <li>Fine and coarse horizontal/vertical scrolling</li>
+            <li>Player/missile DMA</li>
+            <li>VSCROL and HSCROL registers</li>
+            <li>WSYNC cycle-exact wait for horizontal sync</li>
+        </ul>
+
+        <h3>GTIA &mdash; Graphics Controller</h3>
+
+        <ul>
+            <li>4 players + 4 missiles with configurable widths (1&times;, 2&times;, 4&times;)</li>
+            <li>8 priority modes for player/playfield layering</li>
+            <li>GTIA modes 9 (16 luminances), 10 (9 colors), and 11 (16 hues)</li>
+            <li>Collision detection registers</li>
+            <li>Console key inputs (Start, Select, Option)</li>
+        </ul>
+
+        <h3>POKEY &mdash; Sound &amp; I/O</h3>
+
+        <ul>
+            <li>4 audio channels with independent frequency and control</li>
+            <li>Polynomial counter noise generation (4-bit, 5-bit, 17-bit, 9-bit)</li>
+            <li>High-pass filter (channels 1+3, 2+4 clocking)</li>
+            <li>16-bit timer mode (channels 1+2 or 3+4 joined)</li>
+            <li>Serial I/O (SIO) bus controller</li>
+            <li>Keyboard scanning and debounce</li>
+            <li>IRQ generation (timer, serial, keyboard, break key)</li>
+            <li>Dual POKEY (stereo) support</li>
+        </ul>
+
+        <h3>PIA &mdash; Peripheral Interface</h3>
+
+        <ul>
+            <li>Port A: joystick inputs (2 joystick ports, 4 bits each)</li>
+            <li>Port B: memory bank control (XL/XE), self-test ROM enable, BASIC ROM enable</li>
+            <li>IRQ on peripheral connect/disconnect</li>
+        </ul>
+
+        <!-- ==================== Rendering Pipeline ==================== -->
+        <h2 id="rendering">Rendering Pipeline</h2>
+
+        <h3>Frame Production</h3>
+
+        <ol>
+            <li>The ANTIC/GTIA emulation writes indexed color values to <code>Screen_atari</code> (the standard Atari800 frame buffer).</li>
+            <li><code>Atari_DisplayScreen()</code> converts indexed values to BGRA pixels using <code>MetalPalette32[256]</code> and writes to <code>MetalFrameBuffer</code>.</li>
+            <li>For 80-column modes, the appropriate display function (<code>DisplayWithoutScaling16bppAF80</code>, etc.) writes directly to <code>MetalFrameBuffer</code>.</li>
+            <li><code>Mac_MetalPresent()</code> triggers the Metal view to upload and render the frame.</li>
+        </ol>
+
+        <h3>Metal Pipeline</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Property</th><th>Value</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Frame buffer format</td><td>BGRA8Unorm (<code>uint32_t</code> per pixel)</td></tr>
+                <tr><td>Maximum resolution</td><td>640&times;300 pixels</td></tr>
+                <tr><td>Color table</td><td><code>MetalPalette32[256]</code> &mdash; <code>0xFF000000 | colortable[i]</code></td></tr>
+                <tr><td>View class</td><td><code>EmulatorMetalView</code> (MTKView subclass)</td></tr>
+                <tr><td>Shader file</td><td><code>Shaders.metal</code></td></tr>
+                <tr><td>Required frameworks</td><td>Metal + MetalKit (both in <code>OTHER_LDFLAGS</code>)</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Palette Generation</h3>
+
+        <p><code>CalcPalette()</code> builds <code>MetalPalette32</code> as an array of 256 BGRA8 values. Each entry is computed from the Atari color table with the alpha channel set to fully opaque (<code>0xFF</code>).</p>
+
+        <!-- ==================== Audio System ==================== -->
+        <h2 id="audio-system">Audio System</h2>
+
+        <h3>Signal Flow</h3>
+
+<pre><code>POKEY emulation (C core)
+    ↓
+POKEYSND_Process() → PCM samples
+    ↓
+SDL2 audio callback (pull)
+    ↓
+Audio output (macOS Core Audio via SDL2)</code></pre>
+
+        <h3>Parameters</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Parameter</th><th>Value</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Master clock</td><td>1,789,790 Hz (NTSC) / 1,773,447 Hz (PAL)</td></tr>
+                <tr><td>Sample rate</td><td>44,100 Hz</td></tr>
+                <tr><td>Bit depth</td><td>8-bit unsigned or 16-bit signed</td></tr>
+                <tr><td>Channels</td><td>Mono (1) or Stereo (2) with dual POKEY</td></tr>
+                <tr><td>Sound recording format</td><td>AIFF</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Sound Features</h3>
+
+        <ul>
+            <li><strong>Console sounds</strong> &mdash; audible clicks when pressing Start/Select/Option keys</li>
+            <li><strong>SIO sounds</strong> &mdash; serial I/O bus communication sounds</li>
+            <li><strong>Disk drive sounds</strong> &mdash; motor and head movement sounds</li>
+            <li><strong>Sound recording</strong> &mdash; capture audio output to AIFF file (<kbd>&#8984;T</kbd>)</li>
+        </ul>
+
+        <!-- ==================== Cartridge Types ==================== -->
+        <h2 id="cartridge-types">Cartridge Types</h2>
+
+        <p>Atari800MacX supports <strong>161 cartridge types</strong> (<code>CARTRIDGE_TYPE_COUNT</code>), covering every known Atari 8-bit bank-switching scheme. The type is identified from the <code>.car</code> file header or selected manually for raw ROM files.</p>
+
+        <h3>Standard Cartridges</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Type</th><th>Size</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>STD_2 / STD_4 / STD_8 / STD_16</td><td>2&ndash;16 KB</td><td>Fixed ROM, no bank switching</td></tr>
+                <tr><td>RIGHT_4 / RIGHT_8</td><td>4&ndash;8 KB</td><td>Right cartridge slot</td></tr>
+                <tr><td>PHOENIX_8</td><td>8 KB</td><td>Phoenix cartridge</td></tr>
+                <tr><td>BLIZZARD_4 / _16 / _32</td><td>4&ndash;32 KB</td><td>Blizzard cartridges</td></tr>
+                <tr><td>DIAMOND_64</td><td>64 KB</td><td>Diamond cartridge</td></tr>
+            </tbody>
+        </table>
+
+        <h3>OSS Banked</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Type</th><th>Size</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>OSS_8</td><td>8 KB</td><td>OSS 8 KB with 2 banks</td></tr>
+                <tr><td>OSS_034M_16 / OSS_043M_16 / OSS_M091_16</td><td>16 KB</td><td>OSS 16 KB with 4 banks (various mapping orders)</td></tr>
+            </tbody>
+        </table>
+
+        <h3>XEGS &amp; MegaCart</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Type</th><th>Size Range</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>XEGS series</td><td>32 KB &ndash; 1024 KB</td><td>XEGS-style bank switching (8 KB banks, last bank fixed)</td></tr>
+                <tr><td>SWXEGS series</td><td>32 KB &ndash; 1024 KB</td><td>Switchable XEGS variant</td></tr>
+                <tr><td>MEGA series</td><td>16 KB &ndash; 4096 KB</td><td>MegaCart bank switching</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Flash Cartridges</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Type</th><th>Size</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>ATMAX_128 / ATMAX_OLD_1024 / ATMAX_NEW_1024</td><td>128 KB &ndash; 1 MB</td><td>AtariMax flash cartridges</td></tr>
+                <tr><td>THECART_32M / _64M / _128M</td><td>32&ndash;128 MB</td><td>The!Cart flash cartridge</td></tr>
+                <tr><td>SDX_64 / SDX_128</td><td>64&ndash;128 KB</td><td>SpartaDOS X self-booting</td></tr>
+                <tr><td>SIC_128 / _256 / _512</td><td>128&ndash;512 KB</td><td>SiC! bank-switched cartridge</td></tr>
+                <tr><td>JACART series</td><td>8 KB &ndash; 1024 KB</td><td>J(atari) database cartridge</td></tr>
+            </tbody>
+        </table>
+
+        <h3>RAM Cartridges</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Type</th><th>Size Range</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>RAMCART series</td><td>64 KB &ndash; 32 MB</td><td>Battery-backed RAM cartridge</td></tr>
+                <tr><td>DOUBLE_RAMCART_256</td><td>256 KB</td><td>Double RAM cartridge</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Atari 5200 Cartridges</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Type</th><th>Size</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>5200_4 / 5200_8</td><td>4&ndash;8 KB</td><td>Standard 5200 cartridges</td></tr>
+                <tr><td>5200_32 / 5200_40</td><td>32&ndash;40 KB</td><td>Large 5200 cartridges (Bounty Bob)</td></tr>
+                <tr><td>5200_EE_16</td><td>16 KB</td><td>Two-chip 8+8 KB</td></tr>
+                <tr><td>5200_NS_16</td><td>16 KB</td><td>Non-standard 16 KB</td></tr>
+                <tr><td>5200_SUPER series</td><td>64&ndash;512 KB</td><td>Super Cart bank-switched 5200</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Special Types</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Type ID</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>CARTRIDGE_SIDE2 (-3)</td><td>SIDE2 CompactFlash cartridge</td></tr>
+                <tr><td>CARTRIDGE_ULTIMATE_1MB (-2)</td><td>Ultimate 1MB expansion</td></tr>
+                <tr><td>CARTRIDGE_NONE (0)</td><td>No cartridge</td></tr>
+            </tbody>
+        </table>
+
+        <!-- ==================== Disk Formats ==================== -->
+        <h2 id="disk-formats">Disk Formats</h2>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Format</th><th>Extension</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>ATR</td><td><code>.atr</code></td><td>Standard format with 16-byte header containing geometry (sector count, sector size). Supports single density (128 bytes/sector) and double density (256 bytes/sector).</td></tr>
+                <tr><td>XFD</td><td><code>.xfd</code></td><td>Raw disk image (no header). Sector size and count inferred from file size.</td></tr>
+                <tr><td>DCM</td><td><code>.dcm</code></td><td>DiskComm compressed disk image. Compact storage format with run-length encoding.</td></tr>
+                <tr><td>PRO</td><td><code>.pro</code></td><td>Protected disk format with per-sector metadata (phantom sectors, CRC status). Derived from Altirra format.</td></tr>
+                <tr><td>ATX</td><td><code>.atx</code></td><td>VAPI (Virtual Atari Portable Image). Advanced protected disk format with track-level timing data, phantom sectors, and sector status flags for copy-protected software.</td></tr>
+                <tr><td>GZ variants</td><td><code>.atz</code>, <code>.xfz</code></td><td>Gzip-compressed ATR or XFD images. Decompressed transparently on load.</td></tr>
+            </tbody>
+        </table>
+
+        <h3>ATR Boot Sector Modes</h3>
+
+        <p>Double-density ATR images support three boot sector layouts for the first 3 sectors:</p>
+
+        <ul>
+            <li><strong>Logical</strong> &mdash; 128 bytes per boot sector (standard)</li>
+            <li><strong>Physical</strong> &mdash; 256 bytes per sector, first half used, second half zero-padded</li>
+            <li><strong>SIO2PC</strong> &mdash; 3&times;128 data bytes followed by 3&times;128 unused bytes</li>
+        </ul>
+
+        <h3>Recognized DOS File Systems</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>DOS</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Atari DOS 1</td><td>Original Atari DOS</td></tr>
+                <tr><td>Atari DOS 2.0S/2.5</td><td>Standard single/enhanced density DOS</td></tr>
+                <tr><td>Atari DOS 3</td><td>Double density DOS (incompatible format)</td></tr>
+                <tr><td>Atari DOS 4</td><td>Late-model DOS</td></tr>
+                <tr><td>Atari DOS XE</td><td>XE-specific DOS</td></tr>
+                <tr><td>MyDOS</td><td>Enhanced DOS replacement with subdirectories and large disk support</td></tr>
+                <tr><td>SpartaDOS</td><td>Advanced DOS with hierarchical directories and timestamps</td></tr>
+                <tr><td>Top DOS</td><td>Third-party DOS</td></tr>
+                <tr><td>BIBO DOS</td><td>Third-party DOS</td></tr>
+            </tbody>
+        </table>
+
+        <!-- ==================== OS ROMs ==================== -->
+        <h2 id="os-roms">OS ROMs</h2>
+
+        <h3>Atari 400/800 OS ROMs</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Version</th><th>Year</th><th>Size</th><th>CRC32</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>OS Rev. A (NTSC)</td><td>1979</td><td>10 KB</td><td><code>C1B3BB02</code></td><td>Original 400/800 NTSC</td></tr>
+                <tr><td>OS Rev. A (PAL)</td><td>1979</td><td>10 KB</td><td><code>72B3FED4</code></td><td>Original 400/800 PAL</td></tr>
+                <tr><td>OS Rev. B (NTSC)</td><td>1981</td><td>10 KB</td><td><code>0E86D61D</code></td><td>Late 400/800 revision</td></tr>
+            </tbody>
+        </table>
+
+        <h3>XL/XE OS ROMs</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Version</th><th>Year</th><th>Size</th><th>CRC32</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1200XL Rev. 10</td><td>1982</td><td>16 KB</td><td><code>C5C11546</code></td><td>First 1200XL release</td></tr>
+                <tr><td>1200XL Rev. 11</td><td>1982</td><td>16 KB</td><td><code>1A1D7B1B</code></td><td>Updated 1200XL</td></tr>
+                <tr><td>600XL Rev. 1</td><td>1983</td><td>16 KB</td><td><code>643BCC98</code></td><td>600XL (C062024)</td></tr>
+                <tr><td>800XL/65XE/130XE Rev. 2</td><td>1983</td><td>16 KB</td><td><code>1F9CD270</code></td><td>Most common XL/XE ROM (C061598B)</td></tr>
+                <tr><td>65XE/130XE Rev. 3</td><td>1985</td><td>16 KB</td><td><code>29F133F7</code></td><td>Later XE revision (C300717)</td></tr>
+                <tr><td>XEGS Rev. 4</td><td>1987</td><td>16 KB</td><td><code>1EAF4002</code></td><td>XE Game System (C101687)</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Atari 5200 BIOS</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Version</th><th>Year</th><th>Size</th><th>CRC32</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>5200 BIOS</td><td>1982</td><td>2 KB</td><td><code>4248D3E3</code></td><td>4-port and early 2-port (C019156)</td></tr>
+                <tr><td>5200A BIOS</td><td>1983</td><td>2 KB</td><td><code>C2BA2613</code></td><td>Late 2-port model (C019156A)</td></tr>
+            </tbody>
+        </table>
+
+        <h3>BASIC ROMs</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Version</th><th>Year</th><th>Size</th><th>CRC32</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>BASIC Rev. A</td><td>1979</td><td>8 KB</td><td><code>4BEC4DE2</code></td><td>Original Atari BASIC</td></tr>
+                <tr><td>BASIC Rev. B</td><td>1983</td><td>8 KB</td><td><code>F0202FB3</code></td><td>Bug fixes</td></tr>
+                <tr><td>BASIC Rev. C</td><td>1984</td><td>8 KB</td><td><code>7D684184</code></td><td>Final official revision</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Built-in Altirra ROMs</h3>
+
+        <p>When original ROMs are not available, Atari800MacX uses built-in replacement ROMs from the <strong>Altirra</strong> project by Avery Lee:</p>
+
+        <ul>
+            <li><strong>Altirra OS (800)</strong> &mdash; replaces Atari 800 OS ROM</li>
+            <li><strong>Altirra OS (XL)</strong> &mdash; replaces XL/XE OS ROM</li>
+            <li><strong>Altirra BASIC</strong> &mdash; replaces Atari BASIC ROM</li>
+            <li><strong>Altirra 5200 BIOS</strong> &mdash; replaces 5200 BIOS</li>
+        </ul>
+
+        <p>These are compiled directly into the binary as C arrays and provide excellent compatibility with most software.</p>
+
+        <!-- ==================== Expansion Hardware Internals ==================== -->
+        <h2 id="expansion-internals">Expansion Hardware Internals</h2>
+
+        <h3>SIDE2 Registers ($D5xx)</h3>
+
+        <p>The SIDE2 cartridge maps its registers at $D500&ndash;$D5FF. Key functions include CompactFlash I/O, flash ROM banking, and SDX/Loader mode selection.</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Function</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>SIDE2_D5GetByte/D5PutByte</code></td><td>Register read/write at $D5xx</td></tr>
+                <tr><td><code>SIDE2_Add_Block_Device</code></td><td>Mount CompactFlash image</td></tr>
+                <tr><td><code>SIDE2_SDX_Switch_Change</code></td><td>Toggle SDX/Loader mode</td></tr>
+                <tr><td><code>SIDE2_Flash_Read/Write</code></td><td>Direct flash ROM access</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Ultimate 1MB Registers ($D1xx/$D3xx/$D5xx/$D6xx&ndash;$D7xx)</h3>
+
+        <p>The Ultimate 1MB expansion uses registers across multiple address ranges:</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Address</th><th>Function</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>$D1xx</td><td>Primary configuration registers</td></tr>
+                <tr><td>$D1FF</td><td>Special control register</td></tr>
+                <tr><td>$D3xx</td><td>Bank selection and OS switching</td></tr>
+                <tr><td>$D5xx</td><td>Flash ROM banking</td></tr>
+                <tr><td>$D6xx&ndash;$D7xx</td><td>VBXE register passthrough (when VBXE enabled)</td></tr>
+            </tbody>
+        </table>
+
+        <h3>VBXE Registers ($D640 or $D740)</h3>
+
+        <p>The Video Board XE maps 256 bytes of registers at a configurable base address. Key registers:</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Offset</th><th>Register</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>$08</td><td>VIDEO_CONTROL</td><td>Bit 7: XDL enable</td></tr>
+                <tr><td>$2B</td><td>BLITTER_START</td><td>Write $7F to trigger blit operation</td></tr>
+                <tr><td>$00&ndash;$07</td><td>XDL pointers</td><td>Extended Display List base address and configuration</td></tr>
+                <tr><td>$10&ndash;$1F</td><td>Blitter registers</td><td>Source/dest addresses, dimensions, control</td></tr>
+                <tr><td>$40&ndash;$7F</td><td>Palette</td><td>21-bit RGB palette (256 entries)</td></tr>
+            </tbody>
+        </table>
+
+        <p>VBXE uses MEMAC windows for CPU access to its 512 KB VRAM. Register dispatch goes through <code>PBI_D6GetByte/PutByte</code> ($D640 base) or <code>PBI_D7GetByte/PutByte</code> ($D740 base).</p>
+
+        <h3>BlackBox &amp; MIO (PBI Devices)</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Device</th><th>Registers</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>BlackBox</td><td>$D1xx, $D6xx</td><td>SCSI hard disk, parallel printer, RS-232 serial</td></tr>
+                <tr><td>MIO</td><td>$D1xx, $D6xx</td><td>SCSI hard disk, RAM disk</td></tr>
+            </tbody>
+        </table>
+
+        <h3>80-Column Display Cards</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Card</th><th>Registers</th><th>Resolution</th><th>Interface</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>XEP80</td><td>Serial (joystick port)</td><td>560&times;275</td><td>Bit-serial via joystick port trigger line</td></tr>
+                <tr><td>AF80</td><td>$D5xx, $D6xx</td><td>640&times;250</td><td>Right cartridge slot, 16-color palette</td></tr>
+                <tr><td>Bit3</td><td>$D5xx, $D6xx</td><td>640&times;240</td><td>Right cartridge slot, 2-color monochrome</td></tr>
+            </tbody>
+        </table>
+
+        <!-- ==================== Debugger ==================== -->
+        <h2 id="debugger">Monitor / Debugger</h2>
+
+        <p>Atari800MacX includes a built-in CPU monitor/debugger accessed via <kbd>F8</kbd>. The monitor provides full control over the emulated CPU and hardware.</p>
+
+        <h3>Register Commands</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Command</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>SHOW</code></td><td>Display all CPU registers and flags</td></tr>
+                <tr><td><code>STACK</code></td><td>Display stack contents</td></tr>
+                <tr><td><code>SETPC</code> / <code>SETA</code> / <code>SETX</code> / <code>SETY</code> / <code>SETS</code> <em>hex</em></td><td>Set register value</td></tr>
+                <tr><td><code>SETN</code> / <code>SETV</code> / <code>SETD</code> / <code>SETI</code> / <code>SETZ</code> / <code>SETC</code> <em>0|1</em></td><td>Set individual CPU flag</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Memory Commands</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Command</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>M</code> <em>[addr]</em></td><td>Display 256 bytes of memory (hex + ASCII)</td></tr>
+                <tr><td><code>D</code> <em>[addr]</em></td><td>Disassemble from address</td></tr>
+                <tr><td><code>C</code> <em>addr hex...</em></td><td>Change memory bytes at address</td></tr>
+                <tr><td><code>F</code> <em>start end hex</em></td><td>Fill memory range with value</td></tr>
+                <tr><td><code>S</code> <em>start end hex...</em></td><td>Search memory for byte sequence</td></tr>
+                <tr><td><code>SUM</code> <em>start end</em></td><td>Calculate checksum of memory range</td></tr>
+                <tr><td><code>READ</code> <em>file addr nbytes</em></td><td>Load file into memory</td></tr>
+                <tr><td><code>WRITE</code> <em>start end [file]</em></td><td>Dump memory to file</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Execution Commands</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Command</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>G</code></td><td>Execute one instruction (step into)</td></tr>
+                <tr><td><code>O</code></td><td>Step over (executes JSR at once)</td></tr>
+                <tr><td><code>R</code></td><td>Run until RTS (step out)</td></tr>
+                <tr><td><code>CONT</code></td><td>Continue emulation</td></tr>
+                <tr><td><code>LOOP</code> <em>[addr]</em></td><td>Trace conditional loop containing address</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Breakpoints</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Command</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>B</code></td><td>List all breakpoints</td></tr>
+                <tr><td><code>B</code> <em>n</em></td><td>Enable/disable breakpoint <em>n</em></td></tr>
+                <tr><td><code>BPC</code> <em>addr</em></td><td>Set breakpoint at address</td></tr>
+                <tr><td><code>BLINE</code> <em>ypos</em></td><td>Break at scanline</td></tr>
+                <tr><td><code>BBRK ON|OFF</code></td><td>Break on BRK instruction</td></tr>
+            </tbody>
+        </table>
+
+        <p>Breakpoints support conditions on registers (PC, A, X, Y, S) and memory access (READ, WRITE, ACCESS) with comparison operators (<code>&lt;</code>, <code>=</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>, <code>!=</code>).</p>
+
+        <h3>Hardware Inspection</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Command</th><th>Registers Displayed</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>ANTIC</code></td><td>DMACTL, CHACTL, DLISTL/H, HSCROL, VSCROL, PMBASE, CHBASE, VCOUNT, NMIEN</td></tr>
+                <tr><td><code>GTIA</code></td><td>HPOSP/M, SIZEP/M, GRAFP/M, COLPM, COLPF, COLBK, PRIOR, GRACTL</td></tr>
+                <tr><td><code>PIA</code></td><td>PACTL, PBCTL, PORTA, PORTB</td></tr>
+                <tr><td><code>POKEY</code></td><td>AUDF1&ndash;4, AUDC1&ndash;4, AUDCTL, IRQEN, IRQST, SKSTAT, SKCTL</td></tr>
+                <tr><td><code>DLIST</code> <em>[addr]</em></td><td>Decoded Display List instructions</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Additional Commands</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Command</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>HISTORY</code> / <code>H</code></td><td>List recently executed instructions</td></tr>
+                <tr><td><code>JUMPS</code></td><td>List recent JMP/JSR instructions</td></tr>
+                <tr><td><code>LABELS</code></td><td>Manage symbolic labels (load, add, set, list)</td></tr>
+                <tr><td><code>TRACE</code> <em>[file]</em></td><td>Toggle instruction trace to file</td></tr>
+                <tr><td><code>PROFILE</code></td><td>Display profiling statistics</td></tr>
+                <tr><td><code>COLDSTART</code> / <code>WARMSTART</code></td><td>Trigger system reset</td></tr>
+                <tr><td><code>HELP</code> / <code>?</code></td><td>Display command help</td></tr>
+            </tbody>
+        </table>
+
+        <!-- ==================== Build Information ==================== -->
+        <h2 id="build">Build Information</h2>
+
+        <h3>Build Command</h3>
+
+<pre><code>cd apps/fuji-foundation
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  xcodebuild -configuration Development -scheme Atari800MacX</code></pre>
+
+        <h3>Project Configuration</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Property</th><th>Value</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Xcode project</td><td><code>Atari800MacX.xcodeproj</code></td></tr>
+                <tr><td>Build configurations</td><td>Development, Deployment, Default</td></tr>
+                <tr><td>Deployment target</td><td>macOS 13.0</td></tr>
+                <tr><td>Architecture</td><td>Universal (arm64 + x86_64)</td></tr>
+                <tr><td>Swift version</td><td>5.9</td></tr>
+                <tr><td>Objective-C ARC</td><td>Enabled (<code>CLANG_ENABLE_OBJC_ARC = YES</code>)</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Frameworks</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Framework</th><th>Usage</th><th>Linking</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>SDL2</td><td>Audio output, HID game controller input</td><td>Bundled (v2.0.14 universal)</td></tr>
+                <tr><td>Metal</td><td>GPU rendering pipeline</td><td>System framework</td></tr>
+                <tr><td>MetalKit</td><td>MTKView for display</td><td>System framework</td></tr>
+                <tr><td>Carbon</td><td>TIS keyboard layout functions (KeyMapper)</td><td>Weak-linked (<code>-weak_framework Carbon</code>)</td></tr>
+                <tr><td>UniformTypeIdentifiers</td><td>UTType for file panels (Preferences, PrintOutputController)</td><td>System framework</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Code Signing &amp; Notarization</h3>
+
+        <ul>
+            <li>Entitlements: <code>com.apple.security.cs.disable-library-validation</code>, <code>com.apple.security.files.user-selected.read-write</code>, <code>com.apple.security.network.client</code></li>
+            <li>Signing identity: Developer ID</li>
+            <li>Build script: <code>scripts/build_release.sh</code> (archive &rarr; export &rarr; DMG &rarr; notarize &rarr; staple)</li>
+        </ul>
+
+        <div class="docs-footer">
+            <p><a href="user-guide.html">&larr; User Guide</a> &ensp;|&ensp; <a href="index.html">Documentation home</a></p>
+        </div>
+
+    </div>
+</main>
+
+</body>
+</html>

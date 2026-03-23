@@ -1,0 +1,81 @@
+name: Discussion / Decision
+description: Architectural question or open decision that needs resolution before work starts
+title: "[DISCUSS] "
+labels: ["type: discussion", "status: needs-spec"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for questions that need to be talked through before anyone
+        writes code. Close it with a comment recording the decision — that
+        comment becomes the permanent record.
+
+  - type: dropdown
+    id: app
+    attributes:
+      label: App scope
+      description: Which app or layer does this decision primarily affect?
+      options:
+        - fuji-foundation  (macOS core)
+        - fuji-vision      (visionOS)
+        - fuji-swift       (macOS lightweight)
+        - fuji-dynasty     (macOS modular)
+        - fuji-services    (FSSP Go services)
+        - fuji-remote      (iOS remote client)
+        - fuji-server      (headless server)
+        - web              (fujiconcepts.com)
+        - monorepo         (cross-cutting / shared)
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: What is the question or decision?
+      description: State it as a single clear question. One question per issue.
+      placeholder: "Should fuji-server link the C core via CGo or run Atari800MacX as a subprocess?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Why does this need to be decided? What work is blocked on the answer?
+      placeholder: |
+        fuji-server Phase FS2 requires running the C emulator headlessly. The
+        choice between CGo and subprocess affects build complexity, latency,
+        isolation, and cross-platform portability. Phase FS2 can't start until
+        this is resolved.
+    validations:
+      required: true
+
+  - type: textarea
+    id: options
+    attributes:
+      label: Options being considered
+      placeholder: |
+        Option A: CGo — link libfujicore.a directly. Lower latency, tighter
+          integration. Requires a headless static library build of fuji-foundation.
+        Option B: Subprocess — run Atari800MacX with --headless flag, communicate
+          via stdin/stdout or shared memory. Better isolation, easier to kill/restart.
+        Option C: Defer — build Phase FS2 with StubInstance for now, revisit when
+          the C core headless build is ready.
+
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Constraints / requirements
+      description: What must be true about any valid solution?
+      placeholder: |
+        - Must run on Linux (VPS deployment)
+        - Must support 16 concurrent instances
+        - Must not require Xcode on the server
+        - Frame latency must be < 16ms (one frame at 60Hz)
+
+  - type: input
+    id: deadline
+    attributes:
+      label: Decision needed by
+      description: Is there a phase or milestone this blocks?
+      placeholder: "Before Roadmap — Mid Term work starts on fuji-server FS2"

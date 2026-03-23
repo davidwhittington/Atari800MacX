@@ -1,0 +1,115 @@
+name: Feature Request
+description: Suggest a new capability or enhancement for a specific Fuji app
+title: "[FEATURE] "
+labels: ["type: feature", "status: needs-spec"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Scope this issue to one app.** If the same feature is wanted in
+        multiple apps, open a separate issue for each. The `App` field below
+        is the scope guard that keeps roadmaps independent.
+
+  - type: dropdown
+    id: app
+    attributes:
+      label: App
+      description: Which app does this feature belong to?
+      options:
+        - fuji-foundation  (macOS core)
+        - fuji-vision      (visionOS)
+        - fuji-swift       (macOS lightweight)
+        - fuji-dynasty     (macOS modular)
+        - fuji-services    (FSSP Go services)
+        - fuji-remote      (iOS remote client)
+        - fuji-server      (headless server)
+        - web              (fujiconcepts.com)
+        - monorepo         (cross-cutting / shared)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which technical subsystem?
+      options:
+        - emulation   (6502 core, POKEY, GTIA, ANTIC)
+        - metal       (rendering pipeline)
+        - audio       (sound system)
+        - input       (joystick, keyboard, gamepad)
+        - networking  (FSSP, TNFS, relay)
+        - storage     (media, save states)
+        - ui          (SwiftUI, preferences, menus)
+        - spatial     (visionOS RealityKit, ARKit)
+        - vbxe        (VBXE subsystem)
+        - build       (Xcode, Go, CI/CD)
+        - docs
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: What should be built?
+      description: One or two sentences. What is this and what does it do?
+      placeholder: "A dirty-rect delta encoder for VIDEO frames to reduce WAN bandwidth..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Why does this matter?
+      description: Who benefits and how? What problem does it solve?
+      placeholder: "Full-frame zlib at 60fps costs ~1.2 Mbit/s on a typical Atari frame. Delta encoding could cut that to 200 Kbit/s, making mobile play viable on cellular..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: detail
+    attributes:
+      label: Detail / acceptance criteria
+      description: |
+        What does "done" look like? List behaviours, edge cases, or constraints.
+        Leave blank if you don't know yet — that's what needs-spec is for.
+        Link to a design doc in docs/ if one exists.
+      placeholder: |
+        - Encoder splits frame into 8×8 blocks, sends only changed blocks
+        - Block header: x, y (uint16 each) + compressed block data
+        - Decoder patches MTLTexture in-place per block
+        - Falls back to full keyframe every 60 frames or on scene change
+        - Benchmark: < 5ms encode time on Apple M1
+        - See: apps/fuji-services/docs/FEATURE_IOS_REMOTE_CLIENT.md
+
+  - type: dropdown
+    id: effort
+    attributes:
+      label: Estimated effort
+      options:
+        - "Low — a few hours"
+        - "Medium — a day or two"
+        - "High — a week or more"
+        - "Unknown"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Estimated impact
+      options:
+        - "High — core to the experience"
+        - "Medium — meaningfully improves the app"
+        - "Low — nice to have"
+    validations:
+      required: true
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Links, prior art, related issues, or design docs.
+      placeholder: |
+        - apps/fuji-services/docs/FEATURE_IOS_REMOTE_CLIENT.md
+        - Related: #23 (FSSP VIDEO channel implementation)

@@ -1,0 +1,110 @@
+name: Bug Report
+description: Something is broken, wrong, or behaving unexpectedly
+title: "[BUG] "
+labels: ["type: bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the problem clearly. Build output, crash logs, and steps to
+        reproduce are extremely helpful.
+
+  - type: dropdown
+    id: app
+    attributes:
+      label: App
+      description: Which app is affected?
+      options:
+        - fuji-foundation  (macOS core)
+        - fuji-vision      (visionOS)
+        - fuji-swift       (macOS lightweight)
+        - fuji-dynasty     (macOS modular)
+        - fuji-services    (FSSP Go services)
+        - fuji-remote      (iOS remote client)
+        - fuji-server      (headless server)
+        - web              (fujiconcepts.com)
+        - monorepo         (cross-cutting / shared)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which subsystem is affected?
+      options:
+        - emulation   (6502 core, POKEY, GTIA, ANTIC)
+        - metal       (rendering pipeline)
+        - audio       (sound system)
+        - input       (joystick, keyboard, gamepad)
+        - networking  (FSSP, TNFS, relay)
+        - storage     (media, save states)
+        - ui          (SwiftUI, preferences, menus)
+        - spatial     (visionOS RealityKit, ARKit)
+        - vbxe        (VBXE subsystem)
+        - build       (Xcode, Go, CI/CD)
+        - docs
+    validations:
+      required: true
+
+  - type: textarea
+    id: what_happened
+    attributes:
+      label: What happened?
+      description: Describe the broken behaviour.
+      placeholder: "The TNFS proxy sends the response to the wrong session when two clients connect simultaneously..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should have happened?
+      placeholder: "Each client should receive only its own TNFS responses."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Start fssp-edge with -tnfs 127.0.0.1:16384
+        2. Connect two fssp-bridge instances simultaneously
+        3. Both clients mount different TNFS shares
+        4. Responses are swapped between clients
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Xcode version, Go version, SDK version
+      placeholder: "macOS 26 / Go 1.26 / Xcode 26 / visionOS SDK 26.2"
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Crash log / build output
+      description: Paste relevant log output, crash report, or build errors.
+      render: shell
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - "Critical — data loss, crash on launch, or security issue"
+        - "High — major feature is broken with no workaround"
+        - "Medium — feature is degraded but a workaround exists"
+        - "Low — cosmetic or minor"
+    validations:
+      required: true
+
+  - type: input
+    id: regression
+    attributes:
+      label: Regression since
+      description: Did this used to work? Which commit or phase broke it?
+      placeholder: "Worked before Phase V7a; broken after commit 527f223"

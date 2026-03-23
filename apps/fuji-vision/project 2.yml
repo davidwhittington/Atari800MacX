@@ -1,0 +1,278 @@
+name: FujiVision
+options:
+  bundleIdPrefix: com.fujiconcepts
+  deploymentTarget:
+    visionOS: "2.0"
+  xcodeVersion: "16.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_IDENTITY: "-"
+    CODE_SIGN_STYLE: Manual
+
+targets:
+  FujiVision:
+    type: application
+    platform: visionOS
+    sources:
+      # Local Swift, C, Metal, and resource files
+      - path: FujiVision
+        excludes:
+          - "**/.DS_Store"
+
+      # ── C core portable files from fuji-foundation src/ ──
+      - path: ../fuji-foundation/atari800-MacOSX/src/af80.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/afile.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/antic.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/atari.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/binload.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/bit3.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      # capslock.c excluded — requires IOKit (macOS only).
+      # Stub in FujiVision/Platform/capslock_vision.c
+      - path: ../fuji-foundation/atari800-MacOSX/src/cartridge.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/cartridge_info.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/cassette.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/cfg.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/compfile.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/cpu.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/crc32.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/cycle_map.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/devices.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/eeprom.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/emuio.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/esc.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/flash.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/gtia.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/ide.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/img_disk.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/img_raw.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/img_tape.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/img_vhd.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/list.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/log.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/maxflash.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/megacart.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/memory.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/mzpokeysnd.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/netsio.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/pbi.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/pbi_bb.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/pbi_mio.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/pbi_scsi.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/pclink.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/pia.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/pokey.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/pokey_resample.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/pokeysnd.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/prompts.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      # rdevice.c excluded — requires R_SERIAL or R_NETWORK (not needed on visionOS)
+      - path: ../fuji-foundation/atari800-MacOSX/src/remez.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/rtcds1305.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/rtime.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/sic.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/side2.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/sio.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/sndsave.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/statesav.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/sysrom.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/thecart.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/ui_basic.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/ultimate1mb.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/util.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/vec.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/votrax.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/xep80.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/xep80_fonts.c
+        group: CoreEmulator/Portable
+        buildPhase: sources
+
+      # ── Bridge files from fuji-foundation Atari800MacX/ ──
+      - path: ../fuji-foundation/atari800-MacOSX/src/Atari800MacX/Atari800Core.c
+        group: CoreEmulator/Bridge
+        buildPhase: sources
+      # NOTE: preferences_c.c is NOT included — it requires SDL.
+      # preferences_vision.c (in FujiVision/Platform/) provides the same API.
+      - path: ../fuji-foundation/atari800-MacOSX/src/Atari800MacX/mac_colours.c
+        group: CoreEmulator/Bridge
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/Atari800MacX/mac_diskled.c
+        group: CoreEmulator/Bridge
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/Atari800MacX/mac_monitor.c
+        group: CoreEmulator/Bridge
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/Atari800MacX/mac_screen.c
+        group: CoreEmulator/Bridge
+        buildPhase: sources
+
+      # ── Built-in Altirra ROM images ──
+      - path: ../fuji-foundation/atari800-MacOSX/src/roms/altirra_5200_os.c
+        group: CoreEmulator/ROMs
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/roms/altirra_basic.c
+        group: CoreEmulator/ROMs
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/roms/altirraos_800.c
+        group: CoreEmulator/ROMs
+        buildPhase: sources
+      - path: ../fuji-foundation/atari800-MacOSX/src/roms/altirraos_xl.c
+        group: CoreEmulator/ROMs
+        buildPhase: sources
+
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.fujiconcepts.FujiVision
+        INFOPLIST_FILE: FujiVision/Resources/Info.plist
+        CODE_SIGN_ENTITLEMENTS: FujiVision/FujiVision.entitlements
+        SWIFT_OBJC_BRIDGING_HEADER: FujiVision/FujiVision-Bridging-Header.h
+        SWIFT_VERSION: "5.9"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+
+        # Header search paths — Platform/ first so our config.h wins
+        HEADER_SEARCH_PATHS:
+          - "$(SRCROOT)/FujiVision/Platform"
+          - "$(SRCROOT)/../fuji-foundation/atari800-MacOSX/src"
+          - "$(SRCROOT)/../fuji-foundation/atari800-MacOSX/src/Atari800MacX"
+          - "$(SRCROOT)/../fuji-foundation/atari800-MacOSX/src/roms"
+
+        GCC_PREPROCESSOR_DEFINITIONS:
+          - "HAVE_CONFIG_H=1"
+          - "$(inherited)"
+
+        # C language settings
+        GCC_C_LANGUAGE_STANDARD: gnu11
+        CLANG_ENABLE_MODULES: "YES"
+
+        # Suppress warnings in the old C core code
+        GCC_WARN_INHIBIT_ALL_WARNINGS: "NO"
+        GCC_WARN_UNINITIALIZED_AUTOS: "YES_AGGRESSIVE"
+
+        # Deployment
+        TARGETED_DEVICE_FAMILY: "7"
+        SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: "NO"
+
+    dependencies: []
+
+    preBuildScripts: []
+
+    scheme:
+      testTargets: []
+      gatherCoverageData: false

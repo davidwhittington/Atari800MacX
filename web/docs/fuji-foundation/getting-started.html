@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started &mdash; Atari800MacX</title>
+    <link rel="stylesheet" href="../docs.css">
+</head>
+<body>
+
+<button class="sidebar-toggle" onclick="document.querySelector('.docs-sidebar').classList.toggle('open')" aria-label="Toggle navigation">&#9776;</button>
+
+<nav class="docs-sidebar">
+    <a href="../../index.html" class="sidebar-home">
+        <strong>Fuji Concepts</strong>
+        fujiconcepts.com
+    </a>
+
+    <div class="sidebar-section">Getting Started</div>
+    <a href="getting-started.html" class="sidebar-link active">What is Atari800MacX?</a>
+    <a href="#requirements" class="sidebar-link sidebar-sub">Requirements</a>
+    <a href="#first-launch" class="sidebar-link sidebar-sub">First Launch</a>
+    <a href="#loading-a-game" class="sidebar-link sidebar-sub">Loading a Game</a>
+    <a href="#other-media" class="sidebar-link sidebar-sub">Other Media</a>
+    <a href="#gamepad" class="sidebar-link sidebar-sub">Gamepad</a>
+    <a href="#machine-type" class="sidebar-link sidebar-sub">Machine Type</a>
+    <a href="#display-modes" class="sidebar-link sidebar-sub">Display Modes</a>
+    <a href="#quick-settings" class="sidebar-link sidebar-sub">Quick Settings</a>
+
+    <div class="sidebar-section">User Guide</div>
+    <a href="user-guide.html" class="sidebar-link">Floppy Disks</a>
+    <a href="user-guide.html#cartridges" class="sidebar-link sidebar-sub">Cartridges</a>
+    <a href="user-guide.html#cassettes" class="sidebar-link sidebar-sub">Cassettes</a>
+    <a href="user-guide.html#hard-disks" class="sidebar-link sidebar-sub">Hard Disks</a>
+    <a href="user-guide.html#display" class="sidebar-link sidebar-sub">Display &amp; Video</a>
+    <a href="user-guide.html#80-column" class="sidebar-link sidebar-sub">80-Column Display</a>
+    <a href="user-guide.html#audio" class="sidebar-link sidebar-sub">Sound &amp; Audio</a>
+    <a href="user-guide.html#machine-types" class="sidebar-link sidebar-sub">Machine Types</a>
+    <a href="user-guide.html#expansion" class="sidebar-link sidebar-sub">Expansion Hardware</a>
+    <a href="user-guide.html#input" class="sidebar-link sidebar-sub">Input &amp; Controllers</a>
+    <a href="user-guide.html#printers" class="sidebar-link sidebar-sub">Printers</a>
+    <a href="user-guide.html#save-state" class="sidebar-link sidebar-sub">Save &amp; Load State</a>
+    <a href="user-guide.html#preferences" class="sidebar-link sidebar-sub">Preferences</a>
+
+    <div class="sidebar-section">Technical Reference</div>
+    <a href="technical-reference.html" class="sidebar-link">Architecture</a>
+    <a href="technical-reference.html#hardware" class="sidebar-link sidebar-sub">Emulated Hardware</a>
+    <a href="technical-reference.html#rendering" class="sidebar-link sidebar-sub">Rendering Pipeline</a>
+    <a href="technical-reference.html#audio-system" class="sidebar-link sidebar-sub">Audio System</a>
+    <a href="technical-reference.html#cartridge-types" class="sidebar-link sidebar-sub">Cartridge Types</a>
+    <a href="technical-reference.html#disk-formats" class="sidebar-link sidebar-sub">Disk Formats</a>
+    <a href="technical-reference.html#os-roms" class="sidebar-link sidebar-sub">OS ROMs</a>
+    <a href="technical-reference.html#expansion-internals" class="sidebar-link sidebar-sub">Expansion Internals</a>
+    <a href="technical-reference.html#debugger" class="sidebar-link sidebar-sub">Debugger</a>
+    <a href="technical-reference.html#build" class="sidebar-link sidebar-sub">Build Info</a>
+</nav>
+
+<main class="docs-main">
+    <div class="docs-content">
+
+        <nav class="docs-breadcrumb">
+            <a href="../../index.html">Fuji Concepts</a>
+            <span class="sep">&rsaquo;</span>
+            <a href="index.html">Docs</a>
+            <span class="sep">&rsaquo;</span>
+            Getting Started
+        </nav>
+
+        <h1>Getting Started</h1>
+        <p class="subtitle">Your first steps with Atari800MacX on macOS.</p>
+
+        <!-- What is Atari800MacX? -->
+        <h2 id="what-is-atari800macx">What is Atari800MacX?</h2>
+
+        <p>Atari800MacX is a full-featured Atari 800/XL/XE/5200 emulator for macOS. It provides cycle-accurate emulation of all Atari 8-bit hardware&mdash;CPU, ANTIC, GTIA, POKEY, and PIA&mdash;along with support for expansion hardware like SIDE2, Ultimate 1MB, BlackBox, MIO, and VBXE. The emulator uses Metal-accelerated rendering, supports up to 8 floppy drives, 5 printer types, 80-column display cards, and includes a built-in CPU debugger.</p>
+
+        <!-- Requirements -->
+        <h2 id="requirements">Requirements</h2>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Requirement</th><th>Details</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Operating System</td><td>macOS 13 Ventura or later</td></tr>
+                <tr><td>Architecture</td><td>Universal binary (Apple Silicon + Intel)</td></tr>
+                <tr><td>Controller</td><td>Optional&mdash;game controller supported via SDL2 HID</td></tr>
+                <tr><td>ROM Files</td><td>Optional&mdash;built-in Altirra ROMs included</td></tr>
+            </tbody>
+        </table>
+
+        <div class="docs-callout note">
+            <div class="docs-callout-label">Note</div>
+            <p>Atari800MacX includes built-in Altirra OS and BASIC ROMs by Avery Lee. You do not need to supply your own ROM files to get started, although original Atari ROMs can be used if you have them.</p>
+        </div>
+
+        <!-- First Launch -->
+        <h2 id="first-launch">First Launch</h2>
+
+        <p>When you first open Atari800MacX, you will see a blue Atari BASIC screen with the <code>READY</code> prompt. This is the built-in Altirra BASIC ROM running on an emulated Atari XL/XE with 64 KB RAM in NTSC mode.</p>
+
+        <p>You can type BASIC commands directly using your Mac keyboard. The Atari keyboard layout is mapped to the Mac keyboard&mdash;most keys work as expected, with a few differences noted in the <a href="user-guide.html#input">Input &amp; Controllers</a> section.</p>
+
+        <div class="docs-callout tip">
+            <div class="docs-callout-label">Tip</div>
+            <p>If you have original Atari ROM files, you can configure them in <strong>Preferences</strong> (<kbd>&#8984;,</kbd>) to get the most authentic experience. The built-in Altirra ROMs provide excellent compatibility for most software.</p>
+        </div>
+
+        <!-- Loading Your First Game -->
+        <h2 id="loading-a-game">Loading Your First Game</h2>
+
+        <p>To load a game from a floppy disk image:</p>
+
+        <ol>
+            <li>Choose <strong>Media &gt; Insert Floppy &gt; D1:</strong> from the menu bar, or press <kbd>&#8984;1</kbd>.</li>
+            <li>Browse to your <code>.atr</code> or <code>.xfd</code> disk image file and select it.</li>
+            <li>The disk mounts into drive D1: automatically. Most games boot immediately.</li>
+            <li>If the game doesn't start, try <strong>Control &gt; Cold Reset</strong> (<kbd>&#8679;F5</kbd>) to reboot with the disk loaded.</li>
+        </ol>
+
+        <p>You can mount disks in drives D1: through D8: using <kbd>&#8984;1</kbd> through <kbd>&#8984;8</kbd>. Remove all disks with <kbd>&#8984;0</kbd>.</p>
+
+        <div class="docs-callout tip">
+            <div class="docs-callout-label">Tip</div>
+            <p>For multi-disk games, mount the first disk in D1: and use <strong>Media &gt; Rotate Floppies</strong> to cycle through disks when prompted, or mount additional disks in D2: through D8:.</p>
+        </div>
+
+        <!-- Other Media Types -->
+        <h2 id="other-media">Other Media Types</h2>
+
+        <p>Beyond floppy disks, Atari800MacX supports several other media types:</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Media</th><th>Menu / Shortcut</th><th>File Types</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Cartridge</td><td>Media &gt; Insert Cartridge (<kbd>&#8984;O</kbd>)</td><td><code>.car</code>, <code>.rom</code>, <code>.bin</code></td></tr>
+                <tr><td>Executable</td><td>Media &gt; Load Executable (<kbd>&#8984;R</kbd>)</td><td><code>.xex</code>, <code>.com</code>, <code>.exe</code>, <code>.obx</code></td></tr>
+                <tr><td>Cassette</td><td>Media &gt; Insert Cassette</td><td><code>.cas</code></td></tr>
+                <tr><td>BASIC Cartridge</td><td>Media &gt; Handle Special Cartridge &gt; Insert BASIC (<kbd>&#8984;B</kbd>)</td><td>&mdash;</td></tr>
+            </tbody>
+        </table>
+
+        <p>Executables (<code>.xex</code>) are loaded directly into memory and run immediately&mdash;no disk image required. This is the simplest way to run standalone programs.</p>
+
+        <!-- Using a Gamepad -->
+        <h2 id="gamepad">Using a Gamepad</h2>
+
+        <p>Atari800MacX supports game controllers via SDL2 HID. Most USB and Bluetooth controllers are recognized automatically. To verify your controller is detected, look for the <strong>Gamepad Identify</strong> window.</p>
+
+        <h3>Keyboard Joystick Mode</h3>
+
+        <p>If you don't have a gamepad, press <kbd>&#8984;J</kbd> to enable keyboard joystick mode. The arrow keys control the joystick directions, and you can configure the mapping in Preferences.</p>
+
+        <h3>Arrow Key Modes</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Mode</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Ctrl + Arrow Keys</td><td>Arrow keys require Ctrl held down (default Atari behavior)</td></tr>
+                <tr><td>Arrow Keys Only</td><td>Arrow keys work without modifier (convenient for joystick mode)</td></tr>
+                <tr><td>F1&ndash;F4</td><td>Function keys control joystick directions</td></tr>
+            </tbody>
+        </table>
+
+        <!-- Choosing a Machine Type -->
+        <h2 id="machine-type">Choosing a Machine Type</h2>
+
+        <p>Atari800MacX emulates three families of Atari hardware, selectable from <strong>Control &gt; Atari Machine Type</strong>:</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Family</th><th>Common Choices</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Atari 800</td><td>800 (48 KB)</td><td>Original 1979 home computer. No built-in BASIC&mdash;requires BASIC cartridge for BASIC programs.</td></tr>
+                <tr><td>Atari XL/XE</td><td>800XL (64 KB), 130XE (128 KB)</td><td>Enhanced 1983+ models with built-in BASIC. Best compatibility with most software. Default.</td></tr>
+                <tr><td>Atari 5200</td><td>5200 (16 KB)</td><td>Game console variant with analog joystick. Uses separate 5200 ROM and game cartridges.</td></tr>
+            </tbody>
+        </table>
+
+        <p>Extended memory variants are available for advanced users&mdash;320 KB RAMBO, 576 KB, 1088 KB, and Ultimate 1MB configurations. See the <a href="user-guide.html#machine-types">User Guide</a> for the full list of 25 machine variants.</p>
+
+        <div class="docs-callout note">
+            <div class="docs-callout-label">Note</div>
+            <p>Changing the machine type performs a cold reset. Any unsaved work in the emulator will be lost.</p>
+        </div>
+
+        <!-- Display Modes -->
+        <h2 id="display-modes">Display Modes</h2>
+
+        <p>Adjust the display from the <strong>Display</strong> menu:</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Setting</th><th>Shortcut</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Narrow Width</td><td><kbd>&#8984;5</kbd></td><td>320&times;240 pixels&mdash;shows only the active play area</td></tr>
+                <tr><td>Default Width</td><td><kbd>&#8984;6</kbd></td><td>336&times;240 pixels&mdash;standard display with slight border</td></tr>
+                <tr><td>Full Width</td><td><kbd>&#8984;7</kbd></td><td>384&times;240 pixels&mdash;shows full overscan area</td></tr>
+                <tr><td>Normal Scaling</td><td><kbd>&#8984;8</kbd></td><td>Clean pixel scaling</td></tr>
+                <tr><td>Scanline Scaling</td><td><kbd>&#8984;9</kbd></td><td>Retro CRT scanline effect</td></tr>
+                <tr><td>Fullscreen</td><td><kbd>&#8984;F</kbd></td><td>Toggle fullscreen mode</td></tr>
+            </tbody>
+        </table>
+
+        <p>Additional display options include <strong>Vertical Sync</strong>, <strong>Linear Smoothing Filter</strong> (bilinear filtering for a softer look), and <strong>Realistic Pixel Aspect Ratio</strong> (non-square pixels matching the original Atari TV output).</p>
+
+        <!-- Quick Settings -->
+        <h2 id="quick-settings">Quick Settings</h2>
+
+        <p>The most commonly adjusted settings and their shortcuts:</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Setting</th><th>Menu / Shortcut</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Pause</td><td>Control &gt; Pause (<kbd>&#8984;P</kbd>)</td><td>Pause and resume emulation</td></tr>
+                <tr><td>Speed Limit</td><td>Control &gt; Limit To Normal Speed</td><td>Toggle real-time speed cap (disable to run full speed)</td></tr>
+                <tr><td>Sound</td><td>Sound &gt; Enable Sound</td><td>Toggle audio output on or off</td></tr>
+                <tr><td>Volume Up/Down</td><td><kbd>&#8984;]</kbd> / <kbd>&#8984;[</kbd></td><td>Adjust sound volume</td></tr>
+                <tr><td>Warm Reset</td><td><kbd>F5</kbd></td><td>Soft reboot (like pressing Reset on the Atari)</td></tr>
+                <tr><td>Cold Reset</td><td><kbd>&#8679;F5</kbd></td><td>Full power cycle (clears all memory)</td></tr>
+                <tr><td>Preferences</td><td><kbd>&#8984;,</kbd></td><td>Open the full Preferences panel</td></tr>
+            </tbody>
+        </table>
+
+        <h3 id="where-to-find-games">Where to Find Games</h3>
+
+        <p>The Atari 8-bit platform has a rich library of thousands of commercial and homebrew titles. Many classic games and demos are available from community software archives on the web. Search for "Atari 8-bit disk images" or "Atari 800 software archive" to find collections of <code>.atr</code> disk images and <code>.xex</code> executables compatible with Atari800MacX.</p>
+
+        <div class="docs-footer">
+            <p>Next: <a href="user-guide.html">User Guide &rarr;</a></p>
+            <p><a href="index.html">&larr; Documentation home</a></p>
+        </div>
+
+    </div>
+</main>
+
+</body>
+</html>

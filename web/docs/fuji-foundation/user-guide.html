@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Guide &mdash; Atari800MacX</title>
+    <link rel="stylesheet" href="../docs.css">
+</head>
+<body>
+
+<button class="sidebar-toggle" onclick="document.querySelector('.docs-sidebar').classList.toggle('open')" aria-label="Toggle navigation">&#9776;</button>
+
+<nav class="docs-sidebar">
+    <a href="../../index.html" class="sidebar-home">
+        <strong>Fuji Concepts</strong>
+        fujiconcepts.com
+    </a>
+
+    <div class="sidebar-section">Getting Started</div>
+    <a href="getting-started.html" class="sidebar-link">What is Atari800MacX?</a>
+    <a href="getting-started.html#requirements" class="sidebar-link sidebar-sub">Requirements</a>
+    <a href="getting-started.html#first-launch" class="sidebar-link sidebar-sub">First Launch</a>
+    <a href="getting-started.html#loading-a-game" class="sidebar-link sidebar-sub">Loading a Game</a>
+    <a href="getting-started.html#other-media" class="sidebar-link sidebar-sub">Other Media</a>
+    <a href="getting-started.html#gamepad" class="sidebar-link sidebar-sub">Gamepad</a>
+    <a href="getting-started.html#machine-type" class="sidebar-link sidebar-sub">Machine Type</a>
+    <a href="getting-started.html#display-modes" class="sidebar-link sidebar-sub">Display Modes</a>
+    <a href="getting-started.html#quick-settings" class="sidebar-link sidebar-sub">Quick Settings</a>
+
+    <div class="sidebar-section">User Guide</div>
+    <a href="user-guide.html" class="sidebar-link active">Floppy Disks</a>
+    <a href="#cartridges" class="sidebar-link sidebar-sub">Cartridges</a>
+    <a href="#cassettes" class="sidebar-link sidebar-sub">Cassettes</a>
+    <a href="#hard-disks" class="sidebar-link sidebar-sub">Hard Disks</a>
+    <a href="#display" class="sidebar-link sidebar-sub">Display &amp; Video</a>
+    <a href="#80-column" class="sidebar-link sidebar-sub">80-Column Display</a>
+    <a href="#audio" class="sidebar-link sidebar-sub">Sound &amp; Audio</a>
+    <a href="#machine-types" class="sidebar-link sidebar-sub">Machine Types</a>
+    <a href="#expansion" class="sidebar-link sidebar-sub">Expansion Hardware</a>
+    <a href="#input" class="sidebar-link sidebar-sub">Input &amp; Controllers</a>
+    <a href="#printers" class="sidebar-link sidebar-sub">Printers</a>
+    <a href="#save-state" class="sidebar-link sidebar-sub">Save &amp; Load State</a>
+    <a href="#preferences" class="sidebar-link sidebar-sub">Preferences</a>
+
+    <div class="sidebar-section">Technical Reference</div>
+    <a href="technical-reference.html" class="sidebar-link">Architecture</a>
+    <a href="technical-reference.html#hardware" class="sidebar-link sidebar-sub">Emulated Hardware</a>
+    <a href="technical-reference.html#rendering" class="sidebar-link sidebar-sub">Rendering Pipeline</a>
+    <a href="technical-reference.html#audio-system" class="sidebar-link sidebar-sub">Audio System</a>
+    <a href="technical-reference.html#cartridge-types" class="sidebar-link sidebar-sub">Cartridge Types</a>
+    <a href="technical-reference.html#disk-formats" class="sidebar-link sidebar-sub">Disk Formats</a>
+    <a href="technical-reference.html#os-roms" class="sidebar-link sidebar-sub">OS ROMs</a>
+    <a href="technical-reference.html#expansion-internals" class="sidebar-link sidebar-sub">Expansion Internals</a>
+    <a href="technical-reference.html#debugger" class="sidebar-link sidebar-sub">Debugger</a>
+    <a href="technical-reference.html#build" class="sidebar-link sidebar-sub">Build Info</a>
+</nav>
+
+<main class="docs-main">
+    <div class="docs-content">
+
+        <nav class="docs-breadcrumb">
+            <a href="../../index.html">Fuji Concepts</a>
+            <span class="sep">&rsaquo;</span>
+            <a href="index.html">Docs</a>
+            <span class="sep">&rsaquo;</span>
+            User Guide
+        </nav>
+
+        <h1>User Guide</h1>
+        <p class="subtitle">Complete feature reference for Atari800MacX.</p>
+
+        <!-- ==================== Floppy Disks ==================== -->
+        <h2 id="floppy-disks">Floppy Disks</h2>
+
+        <p>Atari800MacX supports up to 8 floppy disk drives (D1: through D8:), just like the original Atari hardware with multiple drives daisy-chained via the SIO bus.</p>
+
+        <h3>Inserting &amp; Removing Disks</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Action</th><th>Menu</th><th>Shortcut</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Insert disk in D1:&ndash;D8:</td><td>Media &gt; Insert Floppy &gt; D<em>n</em>:</td><td><kbd>&#8984;1</kbd>&ndash;<kbd>&#8984;8</kbd></td></tr>
+                <tr><td>Remove disk from D1:&ndash;D8:</td><td>Media &gt; Remove Floppy &gt; D<em>n</em>:</td><td><kbd>&#8984;&#8963;1</kbd>&ndash;<kbd>&#8984;&#8963;8</kbd></td></tr>
+                <tr><td>Remove all disks</td><td>Media &gt; Remove Floppy &gt; All</td><td><kbd>&#8984;0</kbd></td></tr>
+                <tr><td>Rotate floppies</td><td>Media &gt; Rotate Floppies</td><td>&mdash;</td></tr>
+            </tbody>
+        </table>
+
+        <p><strong>Rotate Floppies</strong> shifts all mounted disks forward by one drive (D1: &rarr; D2:, D2: &rarr; D3:, etc.), wrapping the last disk back to D1:. This is useful for multi-disk games that prompt you to swap disks.</p>
+
+        <h3>Disk Management Window</h3>
+
+        <p>Open <strong>Media &gt; Disk Management</strong> (<kbd>&#8984;D</kbd>) for an overview of all 8 drives. From this window you can mount, unmount, and write-protect individual drives.</p>
+
+        <h3>Creating &amp; Editing Disk Images</h3>
+
+        <ul>
+            <li><strong>New Floppy Image</strong> (<kbd>&#8984;N</kbd>) &mdash; creates a blank formatted disk image</li>
+            <li><strong>Edit an .atr Disk Image</strong> (<kbd>&#8984;E</kbd>) &mdash; file-level editor for viewing and modifying disk contents</li>
+            <li><strong>Sector Edit an .atr Image</strong> (<kbd>&#8984;&#8679;E</kbd>) &mdash; low-level sector editor for direct hex editing</li>
+        </ul>
+
+        <h3>Disk Image Conversions</h3>
+
+        <p>Convert between disk image formats via <strong>Media &gt; Disk Image Conversions</strong>:</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Conversion</th><th>Direction</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>XFD &harr; ATR</td><td>Raw image to/from ATR header format</td></tr>
+                <tr><td>DCM &harr; ATR</td><td>DiskComm compressed to/from ATR</td></tr>
+                <tr><td>SCP &harr; ATR</td><td>SuperCard Pro to/from ATR</td></tr>
+            </tbody>
+        </table>
+
+        <!-- ==================== Cartridges ==================== -->
+        <h2 id="cartridges">Cartridges</h2>
+
+        <h3>Standard Cartridges</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Action</th><th>Shortcut</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Insert Cartridge</td><td><kbd>&#8984;O</kbd></td></tr>
+                <tr><td>Remove Cartridge</td><td><kbd>&#8984;&#8679;O</kbd></td></tr>
+                <tr><td>Insert BASIC Cartridge</td><td><kbd>&#8984;B</kbd></td></tr>
+            </tbody>
+        </table>
+
+        <p>Atari800MacX supports <strong>over 160 cartridge types</strong> covering every known bank-switching scheme&mdash;from simple 8 KB cartridges to 128 MB The!Cart flash cartridges. When inserting a <code>.car</code> file, the cartridge type is detected automatically from the header. For raw <code>.rom</code> or <code>.bin</code> files, you may be prompted to select the correct type.</p>
+
+        <h3>Flash &amp; RAM Cartridges</h3>
+
+        <p>Under <strong>Media &gt; Handle Special Cartridge &gt; Insert Blank Flash/RAM Cartridge</strong>, you can create blank writable cartridges:</p>
+
+        <ul>
+            <li><strong>MaxFlash</strong> &mdash; 128 KB (1 Mbit) or 1 MB (8 Mbit)</li>
+            <li><strong>The!Cart</strong> &mdash; 32 MB, 64 MB, or 128 MB</li>
+            <li><strong>MegaCart</strong> &mdash; 512 KB, 1 MB, or 4 MB</li>
+            <li><strong>SiC!</strong> &mdash; 128 KB, 256 KB, 512 KB, or SiC!+</li>
+            <li><strong>J(atari)</strong> &mdash; 128 KB to 1024 KB</li>
+            <li><strong>Ram-Cart</strong> &mdash; 64 KB through 32 MB</li>
+            <li><strong>SiDiCar</strong> &mdash; 32 KB</li>
+            <li><strong>DCart</strong></li>
+        </ul>
+
+        <p>Flash cartridge state can be saved with <strong>Media &gt; Handle Special Cartridge &gt; Save Flash/RAM Cartridge</strong>.</p>
+
+        <h3>Cartridge Conversions</h3>
+
+        <ul>
+            <li><strong>Create .car From ROM File</strong> &mdash; wraps a raw ROM image in a CAR header with the correct type</li>
+            <li><strong>Create ROM File From .car</strong> &mdash; strips the CAR header to produce a raw ROM image</li>
+        </ul>
+
+        <!-- ==================== Cassettes ==================== -->
+        <h2 id="cassettes">Cassettes</h2>
+
+        <p>Cassette tape emulation supports <code>.cas</code> tape images:</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Action</th><th>Menu</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Insert Cassette</td><td>Media &gt; Insert Cassette</td></tr>
+                <tr><td>Remove Cassette</td><td>Media &gt; Remove Cassette</td></tr>
+                <tr><td>New Blank Cassette</td><td>Media &gt; New Cassette Image</td></tr>
+                <tr><td>Rewind</td><td>Media &gt; Rewind Cassette</td></tr>
+                <tr><td>Record</td><td>Media &gt; Cassette Record</td></tr>
+                <tr><td>Write Protect</td><td>Media &gt; Cassette Write Protect</td></tr>
+            </tbody>
+        </table>
+
+        <div class="docs-callout tip">
+            <div class="docs-callout-label">Tip</div>
+            <p>To boot from a cassette, hold <kbd>Start</kbd> during a cold reset. The Atari will attempt to load from the cassette instead of disk. With the SIO patch enabled, cassette loading is nearly instantaneous.</p>
+        </div>
+
+        <!-- ==================== Executables ==================== -->
+        <h3 id="executables">Executables</h3>
+
+        <p>Load Atari binary executables directly with <strong>Media &gt; Load Executable File</strong> (<kbd>&#8984;R</kbd>). Supported formats include <code>.xex</code>, <code>.com</code>, <code>.exe</code>, and <code>.obx</code>. The file is loaded into memory and executed immediately&mdash;no disk drive required.</p>
+
+        <!-- ==================== Hard Disks ==================== -->
+        <h2 id="hard-disks">Hard Disks</h2>
+
+        <h3>H: Device (Host Directories)</h3>
+
+        <p>The H: device maps up to 4 directories on your Mac to Atari device paths (H1: through H4:). Software on the Atari can read and write files in these host directories as if they were connected hard drives. Configure the mount points and read-only toggle in Preferences.</p>
+
+        <h3>PCLink</h3>
+
+        <p>PCLink provides an alternative host directory interface with support for 4 directories. It uses the SIO bus protocol for communication, offering compatibility with software that expects PCLink hardware.</p>
+
+        <h3>Creating Hard Disk Images</h3>
+
+        <p>Use <strong>Media &gt; New Hard Disk Image</strong> to create a blank hard disk image file for use with expansion hardware like SIDE2 or BlackBox.</p>
+
+        <!-- ==================== Display & Video ==================== -->
+        <h2 id="display">Display &amp; Video</h2>
+
+        <h3>Display Width</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Mode</th><th>Resolution</th><th>Shortcut</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Narrow</td><td>320&times;240</td><td><kbd>&#8984;5</kbd></td><td>Active play area only</td></tr>
+                <tr><td>Default</td><td>336&times;240</td><td><kbd>&#8984;6</kbd></td><td>Standard display with border</td></tr>
+                <tr><td>Full</td><td>384&times;240</td><td><kbd>&#8984;7</kbd></td><td>Full overscan area visible</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Scaling</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Mode</th><th>Shortcut</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Normal</td><td><kbd>&#8984;8</kbd></td><td>Clean pixel scaling with no effects</td></tr>
+                <tr><td>Scanlines</td><td><kbd>&#8984;9</kbd></td><td>CRT-style alternating dark lines</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Artifacting</h3>
+
+        <p>NTSC color artifacting simulates the color effects produced by the Atari's video output on a real television. Some games were designed with these artifacts in mind and require artifacting for correct colors.</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Mode</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>None</td><td>Clean digital output, no artifact simulation</td></tr>
+                <tr><td>Rev XL/XE GTIA</td><td>Reversed-phase XL/XE GTIA artifacting</td></tr>
+                <tr><td>XL/XE GTIA</td><td>Standard XL/XE GTIA artifacting</td></tr>
+                <tr><td>400/800 GTIA</td><td>Original 400/800 GTIA chip artifacting</td></tr>
+                <tr><td>400/800 CTIA</td><td>Early CTIA chip artifacting (pre-GTIA)</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Additional Display Options</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Option</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Fullscreen</td><td>Toggle fullscreen mode (<kbd>&#8984;F</kbd>)</td></tr>
+                <tr><td>Vertical Sync</td><td>Synchronize with monitor refresh to prevent tearing</td></tr>
+                <tr><td>Linear Smoothing Filter</td><td>Bilinear texture filtering for a softer, more analog appearance</td></tr>
+                <tr><td>Realistic Pixel Aspect Ratio</td><td>Non-square pixels (NTSC 6:7, PAL 26:25) matching original TV output</td></tr>
+                <tr><td>Show FPS</td><td>Display frame rate counter (<kbd>&#8984;K</kbd>)</td></tr>
+                <tr><td>Grab Mouse</td><td>Capture mouse for paddle/trackball emulation</td></tr>
+                <tr><td>Screenshot</td><td>Capture the current display</td></tr>
+            </tbody>
+        </table>
+
+        <!-- ==================== 80-Column Display ==================== -->
+        <h2 id="80-column">80-Column Display</h2>
+
+        <p>Atari800MacX emulates three 80-column display expansion cards that provide 80-character-wide text output:</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Card</th><th>Resolution</th><th>Colors</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Atari XEP80</td><td>560&times;275</td><td>2 (monochrome)</td></tr>
+                <tr><td>Austin Franklin 80 (AF80)</td><td>640&times;250</td><td>16</td></tr>
+                <tr><td>Bit3 Full View</td><td>640&times;240</td><td>2 (monochrome)</td></tr>
+            </tbody>
+        </table>
+
+        <p>Select a card from <strong>Display &gt; 80 Column Card Selection</strong>. The XEP80 can be connected to either Joystick Port 1 or Port 2.</p>
+
+        <h3>Display Switching</h3>
+
+        <ul>
+            <li><strong>Display 80 Column Screen</strong> (<kbd>&#8984;&#8679;X</kbd>) &mdash; toggles between the standard 40-column Atari display and the 80-column card output</li>
+            <li><strong>80 Column Display Autoswitch</strong> &mdash; automatically switches to the 80-column display when the card is active</li>
+        </ul>
+
+        <!-- ==================== Sound & Audio ==================== -->
+        <h2 id="audio">Sound &amp; Audio</h2>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Setting</th><th>Menu / Shortcut</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Enable Sound</td><td>Sound &gt; Enable Sound</td><td>Master audio toggle</td></tr>
+                <tr><td>Stereo POKEY</td><td>Sound &gt; Stereo Sound (<kbd>&#8984;U</kbd>)</td><td>Dual-POKEY stereo output for compatible software</td></tr>
+                <tr><td>Volume Up</td><td><kbd>&#8984;]</kbd></td><td>Increase volume</td></tr>
+                <tr><td>Volume Down</td><td><kbd>&#8984;[</kbd></td><td>Decrease volume</td></tr>
+                <tr><td>Sound Recording</td><td>Sound &gt; Start Sound Recording (<kbd>&#8984;T</kbd>)</td><td>Record audio output to AIFF file</td></tr>
+            </tbody>
+        </table>
+
+        <p>Sound is generated by the emulated POKEY chip (4 channels). The emulator supports console key click sounds, SIO bus sounds, and disk drive motor sounds for a more authentic experience. These can be configured in Preferences.</p>
+
+        <div class="docs-callout note">
+            <div class="docs-callout-label">Note</div>
+            <p>Stereo POKEY mode enables a second POKEY chip for stereo output. Only software specifically written for dual-POKEY hardware (certain demos and music programs) will produce stereo sound. Most games use a single (mono) POKEY.</p>
+        </div>
+
+        <!-- ==================== Machine Types ==================== -->
+        <h2 id="machine-types">Machine Types</h2>
+
+        <p>Atari800MacX emulates 25 machine variants, selectable from <strong>Control &gt; Atari Machine Type</strong>:</p>
+
+        <h3>Atari 800 Series</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Variant</th><th>RAM</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Atari 800 (16 KB)</td><td>16 KB</td><td>Minimum configuration</td></tr>
+                <tr><td>Atari 800 (48 KB)</td><td>48 KB</td><td>Standard configuration</td></tr>
+                <tr><td>Atari 800 (52 KB)</td><td>52 KB</td><td>With RAM under OS ROM</td></tr>
+                <tr><td>Atari 800 (Axlon)</td><td>48 KB + Axlon</td><td>Axlon bank-switched memory expansion</td></tr>
+                <tr><td>Atari 800 (Mosaic)</td><td>48 KB + Mosaic</td><td>Mosaic bank-switched memory expansion</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Atari XL/XE Series</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Variant</th><th>RAM</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Atari 600XL</td><td>16 KB</td><td>Entry-level XL</td></tr>
+                <tr><td>Atari 800XL</td><td>64 KB</td><td>Most popular model, excellent compatibility</td></tr>
+                <tr><td>Atari 1200XL</td><td>64 KB</td><td>Original XL design (limited compatibility)</td></tr>
+                <tr><td>Atari 130XE</td><td>128 KB</td><td>Extended memory via PORTB banking</td></tr>
+                <tr><td>Atari 130XE (192 KB)</td><td>192 KB</td><td>Extra bank-switched RAM</td></tr>
+                <tr><td>Atari 320XE (RAMBO)</td><td>320 KB</td><td>RAMBO banking scheme</td></tr>
+                <tr><td>Atari 320XE (Compy Shop)</td><td>320 KB</td><td>Compy Shop banking scheme</td></tr>
+                <tr><td>Atari 576XE</td><td>576 KB</td><td>Extended banking</td></tr>
+                <tr><td>Atari 1088XE</td><td>1088 KB</td><td>Maximum standard banking</td></tr>
+                <tr><td>Atari 1200XL (320 KB RAMBO)</td><td>320 KB</td><td>1200XL with RAMBO upgrade</td></tr>
+                <tr><td>Atari 1200XL (576 KB)</td><td>576 KB</td><td>1200XL expanded</td></tr>
+                <tr><td>Atari 1200XL (1088 KB)</td><td>1088 KB</td><td>1200XL maximum</td></tr>
+                <tr><td>Atari XEGS</td><td>64 KB</td><td>XE Game System (detachable keyboard)</td></tr>
+                <tr><td>Atari XEGS (320 KB RAMBO)</td><td>320 KB</td><td>XEGS with RAMBO upgrade</td></tr>
+                <tr><td>Atari XEGS (576 KB)</td><td>576 KB</td><td>XEGS expanded</td></tr>
+                <tr><td>Atari XEGS (1088 KB)</td><td>1088 KB</td><td>XEGS maximum</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Ultimate 1MB Variants</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Variant</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Atari XL Ultimate 1MB</td><td>800XL with Ultimate 1MB expansion (1 MB flash ROM + VBXE)</td></tr>
+                <tr><td>Atari 1200XL Ultimate 1MB</td><td>1200XL with Ultimate 1MB expansion</td></tr>
+                <tr><td>Atari XEGS Ultimate 1MB</td><td>XEGS with Ultimate 1MB expansion</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Atari 5200</h3>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Variant</th><th>RAM</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Atari 5200 (16 KB)</td><td>16 KB</td><td>Game console with analog joystick; uses dedicated 5200 BIOS and cartridges</td></tr>
+            </tbody>
+        </table>
+
+        <!-- ==================== Memory Expansions ==================== -->
+        <h3 id="memory-expansions">Memory Expansions</h3>
+
+        <p>Several memory expansion schemes are emulated for the Atari 800:</p>
+
+        <ul>
+            <li><strong>Axlon</strong> &mdash; bank-switched RAM expansion using I/O port at $CFFF</li>
+            <li><strong>Mosaic</strong> &mdash; alternative bank-switched RAM expansion</li>
+        </ul>
+
+        <p>For XL/XE models, extended memory is accessed via PORTB ($D301) banking. The RAMBO and Compy Shop schemes differ in how they map the additional banks.</p>
+
+        <!-- ==================== Expansion Hardware ==================== -->
+        <h2 id="expansion">Expansion Hardware</h2>
+
+        <h3>SIDE2 Cartridge</h3>
+
+        <p>The SIDE2 is a CompactFlash-based storage cartridge. Insert it with <strong>Media &gt; Handle Special Cartridge &gt; Insert SIDE2 Cartridge</strong> (<kbd>&#8984;I</kbd>).</p>
+
+        <ul>
+            <li><strong>CompactFlash</strong> &mdash; attach/remove a hard disk image as the CompactFlash device</li>
+            <li><strong>SDX / Loader Switch</strong> &mdash; toggle between SpartaDOS X boot mode and the SIDE2 loader menu</li>
+            <li><strong>SIDE2 Button</strong> &mdash; press the physical button (triggers menu/reset)</li>
+            <li><strong>ROM Management</strong> &mdash; change or save the SIDE2 flash ROM image</li>
+        </ul>
+
+        <h3>Ultimate 1MB</h3>
+
+        <p>The Ultimate 1MB expansion provides 1 MB of flash ROM with multiple OS/BASIC/cartridge slots, PBI BIOS support, and VBXE integration. Select an Ultimate 1MB machine variant from the Control menu, then manage the ROM image via <strong>Media &gt; Handle Ultimate1mb ROM Images</strong>.</p>
+
+        <h3>PBI Expansion Devices</h3>
+
+        <p>Select a PBI (Parallel Bus Interface) device from <strong>Control &gt; PBI Expansion Type</strong>:</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Device</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>BlackBox</td><td>SCSI hard disk interface with parallel printer port and RS-232 serial port</td></tr>
+                <tr><td>MIO (Multi I/O)</td><td>SCSI hard disk and RAM disk interface</td></tr>
+            </tbody>
+        </table>
+
+        <h3>VBXE (Video Board XE)</h3>
+
+        <p>VBXE is a video expansion that adds an overlay graphics layer with 256 colors from a palette of 21-bit color, hardware blitter, and extended display list (XDL). VBXE is activated through the Ultimate 1MB machine variants. See the <a href="technical-reference.html#expansion-internals">Technical Reference</a> for register details.</p>
+
+        <!-- ==================== Input & Controllers ==================== -->
+        <h2 id="input">Input &amp; Controllers</h2>
+
+        <h3>Keyboard Joystick Mode</h3>
+
+        <p>Toggle with <kbd>&#8984;J</kbd>. When enabled, the keyboard can be used as a joystick. The arrow key behavior is controlled by the mode selected under <strong>Control &gt; Arrow Keys</strong>.</p>
+
+        <h3>CX85 Numeric Keypad</h3>
+
+        <p>Enable via <strong>Control &gt; Enable CX85 Keypad</strong>. Maps the Mac numeric keypad to the Atari CX85 numeric keypad peripheral, used by some business and productivity software.</p>
+
+        <h3>XEGS Keyboard</h3>
+
+        <p>Enable via <strong>Control &gt; XEGS Keyboard Attached</strong>. Simulates the detachable keyboard of the Atari XEGS game system.</p>
+
+        <h3>Gamepad Support</h3>
+
+        <p>USB and Bluetooth game controllers are supported via SDL2 HID. Controllers are detected automatically. The Gamepad Identify window shows the currently connected controller and its mapping.</p>
+
+        <h3>Mouse Modes</h3>
+
+        <p>Use <strong>Display &gt; Grab Mouse</strong> to capture the mouse pointer for emulating analog input devices:</p>
+
+        <ul>
+            <li><strong>Paddles</strong> &mdash; horizontal mouse movement controls paddle position</li>
+            <li><strong>Light pen</strong> &mdash; mouse position maps to screen coordinates</li>
+            <li><strong>Trackball</strong> &mdash; mouse movement maps to trackball input</li>
+        </ul>
+
+        <!-- ==================== Printers ==================== -->
+        <h2 id="printers">Printers</h2>
+
+        <p>Atari800MacX emulates 5 printer types, selectable from <strong>Media &gt; Select Printer</strong>:</p>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Printer</th><th>Output Type</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Text</td><td>Plain text</td><td>Simple text-only printer output</td></tr>
+                <tr><td>Atari 825</td><td>Graphics</td><td>Dot-matrix printer with graphics capability</td></tr>
+                <tr><td>Atari 1020</td><td>Vector</td><td>4-color plotter with pen drawing commands</td></tr>
+                <tr><td>Epson FX-80</td><td>Graphics</td><td>Industry-standard dot-matrix (ESC/P commands)</td></tr>
+                <tr><td>ATASCII</td><td>ATASCII text</td><td>Raw ATASCII character output (Atari's character set)</td></tr>
+            </tbody>
+        </table>
+
+        <ul>
+            <li><strong>Reset Printer</strong> &mdash; clears the print buffer and resets the printer state</li>
+            <li><strong>Preview Printer Output</strong> &mdash; opens a preview window showing the current printer output</li>
+        </ul>
+
+        <p>Printer output can be saved to disk from the preview window.</p>
+
+        <!-- ==================== Save & Load State ==================== -->
+        <h2 id="save-state">Save &amp; Load State</h2>
+
+        <table class="docs-table">
+            <thead>
+                <tr><th>Action</th><th>Shortcut</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Save State</td><td><kbd>&#8984;S</kbd></td><td>Save the complete emulator state to an <code>.a8s</code> file</td></tr>
+                <tr><td>Load State</td><td><kbd>&#8984;L</kbd></td><td>Restore a previously saved state</td></tr>
+                <tr><td>Save Configuration</td><td><kbd>&#8984;&#8679;S</kbd></td><td>Save emulator settings to an <code>.a8c</code> file</td></tr>
+                <tr><td>Load Configuration</td><td><kbd>&#8984;&#8679;L</kbd></td><td>Load emulator settings from an <code>.a8c</code> file</td></tr>
+            </tbody>
+        </table>
+
+        <p>State files (<code>.a8s</code>) capture the entire emulator state, including CPU registers, memory contents, mounted disks, and cartridge state. Configuration files (<code>.a8c</code>) save only the emulator settings (machine type, display options, ROM paths, etc.) without the runtime state.</p>
+
+        <div class="docs-callout tip">
+            <div class="docs-callout-label">Tip</div>
+            <p>Save states are a quick way to bookmark your progress in a game. Configuration files are useful for maintaining different setups for different types of software (e.g., one config for gaming, another for development).</p>
+        </div>
+
+        <!-- ==================== Emulation Patches ==================== -->
+        <h3 id="patches">Emulation Patches</h3>
+
+        <p>Atari800MacX can patch the emulated OS for faster I/O and network features:</p>
+
+        <ul>
+            <li><strong>SIO Patch</strong> &mdash; bypasses the serial I/O routines to load disks and cassettes at maximum speed instead of simulating real SIO bus timing</li>
+            <li><strong>H: Patch</strong> &mdash; enables the H: device for host directory access</li>
+            <li><strong>D: Patch</strong> &mdash; patches the disk handler</li>
+            <li><strong>P: Patch</strong> &mdash; patches the printer handler</li>
+            <li><strong>R: Patch</strong> &mdash; patches the RS-232 handler</li>
+        </ul>
+
+        <h3>Network Features</h3>
+
+        <ul>
+            <li><strong>NetSIO</strong> &mdash; enables network SIO communication (toggle via <strong>Control &gt; Enable NetSIO</strong>)</li>
+            <li><strong>FujiNet</strong> &mdash; FujiNet network device emulation</li>
+        </ul>
+
+        <!-- ==================== Preferences ==================== -->
+        <h2 id="preferences">Preferences</h2>
+
+        <p>Open Preferences with <kbd>&#8984;,</kbd>. The preferences panel provides access to all emulator settings organized by category.</p>
+
+        <h3>Key Preference Areas</h3>
+
+        <ul>
+            <li><strong>Video</strong> &mdash; TV mode (NTSC/PAL), artifacting, color palette adjustment, LED indicators</li>
+            <li><strong>Audio</strong> &mdash; sound enable, volume, stereo POKEY, console/SIO/drive sounds</li>
+            <li><strong>Machine</strong> &mdash; machine type, memory configuration, OS patches</li>
+            <li><strong>Input</strong> &mdash; joystick configuration, arrow key mode, CX85 keypad, gamepad settings</li>
+            <li><strong>Peripherals</strong> &mdash; H: device directories, PCLink directories, printer configuration, 80-column cards</li>
+            <li><strong>Paths</strong> &mdash; ROM file locations (OS, BASIC, 5200), default disk/cartridge/cassette directories</li>
+        </ul>
+
+        <p>The new SwiftUI preferences panel provides a modern interface for the most common settings. The legacy ObjC preferences panel remains available for advanced settings not yet migrated.</p>
+
+        <div class="docs-footer">
+            <p>Next: <a href="technical-reference.html">Technical Reference &rarr;</a></p>
+            <p><a href="getting-started.html">&larr; Getting Started</a> &ensp;|&ensp; <a href="index.html">Documentation home</a></p>
+        </div>
+
+    </div>
+</main>
+
+</body>
+</html>

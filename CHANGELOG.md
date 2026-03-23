@@ -1,4 +1,4 @@
-# Changelog — fuji-concepts / Atari800MacX
+# Changelog — FujiConcepts / Atari800MacX
 
 All notable changes to this project are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
@@ -6,6 +6,42 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ---
 
 ## [Unreleased]
+
+### Changed — Monorepo Split: FujiFoundation (public) + FujiConcepts (private)
+
+- Renamed GitHub repo `davidwhittington/FujiConcepts` → `davidwhittington/FujiFoundation`
+  (public, GPL v2). FujiFoundation history filtered to `apps/fuji-foundation/` content only
+  via `git filter-repo --subdirectory-filter`.
+- Created new private `davidwhittington/FujiConcepts` repo containing the full monorepo
+  (fuji-vision, fuji-services, fuji-swift, fuji-dynasty, web, docs).
+- Replaced `apps/fuji-foundation/` directory with a git submodule pointing to
+  `https://github.com/davidwhittington/FujiFoundation.git`.
+- `apps/fuji-vision/project.yml` references to `../fuji-foundation/atari800-MacOSX/src/`
+  resolve identically through the submodule — no path changes required.
+- Added `README.md`, `LICENSE` (GPL v2), and `LEGAL.md` to FujiFoundation public repo root.
+- Updated FujiConcepts `README.md` to document monorepo structure with submodule.
+
+---
+
+
+### Added — Phase VBXE-2: VBXE Save State + Blitter Fix
+
+- **`src/vbxe.c`** — Implemented `VBXE_StateSave` / `VBXE_StateRead` using the
+  atari800 statesav framework. Saves/restores: enabled flag, base address,
+  full 256-byte register file, MEMAC A/B page-hi bytes and VRAM base addresses,
+  and the complete 512 KB VRAM (gzip compression handles bulk efficiently).
+  On restore, MEMAC windows are re-armed and the palette is rebuilt.
+
+- **`src/vbxe.c`** — Cleaned up `vbxe_do_blit()`: removed dead code (two stale
+  overlapping decodes of src/dst/width/height from an earlier register mapping);
+  replaced with a single canonical FX 1.26 decode with a clear register comment.
+  Added inline doc noting that dst-before-write serves as src_b for two-operand ops.
+
+- **`src/statesav.c`** — Bumped `SAVE_VERSION_NUMBER` from 8 to 9.  Added
+  `#include "vbxe.h"`, `VBXE_StateSave()` call in `StateSav_SaveAtariState()`,
+  and `VBXE_StateRead()` call guarded by `StateVersion >= 9` in
+  `StateSav_ReadAtariState()`. Old saves (version 8) load cleanly with VBXE
+  left disabled.
 
 ### Added — Phase VBXE: Video Board XE Emulation (`feature/vbxe-emulation`)
 
@@ -26,7 +62,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - GTIA color forwarding: `VBXE_SetGTIAColor()` called from `GTIA_PutByte`
     for `COLPM0–3`, `COLPF0–3`, `COLBK` when VBXE is active
   - Full lifecycle: `VBXE_Initialise / Exit / ColdStart / WarmStart`
-  - `VBXE_StateSave / StateRead` stubs (statesav integration deferred)
+  - `VBXE_StateSave / StateRead` stubs (implemented in Phase VBXE-2)
 
 - **`LEGAL.md`** at repo root — documents Altirra derivation, Avery Lee
   authorship, GPL v2 licensing, and a summary of changes made during the port.

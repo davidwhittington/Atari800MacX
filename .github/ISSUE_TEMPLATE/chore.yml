@@ -1,0 +1,76 @@
+name: Chore
+description: Maintenance, dependency updates, cleanup, or refactor — no new user-facing behaviour
+title: "[CHORE] "
+labels: ["type: chore"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For maintenance work that doesn't change user-facing behaviour:
+        dependency bumps, code cleanup, CI fixes, doc reorganisation, etc.
+
+  - type: dropdown
+    id: app
+    attributes:
+      label: App
+      description: Which app or layer does this chore apply to?
+      options:
+        - fuji-foundation  (macOS core)
+        - fuji-vision      (visionOS)
+        - fuji-swift       (macOS lightweight)
+        - fuji-dynasty     (macOS modular)
+        - fuji-services    (FSSP Go services)
+        - fuji-remote      (iOS remote client)
+        - fuji-server      (headless server)
+        - web              (fujiconcepts.com)
+        - monorepo         (cross-cutting / shared)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - emulation
+        - metal
+        - audio
+        - input
+        - networking
+        - storage
+        - ui
+        - spatial
+        - vbxe
+        - build
+        - docs
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What needs to be done?
+      placeholder: |
+        Bump gorilla/websocket from v1.5.3 to v1.5.4 to pick up the
+        CVE-2024-XXXX path traversal fix in the Upgrader.
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why now?
+      description: What's the motivation or trigger?
+      placeholder: "Security advisory published 2026-03-05. No exploitable path in our usage but good hygiene."
+
+  - type: dropdown
+    id: effort
+    attributes:
+      label: Estimated effort
+      options:
+        - "Trivial — under an hour"
+        - "Low — a few hours"
+        - "Medium — a day or two"
+        - "High — a week or more"
+    validations:
+      required: true
